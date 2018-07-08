@@ -4,12 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>sdong</groupId>
-		<artifactId>base</artifactId>
+		<artifactId>sdong_base</artifactId>
 		<version>1.0</version>
 	</parent>
 
-	<artifactId>common</artifactId>
-	<name>sdong-common</name>
+	<artifactId>sdong_common</artifactId>
+	<name>sdong_common</name>
+	<version>1.0.0</version>
+	<packaging>jar</packaging>
 	<description>sdong common</description>
 
 	<properties>
@@ -17,6 +19,6 @@
 		<jdk.version>1.8</jdk.version>
 	</properties>
 
-	<groupId>sdong</groupId>
-	<version>1.0.0</version>
+
+
 </project>
