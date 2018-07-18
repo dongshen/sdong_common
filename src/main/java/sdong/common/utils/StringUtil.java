@@ -46,4 +46,8 @@ public class StringUtil {
 
 		return list;
 	}
+
+	public static final String joinStringListToStringByLineBreak(List<String> list) {
+		return String.join("\r\n", list) + "\r\n";
+	}
 }

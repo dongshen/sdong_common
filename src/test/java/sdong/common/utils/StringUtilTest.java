@@ -44,7 +44,7 @@ public class StringUtilTest {
 		list.add("");
 		list.add("");
 
-		String str = String.join("\r\n", list) + "\r\n";
+		String str = StringUtil.joinStringListToStringByLineBreak(list);
 		List<String> result = StringUtil.splitStringToListByLineBreak(str);
 		assertEquals(list.size(), result.size());
 
