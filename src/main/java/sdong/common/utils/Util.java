@@ -33,4 +33,14 @@ public class Util {
 		logger.debug("new id=" + id);
 		return id;
 	}
+
+	public static int parseInteger(String input) {
+		int value = 0;
+		try {
+			value = Integer.parseInt(input);
+		} catch (NumberFormatException exp) {
+			logger.error("Parse " + input + "to integer error!");
+		}
+		return value;
+	}
 }
