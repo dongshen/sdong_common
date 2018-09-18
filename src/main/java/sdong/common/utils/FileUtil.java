@@ -1,7 +1,13 @@
 package sdong.common.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -114,5 +120,73 @@ public class FileUtil {
 	public static String getUniqueFileName(String directory, String extension) {
 		String fileName = MessageFormat.format("{0}.{1}", UUID.randomUUID(), extension.trim());
 		return Paths.get(directory, fileName).toString();
+	}
+
+	public static byte[] readFileToByteArray(String filename) throws SdongException {
+
+		File f = new File(filename);
+
+		FileChannel channel = null;
+		FileInputStream fs = null;
+		try {
+			fs = new FileInputStream(f);
+			channel = fs.getChannel();
+			ByteBuffer byteBuffer = ByteBuffer.allocate((int) channel.size());
+			while ((channel.read(byteBuffer)) > 0) {
+			}
+			return byteBuffer.array();
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			throw new SdongException(e);
+		} finally {
+			try {
+				channel.close();
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+			}
+			try {
+				fs.close();
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+			}
+		}
+	}
+
+	/**
+	 * Mapped File way MappedByteBuffer 可以在处理大文件时，提升性能
+	 *
+	 * @param filename
+	 * @return
+	 * @throws SdongException
+	 */
+	public static byte[] readFileToByteArray2(String filename) throws SdongException {
+
+		FileChannel fc = null;
+		RandomAccessFile rf = null;
+		try {
+			rf = new RandomAccessFile(filename, "r");
+			fc = rf.getChannel();
+			MappedByteBuffer byteBuffer = fc.map(MapMode.READ_ONLY, 0, fc.size()).load();
+
+			byte[] result = new byte[(int) fc.size()];
+			if (byteBuffer.remaining() > 0) {
+				byteBuffer.get(result, 0, byteBuffer.remaining());
+			}
+			return result;
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			throw new SdongException(e);
+		} finally {
+			try {
+				rf.close();
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+			}
+			try {
+				fc.close();
+			} catch (IOException e) {
+				logger.error(e.getMessage());
+			}
+		}
 	}
 }
