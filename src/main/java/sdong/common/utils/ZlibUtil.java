@@ -17,33 +17,42 @@ import sdong.common.exception.SdongException;
 public class ZlibUtil {
 	private static final Logger logger = LoggerFactory.getLogger(ZlibUtil.class);
 
+	private static final int BUFFER_SIZE = 2048;
+
 	public static byte[] compress(byte[] data) throws SdongException {
-		byte[] output = new byte[0];
+		byte[] output = null;
 
 		Deflater compresser = new Deflater();
 
 		compresser.reset();
 		compresser.setInput(data);
 		compresser.finish();
-		ByteArrayOutputStream bos = new ByteArrayOutputStream(data.length);
+		ByteArrayOutputStream bos = null;
 		try {
-			byte[] buf = new byte[1024];
+			bos = new ByteArrayOutputStream(data.length);
+			byte[] buf = new byte[BUFFER_SIZE];
+			int i = 0;
 			while (!compresser.finished()) {
-				int i = compresser.deflate(buf);
+				i = compresser.deflate(buf);
 				bos.write(buf, 0, i);
 			}
 			output = bos.toByteArray();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
 		} finally {
-			try {
-				bos.close();
-			} catch (IOException e) {
-				logger.error(e.getMessage());
+			if (bos != null) {
+				try {
+
+					bos.close();
+				} catch (IOException e) {
+					logger.error(e.getMessage());
+				}
 			}
+			compresser.end();
 		}
-		compresser.end();
+
 		return output;
 	}
 
@@ -57,6 +66,7 @@ public class ZlibUtil {
 			dos.finish();
 
 			dos.flush();
+			dos.close();
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
@@ -73,9 +83,10 @@ public class ZlibUtil {
 
 		ByteArrayOutputStream o = new ByteArrayOutputStream(data.length);
 		try {
-			byte[] buf = new byte[1024];
+			byte[] buf = new byte[BUFFER_SIZE];
+			int i = 0;
 			while (!decompresser.finished()) {
-				int i = decompresser.inflate(buf);
+				i = decompresser.inflate(buf);
 				o.write(buf, 0, i);
 			}
 			output = o.toByteArray();
@@ -95,20 +106,43 @@ public class ZlibUtil {
 	}
 
 	// 解压缩 输入流 到字节数组
-	public static byte[] decompress(InputStream is) {
-		InflaterInputStream iis = new InflaterInputStream(is);
-		ByteArrayOutputStream o = new ByteArrayOutputStream(1024);
+	public static byte[] decompress(InputStream is) throws SdongException {
+
+		byte[] result = null;
+		InflaterInputStream iis = null;
+		ByteArrayOutputStream os = null;
 		try {
-			int i = 1024;
-			byte[] buf = new byte[i];
+			iis = new InflaterInputStream(is);
+			os = new ByteArrayOutputStream(BUFFER_SIZE);
+			int i = 0;
+			byte[] buf = new byte[BUFFER_SIZE];
 
 			while ((i = iis.read(buf, 0, i)) > 0) {
-				o.write(buf, 0, i);
+				os.write(buf, 0, i);
+			}
+			result = os.toByteArray();
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+			throw new SdongException(e);
+		} finally {
+			if (os != null) {
+				try {
+					os.close();
+					os = null;
+				} catch (IOException e) {
+					logger.error(e.getMessage(), e);
+				}
 			}
 
-		} catch (IOException e) {
-			e.printStackTrace();
+			if (iis != null) {
+				try {
+					iis.close();
+					iis = null;
+				} catch (IOException e) {
+					logger.error(e.getMessage(), e);
+				}
+			}
 		}
-		return o.toByteArray();
+		return result;
 	}
 }
