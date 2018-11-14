@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.Inflater;
@@ -18,6 +19,10 @@ public class ZlibUtil {
 	private static final Logger logger = LoggerFactory.getLogger(ZlibUtil.class);
 
 	private static final int BUFFER_SIZE = 2048;
+
+	public static byte[] compress(List<String> tu) throws SdongException {
+		return compress(StringUtil.joinStringListToStringByLineBreak(tu).getBytes());
+	}
 
 	public static byte[] compress(byte[] data) throws SdongException {
 		byte[] output = null;

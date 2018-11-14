@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 public class StringUtil {
 	private static final Logger logger = LoggerFactory.getLogger(StringUtil.class);
 
+	public static String LINE_BREAK = "\r\n";
+
 	public static final int checkIndentNum(String line, String checkChar) {
 		int indented = 0;
 		while (line.startsWith(checkChar)) {
@@ -48,6 +50,11 @@ public class StringUtil {
 	}
 
 	public static final String joinStringListToStringByLineBreak(List<String> list) {
-		return String.join("\r\n", list) + "\r\n";
+		StringBuffer bf = new StringBuffer();
+		for (String line : list) {
+			bf.append(line).append(LINE_BREAK);
+		}
+
+		return bf.toString();
 	}
 }

@@ -16,25 +16,121 @@ public class RunCommandUtil {
 
 	public static String runCommand(String[] cmd) throws SdongException {
 		StringBuffer result = new StringBuffer();
-		Process p;
+		Process pro = null;
+		String inputStr;
+		String errorStr;
 
 		try {
-			p = Runtime.getRuntime().exec(cmd);
+			//p.redirectErrorStream(true);
+			pro = Runtime.getRuntime().exec(cmd);
 			// 取得命令结果的输出流
-			InputStream fis = p.getInputStream();
-			// 用一个读输出流类去读
-			InputStreamReader isr = new InputStreamReader(fis);
-			// 用缓冲器读行
-			BufferedReader br = new BufferedReader(isr);
-			String line = null;
-			// 直到读完为止
-			while ((line = br.readLine()) != null) {
-				result.append(line).append("\r\n");
-			}
+			final InputStream fis = pro.getInputStream();
+
+			final InputStream fies = pro.getErrorStream();
+
+			Thread inputStream = new Thread() {
+				public String result = null;
+
+				public void run() {
+					BufferedReader br = null;
+					try {
+						br = new BufferedReader(new InputStreamReader(fis));
+						String line = null;
+						StringBuffer sb = new StringBuffer();
+
+						while ((line = br.readLine()) != null) {
+							sb.append(line).append("\r\n");
+							logger.info(line);
+						}
+						result = sb.toString();
+					} catch (Exception e) {
+						logger.error(e.getMessage());
+					} finally {
+						if (br != null) {
+							try {
+								br.close();
+							} catch (IOException e) {
+								logger.error(e.getMessage());
+							}
+						}
+
+						try {
+							fis.close();
+						} catch (IOException e) {
+							logger.error(e.getMessage());
+						}
+					}
+				}
+			};
+
+			inputStream.start();
+
+			Thread errorStream = new Thread() {
+				String result = null;
+
+				public void run() {
+					BufferedReader br = null;
+					try {
+						br = new BufferedReader(new InputStreamReader(fies));
+						String line = null;
+						StringBuffer sb = new StringBuffer();
+
+						while ((line = br.readLine()) != null) {
+							sb.append(line).append("\r\n");
+							logger.info(line);
+						}
+						result = sb.toString();
+					} catch (Exception e) {
+						logger.error(e.getMessage());
+					} finally {
+						if (br != null) {
+							try {
+								br.close();
+							} catch (IOException e) {
+								logger.error(e.getMessage());
+							}
+						}
+
+						try {
+							fis.close();
+						} catch (IOException e) {
+							logger.error(e.getMessage());
+						}
+					}
+				}
+			};
+
+			errorStream.start();
+
+			inputStream.join();
+			errorStream.join();
+
+			pro.waitFor();
+			pro.destroy();
+
+
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
+		} catch (InterruptedException e) {
+			logger.error(e.getMessage());
+			throw new SdongException(e);
+		} finally {
+			try {
+				if (pro != null) {
+					pro.getInputStream().close();
+					pro.getOutputStream().close();
+					pro.getErrorStream().close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return result.toString();
+	}
+
+	public class RunCommandThread extends Thread {
+
 	}
 }

@@ -39,7 +39,7 @@ public class RunCommandUtilTest {
 
 	@Test
 	public void testRunCommand_cov_manage_emit_print_debug() {
-		String[] cmd = { "cmd", "/C", "cov-manage-emit --dir D:/git/sdong/AST/input/coverityEmit --tu 10 find . --print-debug" };
+		String[] cmd = { "cmd", "/C", "cov-manage-emit --dir D:/git/sdong/AST/input/coverityEmit --tu 10,32,33,34,35,36,37,38,39,40 find . --print-debug" };
 
 		try {
 			String result = RunCommandUtil.runCommand(cmd);
