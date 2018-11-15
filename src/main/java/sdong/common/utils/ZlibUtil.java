@@ -18,7 +18,7 @@ import sdong.common.exception.SdongException;
 public class ZlibUtil {
 	private static final Logger logger = LoggerFactory.getLogger(ZlibUtil.class);
 
-	private static final int BUFFER_SIZE = 2048;
+	private static final int BUFFER_SIZE = 1024 * 1024;
 
 	public static byte[] compress(List<String> tu) throws SdongException {
 		return compress(StringUtil.joinStringListToStringByLineBreak(tu).getBytes());
