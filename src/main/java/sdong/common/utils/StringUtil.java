@@ -57,4 +57,32 @@ public class StringUtil {
 
 		return bf.toString();
 	}
+
+	public static int convertStringToInt(String input) {
+		int result = 0;
+		if (input == null) {
+			return result;
+		}
+		try {
+			result = Integer.parseInt(input);
+		} catch (NumberFormatException e) {
+			logger.error(e.getMessage(), e);
+		}
+
+		return result;
+	}
+	
+	public static boolean convertStringToBoolean(String in) {
+		boolean result = false;
+
+		if (in == null) {
+			return result;
+		}
+
+		if (in.trim().equalsIgnoreCase("yes")) {
+			result = true;
+		}
+
+		return result;
+	}
 }
