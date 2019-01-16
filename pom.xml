@@ -19,6 +19,8 @@
 		<jdk.version>1.8</jdk.version>
 	</properties>
 
+	<dependencies>
 
+	</dependencies>
 
 </project>
