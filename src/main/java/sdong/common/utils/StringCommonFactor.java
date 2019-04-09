@@ -12,26 +12,28 @@ public class StringCommonFactor {
 
 	String str1;
 	String str2;
-	List<ChildString> childString;
+	int maxStr1;
+	int maxStr2;
+	Map<Integer, List<ChildString>> childStringMap;
 	int[][] array;
 
 	StringCommonFactor(String str1, String str2) {
 		this.str1 = str1;
 		this.str2 = str2;
 
-		childString = getStringMaxCommmon(str1, str2);
+		childStringMap = getStringMaxCommmon(str1, str2);
 	}
 
-	public List<ChildString> getStringMaxCommmon(String str1, String str2) {
+	public Map<Integer, List<ChildString>> getStringMaxCommmon(String str1, String str2) {
 		// 求所有公因子字符串，保存信息为相对第二个字符串的起始位置和长度
-		List<ChildString> childStrings = new ArrayList<ChildString>();
+		Map<Integer, List<ChildString>> childStrings = new HashMap<Integer, List<ChildString>>();
 
 		if (str1 == null || str2 == null || str1.isEmpty() || str2.isEmpty()) {
 			return childStrings;
 		}
 
-		int maxStr1 = str1.length();
-		int maxStr2 = str2.length();
+		maxStr1 = str1.length();
+		maxStr2 = str2.length();
 
 		array = new int[maxStr1][maxStr2];
 		for (int i = 0; i < maxStr1; i++) {
@@ -60,31 +62,43 @@ public class StringCommonFactor {
 			getMaxSort(0, i, maxStr1, maxStr2, array, childStrings);
 		}
 		// 排序
-		sort_line(childStrings);
-		filter(childStrings);
+		// sort_line(childStrings);
+		// filter(childStrings);
 
 		return childStrings;
 
 	}
 
 	// 求一条斜线上的公因子字符串
-	private void getMaxSort(int i, int j, int maxStr1, int maxStr2, int[][] array, List<ChildString> sortBean) {
+	private void getMaxSort(int i, int j, int maxStr1, int maxStr2, int[][] array,
+			Map<Integer, List<ChildString>> sortBean) {
 		int length = 0;
-		int x = i;
 		int start = j;
+		List<ChildString> childString;
 		for (; i < maxStr1 && j < maxStr2; i++, j++) {
 			if (array[i][j] == 1) {
-				x = i;
 				length++;
 			} else {
 				if (length != 0) {
-					sortBean.add(new ChildString(start, i - length, length));
+					if (sortBean.containsKey(start)) {
+						sortBean.get(start).add(new ChildString(i - length, start, length));
+					} else {
+						childString = new ArrayList<ChildString>();
+						childString.add(new ChildString(i - length, start, length));
+						sortBean.put(start, childString);
+					}
 					length = 0;
 				}
 				start = j + 1;
 			}
 			if ((i == maxStr1 - 1 || j == maxStr2 - 1) && length != 0) {
-				sortBean.add(new ChildString(start, i - length + 1, length));
+				if (sortBean.containsKey(start)) {
+					sortBean.get(start).add(new ChildString(i - length + 1, start, length));
+				} else {
+					childString = new ArrayList<ChildString>();
+					childString.add(new ChildString(i - length + 1, start, length));
+					sortBean.put(start, childString);
+				}
 			}
 		}
 	}
@@ -125,6 +139,7 @@ public class StringCommonFactor {
 		int x;
 		int y;
 		int length;
+		int distence;
 
 		ChildString(int x, int y, int length) {
 			this.x = x;
@@ -230,55 +245,54 @@ public class StringCommonFactor {
 		this.str2 = str2;
 	}
 
-	public List<ChildString> getChildString() {
-		return childString;
-	}
-
-	public void setChildString(List<ChildString> childString) {
-		this.childString = childString;
-	}
-
 	public Map<Integer, ChildString> getMap() {
 		Map<Integer, ChildString> map = new HashMap<Integer, ChildString>();
 		Position current = new Position();
-		int gap = 0;
-		for (ChildString s : childString) {
-			if (map.containsKey(s.x)) {
-				gap = s.length - map.get(s.x).length;
-				if (gap > 0) {
-					map.put(s.x, s);
-					current.setX(s.x + gap);
-					current.setY(s.y + gap);
+		List<ChildString> childStringList;
+		ChildString childString;
+		for (int y = 0; y < maxStr2; y++) {
+			if (childStringMap.containsKey(y) && y >= current.y) {
+				childStringList = childStringMap.get(y);
+				childString = null;
+				for (ChildString s : childStringList) {
+					if (s.x >= current.x && s.y >= current.y) {
+						if (childString == null) {
+							childString = s;
+						} else if (s.length > childString.length) {
+							childString = s;
+						}
+					}
 				}
-			} else if (s.x >= current.x && s.y >= current.y) {
-				map.put(s.x, s);
-				current.setX(s.x + s.length);
-				current.setY(s.y + s.length);
+				if (childString != null) {
+					map.put(childString.y, childString);
+					current.setX(childString.x + childString.length);
+					current.setY(childString.y + childString.length);
+				}
 			}
 		}
+
 		return map;
+
 	}
 
-	public List<DiffSequence> getDiffSequence() {
-		List<DiffSequence> diffs = new ArrayList<DiffSequence>();
-		int maxStr1 = str1.length();
-		int maxStr2 = str2.length();
-		Map<Integer, ChildString> map = new HashMap<Integer, ChildString>();
-		int currentPosition = 0;
-		int gap = 0;
-		for (ChildString s : childString) {
-			if (map.containsKey(s.x)) {
-				gap = s.length - map.get(s.x).length;
-				if (gap > 0) {
-					map.put(s.x, s);
-					currentPosition = currentPosition + gap;
-				}
-			} else if (s.x > currentPosition) {
-				map.put(s.x, s);
-				currentPosition = s.length;
-			}
-		}
-
-		return diffs;
+	public Map<Integer, List<ChildString>> getChildStringMap() {
+		return childStringMap;
 	}
+
+	public void setChildStringMap(Map<Integer, List<ChildString>> childStringMap) {
+		this.childStringMap = childStringMap;
+	}
+
+	/*
+	 * public List<DiffSequence> getDiffSequence() { List<DiffSequence> diffs = new
+	 * ArrayList<DiffSequence>(); int maxStr1 = str1.length(); int maxStr2 =
+	 * str2.length(); Map<Integer, ChildString> map = new HashMap<Integer,
+	 * ChildString>(); int currentPosition = 0; int gap = 0; for (ChildString s :
+	 * childString) { if (map.containsKey(s.x)) { gap = s.length -
+	 * map.get(s.x).length; if (gap > 0) { map.put(s.x, s); currentPosition =
+	 * currentPosition + gap; } } else if (s.x > currentPosition) { map.put(s.x, s);
+	 * currentPosition = s.length; } }
+	 * 
+	 * return diffs; }
+	 */
 }
