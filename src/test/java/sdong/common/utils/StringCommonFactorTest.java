@@ -2,11 +2,8 @@ package sdong.common.utils;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -24,18 +21,12 @@ public class StringCommonFactorTest {
 		StringCommonFactor factor = new StringCommonFactor(str1, str2);
 
 		// 返回最大公因子字符串
-		Map<Integer, List<ChildString>> maps = factor.getChildStringMap();
-		List<ChildString> childStrings;
-		log.info("size=" + maps.size());
-		int size = 0;
-		for (Entry<Integer, List<ChildString>> entry : maps.entrySet()) {
-			childStrings = entry.getValue();
-			for (ChildString s : childStrings) {
-				log.info(s.toString() + "'" + str2.substring(s.x, s.x + s.length) + "'");
-				size = size + 1;
-			}
+		List<ChildString> childStringList = factor.getChildStringList();
+		log.info("size=" + childStringList.size());
+		for (ChildString s : childStringList) {
+			log.info(s.toString() + "'" + str2.substring(s.y, s.y + s.length) + "'");
 		}
-		assertEquals(9, size);
+		assertEquals(6, childStringList.size());
 
 		Map<Integer, ChildString> map = factor.getMap();
 		assertEquals(2, map.size());
@@ -49,20 +40,14 @@ public class StringCommonFactorTest {
 		String str2 = "String a, b = null, c;";
 
 		StringCommonFactor factor = new StringCommonFactor(str1, str2);
-		
+
 		// 返回最大公因子字符串
-		Map<Integer, List<ChildString>> maps = factor.getChildStringMap();
-		List<ChildString> childStrings;
-		log.info("size=" + maps.size());
-		int size = 0;
-		for (Entry<Integer, List<ChildString>> entry : maps.entrySet()) {
-			childStrings = entry.getValue();
-			for (ChildString s : childStrings) {
-				log.info(s.toString() + "'" + str2.substring(s.x, s.x + s.length) + "'");
-				size = size + 1;
-			}
+		List<ChildString> childStringList = factor.getChildStringList();
+		log.info("size=" + childStringList.size());
+		for (ChildString s : childStringList) {
+			log.info(s.toString() + "'" + str2.substring(s.y, s.y + s.length) + "'");
 		}
-		assertEquals(28, size);
+		assertEquals(15, childStringList.size());
 
 		Map<Integer, ChildString> map = factor.getMap();
 		assertEquals(4, map.size());
@@ -78,14 +63,14 @@ public class StringCommonFactorTest {
 		String str1 = "(void)VOS_memcpy_s(v1,v2,v3,v4);";
 		String str2 = "ret = memcpy_s(v1,v2,v3,v4);";
 		StringCommonFactor factor = new StringCommonFactor(str1, str2);
-		List<ChildString> childStrings = new ArrayList(factor.getChildStringMap().values());
 
 		// 返回最大公因子字符串
-		log.info("size=" + childStrings.size());
-		for (ChildString s : childStrings) {
-			log.info("'" + str1.substring(s.x, s.x + s.length) + "'");
-
+		List<ChildString> childStringList = factor.getChildStringList();
+		log.info("size=" + childStringList.size());
+		for (ChildString s : childStringList) {
+			log.info(s.toString() + "'" + str2.substring(s.y, s.y + s.length) + "'");
 		}
+		assertEquals(13, childStringList.size());
 
 	}
 }
