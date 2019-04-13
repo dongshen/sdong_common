@@ -7,7 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class StringCommonFactor {
+
+	private static final Logger log = LoggerFactory.getLogger(StringCommonFactor.class);
 
 	public static final String ACTION_INSERT = "insert";
 	public static final String ACTION_REMOVE = "remove";
@@ -30,7 +35,7 @@ public class StringCommonFactor {
 	}
 
 	public List<ChildString> getStringMaxCommmon(String str1, String str2) {
-		// 求所有公因子字符串，保存信息为相对第二个字符串的起始位置和长度
+		// 求所有公因子字符串
 		List<ChildString> childStrings = new ArrayList<ChildString>();
 
 		if (str1 == null || str2 == null || str1.isEmpty() || str2.isEmpty()) {
@@ -41,6 +46,7 @@ public class StringCommonFactor {
 		maxStr2 = str2.length();
 		strGap = Math.abs(maxStr1 - maxStr2);
 
+		// initial String graph
 		array = new int[maxStr1][maxStr2];
 		for (int i = 0; i < maxStr1; i++) {
 			for (int j = 0; j < maxStr2; j++) {
@@ -52,31 +58,13 @@ public class StringCommonFactor {
 			}
 		}
 
-		// verify array
-		String output;
+		// get String common factor
 		for (int i = 0; i < maxStr1; i++) {
-			output = "";
-			for (int j = 0; j < maxStr2; j++) {
-				output = output + array[i][j] + ",";
-			}
-			System.out.println(output);
-		}
-
-		// verify distance
-		for (int i = 0; i < maxStr1; i++) {
-			output = "";
-			for (int j = 0; j < maxStr2; j++) {
-				output = output + "," + getDistance(i, j);
-			}
-			System.out.println(output);
-		}
-
-		for (int i = 0; i < maxStr1; i++) {
-			getMaxSort(i, 0, maxStr1, maxStr2, array, childStrings);
+			getStringCommonFactor(i, 0, maxStr1, maxStr2, array, childStrings);
 		}
 		if (maxStr2 > maxStr1) {
 			for (int i = 1; i <= strGap; i++) {
-				getMaxSort(0, i, maxStr1, maxStr2, array, childStrings);
+				getStringCommonFactor(0, i, maxStr1, maxStr2, array, childStrings);
 			}
 		}
 
@@ -85,7 +73,8 @@ public class StringCommonFactor {
 	}
 
 	// 求一条斜线上的公因子字符串
-	private void getMaxSort(int i, int j, int maxStr1, int maxStr2, int[][] array, List<ChildString> childList) {
+	private void getStringCommonFactor(int i, int j, int maxStr1, int maxStr2, int[][] array,
+			List<ChildString> childList) {
 		int length = 0;
 		int start = j;
 		for (; i < maxStr1 && j < maxStr2; i++, j++) {
@@ -104,6 +93,16 @@ public class StringCommonFactor {
 		}
 	}
 
+	/*
+	 * Base on str1 matching list to get change list.
+	 */
+	public List<DiffSequence> getChangeList() {
+		return getChangeList(this.getMatchList());
+	}
+
+	/*
+	 * Base on str1 matching list to get change list.
+	 */
 	public List<DiffSequence> getChangeList(List<ChildString> childStringList) {
 		List<DiffSequence> changeList = new ArrayList<DiffSequence>();
 		DiffSequence act;
@@ -167,6 +166,9 @@ public class StringCommonFactor {
 
 	}
 
+	/*
+	 * Base on str1 to get matching list
+	 */
 	public List<ChildString> getMatchList() {
 		List<ChildString> matchList = new ArrayList<ChildString>();
 		ChildString childString = null;
@@ -240,16 +242,6 @@ public class StringCommonFactor {
 	}
 
 	// 排序，倒叙
-	private void sort_line(List<ChildString> list) {
-		Collections.sort(list, new Comparator<ChildString>() {
-			public int compare(ChildString o1, ChildString o2) {
-				return o1.x - o2.x;
-			}
-		});
-
-	}
-
-	// 排序，倒叙
 	public void sortDiffSequence(List<DiffSequence> list) {
 		Collections.sort(list, new Comparator<DiffSequence>() {
 			public int compare(DiffSequence o1, DiffSequence o2) {
@@ -258,7 +250,6 @@ public class StringCommonFactor {
 		});
 
 	}
-
 
 	// 公因子类
 	class ChildString {
@@ -319,6 +310,42 @@ public class StringCommonFactor {
 			this.content = content;
 		}
 
+	}
+
+	/**
+	 * verify String graph array
+	 */
+	public void printStringGraph() {
+		String output;
+		for (int i = 0; i < maxStr1; i++) {
+			output = "";
+			for (int j = 0; j < maxStr2; j++) {
+				output = output + array[i][j] + ",";
+			}
+			log.info(output);
+		}
+	}
+
+	/**
+	 * verify String graph distance
+	 */
+	public void printStringDistance() {
+		String output;
+
+		for (int i = 0; i < maxStr1; i++) {
+			output = "";
+			for (int j = 0; j < maxStr2; j++) {
+				output = output + "," + getDistance(i, j);
+			}
+			log.info(output);
+		}
+	}
+
+	public void printChildStringList(List<ChildString> childStringList) {
+		log.info("size=" + childStringList.size());
+		for (ChildString s : childStringList) {
+			log.info(s.toString() + "'" + str2.substring(s.y, s.y + s.length) + "'");
+		}
 	}
 
 	public String getStr1() {
