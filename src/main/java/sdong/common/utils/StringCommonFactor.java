@@ -242,10 +242,19 @@ public class StringCommonFactor {
 	}
 
 	// 排序，倒叙
-	public void sortDiffSequence(List<DiffSequence> list) {
+	public static void sortDiffSequence(List<DiffSequence> list) {
 		Collections.sort(list, new Comparator<DiffSequence>() {
 			public int compare(DiffSequence o1, DiffSequence o2) {
-				return o2.start - o1.start;
+				if (o1.start - o2.start != 0) {
+					return o1.start - o2.start;
+				}
+				if (o1.getAction().equals(ACTION_INSERT) && o2.getAction().equals(ACTION_REMOVE)) {
+					return -1;
+				} else if (o1.getAction().equals(ACTION_REMOVE) && o2.getAction().equals(ACTION_INSERT)) {
+					return 1;
+				} else {
+					return 0;
+				}
 			}
 		});
 
