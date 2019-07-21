@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Base64;
 import java.util.List;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
@@ -228,7 +229,7 @@ public class ZlibUtil {
 			}
 		}
 
-		return new sun.misc.BASE64Encoder().encode(out.toByteArray());
+		return Base64.getEncoder().encodeToString(out.toByteArray());
 	}
 
 	/**
@@ -251,7 +252,7 @@ public class ZlibUtil {
 		byte[] compressed = null;
 		String decompressed = null;
 		try {
-			compressed = new sun.misc.BASE64Decoder().decodeBuffer(compressedStr);
+			compressed = Base64.getDecoder().decode(compressedStr);
 			in = new ByteArrayInputStream(compressed);
 			ginzip = new GZIPInputStream(in);
 
@@ -351,7 +352,7 @@ public class ZlibUtil {
 			zout.write(str.getBytes());
 			zout.closeEntry();
 			compressed = out.toByteArray();
-			compressedStr = new sun.misc.BASE64Encoder().encodeBuffer(compressed);
+			compressedStr = Base64.getEncoder().encodeToString(compressed);
 		} catch (IOException e) {
 			compressed = null;
 		} finally {
@@ -387,7 +388,7 @@ public class ZlibUtil {
 		ZipInputStream zin = null;
 		String decompressed = null;
 		try {
-			byte[] compressed = new sun.misc.BASE64Decoder().decodeBuffer(compressedStr);
+			byte[] compressed = Base64.getDecoder().decode(compressedStr);
 			out = new ByteArrayOutputStream();
 			in = new ByteArrayInputStream(compressed);
 			zin = new ZipInputStream(in);
