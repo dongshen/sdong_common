@@ -4,10 +4,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.File;
+import java.time.Duration;
+import java.time.Instant;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import sdong.common.exception.SdongException;
 
 public class FileUtilTest {
+	private static final Logger log = LoggerFactory.getLogger(FileUtilTest.class);
 
 	@Test
 	public void testReadFileToStringList() {
@@ -80,4 +87,27 @@ public class FileUtilTest {
 		result = FileUtil.getFileName(file);
 		assertEquals("a.java", result);
 	}
+
+	@Test
+	public void testReadFileToByteArray() {
+
+		String filename = "C:\\Users\\shendong\\Downloads\\neo4j-desktop-offline-1.2.1-setup.exe";
+		byte[] result;
+		try {
+			long avg = 0L;
+			for (int i = 1; i <= 10; i++) {
+				Instant first = Instant.now();
+				result = FileUtil.readFileToByteArray(filename);
+				log.info("size:" + result.length);
+				Instant second = Instant.now();
+				avg = avg + Duration.between(first, second).toMillis();
+				log.info("duration = {}", avg / i);
+			}
+		} catch (SdongException e) {
+			log.error(e.getMessage());
+			fail("should not get exception!");
+		}
+
+	}
+
 }

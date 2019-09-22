@@ -122,15 +122,24 @@ public class FileUtil {
 		return Paths.get(directory, fileName).toString();
 	}
 
+	public static byte[] readFileToByteArrayGuava(String filename) throws SdongException {
+		byte[] result = null;
+		File file = new File(filename);
+		try {
+			result = com.google.common.io.Files.toByteArray(file);
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			throw new SdongException(e);
+		}
+
+		return result;
+	}
+
 	public static byte[] readFileToByteArray(String filename) throws SdongException {
 
 		File f = new File(filename);
 
-		FileChannel channel = null;
-		FileInputStream fs = null;
-		try {
-			fs = new FileInputStream(f);
-			channel = fs.getChannel();
+		try (FileInputStream fs = new FileInputStream(f); FileChannel channel = fs.getChannel();) {
 			ByteBuffer byteBuffer = ByteBuffer.allocate((int) channel.size());
 			while ((channel.read(byteBuffer)) > 0) {
 			}
@@ -138,17 +147,6 @@ public class FileUtil {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
-		} finally {
-			try {
-				channel.close();
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			}
-			try {
-				fs.close();
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			}
 		}
 	}
 
