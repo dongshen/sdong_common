@@ -122,19 +122,6 @@ public class FileUtil {
 		return Paths.get(directory, fileName).toString();
 	}
 
-	public static byte[] readFileToByteArrayGuava(String filename) throws SdongException {
-		byte[] result = null;
-		File file = new File(filename);
-		try {
-			result = com.google.common.io.Files.toByteArray(file);
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-			throw new SdongException(e);
-		}
-
-		return result;
-	}
-
 	public static byte[] readFileToByteArray(String filename) throws SdongException {
 
 		File f = new File(filename);
@@ -158,12 +145,8 @@ public class FileUtil {
 	 * @throws SdongException
 	 */
 	public static byte[] readFileToByteArray2(String filename) throws SdongException {
-
-		FileChannel fc = null;
-		RandomAccessFile rf = null;
-		try {
-			rf = new RandomAccessFile(filename, "r");
-			fc = rf.getChannel();
+		
+		try (RandomAccessFile rf = new RandomAccessFile(filename, "r"); FileChannel fc = rf.getChannel();) {
 			MappedByteBuffer byteBuffer = fc.map(MapMode.READ_ONLY, 0, fc.size()).load();
 
 			byte[] result = new byte[(int) fc.size()];
@@ -174,17 +157,20 @@ public class FileUtil {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
-		} finally {
-			try {
-				rf.close();
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			}
-			try {
-				fc.close();
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			}
+		} 
+	}
+
+	@Deprecated
+	public static byte[] readFileToByteArrayGuava(String filename) throws SdongException {
+		byte[] result = null;
+		File file = new File(filename);
+		try {
+			result = com.google.common.io.Files.toByteArray(file);
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			throw new SdongException(e);
 		}
+
+		return result;
 	}
 }

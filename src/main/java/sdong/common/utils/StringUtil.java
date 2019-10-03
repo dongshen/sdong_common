@@ -9,43 +9,25 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sdong.common.exception.SdongException;
+
 public class StringUtil {
-	private static final Logger logger = LoggerFactory.getLogger(StringUtil.class);
+	private static final Logger log = LoggerFactory.getLogger(StringUtil.class);
 
 	public static String LINE_BREAK = "\r\n";
 
-	public static final int checkIndentNum(String line, String checkChar) {
-		int indented = 0;
-		while (line.startsWith(checkChar)) {
-			indented = indented + 1;
-			line = line.substring(1);
-		}
+	public static final List<String> splitStringToListByLineBreak(String str) throws SdongException {
 
-		return indented;
-	}
-
-	public static final List<String> splitStringToListByLineBreak(String str) {
-		BufferedReader reader = null;
 		List<String> list = new ArrayList<String>();
-		try {
-			reader = new BufferedReader(new StringReader(str));
+		try (BufferedReader reader = new BufferedReader(new StringReader(str));) {
+
 			for (String line = reader.readLine(); line != null; line = reader.readLine()) {
 				list.add(line);
 			}
-			reader.close();
 		} catch (IOException e) {
-			logger.error(e.getMessage());
-		} finally {
-			try {
-				if (reader != null) {
-					reader.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
+			log.error(e.getMessage());
+			throw new SdongException(e.getMessage());
 		}
-
 		return list;
 	}
 
@@ -58,7 +40,17 @@ public class StringUtil {
 		return bf.toString();
 	}
 
-	public static int convertStringToInt(String input) {
+	public static final int checkIndentNum(String line, String checkChar) {
+		int indented = 0;
+		while (line.startsWith(checkChar)) {
+			indented = indented + 1;
+			line = line.substring(1);
+		}
+
+		return indented;
+	}
+
+	public static int convertStringToInt(String input) throws SdongException {
 		int result = 0;
 		if (input == null) {
 			return result;
@@ -66,12 +58,13 @@ public class StringUtil {
 		try {
 			result = Integer.parseInt(input);
 		} catch (NumberFormatException e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage());
+			throw new SdongException(e.getMessage());
 		}
 
 		return result;
 	}
-	
+
 	public static boolean convertStringToBoolean(String in) {
 		boolean result = false;
 
@@ -79,10 +72,9 @@ public class StringUtil {
 			return result;
 		}
 
-		if (in.trim().equalsIgnoreCase("yes")) {
+		if (in.trim().equalsIgnoreCase("yes") || in.trim().equalsIgnoreCase("true")) {
 			result = true;
 		}
-
 		return result;
 	}
 }

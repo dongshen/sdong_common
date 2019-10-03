@@ -4,18 +4,16 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Base64;
 import java.util.List;
-import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
-import java.util.zip.Inflater;
 import java.util.zip.InflaterInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
+
+import com.google.common.io.ByteStreams;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,171 +21,92 @@ import org.slf4j.LoggerFactory;
 import sdong.common.exception.SdongException;
 
 public class ZlibUtil {
-	private static final Logger logger = LoggerFactory.getLogger(ZlibUtil.class);
+	private static final Logger log = LoggerFactory.getLogger(ZlibUtil.class);
 
 	private static final int BUFFER_SIZE = 1024 * 1024;
 
+	/**
+	 * compress byte[] with default deflater
+	 * 
+	 * @param data
+	 * @return
+	 * @throws SdongException
+	 */
+	public static byte[] compress(byte[] data) throws SdongException {
+		byte[] output = null;
+		try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(data.length);
+				DeflaterOutputStream deflaterOutputStream = new DeflaterOutputStream(byteArrayOutputStream);) {
+
+			deflaterOutputStream.write(data);
+			deflaterOutputStream.finish();
+
+			output = byteArrayOutputStream.toByteArray();
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			throw new SdongException(e);
+		}
+		return output;
+	}
+
+	/**
+	 * compress List<String> to byte[]
+	 * 
+	 * @param tu
+	 * @return
+	 * @throws SdongException
+	 */
 	public static byte[] compress(List<String> tu) throws SdongException {
 		return compress(StringUtil.joinStringListToStringByLineBreak(tu).getBytes());
 	}
 
-	public static byte[] compress(byte[] data) throws SdongException {
-		byte[] output = null;
-
-		Deflater compresser = new Deflater();
-
-		compresser.reset();
-		compresser.setInput(data);
-		compresser.finish();
-		ByteArrayOutputStream bos = null;
-		try {
-			bos = new ByteArrayOutputStream(data.length);
-			byte[] buf = new byte[BUFFER_SIZE];
-			int i = 0;
-			while (!compresser.finished()) {
-				i = compresser.deflate(buf);
-				bos.write(buf, 0, i);
-			}
-			output = bos.toByteArray();
-
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw new SdongException(e);
-		} finally {
-			if (bos != null) {
-				try {
-
-					bos.close();
-				} catch (IOException e) {
-					logger.error(e.getMessage());
-				}
-			}
-			compresser.end();
-		}
-
-		return output;
-	}
-
-	// 压缩 字节数组到输出流
-	public static void compress(byte[] data, OutputStream os) throws SdongException {
-		DeflaterOutputStream dos = new DeflaterOutputStream(os);
-
-		try {
-			dos.write(data, 0, data.length);
-
-			dos.finish();
-
-			dos.flush();
-			dos.close();
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-			throw new SdongException(e);
-		}
-	}
-
-	// 解压缩 字节数组
-	public static byte[] decompress(byte[] data) throws SdongException {
-		byte[] output = new byte[0];
-
-		Inflater decompresser = new Inflater();
-		decompresser.reset();
-		decompresser.setInput(data);
-
-		ByteArrayOutputStream o = new ByteArrayOutputStream(data.length);
-		try {
-			byte[] buf = new byte[BUFFER_SIZE];
-			int i = 0;
-			while (!decompresser.finished()) {
-				i = decompresser.inflate(buf);
-				o.write(buf, 0, i);
-			}
-			output = o.toByteArray();
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw new SdongException(e);
-		} finally {
-			try {
-				o.close();
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			}
-		}
-
-		decompresser.end();
-		return output;
-	}
-
-	// 解压缩 字节数组
-	public static byte[] decompress(byte[] data, int offSet) throws SdongException {
-		byte[] output = new byte[0];
-
-		Inflater decompresser = new Inflater();
-		decompresser.reset();
-		decompresser.setInput(subBytes(data, offSet));
-
-		ByteArrayOutputStream o = new ByteArrayOutputStream(data.length);
-		try {
-			byte[] buf = new byte[BUFFER_SIZE];
-			int i = 0;
-			while (!decompresser.finished()) {
-				i = decompresser.inflate(buf);
-				o.write(buf, 0, i);
-			}
-			output = o.toByteArray();
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw new SdongException(e);
-		} finally {
-			try {
-				o.close();
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			}
-		}
-
-		decompresser.end();
-		return output;
-	}
-
-	// 解压缩 输入流 到字节数组
-	public static byte[] decompress(InputStream is) throws SdongException {
+	/**
+	 * decompress inputstream to byte[]
+	 * 
+	 * @param inputStream
+	 * @return
+	 * @throws SdongException
+	 */
+	public static byte[] decompress(InputStream inputStream) throws SdongException {
 
 		byte[] result = null;
-		InflaterInputStream iis = null;
-		ByteArrayOutputStream os = null;
-		try {
-			iis = new InflaterInputStream(is);
-			os = new ByteArrayOutputStream(BUFFER_SIZE);
-			int i = 0;
-			byte[] buf = new byte[BUFFER_SIZE];
 
-			while ((i = iis.read(buf, 0, i)) > 0) {
-				os.write(buf, 0, i);
-			}
-			result = os.toByteArray();
+		try (InflaterInputStream inlfaterInputStream = new InflaterInputStream(inputStream);
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();) {
+
+			ByteStreams.copy(inlfaterInputStream, outputStream);
+
+			result = outputStream.toByteArray();
+
 		} catch (IOException e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw new SdongException(e);
-		} finally {
-			if (os != null) {
-				try {
-					os.close();
-					os = null;
-				} catch (IOException e) {
-					logger.error(e.getMessage(), e);
-				}
-			}
-
-			if (iis != null) {
-				try {
-					iis.close();
-					iis = null;
-				} catch (IOException e) {
-					logger.error(e.getMessage(), e);
-				}
-			}
 		}
 		return result;
+	}
+
+	/**
+	 * decompress byte[] to byte[]
+	 * 
+	 * @param data
+	 * @return
+	 * @throws SdongException
+	 */
+	public static byte[] decompress(byte[] data) throws SdongException {
+		byte[] output = null;
+
+		try (InputStream inputStream = new ByteArrayInputStream(data);) {
+			output = decompress(inputStream);
+		} catch (Exception e) {
+			log.error(e.getMessage());
+			throw new SdongException(e);
+		}
+
+		return output;
+	}
+
+	// 解压缩 字节数组有偏移
+	public static byte[] decompress(byte[] data, int offSet) throws SdongException {
+		return decompress(subBytes(data, offSet));
 	}
 
 	public static byte[] subBytes(byte[] src, int begin) {
@@ -203,273 +122,106 @@ public class ZlibUtil {
 	}
 
 	/**
-	 * 
-	 * 使用gzip进行压缩
-	 */
-	public static String gzip(String primStr) {
-		if (primStr == null || primStr.length() == 0) {
-			return primStr;
-		}
-
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-
-		GZIPOutputStream gzip = null;
-		try {
-			gzip = new GZIPOutputStream(out);
-			gzip.write(primStr.getBytes());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (gzip != null) {
-				try {
-					gzip.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return Base64.getEncoder().encodeToString(out.toByteArray());
-	}
-
-	/**
-	 *
-	 * <p>
-	 * Description:使用gzip进行解压缩
-	 * </p>
-	 * 
-	 * @param compressedStr
+	 * compress byte[] with gzip to byte[]
+	 * @param data
 	 * @return
+	 * @throws SdongException
 	 */
-	public static String gunzip(String compressedStr) {
-		if (compressedStr == null) {
-			return null;
-		}
-
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		ByteArrayInputStream in = null;
-		GZIPInputStream ginzip = null;
-		byte[] compressed = null;
-		String decompressed = null;
-		try {
-			compressed = Base64.getDecoder().decode(compressedStr);
-			in = new ByteArrayInputStream(compressed);
-			ginzip = new GZIPInputStream(in);
-
-			byte[] buffer = new byte[1024];
-			int offset = -1;
-			while ((offset = ginzip.read(buffer)) != -1) {
-				out.write(buffer, 0, offset);
-			}
-			decompressed = out.toString();
+	public static byte[] gzip(byte[] data) throws SdongException {
+		byte[] output = null;
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+				GZIPOutputStream gzipOutputStream = new GZIPOutputStream(outputStream);) {
+			gzipOutputStream.write(data);
+			gzipOutputStream.finish();
+			output = outputStream.toByteArray();
 		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (ginzip != null) {
-				try {
-					ginzip.close();
-				} catch (IOException e) {
-				}
-			}
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-				}
-			}
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-				}
-			}
+			log.error(e.getMessage());
+			throw new SdongException(e);
 		}
 
-		return decompressed;
-	}
-
-	public static String gunzip(byte[] compressed) {
-
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		ByteArrayInputStream in = null;
-		GZIPInputStream ginzip = null;
-
-		String decompressed = null;
-		try {
-			// compressed = new sun.misc.BASE64Decoder().decodeBuffer(compressedStr);
-			in = new ByteArrayInputStream(compressed);
-			ginzip = new GZIPInputStream(in);
-
-			byte[] buffer = new byte[1024];
-			int offset = -1;
-			while ((offset = ginzip.read(buffer)) != -1) {
-				out.write(buffer, 0, offset);
-			}
-			decompressed = out.toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (ginzip != null) {
-				try {
-					ginzip.close();
-				} catch (IOException e) {
-				}
-			}
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-				}
-			}
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-				}
-			}
-		}
-
-		return decompressed;
+		return output;
 	}
 
 	/**
-	 * 使用zip进行压缩
-	 * 
-	 * @param str 压缩前的文本
-	 * @return 返回压缩后的文本
+	 * uncompress byte[] with gzip to byte[] 
+	 * @param compressed
+	 * @return
+	 * @throws SdongException
 	 */
-	public static final String zip(String str) {
-		if (str == null)
-			return null;
-		byte[] compressed;
-		ByteArrayOutputStream out = null;
-		ZipOutputStream zout = null;
-		String compressedStr = null;
-		try {
-			out = new ByteArrayOutputStream();
-			zout = new ZipOutputStream(out);
-			zout.putNextEntry(new ZipEntry("0"));
-			zout.write(str.getBytes());
-			zout.closeEntry();
-			compressed = out.toByteArray();
-			compressedStr = Base64.getEncoder().encodeToString(compressed);
-		} catch (IOException e) {
-			compressed = null;
-		} finally {
-			if (zout != null) {
-				try {
-					zout.close();
-				} catch (IOException e) {
-				}
-			}
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-				}
-			}
-		}
-		return compressedStr;
-	}
+	public static byte[] gunzip(byte[] compressed) throws SdongException {
 
-	/**
-	 * 使用zip进行解压缩
-	 * 
-	 * @param compressed 压缩后的文本
-	 * @return 解压后的字符串
-	 */
-	public static final String unzip(String compressedStr) {
-		if (compressedStr == null) {
-			return null;
+		byte[] ungzipBytes = null;
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream(compressed.length);
+				ByteArrayInputStream inputStream = new ByteArrayInputStream(compressed);
+				GZIPInputStream gzipInputStream = new GZIPInputStream(inputStream);) {
+
+			ByteStreams.copy(gzipInputStream, outputStream);
+
+			ungzipBytes = outputStream.toByteArray();
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			throw new SdongException(e);
 		}
 
-		ByteArrayOutputStream out = null;
-		ByteArrayInputStream in = null;
-		ZipInputStream zin = null;
-		String decompressed = null;
-		try {
-			byte[] compressed = Base64.getDecoder().decode(compressedStr);
-			out = new ByteArrayOutputStream();
-			in = new ByteArrayInputStream(compressed);
-			zin = new ZipInputStream(in);
-			zin.getNextEntry();
-			byte[] buffer = new byte[1024];
-			int offset = -1;
-			while ((offset = zin.read(buffer)) != -1) {
-				out.write(buffer, 0, offset);
-			}
-			decompressed = out.toString();
-		} catch (IOException e) {
-			decompressed = null;
-		} finally {
-			if (zin != null) {
-				try {
-					zin.close();
-				} catch (IOException e) {
-				}
-			}
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-				}
-			}
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-				}
-			}
-		}
-		return decompressed;
+		return ungzipBytes;
 	}
 	
 	/**
-	 * 使用zip进行解压缩
-	 * 
-	 * @param compressed 压缩后的文本
-	 * @return 解压后的字符串
+	 * compress byte[] with zip to byte[]
+	 * @param inputBytes
+	 * @return
+	 * @throws SdongException
 	 */
-	public static final String unzip(byte[] compressed) {
-		
-		ByteArrayOutputStream out = null;
-		ByteArrayInputStream in = null;
-		ZipInputStream zin = null;
-		String decompressed = null;
-		try {
-			//byte[] compressed = new sun.misc.BASE64Decoder().decodeBuffer(compressedStr);
-			out = new ByteArrayOutputStream();
-			in = new ByteArrayInputStream(compressed);
-			zin = new ZipInputStream(in);
-			zin.getNextEntry();
-			byte[] buffer = new byte[1024];
-			int offset = -1;
-			while ((offset = zin.read(buffer)) != -1) {
-				out.write(buffer, 0, offset);
-			}
-			decompressed = out.toString();
+	public static final byte[] zip(byte[] inputBytes) throws SdongException {
+
+		byte[] compressedBytes;
+
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream);) {
+			zipOutputStream.putNextEntry(new ZipEntry("0"));
+			zipOutputStream.write(inputBytes);
+			zipOutputStream.closeEntry();
+
+			outputStream.flush();
+			compressedBytes = outputStream.toByteArray();
+
 		} catch (IOException e) {
-			decompressed = null;
-		} finally {
-			if (zin != null) {
-				try {
-					zin.close();
-				} catch (IOException e) {
-				}
-			}
-			if (in != null) {
-				try {
-					in.close();
-				} catch (IOException e) {
-				}
-			}
-			if (out != null) {
-				try {
-					out.close();
-				} catch (IOException e) {
-				}
-			}
+			log.error(e.getMessage());
+			throw new SdongException(e);
 		}
-		return decompressed;
+		return compressedBytes;
 	}
+
+	/**
+	 * uncompress byte[] with zip to byte[]
+	 * @param data
+	 * @return
+	 * @throws SdongException
+	 */
+	public static final byte[] unzip(byte[] data) throws SdongException {
+
+		byte[] unCompressedBytes;
+
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(data));) {
+			ZipEntry entry;
+			while ((entry = zipInputStream.getNextEntry()) != null) {
+				log.info("entry name:{}", entry.getName());
+				log.info("size:{}", entry.getSize());
+			}
+			ByteStreams.copy(zipInputStream, outputStream);
+			/*
+			 * byte[] buffer = new byte[BUFFER_SIZE]; int offset = -1; while ((offset =
+			 * zipInputStream.read(buffer, 0, BUFFER_SIZE)) != -1) {
+			 * outputStream.write(buffer, 0, offset); } outputStream.flush();
+			 * zipInputStream.closeEntry();
+			 */
+			unCompressedBytes = outputStream.toByteArray();
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			throw new SdongException(e);
+		}
+		return unCompressedBytes;
+	}
+
 }

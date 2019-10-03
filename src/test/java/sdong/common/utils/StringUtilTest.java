@@ -1,13 +1,20 @@
 package sdong.common.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import sdong.common.exception.SdongException;
 
 public class StringUtilTest {
+
+	private static final Logger log = LoggerFactory.getLogger(StringUtilTest.class);
 
 	@Test
 	public void testCheckIndentNum() {
@@ -43,10 +50,14 @@ public class StringUtilTest {
 		list.add("line3");
 		list.add("");
 		list.add("");
-
-		String str = StringUtil.joinStringListToStringByLineBreak(list);
-		List<String> result = StringUtil.splitStringToListByLineBreak(str);
-		assertEquals(list.size(), result.size());
+		try {
+			String str = StringUtil.joinStringListToStringByLineBreak(list);
+			List<String> result = StringUtil.splitStringToListByLineBreak(str);
+			assertEquals(list.size(), result.size());
+		} catch (SdongException e) {
+			log.error(e.getMessage());
+			fail("should not get exception!");
+		}
 
 	}
 }
