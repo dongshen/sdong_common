@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -23,7 +24,7 @@ import sdong.common.exception.SdongException;
 public class ZlibUtil {
 	private static final Logger log = LoggerFactory.getLogger(ZlibUtil.class);
 
-	private static final int BUFFER_SIZE = 1024 * 1024;
+	// private static final int BUFFER_SIZE = 1024 * 1024;
 
 	/**
 	 * compress byte[] with default deflater
@@ -123,6 +124,7 @@ public class ZlibUtil {
 
 	/**
 	 * compress byte[] with gzip to byte[]
+	 * 
 	 * @param data
 	 * @return
 	 * @throws SdongException
@@ -143,7 +145,8 @@ public class ZlibUtil {
 	}
 
 	/**
-	 * uncompress byte[] with gzip to byte[] 
+	 * uncompress byte[] with gzip to byte[]
+	 * 
 	 * @param compressed
 	 * @return
 	 * @throws SdongException
@@ -165,9 +168,10 @@ public class ZlibUtil {
 
 		return ungzipBytes;
 	}
-	
+
 	/**
 	 * compress byte[] with zip to byte[]
+	 * 
 	 * @param inputBytes
 	 * @return
 	 * @throws SdongException
@@ -176,13 +180,15 @@ public class ZlibUtil {
 
 		byte[] compressedBytes;
 
-		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream(inputBytes.length);
 				ZipOutputStream zipOutputStream = new ZipOutputStream(outputStream);) {
-			zipOutputStream.putNextEntry(new ZipEntry("0"));
-			zipOutputStream.write(inputBytes);
-			zipOutputStream.closeEntry();
+			ZipEntry entry = new ZipEntry("zipfile");
 
-			outputStream.flush();
+			zipOutputStream.putNextEntry(entry);
+			 zipOutputStream.write(inputBytes);
+			//ByteStreams.copy(new ByteArrayInputStream(inputBytes), zipOutputStream);
+			zipOutputStream.closeEntry();
+			zipOutputStream.finish();
 			compressedBytes = outputStream.toByteArray();
 
 		} catch (IOException e) {
@@ -194,34 +200,59 @@ public class ZlibUtil {
 
 	/**
 	 * uncompress byte[] with zip to byte[]
+	 * 
 	 * @param data
 	 * @return
 	 * @throws SdongException
 	 */
-	public static final byte[] unzip(byte[] data) throws SdongException {
+	public static final ConcurrentHashMap<String, byte[]> unzip(byte[] data) throws SdongException {
 
-		byte[] unCompressedBytes;
+		ConcurrentHashMap<String, byte[]> ziplist = new ConcurrentHashMap<String, byte[]>();
+
+		try (ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(data));) {
+			ZipEntry entry;
+			while ((entry = zipInputStream.getNextEntry()) != null) {
+				log.debug("entry name:{}", entry.getName());
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				ByteStreams.copy(zipInputStream, outputStream);
+				ziplist.put(entry.getName(), outputStream.toByteArray());
+				outputStream.close();
+			}
+
+		} catch (IOException e) {
+			log.error(e.getMessage());
+			throw new SdongException(e);
+		}
+		return ziplist;
+	}
+
+	public static final ConcurrentHashMap<String, byte[]> unzip(InputStream inputStream) throws SdongException {
+
+		ConcurrentHashMap<String, byte[]> ziplist = new ConcurrentHashMap<String, byte[]>();
 
 		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-				ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(data));) {
+				ZipInputStream zipInputStream = new ZipInputStream(inputStream);) {
 			ZipEntry entry;
 			while ((entry = zipInputStream.getNextEntry()) != null) {
 				log.info("entry name:{}", entry.getName());
-				log.info("size:{}", entry.getSize());
+
+				log.info("size:{}", entry.getCompressedSize());
+				ByteStreams.copy(zipInputStream, outputStream);
+				ziplist.put(entry.getName(), outputStream.toByteArray());
 			}
-			ByteStreams.copy(zipInputStream, outputStream);
+
 			/*
 			 * byte[] buffer = new byte[BUFFER_SIZE]; int offset = -1; while ((offset =
 			 * zipInputStream.read(buffer, 0, BUFFER_SIZE)) != -1) {
 			 * outputStream.write(buffer, 0, offset); } outputStream.flush();
 			 * zipInputStream.closeEntry();
 			 */
-			unCompressedBytes = outputStream.toByteArray();
+			// unCompressedBytes = outputStream.toByteArray();
 		} catch (IOException e) {
 			log.error(e.getMessage());
 			throw new SdongException(e);
 		}
-		return unCompressedBytes;
+		return ziplist;
 	}
 
 }

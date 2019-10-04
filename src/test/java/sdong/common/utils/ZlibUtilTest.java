@@ -1,8 +1,13 @@
 package sdong.common.utils;
 
-import static org.junit.Assert.fail;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -34,7 +39,7 @@ public class ZlibUtilTest {
 			byte[] uncompress = ZlibUtil.decompress(zlib);
 			log.info("un compress zlib file size=" + uncompress.length);
 			assertEquals(originalSize, uncompress.length);
-			assertArrayEquals(data,uncompress);
+			assertArrayEquals(data, uncompress);
 
 		} catch (SdongException e) {
 			log.error(e.getMessage());
@@ -46,6 +51,7 @@ public class ZlibUtilTest {
 	@Test
 	public void testGzip() {
 		String inputFile = "input/zlib/sdong.log";
+		String outputFile = "output/zlib/sdong.gz";
 		int originalSize = 23252;
 		int zipSize = 3154;
 		try {
@@ -58,12 +64,13 @@ public class ZlibUtilTest {
 			byte[] zlib = ZlibUtil.gzip(data);
 			log.info("zlib file size=" + zlib.length);
 			assertEquals(zipSize, zlib.length);
+			FileUtil.writeBytesToFile(zlib, outputFile);
 
 			// verify uncompress
 			byte[] uncompress = ZlibUtil.gunzip(zlib);
 			log.info("un compress zlib file size=" + uncompress.length);
 			assertEquals(originalSize, uncompress.length);
-			assertArrayEquals(data,uncompress);
+			assertArrayEquals(data, uncompress);
 
 		} catch (SdongException e) {
 			log.error(e.getMessage());
@@ -75,8 +82,9 @@ public class ZlibUtilTest {
 	@Test
 	public void testZip() {
 		String inputFile = "input/zlib/sdong.log";
+		String outputFile = "output/zlib/sdong.zip";
 		int originalSize = 23252;
-		int zipSize = 3183;
+		int zipSize = 3264;
 		try {
 			// read to byte
 			byte[] data = FileUtil.readFileToByteArray(inputFile);
@@ -87,17 +95,22 @@ public class ZlibUtilTest {
 			byte[] zlib = ZlibUtil.zip(data);
 			log.info("zlib file size=" + zlib.length);
 			assertEquals(zipSize, zlib.length);
+			FileUtil.writeBytesToFile(zlib, outputFile);
 
 			// verify uncompress
-			byte[] uncompress = ZlibUtil.unzip(zlib);
-			log.info("un compress zlib file size=" + uncompress.length);
-			assertEquals(originalSize, uncompress.length);
-			assertArrayEquals(data,uncompress);
+			// byte[] unbcompress = ZlibUtil.unzip(zlib);
+			ConcurrentHashMap<String, byte[]> ziplist = ZlibUtil.unzip(new FileInputStream(outputFile));
+			assertEquals(1, ziplist.size());
+			for (Map.Entry<String, byte[]> entry : ziplist.entrySet()) {
+				log.info("un compress zlib file size=" + entry.getValue().length);
+				assertEquals(originalSize, entry.getValue().length);
+				assertArrayEquals(data, entry.getValue());
+			}
 
-		} catch (SdongException e) {
+		} catch (SdongException | FileNotFoundException e) {
 			log.error(e.getMessage());
 			fail("should not get exception!");
-		}
+		} 
 
 	}
 

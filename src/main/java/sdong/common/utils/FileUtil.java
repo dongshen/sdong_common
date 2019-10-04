@@ -1,5 +1,6 @@
 package sdong.common.utils;
 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -172,5 +173,20 @@ public class FileUtil {
 		}
 
 		return result;
+	}
+
+	public static Path writeBytesToFile(byte[] outputBytes, String fileName) throws SdongException {
+		File outputFile = new  File(fileName);
+		File parent = outputFile.getParentFile();
+		if(!parent.exists()){
+			parent.mkdirs();
+		}
+
+		try {
+			return Files.write(outputFile.toPath(), outputBytes);
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			throw new SdongException(e);
+		}
 	}
 }
