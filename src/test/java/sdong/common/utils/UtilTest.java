@@ -20,9 +20,9 @@ public class UtilTest {
 	}
 
 	@Test
-	public void testGetUUID_v1() {
+	public void testGenerateUUIDSeq() {
 		for (int i = 0; i < 10; i++) {
-			logger.info("UUID= " + Util.getUUID_v1());
+			logger.info("UUID= " + Util.generateUUIDSeq());
 		}
 	}
 
