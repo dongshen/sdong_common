@@ -192,8 +192,4 @@ public class FileUtil {
 		}
 		return file;
 	}
-
-	public static int getFileLineCount(String fileName){
-		
-	}
 }
