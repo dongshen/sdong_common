@@ -129,8 +129,7 @@ public class FileUtil {
 
 		try (FileInputStream fs = new FileInputStream(f); FileChannel channel = fs.getChannel();) {
 			ByteBuffer byteBuffer = ByteBuffer.allocate((int) channel.size());
-			while ((channel.read(byteBuffer)) > 0) {
-			}
+			channel.read(byteBuffer);
 			return byteBuffer.array();
 		} catch (IOException e) {
 			logger.error(e.getMessage());
@@ -176,17 +175,25 @@ public class FileUtil {
 	}
 
 	public static Path writeBytesToFile(byte[] outputBytes, String fileName) throws SdongException {
-		File outputFile = new  File(fileName);
-		File parent = outputFile.getParentFile();
-		if(!parent.exists()){
-			parent.mkdirs();
-		}
-
 		try {
-			return Files.write(outputFile.toPath(), outputBytes);
+			File file = createFile(fileName);
+			return Files.write(file.toPath(), outputBytes);
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
 		}
+	}
+	
+	public static File createFile(String fileName) {
+		File file = new  File(fileName);
+		File parent = file.getParentFile();
+		if(!parent.exists()){
+			parent.mkdirs();
+		}
+		return file;
+	}
+
+	public static int getFileLineCount(String fileName){
+		
 	}
 }
