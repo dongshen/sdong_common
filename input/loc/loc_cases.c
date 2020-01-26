@@ -1,263 +1,99 @@
-/*
- * Copyright (C), 1988-1999, Xxxxxx Tech. Co., Ltd.
- * FileName: xxx
- * Description: balabalabalabalabalabalabalabalabala
-    balabalabalabalabalabalabalabalabalabalabalabala
- * Change Logs: 
-    |Date           |Author       |Notes     |version
-    |2010-03-22     |XXX          |XXX       |1.0.0
+/* case 1 */
+
+/* case 2
+case 2
+*/
+
+/* case 3
+* case 3
+*/
+
+/* case 4 */ int c = 0;
+
+/* case 5
+case 5 */ int c = 0;
+
+int a = 0; /* case 6 */
+
+int a = 0; /* case 7
+case 7
+*/
+
+/* case 8 */ int a = 0; /* case 8 */
+
+/* case 9 
+case 9 */ int a =0; /* case 9 */
+
+/* case 10 */ int a = 0; /* case 10
+case 10 */
+
+/* case 11
+case 11 */ int a = 0; /*case 11
+case 11 */
+
+void open(int a, int b,/* case 12 */ int c);
+
+void open(int a, int b, /* case 13
+*/ int c);
+
+void open(int a, int b,/* case 14 */ int c); /* case 14 */
+
+void open(int a, int b,/* case 15
+ */ int c); /* case 15 */
+
+void open(int a, int b,/* case 16 */ int c); /* case 16
  */
 
-/*
- * Function:
- * Description:
- * Calls:
- * Input:
- * Input:
- * Output:
- * Return:
- * Others:
- */
+void open(int a, int b,/* case 17
+ */ int c); /* case 17
+  */
 
-/* @define xxx */
-#define XXX_ERROR_OK              0   /* No error           */
-#define XXX_ERROR_INVALID_TOKEN   1   /* Invalid token      */
-#define XXX_ERROR_EXPECT_TYPE     2   /* Expect a type      */
+// case 18
 
-/* @struct xxx */
-struct xxx_syscall_item
-{
-    struct xxx_syscall_item* next;    /* 下一个item */
-    struct xxx_syscall syscall;       /* syscall */
-};
+int b = 0; // case 19
 
-/* @variable temp */
-/* Scope: 存储温度值 */
-/* Range: -128 - 127 */
-/* Notice: xxxxx */
-/* Others: xxxxx */
-extern char temp = 0;
+/* case 20 */    // case 20
 
-/*************************************************
-Copyright:East
-Author:Jason
-Date:2017-03-02
-Description:描述主要实现的功能
-**************************************************/
+/* case 21
+case 21 */ // case 21
 
-/* sccp interface with sccp user primitive message name */
-enum SCCP_USER_PRIMITIVE
-{
-    N_UNITDATA_IND, /* sccp notify sccp user unit data come */
-    N_NOTICE_IND,   /* sccp notify user the No.7 network can not */
-                    /* transmission this message */
-    N_UNITDATA_REQ, /* sccp user's unit data transmission request*/
-};
- 
-/* The ErrorCode when SCCP translate */
-/* Global Title failure, as follows */      // 变量作用、含义
+/* case 22 */ int c = 0; // case 22
 
-void example_fun( void )
-{
+/* case 23
+case 23 */ int c = 0; // case 23
 
-    /* code one comments */
-    CodeBlock One
+int a = 0; /* case 24 */ //case 24
 
-    printf("Comments in C begin with /* or //.\n" );
+int a = 0; /* case 25
+case 25
+*/  // case 25
 
-     /* code two comments */
-    CodeBlock Two
+/* case 26 */ int a = 0; /* case 26 */ // case 26
 
-    /* 暂时注释掉这两行：
-    const double pi = 3.1415926536;  // pi是一个常量
+/* case 27 
+case 27 */ int a =0; /* case 27 */ // case 27
 
-    area = pi * r * r;   // 计算面积
-    暂时注释到此 */
-}
+/* case 28 */ int a = 0; /* case 28
+case 28 */ //case 28
 
+/* case 29
+case 29 */ int a = 0; /*case 29
+case 29 */ //case 29
 
-    int open( const char *name, int mode, … /* int permissions */ );
+void open(int a, int b,/* case 30 */ int c); //case 30
 
-    #include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <io.h>
- 
- 
-/**
- * 功能：移除C/C++程序代码中的注释
- *
- * 输入：指向C/C++程序代码的指针
- */
- 
-void
-remove_comment(char *buf, size_t size)
-{
-  char *p, *end, c;
-  char *sq_start, *dq_start;
-  char *lc_start, *bc_start;
-  size_t len;
- 
-  p = buf;
-  end = p + size;
- 
-  sq_start = NULL;
-  dq_start = NULL;
- 
-  lc_start = NULL;
-  bc_start = NULL;
- 
-  while (p < end) {
- 
-  c = *p;
- 
-  switch (c) {
- 
-  case '\'': /* 单引号 */
-  if (dq_start || lc_start || bc_start) {
-  /* 忽略字符串与注释中的单引号 */
-  p++;
-  continue;
-  }
- 
-  if (sq_start == NULL) {
-  sq_start = p++;
- 
-  } else {
-  len = p++ - sq_start;
- 
-  if (len == 2 && *(sq_start + 1) == '\\') {
-  /* 忽略字符中的单引号 */
-  continue;
-  }
- 
-  sq_start = NULL;
-  }
- 
-  break;
- 
-  case '\"': /* 双引号 */
-  if (sq_start || lc_start || bc_start) {
-  /* 忽略字符或注释中的双引号 */
-  p++;
-  continue;
-  }
- 
-  if (dq_start == NULL) {
-  dq_start = p++;
- 
-  } else {
-  if (*(p++ - 1) == '\\') {
-  /* 忽略字符串中的双引号 */
-  continue;
-  }
- 
-  dq_start = NULL;
-  }
- 
-  break;
- 
-  case '/': /* 斜杆 */
-  if (sq_start || dq_start || lc_start || bc_start) {
-  /* 忽略字符、字符串或注释中的斜杆 */
-  p++;
-  continue;
-  }
- 
-  c = *(p + 1);
- 
-  if (c == '/') {
-  lc_start = p;
-  p += 2;
- 
-  } else if (c == '*') {
-  bc_start = p;
-  p += 2;
- 
-  } else {
-  /* 忽略除号 */
-  p++;
-  }
- 
-  break;
- 
-  case '*': /* 星号 */
-  if (sq_start || dq_start || lc_start || bc_start == NULL) {
-  /* 忽略字符、字符串或行注释中的星号，还有忽略乘号 */
-  p++;
-  continue;
-  }
- 
-  if (*(p + 1) != '/') {
-  /* 忽略块注释中的星号 */
-  p++;
-  continue;
-  }
- 
-  p += 2;
- 
-  memset(bc_start, ' ', p - bc_start);
- 
-  bc_start = NULL;
- 
-  break;
- 
-  case '\n': /* 换行符 */
-  if (lc_start == NULL) {
-  p++;
-  continue;
-  }
- 
-  c = *(p - 1);
- 
-  memset(lc_start, ' ',
-  (c == '\r' ? (p++ - 1) : p++) - lc_start);
- 
-  lc_start = NULL;
- 
-  break;
- 
-  default:
-  p++;
-  break;
-  }
-  }
- 
-  if (lc_start) {
-  memset(lc_start, ' ', p - lc_start);
-  }
-}
- 
- 
-int
-main(int argc, char *argv[])
-{
-  int fd, n;
-  char buf[102400];
- 
-  fd = open("C:\\Documents and Settings\\Administrator\\桌面\\remove_comment.c",
-  _O_RDONLY, 0);
-  if (fd == -1) {
-  return -1;
-  }
- 
-  n = read(fd, buf, sizeof(buf));
-  if (n == -1 || n == 0) {
-  close(fd);
-  return -1;
-  }
- 
-  //printf("test\n");
- 
-  remove_comment(buf, n);
- 
-  *(buf + n) = '\0';
- 
-  printf(buf);
-  /***********\\\/////// */
- 
-  close(fd);
- 
-  return 0;
-}
+void open(int a, int b, /* case 31
+*/ int c); // case 31
+
+void open(int a, int b,/* case 32 */ int c); /* case 32 */ //case 32
+
+void open(int a, int b,/* case 33
+ */ int c); /* case 33 */ //case 33
+
+void open(int a, int b,/* case 34 */ int c); /* case 34
+ */ // case 34
+
+void open(int a, int b,/* case 35
+ */ int c); /* case 35
+  */ // case 35
+
