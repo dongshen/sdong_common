@@ -48,7 +48,7 @@ void open(int a, int b,/* case 17
  */ int c); /* case 17
   */
 
-// case 18
+// case 18 case 18
 
 int b = 0; // case 19
 
@@ -97,3 +97,12 @@ void open(int a, int b,/* case 35
  */ int c); /* case 35
   */ // case 35
 
+char *p = "/* case 36 */\n";
+
+char *p = "/* case 37 */ // case 37";
+
+// case 38 /* case 38
+
+/* case 39 */  /* case 39 */ /* case 39 */
+
+/* case 40 */ /* case 40 */ /* case 40 */ // case 40
