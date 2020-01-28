@@ -15,6 +15,7 @@ import sdong.common.exception.SdongException;
 public class LocUtil {
     private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
     public static final String REG_ONELINE = "(^/\\*[^\\*/]*\\*/(\\s*/\\*[^\\*/]*\\*/)*\\s*(//.*)*)|(^//.*)";
+    public static final String REG_MUTLILINE_START = "^/\\*[^\\*/]*";
 
     public static FileInfo getFileLocInfo(String fileName) throws SdongException {
         FileInfo fileInfo = new FileInfo();
@@ -31,7 +32,7 @@ public class LocUtil {
                     fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
                 } else if (line.matches(REG_ONELINE)) {
                     fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                } else if (line.startsWith("/*") && !line.endsWith("*/")) {
+                } else if (line.matches(REG_MUTLILINE_START)) {
                     fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
                     while ((line = bfr.readLine()) != null) {
                         line = line.trim();

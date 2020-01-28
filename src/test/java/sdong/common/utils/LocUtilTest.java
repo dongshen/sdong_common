@@ -89,4 +89,43 @@ public class LocUtilTest {
         }
     }
 
+    @Test
+    public void testMathingReg_MULTILINE() {
+        String fileName = "input/loc/loc_cases.c";
+        List<String> lines;
+        try {
+            lines = FileUtil.readFileToStringList(fileName);
+
+            String regex = LocUtil.REG_MUTLILINE_START;
+            List<String> matchingCase = Arrays.asList("case 2 ", "case 3 ", "case 5 ", "case 9 ",
+                    "case 11 ", "case 21 ", "case 23 ", "case 27 ", "case 29 ");
+            List<String> result = new ArrayList<String>();
+            for (String line : lines) {
+                // LOG.info("{}",line);
+                if (LocUtil.matching(line, regex)) {
+                    LOG.info("{}", line);
+                    result.add(line);
+                }
+            }
+            assertEquals(matchingCase.size(), result.size());
+            boolean isMatch = false;
+            for (String line : result) {
+                isMatch = false;
+                LOG.info("verify:{}", line);
+                for (String match : matchingCase) {
+                    if (line.indexOf(match) >= 0) {
+                        isMatch = true;
+                        break;
+                    }
+                }
+                assertEquals(true, isMatch);
+            }
+
+        } catch (SdongException e) {
+            LOG.error(e.getMessage());
+            fail("should not get exception!");
+        }
+    }
+
+
 }
