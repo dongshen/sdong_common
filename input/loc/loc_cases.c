@@ -52,7 +52,7 @@ case 17 */
 
 int b = 0; // case 19
 
-/* case 20 */    // case 20
+/* case 20 */    // case 20 case 20
 
 /* case 21 case 21
 case 21 */ // case 21 case 21
@@ -106,3 +106,5 @@ char *p = "/* case 37 */ // case 37";
 /* case 39 */  /* case 39 */ /* case 39 */
 
 /* case 40 */ /* case 40 */ /* case 40 */ // case 40 case 40
+
+/* case 41 */ int c = 0; // case 41 /* case 41 case 41

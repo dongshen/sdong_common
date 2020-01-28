@@ -16,6 +16,8 @@ public class LocUtil {
     private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
     public static final String REG_ONELINE = "(^/\\*[^\\*/]*\\*/(\\s*/\\*[^\\*/]*\\*/)*\\s*(//.*)*)|(^//.*)";
     public static final String REG_MUTLILINE_START = "^/\\*[^\\*/]*";
+    public static final String REG_MUTLILINE_END = "[^\\*/]*\\*/(\\s*/\\*[^\\*/]*\\*/)*\\s*(//.*)*";
+    public static final String REG_MUTLILINE_START_WITH_CODE = "(/\\*.[^\\*/]*\\*/)*.+(/\\*.[^\\*/]*\\*/)*/\\*.[^\\*/]*";
 
     public static FileInfo getFileLocInfo(String fileName) throws SdongException {
         FileInfo fileInfo = new FileInfo();
@@ -37,7 +39,7 @@ public class LocUtil {
                     while ((line = bfr.readLine()) != null) {
                         line = line.trim();
                         fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                        if (line.endsWith("*/")) {
+                        if (line.matches(REG_MUTLILINE_END)) {
                             break;
                         }
                     }

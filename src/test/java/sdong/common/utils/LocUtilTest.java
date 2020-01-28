@@ -90,7 +90,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testMathingReg_MULTILINE() {
+    public void testMathingReg_MULTILINE_START() {
         String fileName = "input/loc/loc_cases.c";
         List<String> lines;
         try {
@@ -127,5 +127,81 @@ public class LocUtilTest {
         }
     }
 
+    @Test
+    public void testMathingReg_MULTILINE_START_WITH_CODE() {
+        String fileName = "input/loc/loc_cases.c";
+        List<String> lines;
+        try {
+            lines = FileUtil.readFileToStringList(fileName);
 
+            String regex = LocUtil.REG_MUTLILINE_START_WITH_CODE;
+            List<String> matchingCase = Arrays.asList("case 7 ", "case 10 ", "case 11 ", "case 13 ",
+                    "case 15 ", "case 16 ", "case 17 ", "case 25 ", "case 28 ", "case 29",
+                    "case 31", "case 33 ", "case 34 ", "case 35");
+            List<String> result = new ArrayList<String>();
+            for (String line : lines) {
+                // LOG.info("{}",line);
+                if (LocUtil.matching(line, regex)) {
+                    LOG.info("{}", line);
+                    result.add(line);
+                }
+            }
+            assertEquals(matchingCase.size(), result.size());
+            boolean isMatch = false;
+            for (String line : result) {
+                isMatch = false;
+                LOG.info("verify:{}", line);
+                for (String match : matchingCase) {
+                    if (line.indexOf(match) >= 0) {
+                        isMatch = true;
+                        break;
+                    }
+                }
+                assertEquals(true, isMatch);
+            }
+
+        } catch (SdongException e) {
+            LOG.error(e.getMessage());
+            fail("should not get exception!");
+        }
+    }
+
+    @Test
+    public void testMathingReg_MULTILINE_END() {
+        String fileName = "input/loc/loc_cases.c";
+        List<String> lines;
+        try {
+            lines = FileUtil.readFileToStringList(fileName);
+
+            String regex = LocUtil.REG_MUTLILINE_END;
+            List<String> matchingCase = Arrays.asList("case 2 ", "case 3 ", "case 7 ", "case 10 ",
+                    "case 11 ", "case 16 ", "case 17 ", "case 21 ", "case 25 ", "case 28 ",
+                    "case 29 ", "case 34 ", "case 35 ");
+            List<String> result = new ArrayList<String>();
+            for (String line : lines) {
+                // LOG.info("{}",line);
+                if (LocUtil.matching(line, regex)) {
+                    LOG.info("{}", line);
+                    result.add(line);
+                }
+            }
+            assertEquals(matchingCase.size(), result.size());
+            boolean isMatch = false;
+            for (String line : result) {
+                isMatch = false;
+                LOG.info("verify:{}", line);
+                for (String match : matchingCase) {
+                    if (line.indexOf(match) >= 0) {
+                        isMatch = true;
+                        break;
+                    }
+                }
+                assertEquals(true, isMatch);
+            }
+
+        } catch (SdongException e) {
+            LOG.error(e.getMessage());
+            fail("should not get exception!");
+        }
+    }
 }
