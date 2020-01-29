@@ -14,10 +14,11 @@ import sdong.common.exception.SdongException;
  */
 public class LocUtil {
     private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
-    public static final String REG_ONELINE = "(^/\\*[^\\*/]*\\*/(\\s*/\\*[^\\*/]*\\*/)*\\s*(//.*)*)|(^//.*)";
-    public static final String REG_MUTLILINE_START = "^/\\*[^\\*/]*";
+    public static final String REG_ONELINE = "/\\*.*?\\*/|//.*";
+    public static final String REG_MUTLILINE_START = "^/\\*.*(?!\\*/)";
     public static final String REG_MUTLILINE_END = "[^\\*/]*\\*/(\\s*/\\*[^\\*/]*\\*/)*\\s*(//.*)*";
-    public static final String REG_MUTLILINE_START_WITH_CODE = "(/\\*.[^\\*/]*\\*/)*.+(/\\*.[^\\*/]*\\*/)*/\\*.[^\\*/]*";
+    public static final String REG_MUTLILINE_START_WITH_CODE =
+            "(/\\*.[^\\*/]*\\*/)*.+(/\\*.[^\\*/]*\\*/)*/\\*.[^\\*/]*";
 
     public static FileInfo getFileLocInfo(String fileName) throws SdongException {
         FileInfo fileInfo = new FileInfo();
@@ -28,18 +29,18 @@ public class LocUtil {
         try (BufferedReader bfr =
                 new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));) {
             String line = null;
+            String result = null;
             while ((line = bfr.readLine()) != null) {
                 line = line.trim();
-                if (line.isEmpty()) {
+                result = line.replaceAll(REG_ONELINE, "").trim();
+                if (result.isEmpty()) {
                     fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
-                } else if (line.matches(REG_ONELINE)) {
-                    fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                } else if (line.matches(REG_MUTLILINE_START)) {
+                } else if (result.startsWith("//*")) {
                     fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
                     while ((line = bfr.readLine()) != null) {
                         line = line.trim();
                         fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                        if (line.matches(REG_MUTLILINE_END)) {
+                        if (matching(line, REG_MUTLILINE_END)) {
                             break;
                         }
                     }
@@ -53,7 +54,29 @@ public class LocUtil {
         return fileInfo;
     }
 
-    public static boolean matching(String str, String regex){
-        return str.matches(regex);
+    public static boolean matching(String str, String regex) {
+        // return str.matches(regex);
+        String result = str.replaceAll(regex, "");
+        if (result.trim().isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean matchingStartLine(String str, String regex) {
+        // return str.matches(regex);
+        String result = str.replaceAll(regex, "").trim();
+        return result.startsWith("/*");
+    }
+
+    public static boolean matchingStartLineWithCode(String str, String regex) {
+        // return str.matches(regex);
+        String result = str.replaceAll(regex, "").trim();
+        if (result.isEmpty() || result.startsWith("/*")) {
+            return false;
+        } else {
+            return result.matches(".*?/\\*.*");
+        }
     }
 }

@@ -108,3 +108,12 @@ char *p = "/* case 37 */ // case 37";
 /* case 40 */ /* case 40 */ /* case 40 */ // case 40 case 40
 
 /* case 41 */ int c = 0; // case 41 /* case 41 case 41
+
+/* case 42 /* case 42
+ case 42 case 42
+ case 42 */ 
+
+/* case 43 /* case 43 */ /* case 43 /* /* */ 
+
+/* case 44 /* case 44 */ /* case 44 /* /* */  //cases 44
+

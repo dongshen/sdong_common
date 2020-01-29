@@ -60,28 +60,15 @@ public class LocUtilTest {
 
             String regex = LocUtil.REG_ONELINE;
             List<String> matchingCase = Arrays.asList("case 1 ", "case 18 ", "case 20 ", "case 38 ",
-                    "case 39 ", "case 40 ");
+                    "case 39 ", "case 40 ", "case 43 ", "case 44 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
-                // LOG.info("{}",line);
-                if (LocUtil.matching(line, regex)) {
+                if (!line.trim().isEmpty() && LocUtil.matching(line, regex)) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
             }
-            assertEquals(matchingCase.size(), result.size());
-            boolean isMatch = false;
-            for (String line : result) {
-                isMatch = false;
-                LOG.info("verify:{}", line);
-                for (String match : matchingCase) {
-                    if (line.indexOf(match) >= 0) {
-                        isMatch = true;
-                        break;
-                    }
-                }
-                assertEquals(true, isMatch);
-            }
+            verifyResult(matchingCase, result);
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());
@@ -96,30 +83,18 @@ public class LocUtilTest {
         try {
             lines = FileUtil.readFileToStringList(fileName);
 
-            String regex = LocUtil.REG_MUTLILINE_START;
+            String regex = LocUtil.REG_ONELINE;
             List<String> matchingCase = Arrays.asList("case 2 ", "case 3 ", "case 5 ", "case 9 ",
-                    "case 11 ", "case 21 ", "case 23 ", "case 27 ", "case 29 ");
+                    "case 11 ", "case 21 ", "case 23 ", "case 27 ", "case 29 ", "case 42 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 // LOG.info("{}",line);
-                if (LocUtil.matching(line, regex)) {
+                if (!line.trim().isEmpty() && LocUtil.matchingStartLine(line, regex)) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
             }
-            assertEquals(matchingCase.size(), result.size());
-            boolean isMatch = false;
-            for (String line : result) {
-                isMatch = false;
-                LOG.info("verify:{}", line);
-                for (String match : matchingCase) {
-                    if (line.indexOf(match) >= 0) {
-                        isMatch = true;
-                        break;
-                    }
-                }
-                assertEquals(true, isMatch);
-            }
+            verifyResult(matchingCase, result);
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());
@@ -134,31 +109,19 @@ public class LocUtilTest {
         try {
             lines = FileUtil.readFileToStringList(fileName);
 
-            String regex = LocUtil.REG_MUTLILINE_START_WITH_CODE;
+            String regex = LocUtil.REG_ONELINE;
             List<String> matchingCase = Arrays.asList("case 7 ", "case 10 ", "case 11 ", "case 13 ",
-                    "case 15 ", "case 16 ", "case 17 ", "case 25 ", "case 28 ", "case 29",
-                    "case 31", "case 33 ", "case 34 ", "case 35");
+                    "case 15 ", "case 16 ", "case 17 ", "case 17 ", "case 25 ", "case 28 ",
+                    "case 29", "case 31", "case 33 ", "case 34 ", "case 35", "case 35");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 // LOG.info("{}",line);
-                if (LocUtil.matching(line, regex)) {
+                if (!line.trim().isEmpty() && LocUtil.matchingStartLineWithCode(line, regex)) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
             }
-            assertEquals(matchingCase.size(), result.size());
-            boolean isMatch = false;
-            for (String line : result) {
-                isMatch = false;
-                LOG.info("verify:{}", line);
-                for (String match : matchingCase) {
-                    if (line.indexOf(match) >= 0) {
-                        isMatch = true;
-                        break;
-                    }
-                }
-                assertEquals(true, isMatch);
-            }
+            verifyResult(matchingCase, result);
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());
@@ -180,28 +143,32 @@ public class LocUtilTest {
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 // LOG.info("{}",line);
-                if (LocUtil.matching(line, regex)) {
+                if (!line.trim().isEmpty() && LocUtil.matching(line, regex)) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
             }
-            assertEquals(matchingCase.size(), result.size());
-            boolean isMatch = false;
-            for (String line : result) {
-                isMatch = false;
-                LOG.info("verify:{}", line);
-                for (String match : matchingCase) {
-                    if (line.indexOf(match) >= 0) {
-                        isMatch = true;
-                        break;
-                    }
-                }
-                assertEquals(true, isMatch);
-            }
+            verifyResult(matchingCase, result);
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
+        }
+    }
+
+    private void verifyResult(List<String> matchingCase, List<String> result) {
+        assertEquals(matchingCase.size(), result.size());
+        boolean isMatch = false;
+        for (String line : result) {
+            isMatch = false;
+            LOG.info("verify:{}", line);
+            for (String match : matchingCase) {
+                if (line.indexOf(match) >= 0) {
+                    isMatch = true;
+                    break;
+                }
+            }
+            assertEquals(true, isMatch);
         }
     }
 }
