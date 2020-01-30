@@ -14,7 +14,7 @@ import sdong.common.exception.SdongException;
  */
 public class LocUtil {
     private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
-    public static final String REG_ONELINE = "/\\*.*?\\*/|//.*";
+    public static final String REG_ONELINE = "\\/\\*.*?\\*\\/|\\/\\/.*";
     public static final String REG_MUTLILINE_START = "^/\\*.*(?!\\*/)";
     public static final String REG_MUTLILINE_END = "[^\\*/]*\\*/(\\s*/\\*[^\\*/]*\\*/)*\\s*(//.*)*";
     public static final String REG_MUTLILINE_START_WITH_CODE =
@@ -32,26 +32,53 @@ public class LocUtil {
             String result = null;
             while ((line = bfr.readLine()) != null) {
                 line = line.trim();
-                result = line.replaceAll(REG_ONELINE, "").trim();
-                if (result.isEmpty()) {
+
+                if (line.isEmpty()) {
                     fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
-                } else if (result.startsWith("//*")) {
-                    fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                    while ((line = bfr.readLine()) != null) {
-                        line = line.trim();
+                } else {
+                    result = line.replaceAll(REG_ONELINE, "").trim();
+                    if (result.isBlank()) {
                         fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                        if (matching(line, REG_MUTLILINE_END)) {
-                            break;
+                    } else if (result.startsWith("/*")) {
+                        fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
+                        while ((line = bfr.readLine()) != null) {
+                            line = line.trim();
+                            fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
+                            if (matching(line, REG_MUTLILINE_END)) {
+                                break;
+                            }
                         }
+                    } else if (result.matches(".*?/\\*.*")) {
+
                     }
                 }
             }
             bfr.close();
-        } catch (IOException e) {
+        } catch (
+
+        IOException e) {
             LOG.error(e.getMessage(), e);
             throw new SdongException(e.getMessage());
         }
         return fileInfo;
+    }
+
+    private static void multiCommentLine(BufferedReader bfr, FileInfo fileInfo) throws IOException {
+        String line = null;
+        String result = null;
+        while ((line = bfr.readLine()) != null) {
+            line = line.trim();
+            if (line.isEmpty()) {
+                fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
+                continue;
+            }
+            result = line.replaceAll(REG_ONELINE, "").trim();
+            if (result.isBlank()) {
+                fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
+                continue;
+            }
+
+        }
     }
 
     public static boolean matching(String str, String regex) {
@@ -78,5 +105,15 @@ public class LocUtil {
         } else {
             return result.matches(".*?/\\*.*");
         }
+    }
+
+    public static boolean matchingEndLine(String str, String regex) {
+        String result = str.replaceAll(regex, "").trim();
+        if (result.isEmpty() || result.startsWith("/*")) {
+            return false;
+        } else if (result.endsWith("*/")) {
+            return true;
+        }
+        return false;
     }
 }

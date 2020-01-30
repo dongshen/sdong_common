@@ -136,14 +136,14 @@ public class LocUtilTest {
         try {
             lines = FileUtil.readFileToStringList(fileName);
 
-            String regex = LocUtil.REG_MUTLILINE_END;
+            String regex = LocUtil.REG_ONELINE;
             List<String> matchingCase = Arrays.asList("case 2 ", "case 3 ", "case 7 ", "case 10 ",
                     "case 11 ", "case 16 ", "case 17 ", "case 21 ", "case 25 ", "case 28 ",
-                    "case 29 ", "case 34 ", "case 35 ");
+                    "case 29 ", "case 34 ", "case 35 ", "case 42 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 // LOG.info("{}",line);
-                if (!line.trim().isEmpty() && LocUtil.matching(line, regex)) {
+                if (!line.trim().isEmpty() && LocUtil.matchingEndLine(line, regex)) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
