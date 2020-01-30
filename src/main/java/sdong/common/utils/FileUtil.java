@@ -123,10 +123,9 @@ public class FileUtil {
 		return Paths.get(directory, fileName).toString();
 	}
 
-	public static byte[] readFileToByteArray(String filename) throws SdongException {
+	public static byte[] readFileToByteArray(String fileName) throws SdongException {
 
-		File f = new File(filename);
-
+		File f = new File(fileName);
 		try (FileInputStream fs = new FileInputStream(f); FileChannel channel = fs.getChannel();) {
 			ByteBuffer byteBuffer = ByteBuffer.allocate((int) channel.size());
 			channel.read(byteBuffer);

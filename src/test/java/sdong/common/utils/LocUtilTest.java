@@ -33,6 +33,7 @@ public class LocUtilTest {
         int blankLineCounts = result.length;
         int commentLineCount = 0;
         int commentInLineCounts = 0;
+        int rowLineCounts = 123;
         for (int[] value : result) {
             commentLineCount = commentLineCount + value[1];
             commentInLineCounts = commentInLineCounts + value[2];
@@ -46,6 +47,8 @@ public class LocUtilTest {
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+            assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
+            assertEquals("d081f9c66cd6ffdc4a409c769a5f2994", fileInfo.getMd5());
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());
@@ -97,6 +100,7 @@ public class LocUtilTest {
         int commentLineCount = 61;
         int blankLineCounts = 57;
         int commentInLineCounts = 14;
+        int rowLineCounts=276;
         try {
             FileInfo fileInfo = LocUtil.getFileLocInfo(fileName);
 
@@ -104,6 +108,8 @@ public class LocUtilTest {
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+            assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
+            assertEquals("76d288ef9ee8fb425a26a16ef630d8c6", fileInfo.getMd5());
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());
@@ -117,6 +123,7 @@ public class LocUtilTest {
         int commentLineCount = 8;
         int blankLineCounts = 5;
         int commentInLineCounts = 0;
+        int rowLineCounts=20;
         try {
             FileInfo fileInfo = LocUtil.getFileLocInfo(fileName);
 
@@ -124,6 +131,8 @@ public class LocUtilTest {
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+            assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
+            assertEquals("482209ab4b6db0921a93550b6fdeeb20", fileInfo.getMd5());
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());

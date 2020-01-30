@@ -25,6 +25,9 @@ public class LocUtil {
             fileInfo = getFileLocInfo(reader);
             File file = new File(fileName);
             fileInfo.setFileSize(file.length());
+            fileInfo.setMd5(Util.generateFileMd5(fileName));
+            fileInfo.setLineCounts(fileInfo.getRowLineCounts() - fileInfo.getBlankLineCounts()
+                    - fileInfo.getCommentCounts());
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new SdongException(e.getMessage());
@@ -41,7 +44,7 @@ public class LocUtil {
             String result = null;
             while ((line = bfr.readLine()) != null) {
                 line = line.trim();
-
+                fileInfo.setRowLineCounts(fileInfo.getRowLineCounts() + 1);
                 if (line.isEmpty()) {
                     fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
                 } else {
@@ -73,6 +76,7 @@ public class LocUtil {
         String result = null;
         while ((line = bfr.readLine()) != null) {
             line = line.trim();
+            fileInfo.setRowLineCounts(fileInfo.getRowLineCounts() + 1);
 
             // blank line in comments
             if (line.isEmpty()) {
@@ -107,6 +111,7 @@ public class LocUtil {
                 }
                 break;
             }
+
             // still in multiple lines comments
             fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
         }
@@ -127,7 +132,6 @@ public class LocUtil {
     }
 
     public static boolean matchingStartLineWithCode(String str, String regex) {
-        // return str.matches(regex);
         String result = str.replaceAll(regex, "").trim();
         if (result.isEmpty() || result.startsWith("/*")) {
             return false;
