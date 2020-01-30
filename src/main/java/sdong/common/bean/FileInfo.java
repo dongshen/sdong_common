@@ -11,7 +11,7 @@ public class FileInfo implements Serializable {
     int commentCounts;
     int blankLineCounts;
     int commentInLineCounts;
-    int fileSize;
+    long fileSize;
     String md5;
 
     public int getLineCounts() {
@@ -62,11 +62,11 @@ public class FileInfo implements Serializable {
         this.rowLineCounts = rowLineCounts;
     }
 
-    public int getFileSize() {
+    public long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(int fileSize) {
+    public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
 
