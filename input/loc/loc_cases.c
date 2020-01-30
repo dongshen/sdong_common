@@ -117,3 +117,6 @@ char *p = "/* case 37 */ // case 37";
 
 /* case 44 /* case 44 */ /* case 44 /* /* */  //cases 44
 
+/* case 45 */ /* case 45 case 45
+case 45 */ /* case 45 case 45
+case 45 */

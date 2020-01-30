@@ -4,11 +4,14 @@ import java.io.Serializable;
 
 public class FileInfo implements Serializable {
 
-	private static final long serialVersionUID = -4954627059067418661L;
+    private static final long serialVersionUID = -4954627059067418661L;
 
-	int lineCounts;
+    int rowLineCounts;
+    int lineCounts;
     int commentCounts;
     int blankLineCounts;
+    int commentInLineCounts;
+    int fileSize;
     String md5;
 
     public int getLineCounts() {
@@ -43,11 +46,35 @@ public class FileInfo implements Serializable {
         this.md5 = md5;
     }
 
+    public int getCommentInLineCounts() {
+        return commentInLineCounts;
+    }
+
+    public void setCommentInLineCounts(int commentInLineCounts) {
+        this.commentInLineCounts = commentInLineCounts;
+    }
+
+    public int getRowLineCounts() {
+        return rowLineCounts;
+    }
+
+    public void setRowLineCounts(int rowLineCounts) {
+        this.rowLineCounts = rowLineCounts;
+    }
+
+    public int getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(int fileSize) {
+        this.fileSize = fileSize;
+    }
+
     @Override
     public String toString() {
         return "FileInfo [blankLineCounts=" + blankLineCounts + ", commentCounts=" + commentCounts
-                + ", lineCounts=" + lineCounts + ", md5=" + md5 + "]";
+                + ", commentInLineCounts=" + commentInLineCounts + ", fileSize=" + fileSize
+                + ", lineCounts=" + lineCounts + ", md5=" + md5 + ", rowLineCounts=" + rowLineCounts
+                + "]";
     }
-
-    
 }

@@ -18,14 +18,16 @@ public class LocUtilTest {
     @Test
     public void testGetFileLocInfo_case() {
         String fileName = "input/loc/loc_cases.c";
-        int commentLineCount = 27;
-        int blankLineCounts = 36;
+        int commentLineCount = 122-44-35-2;
+        int blankLineCounts = 44;
+        int commentInLineCounts = 35;
         try {
             FileInfo fileInfo = LocUtil.getFileLocInfo(fileName);
 
             LOG.info("{}", fileInfo.toString());
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
+            assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());
@@ -144,6 +146,57 @@ public class LocUtilTest {
             for (String line : lines) {
                 // LOG.info("{}",line);
                 if (!line.trim().isEmpty() && LocUtil.matchingEndLine(line, regex)) {
+                    LOG.info("{}", line);
+                    result.add(line);
+                }
+            }
+            verifyResult(matchingCase, result);
+
+        } catch (SdongException e) {
+            LOG.error(e.getMessage());
+            fail("should not get exception!");
+        }
+    }
+
+    @Test
+    public void testMathingReg_MULTILINE_END_WITH_CODE() {
+        String fileName = "input/loc/loc_cases.c";
+        List<String> lines;
+        try {
+            lines = FileUtil.readFileToStringList(fileName);
+
+            String regex = LocUtil.REG_ONELINE;
+            List<String> matchingCase = Arrays.asList("case 5 ", "case 9 ", "case 13 ", "case 15 ",
+                    "case 23 ", "case 27 ", "case 31 ", "case 33 ");
+            List<String> result = new ArrayList<String>();
+            for (String line : lines) {
+                // LOG.info("{}",line);
+                if (!line.trim().isEmpty() && LocUtil.matchingEndLineWithCode(line, regex)) {
+                    LOG.info("{}", line);
+                    result.add(line);
+                }
+            }
+            verifyResult(matchingCase, result);
+
+        } catch (SdongException e) {
+            LOG.error(e.getMessage());
+            fail("should not get exception!");
+        }
+    }
+
+    @Test
+    public void testMathingReg_MULTILINE_END_WITH_CODE_AND_START_AGAIN() {
+        String fileName = "input/loc/loc_cases.c";
+        List<String> lines;
+        try {
+            lines = FileUtil.readFileToStringList(fileName);
+
+            String regex = LocUtil.REG_ONELINE;
+            List<String> matchingCase = Arrays.asList("case 11 ", "case 17 ", "case 29 ", "case 35 ");
+            List<String> result = new ArrayList<String>();
+            for (String line : lines) {
+                // LOG.info("{}",line);
+                if (!line.trim().isEmpty() && LocUtil.matchingEndLineWithCodeAndStarAgain(line, regex)) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
