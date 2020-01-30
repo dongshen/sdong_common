@@ -23,7 +23,7 @@ public class LocUtilTest {
                     {0, 0, 1}, {0, 1, 0}, /* case 21 */{0, 2, 0}, {0, 0, 1}, {0, 1, 1}, {0, 0, 1},
                     {0, 2, 1}, /* case 26 */ {0, 0, 1}, {0, 1, 1}, {0, 1, 1}, {0, 2, 1}, {0, 0, 1},
                     /* case 31 */ {0, 0, 2}, {0, 0, 1}, {0, 0, 2}, {0, 1, 1}, {0, 1, 2},
-                    /* csae 36 */ {0, 0, 1}, {0, 0, 1}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0},
+                    /* csae 36 */ {0, 0, 0}, {0, 0, 0}, {0, 1, 0}, {0, 1, 0}, {0, 1, 0},
                     /* case 41 */ {0, 0, 1}, {0, 3, 0}, {0, 1, 0}, {0, 1, 0}, {0, 3, 0}};
     // case 36,37 has issue comment in string value;
 
@@ -92,16 +92,38 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testGetFileLocInfo() {
+    public void testGetFileLocInfo_C() {
         String fileName = "input/loc/loc_example.c";
-        int commentLineCount = 57;
-        int blankLineCounts = 64;
+        int commentLineCount = 61;
+        int blankLineCounts = 57;
+        int commentInLineCounts = 14;
         try {
             FileInfo fileInfo = LocUtil.getFileLocInfo(fileName);
 
             LOG.info("{}", fileInfo.toString());
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
+            assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+
+        } catch (SdongException e) {
+            LOG.error(e.getMessage());
+            fail("should not get exception!");
+        }
+    }
+
+    @Test
+    public void testGetFileLocInfo_Java() {
+        String fileName = "input/loc/loc_example.java";
+        int commentLineCount = 8;
+        int blankLineCounts = 5;
+        int commentInLineCounts = 0;
+        try {
+            FileInfo fileInfo = LocUtil.getFileLocInfo(fileName);
+
+            LOG.info("{}", fileInfo.toString());
+            assertEquals(commentLineCount, fileInfo.getCommentCounts());
+            assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
+            assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());
@@ -265,6 +287,14 @@ public class LocUtilTest {
             LOG.error(e.getMessage());
             fail("should not get exception!");
         }
+    }
+
+    @Test
+    public void testGetFileLocInfoQuestionMark() {
+        String input = "char *p = \"/* case 37 */ // case 37\";";
+        String result = input.replaceAll(LocUtil.REG_ONELINE, "");
+        LOG.info("result:{}", result);
+
     }
 
     private void verifyResult(List<String> matchingCase, List<String> result) {

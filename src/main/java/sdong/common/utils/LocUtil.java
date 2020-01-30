@@ -1,6 +1,7 @@
 package sdong.common.utils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,12 +16,15 @@ import sdong.common.exception.SdongException;
  */
 public class LocUtil {
     private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
+    public static final String REG_QUESTION_MARK = "\".*?\"";
     public static final String REG_ONELINE = "\\/\\*.*?\\*\\/|\\/\\/.*";
 
     public static FileInfo getFileLocInfo(String fileName) throws SdongException {
         FileInfo fileInfo = new FileInfo();
         try (Reader reader = new InputStreamReader(new FileInputStream(fileName))) {
             fileInfo = getFileLocInfo(reader);
+            File file = new File(fileName);
+            fileInfo.setFileSize(file.length());
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new SdongException(e.getMessage());
@@ -41,6 +45,7 @@ public class LocUtil {
                 if (line.isEmpty()) {
                     fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
                 } else {
+                    line = line.replaceAll(REG_QUESTION_MARK, "").trim();
                     result = line.replaceAll(REG_ONELINE, "").trim();
                     if (result.isBlank()) {
                         fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
