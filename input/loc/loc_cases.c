@@ -121,3 +121,11 @@ char *p = "/* case 37 */ // case 37";
 case 45 */ /* case 45 case 45
 case 45 */
 
+void foo(){
+  printf("/* case 46 ");
+  for(i =0 ;i<100; i++){
+    a += i;
+  }
+  printf("caes 46 */");
+}
+
