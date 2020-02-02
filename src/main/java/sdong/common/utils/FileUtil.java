@@ -1,5 +1,9 @@
 package sdong.common.utils;
 
+import com.google.common.io.Files;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,50 +14,51 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.io.FilenameUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import sdong.common.exception.SdongException;
 
 public class FileUtil {
 
+	public static final String DEFAULT_FILE_ENCODING = "UTF-8";
+
 	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
 	public static List<String> readFileToStringList(String fileName) throws SdongException {
-		List<String> astContent = null;
+		return readFileToStringList(fileName, DEFAULT_FILE_ENCODING);
+	}
+
+	public static List<String> readFileToStringList(String fileName, String encoding) throws SdongException {
+		List<String> contentList = null;
 		try {
-			Path path = Paths.get(fileName);
-			astContent = Files.readAllLines(path);
+			String fileEncoding = encoding;
+			if (fileEncoding == null) {
+				fileEncoding = EncodingUtil.defectFileEncoding(fileName);
+			}
+
+			contentList = Files.readLines(new File(fileName), Charset.forName(fileEncoding));
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e.getMessage());
 		}
-		return astContent;
+		return contentList;
 	}
 
 	// read file content into a string
-	public static String readFileToString(String filePath) throws SdongException {
-		String content = null;
-		try {
-			File file = new File(filePath);
-			if (!file.exists()) {
-				throw new SdongException("file:" + filePath + " not exists!");
-			}
-			content = new String(Files.readAllBytes(file.toPath()), Charset.forName("UTF-8"));
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-			throw new SdongException(e.getMessage());
+	public static String readFileToString(String fileName) throws SdongException {
+		return readFileToString(fileName, DEFAULT_FILE_ENCODING);
+	}
+
+	public static String readFileToString(String fileName, String encoding) throws SdongException {
+		String fileEncoding = encoding;
+		if (fileEncoding == null) {
+			fileEncoding = EncodingUtil.defectFileEncoding(fileName);
 		}
-		return content;
+		return new String(readFileToByteArray(fileName), Charset.forName(fileEncoding));
 	}
 
 	public static String getCurrentFilePath() throws IOException {
@@ -63,31 +68,51 @@ public class FileUtil {
 	}
 
 	public static String getFileSuffix(String fileName) {
-		return FilenameUtils.getExtension(fileName);
+		return Files.getFileExtension(fileName);
 	}
 
-	public static List<String> getFilesInFolder(String dirPath) {
+	public static List<String> getFilesInFolder2(String dirPath) throws SdongException {
 
 		List<String> fileList = new ArrayList<String>();
 
-		File root = new File(dirPath);
-		if (!root.isDirectory()) {
-			fileList.add(root.getAbsolutePath());
-			return fileList;
-		}
-
-		File[] files = root.listFiles();
-		String filePath = null;
-
-		for (File f : files) {
-			filePath = f.getAbsolutePath();
-			if (f.isFile()) {
-				fileList.add(filePath);
-			} else if (f.isDirectory()) {
-				fileList.addAll(getFilesInFolder(filePath));
+		try {
+			File root = new File(dirPath);
+			if (!root.isDirectory()) {
+				fileList.add(root.getCanonicalPath());
+				return fileList;
 			}
-		}
 
+			File[] files = root.listFiles();
+			String filePath = null;
+
+			for (File file : files) {
+				filePath = file.getCanonicalPath();
+				if (file.isFile()) {
+					fileList.add(filePath);
+				} else if (file.isDirectory()) {
+					fileList.addAll(getFilesInFolder(filePath));
+				}
+			}
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			throw new SdongException(e.getMessage());
+		}
+		return fileList;
+
+	}
+
+	public static List<String> getFilesInFolder(String folder) throws SdongException {
+		List<String> fileList = new ArrayList<String>();
+		try {
+			for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
+				if (file.isFile()) {
+					fileList.add(file.getCanonicalPath());
+				}
+			}
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			throw new SdongException(e.getMessage());
+		}
 		return fileList;
 
 	}
@@ -144,7 +169,7 @@ public class FileUtil {
 	 * @throws SdongException
 	 */
 	public static byte[] readFileToByteArray2(String filename) throws SdongException {
-		
+
 		try (RandomAccessFile rf = new RandomAccessFile(filename, "r"); FileChannel fc = rf.getChannel();) {
 			MappedByteBuffer byteBuffer = fc.map(MapMode.READ_ONLY, 0, fc.size()).load();
 
@@ -156,7 +181,7 @@ public class FileUtil {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
-		} 
+		}
 	}
 
 	@Deprecated
@@ -164,7 +189,7 @@ public class FileUtil {
 		byte[] result = null;
 		File file = new File(filename);
 		try {
-			result = com.google.common.io.Files.toByteArray(file);
+			result = Files.toByteArray(file);
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
@@ -173,22 +198,25 @@ public class FileUtil {
 		return result;
 	}
 
-	public static Path writeBytesToFile(byte[] outputBytes, String fileName) throws SdongException {
+	public static void writeBytesToFile(byte[] outputBytes, String fileName) throws SdongException {
 		try {
-			File file = createFile(fileName);
-			return Files.write(file.toPath(), outputBytes);
+			Files.write(outputBytes, createFile(fileName));
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
 		}
 	}
-	
+
 	public static File createFile(String fileName) {
-		File file = new  File(fileName);
+		File file = new File(fileName);
 		File parent = file.getParentFile();
-		if(!parent.exists()){
+		if (!parent.exists()) {
 			parent.mkdirs();
 		}
 		return file;
+	}
+
+	public static void copyFile(String fromFile, String toFile) throws IOException {
+		Files.copy(new File(fromFile), createFile(toFile));
 	}
 }
