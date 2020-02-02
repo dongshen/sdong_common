@@ -1,0 +1,63 @@
+idc,C
+cats,C
+c,C
+tpp,C++
+tcc,C++
+ipp,C++
+h++,C++
+C,C++
+cc,C++
+c++,C++
+cpp,C++
+CPP,C++
+cxx,C++
+ec,C
+h,C/C++ Header
+H,C/C++ Header
+hh,C/C++ Header
+hpp,C/C++ Header
+hxx,C/C++ Header
+inl,C++
+pcc,C++
+pgc,C
+java,Java
+xsjslib,JavaScript
+xsjs,JavaScript
+ssjs,JavaScript
+sjs,JavaScript
+pac,JavaScript
+njs,JavaScript
+mjs,JavaScript
+jss,JavaScript
+jsm,JavaScript
+jsfl,JavaScript
+jscad,JavaScript
+jsb,JavaScript
+jakefile,JavaScript
+jake,JavaScript
+bones,JavaScript
+_js,JavaScript
+js,JavaScript
+es6,JavaScript
+jsf,JavaServer Faces
+xpy,Python
+wsgi,Python
+wscript,Python
+workspace,Python
+tac,Python
+snakefile,Python
+sconstruct,Python
+sconscript,Python
+pyt,Python
+pyp,Python
+pyi,Python
+pyde,Python
+py3,Python
+lmi,Python
+gypi,Python
+gyp,Python
+build.bazel,Python
+buck,Python
+gclient,Python
+py,Python
+pyw,Python

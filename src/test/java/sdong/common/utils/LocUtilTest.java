@@ -16,14 +16,15 @@ public class LocUtilTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(LocUtilTest.class);
 
-    private static final int[][] result = { { 0, 1, 0 }, { 0, 3, 0 }, { 0, 3, 0 }, { 0, 0, 1 }, { 0, 1, 1 },
-            /* case 6 */ { 0, 0, 1 }, { 0, 2, 1 }, { 0, 0, 1 }, { 0, 1, 1 }, { 0, 1, 1 }, /* case 11 */ { 0, 2, 1 },
-            { 0, 0, 1 }, { 0, 0, 2 }, { 0, 0, 1 }, { 0, 0, 2 }, /* case 16 */ { 0, 1, 1 }, { 0, 1, 2 }, { 0, 1, 0 },
-            { 0, 0, 1 }, { 0, 1, 0 }, /* case 21 */{ 0, 2, 0 }, { 0, 0, 1 }, { 0, 1, 1 }, { 0, 0, 1 }, { 0, 2, 1 },
-            /* case 26 */ { 0, 0, 1 }, { 0, 1, 1 }, { 0, 1, 1 }, { 0, 2, 1 }, { 0, 0, 1 }, /* case 31 */ { 0, 0, 2 },
-            { 0, 0, 1 }, { 0, 0, 2 }, { 0, 1, 1 }, { 0, 1, 2 }, /* csae 36 */ { 0, 0, 0 }, { 0, 0, 0 }, { 0, 1, 0 },
-            { 0, 1, 0 }, { 0, 1, 0 }, /* case 41 */ { 0, 0, 1 }, { 0, 3, 0 }, { 0, 1, 0 }, { 0, 1, 0 }, { 0, 3, 0 },
-            /* case 46 */{ 0, 0, 0 } };
+    // test csae result. 0:blank line; 1:comment line; 2:comment in line;
+    private static final int[][] result = { { 0, 1, 0 }, /* case 1 */{ 0, 1, 0 }, { 0, 3, 0 }, { 0, 3, 0 }, { 0, 0, 1 },
+            { 0, 1, 1 }, /* case 6 */ { 0, 0, 1 }, { 0, 2, 1 }, { 0, 0, 1 }, { 0, 1, 1 }, { 0, 1, 1 },
+            /* case 11 */ { 0, 2, 1 }, { 0, 0, 1 }, { 0, 0, 2 }, { 0, 0, 1 }, { 0, 0, 2 }, /* case 16 */ { 0, 1, 1 },
+            { 0, 1, 2 }, { 0, 1, 0 }, { 0, 0, 1 }, { 0, 1, 0 }, /* case 21 */{ 0, 2, 0 }, { 0, 0, 1 }, { 0, 1, 1 },
+            { 0, 0, 1 }, { 0, 2, 1 }, /* case 26 */ { 0, 0, 1 }, { 0, 1, 1 }, { 0, 1, 1 }, { 0, 2, 1 }, { 0, 0, 1 },
+            /* case 31 */ { 0, 0, 2 }, { 0, 0, 1 }, { 0, 0, 2 }, { 0, 1, 1 }, { 0, 1, 2 }, /* csae 36 */ { 0, 0, 0 },
+            { 0, 0, 0 }, { 0, 1, 0 }, { 0, 1, 0 }, { 0, 1, 0 }, /* case 41 */ { 0, 0, 1 }, { 0, 3, 0 }, { 0, 1, 0 },
+            { 0, 1, 0 }, { 0, 3, 0 }, /* case 46 */{ 0, 0, 0 } };
 
     @Test
     public void testGetFileLocInfo_case() {
@@ -31,7 +32,7 @@ public class LocUtilTest {
         int blankLineCounts = result.length;
         int commentLineCount = 0;
         int commentInLineCounts = 0;
-        int rowLineCounts = 131;
+        int rowLineCounts = 133;
         for (int[] value : result) {
             commentLineCount = commentLineCount + value[1];
             commentInLineCounts = commentInLineCounts + value[2];
@@ -46,7 +47,7 @@ public class LocUtilTest {
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
-            assertEquals("d081f9c66cd6ffdc4a409c769a5f2994", fileInfo.getMd5());
+            assertEquals("e40cf78bbd6015968b384d6f19244e24", fileInfo.getMd5());
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());

@@ -1,3 +1,5 @@
+//  133 lines, blankLineCounts=47, commentCounts=41, commentInLineCounts=36, fileSize=2805, lineCounts=45, rowLineCounts=133
+
 /* case 1 */
 
 /* case 2 caes 2
