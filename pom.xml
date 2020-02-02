@@ -52,6 +52,13 @@
 			<artifactId>tika-parsers</artifactId>
 		</dependency>
 
+		<!-- encoding -->
+		<!-- https://mvnrepository.com/artifact/com.ibm.icu/icu4j -->
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+		</dependency>
+
 		<!-- Log -->
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>

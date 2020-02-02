@@ -47,7 +47,7 @@ public class LocUtilTest {
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
-            assertEquals("e40cf78bbd6015968b384d6f19244e24", fileInfo.getMd5());
+            assertEquals("f574c9222379be2a2fc8989df32f5951", fileInfo.getMd5());
 
         } catch (SdongException e) {
             LOG.error(e.getMessage());

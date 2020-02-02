@@ -50,7 +50,7 @@ public class LocUtil {
                 } else {
                     line = line.replaceAll(REG_QUESTION_MARK, "").trim();
                     result = line.replaceAll(REG_ONELINE, "").trim();
-                    if (result.isBlank()) {
+                    if (result.isEmpty()){
                         fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
                     } else if (result.startsWith("/*")) { // /* comments
                         fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
@@ -86,7 +86,7 @@ public class LocUtil {
 
             // after remove comments is blank
             result = line.replaceAll(REG_ONELINE, "").trim();
-            if (result.isBlank()) {
+            if (result.isEmpty()) {
                 fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
                 continue;
             }
