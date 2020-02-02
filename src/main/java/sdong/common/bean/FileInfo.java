@@ -6,6 +6,7 @@ public class FileInfo implements Serializable {
 
     private static final long serialVersionUID = -4954627059067418661L;
 
+    FileType fileType;
     int rowLineCounts;
     int lineCounts;
     int commentCounts;
@@ -70,11 +71,19 @@ public class FileInfo implements Serializable {
         this.fileSize = fileSize;
     }
 
+    public FileType getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(FileType fileType) {
+        this.fileType = fileType;
+    }
+
     @Override
     public String toString() {
-        return "FileInfo [blankLineCounts=" + blankLineCounts + ", commentCounts=" + commentCounts
-                + ", commentInLineCounts=" + commentInLineCounts + ", fileSize=" + fileSize
-                + ", lineCounts=" + lineCounts + ", md5=" + md5 + ", rowLineCounts=" + rowLineCounts
-                + "]";
+        return "FileInfo [fileType=" + fileType + " ,blankLineCounts=" + blankLineCounts + ", commentCounts="
+                + commentCounts + ", commentInLineCounts=" + commentInLineCounts + ", fileSize=" + fileSize
+                + ", lineCounts=" + lineCounts + ", md5=" + md5 + ", rowLineCounts=" + rowLineCounts + "]";
     }
+
 }

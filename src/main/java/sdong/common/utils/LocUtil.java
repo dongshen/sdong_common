@@ -15,9 +15,13 @@ import sdong.common.exception.SdongException;
  * Calculate file source of line count
  */
 public class LocUtil {
-    private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
     public static final String REG_QUESTION_MARK = "\".*?\"";
     public static final String REG_ONELINE = "\\/\\*.*?\\*\\/|\\/\\/.*";
+    public static final String COMMENT_MULTIPL_START = "/*";
+    public static final String COMMENT_MULTIPL_END = "*/";
+    public static final String COMMENT_ONELINE = "//";
+
+    private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
 
     public static FileInfo getFileLocInfo(String fileName) throws SdongException {
         FileInfo fileInfo = new FileInfo();
