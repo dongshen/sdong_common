@@ -1,3 +1,4 @@
+// fileType=Java, blankLineCounts=5, commentCounts=8, commentInLineCounts=0, fileSize=269, lineCounts=7, rowLineCounts=21
 /**
  * @author xxx
  *

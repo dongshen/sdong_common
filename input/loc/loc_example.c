@@ -1,3 +1,4 @@
+// fileType=C, blankLineCounts=57, commentCounts=61, commentInLineCounts=14, fileSize=5298, lineCounts=158,rowLineCounts=277
 /*
  * Copyright (C), 1988-1999, Xxxxxx Tech. Co., Ltd.
  * FileName: xxx

@@ -2,10 +2,15 @@ package sdong.common.bean;
 
 import java.io.Serializable;
 
+/**
+ * Source file info for SLOC and md5
+ *
+ */
 public class FileInfo implements Serializable {
 
     private static final long serialVersionUID = -4954627059067418661L;
 
+    String fileName;
     FileType fileType;
     int rowLineCounts;
     int lineCounts;
@@ -79,11 +84,19 @@ public class FileInfo implements Serializable {
         this.fileType = fileType;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     @Override
     public String toString() {
-        return "FileInfo [fileType=" + fileType + " ,blankLineCounts=" + blankLineCounts + ", commentCounts="
-                + commentCounts + ", commentInLineCounts=" + commentInLineCounts + ", fileSize=" + fileSize
-                + ", lineCounts=" + lineCounts + ", md5=" + md5 + ", rowLineCounts=" + rowLineCounts + "]";
+        return "FileInfo [fileName=" + fileName + ", fileType=" + fileType + ", blankLineCounts=" + blankLineCounts
+                + ", commentCounts=" + commentCounts + ", commentInLineCounts=" + commentInLineCounts + ", fileSize="
+                + fileSize + ", lineCounts=" + lineCounts + ", md5=" + md5 + ", rowLineCounts=" + rowLineCounts + "]";
     }
 
 }

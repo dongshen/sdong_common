@@ -36,12 +36,12 @@ public class FileUtilTest {
 		String result = "";
 		String file = "abc" + File.separator + "a.java";
 
-		result = FileUtil.getFileSuffix(file);
+		result = FileUtil.getFileExtension(file);
 		assertEquals("java", result);
 
 		file = "a.cpp";
 
-		result = FileUtil.getFileSuffix(file);
+		result = FileUtil.getFileExtension(file);
 		assertEquals("cpp", result);
 
 	}

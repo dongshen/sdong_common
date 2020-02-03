@@ -8,14 +8,14 @@ public enum FileType {
     private static final String extensionJavaScript = "xsjslib,xsjs,ssjs,sjs,pac,njs,mjs,jss,jsm,jsfl,jscad,jsb,jakefile,jake,bones,_js,js,es6,jsf,";
     private static final String extensionPython = "xpy,wsgi,wscript,workspace,tac,snakefile,sconstruct,sconscript,pyt,pyp,pyi,pyde,py3,lmi,gypi,gyp,build.bazel,buck,gclient,py,pyw,";
 
-    private final String filetype;
+    private final String fileType;
 
-    private FileType(String extension) {
-        this.filetype = extension;
+    private FileType(String fileType) {
+        this.fileType = fileType;
     }
 
     public String getFileType() {
-        return filetype;
+        return fileType;
     }
 
     public static FileType getFileType(String extension) {

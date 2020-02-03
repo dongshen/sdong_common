@@ -67,7 +67,7 @@ public class FileUtil {
 		return dirPath;
 	}
 
-	public static String getFileSuffix(String fileName) {
+	public static String getFileExtension(String fileName) {
 		return Files.getFileExtension(fileName);
 	}
 
