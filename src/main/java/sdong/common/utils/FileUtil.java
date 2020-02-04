@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.LineNumberReader;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
@@ -69,6 +71,16 @@ public class FileUtil {
 
 	public static String getFileExtension(String fileName) {
 		return Files.getFileExtension(fileName);
+	}
+
+	public static int getFileLineNum(File file) throws SdongException {
+		try(LineNumberReader reader = new LineNumberReader(new FileReader(file))){
+			reader.skip(Integer.MAX_VALUE);
+			return reader.getLineNumber() + 1;
+		}catch(IOException e){
+			logger.error(e.getMessage());
+			throw new SdongException(e.getMessage());
+		}
 	}
 
 	public static List<String> getFilesInFolder2(String dirPath) throws SdongException {

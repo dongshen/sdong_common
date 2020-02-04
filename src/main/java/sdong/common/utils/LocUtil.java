@@ -20,6 +20,7 @@ import sdong.common.exception.SdongException;
 
 /**
  * Calculate file source of line count
+ *
  */
 public class LocUtil {
     public static final String REG_STRING_VALUE = "\".+?\"|'.+?'";
@@ -57,6 +58,28 @@ public class LocUtil {
         fileTypeComment.addMultiLineCommentList(multiLineComment);
         fileTypeCommentMap.put(FileType.Java, fileTypeComment);
 
+        // Go
+        fileTypeComment = new FileTypeComment(FileType.Go);
+        fileTypeComment.setRegOneline(REG_ONELINE);
+        fileTypeComment.setRegStringValue(REG_STRING_VALUE);
+        fileTypeComment.addOneLineCommentList(COMMENT_ONELINE);
+        multiLineComment = new MultipleLineComment();
+        multiLineComment.setStartComment(COMMENT_MULTIPL_START);
+        multiLineComment.setEndComent(COMMENT_MULTIPL_END);
+        fileTypeComment.addMultiLineCommentList(multiLineComment);
+        fileTypeCommentMap.put(FileType.Go, fileTypeComment);
+
+        // Kotlin
+        fileTypeComment = new FileTypeComment(FileType.Kotlin);
+        fileTypeComment.setRegOneline(REG_ONELINE);
+        fileTypeComment.setRegStringValue(REG_STRING_VALUE);
+        fileTypeComment.addOneLineCommentList(COMMENT_ONELINE);
+        multiLineComment = new MultipleLineComment();
+        multiLineComment.setStartComment(COMMENT_MULTIPL_START);
+        multiLineComment.setEndComent(COMMENT_MULTIPL_END);
+        fileTypeComment.addMultiLineCommentList(multiLineComment);
+        fileTypeCommentMap.put(FileType.Kotlin, fileTypeComment);
+
         // JavaScript
         fileTypeComment = new FileTypeComment(FileType.JavaScript);
         fileTypeComment.setRegOneline(REG_ONELINE);
@@ -82,7 +105,6 @@ public class LocUtil {
         multiLineComment.setEndComent("'''");
         fileTypeComment.addMultiLineCommentList(multiLineComment);
         fileTypeCommentMap.put(FileType.Python, fileTypeComment);
-
     }
 
     /**
@@ -122,6 +144,7 @@ public class LocUtil {
                         fileInfo.getRowLineCounts() - fileInfo.getBlankLineCounts() - fileInfo.getCommentCounts());
             } else {
                 LOG.warn("Not support LOC for file:{}", fileName);
+                fileInfo.setRowLineCounts(FileUtil.getFileLineNum(file));
             }
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
@@ -272,7 +295,7 @@ public class LocUtil {
         if (lineWithoutCommentPair.isEmpty()) {
             lineType = LineType.COMMNET_LINE;
         } else {
-            lineType = checkMulCommentsLineType(lineWithoutCommentPair, fileTypeComment, multiLineCommentStart);            
+            lineType = checkMulCommentsLineType(lineWithoutCommentPair, fileTypeComment, multiLineCommentStart);
         }
         return lineType;
     }
@@ -291,7 +314,7 @@ public class LocUtil {
                 startPos = lineWithoutCommentPair.indexOf(multiLineCommentStart.getStartComment(),
                         endPos + multiLineCommentStart.getEndComent().length());
                 if (startPos == -1) {
-                    lineType = LineType.COMMNET_END_CODE_LINE;                    
+                    lineType = LineType.COMMNET_END_CODE_LINE;
                     for (MultipleLineComment multiLineComment : fileTypeComment.getMultiLineCommentList()) {
                         if (!multiLineComment.getStartComment().equals(multiLineCommentStart.getStartComment())) {
                             startPos = lineWithoutCommentPair.indexOf(multiLineComment.getStartComment(),
@@ -301,16 +324,16 @@ public class LocUtil {
                                         .substring(endPos + multiLineCommentStart.getEndComent().length(), startPos)
                                         .trim();
                                 if (subLine.isEmpty()) {
-                                    lineType = LineType.COMMNET_END_START_LINE;                                   
+                                    lineType = LineType.COMMNET_END_START_LINE;
                                 } else {
                                     lineType = LineType.COMMNET_END_CODE_START_LINE;
                                 }
                                 multiLineCommentStart.setStartComment(multiLineComment.getStartComment());
-                                multiLineCommentStart.setEndComent(multiLineComment.getEndComent());            
+                                multiLineCommentStart.setEndComent(multiLineComment.getEndComent());
                                 break;
                             }
                         }
-                    }                                         
+                    }
                 } else {
                     String subLine = lineWithoutCommentPair
                             .substring(endPos + multiLineCommentStart.getEndComent().length(), startPos).trim();

@@ -23,6 +23,9 @@ public class LocUtilTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(LocUtilTest.class);
 
+    // test case file name
+    String caseFileName = "input/loc/loc_cases.c";
+
     // test csae result. 0:blank line; 1:comment line; 2:comment in line;
     private static final int[][] result = { { 0, 1, 0 }, /* case 1 */{ 0, 1, 0 }, { 0, 3, 0 }, { 0, 3, 0 }, { 0, 0, 1 },
             { 0, 1, 1 }, /* case 6 */ { 0, 0, 1 }, { 0, 2, 1 }, { 0, 0, 1 }, { 0, 1, 1 }, { 0, 1, 1 },
@@ -35,7 +38,6 @@ public class LocUtilTest {
 
     @Test
     public void testGetFileLocInfo_case() {
-        String fileName = "input/loc/loc_cases.c";
         int blankLineCounts = result.length;
         int commentLineCount = 0;
         int commentInLineCounts = 0;
@@ -48,7 +50,7 @@ public class LocUtilTest {
                 commentInLineCounts);
         try {
             LocUtil loc = new LocUtil();
-            FileInfo fileInfo = loc.getFileLocInfo(fileName);
+            FileInfo fileInfo = loc.getFileLocInfo(caseFileName);
 
             LOG.info("{}", fileInfo.toString());
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
@@ -66,7 +68,6 @@ public class LocUtilTest {
     @Test
     public void testGetFileLocInfoCaseByCase() {
         try {
-
             List<String> caseList = getTestCase();
             FileInfo fileInfo;
             LocUtil loc = new LocUtil();
@@ -86,8 +87,7 @@ public class LocUtilTest {
     }
 
     private List<String> getTestCase() throws SdongException {
-        String fileName = "input/loc/loc_cases.c";
-        List<String> list = FileUtil.readFileToStringList(fileName);
+        List<String> list = FileUtil.readFileToStringList(caseFileName);
         List<String> caseList = new ArrayList<String>();
         String testCase = "";
         for (String line : list) {
@@ -121,7 +121,6 @@ public class LocUtilTest {
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("a699c02176bab00a5a9f0c193c019f0a", fileInfo.getMd5());
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -145,7 +144,6 @@ public class LocUtilTest {
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("54a0b23afe764a9203e13fec72c7ad04", fileInfo.getMd5());
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -169,7 +167,6 @@ public class LocUtilTest {
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("54a0b23afe764a9203e13fec72c7ad04", fileInfo.getMd5());
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -178,11 +175,10 @@ public class LocUtilTest {
 
     @Test
     public void testCaseFor_COMMNET_LINE() {
-        String fileName = "input/loc/loc_cases.c";
         List<String> lines;
         try {
-            lines = FileUtil.readFileToStringList(fileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
+            lines = FileUtil.readFileToStringList(caseFileName);
+            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = new MultipleLineComment();
@@ -198,7 +194,6 @@ public class LocUtilTest {
                 }
             }
             verifyResult(matchingCase, result);
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -207,11 +202,10 @@ public class LocUtilTest {
 
     @Test
     public void testCaseFor_COMMNET_START_LINE() {
-        String fileName = "input/loc/loc_cases.c";
         List<String> lines;
         try {
-            lines = FileUtil.readFileToStringList(fileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
+            lines = FileUtil.readFileToStringList(caseFileName);
+            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = new MultipleLineComment();
@@ -226,7 +220,6 @@ public class LocUtilTest {
                 }
             }
             verifyResult(matchingCase, result);
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -235,11 +228,10 @@ public class LocUtilTest {
 
     @Test
     public void testCaseFor_CODE_COMMNET_START_LINE() {
-        String fileName = "input/loc/loc_cases.c";
         List<String> lines;
         try {
-            lines = FileUtil.readFileToStringList(fileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
+            lines = FileUtil.readFileToStringList(caseFileName);
+            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = new MultipleLineComment();
@@ -255,7 +247,6 @@ public class LocUtilTest {
                 }
             }
             verifyResult(matchingCase, result);
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -264,11 +255,11 @@ public class LocUtilTest {
 
     @Test
     public void testCaseFor_COMMNET_END_LINE() {
-        String fileName = "input/loc/loc_cases.c";
+        String caseFileName = "input/loc/loc_cases.c";
         List<String> lines;
         try {
-            lines = FileUtil.readFileToStringList(fileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
+            lines = FileUtil.readFileToStringList(caseFileName);
+            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
@@ -294,11 +285,10 @@ public class LocUtilTest {
 
     @Test
     public void testCaseFor_COMMNET_END_CODE_LINE() {
-        String fileName = "input/loc/loc_cases.c";
         List<String> lines;
         try {
-            lines = FileUtil.readFileToStringList(fileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
+            lines = FileUtil.readFileToStringList(caseFileName);
+            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
@@ -314,7 +304,6 @@ public class LocUtilTest {
                 }
             }
             verifyResult(matchingCase, result);
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -323,11 +312,10 @@ public class LocUtilTest {
 
     @Test
     public void testCaseFor_COMMNET_END_START_LINE() {
-        String fileName = "input/loc/loc_cases.c";
         List<String> lines;
         try {
-            lines = FileUtil.readFileToStringList(fileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
+            lines = FileUtil.readFileToStringList(caseFileName);
+            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
@@ -342,7 +330,6 @@ public class LocUtilTest {
                 }
             }
             verifyResult(matchingCase, result);
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -351,11 +338,10 @@ public class LocUtilTest {
 
     @Test
     public void testCaseFor_COMMNET_END_CODE_START_LINE() {
-        String fileName = "input/loc/loc_cases.c";
-        List<String> lines;
+       List<String> lines;
         try {
-            lines = FileUtil.readFileToStringList(fileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
+            lines = FileUtil.readFileToStringList(caseFileName);
+            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
@@ -370,7 +356,6 @@ public class LocUtilTest {
                 }
             }
             verifyResult(matchingCase, result);
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
