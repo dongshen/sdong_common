@@ -16,6 +16,7 @@ import sdong.common.bean.FileInfo;
 import sdong.common.bean.FileType;
 import sdong.common.bean.FileTypeComment;
 import sdong.common.bean.LineType;
+import sdong.common.bean.MultipleLineComment;
 import sdong.common.exception.SdongException;
 
 public class LocUtilTest {
@@ -30,7 +31,7 @@ public class LocUtilTest {
             { 0, 0, 1 }, { 0, 2, 1 }, /* case 26 */ { 0, 0, 1 }, { 0, 1, 1 }, { 0, 1, 1 }, { 0, 2, 1 }, { 0, 0, 1 },
             /* case 31 */ { 0, 0, 2 }, { 0, 0, 1 }, { 0, 0, 2 }, { 0, 1, 1 }, { 0, 1, 2 }, /* csae 36 */ { 0, 0, 0 },
             { 0, 0, 0 }, { 0, 1, 0 }, { 0, 1, 0 }, { 0, 1, 0 }, /* case 41 */ { 0, 0, 1 }, { 0, 3, 0 }, { 0, 1, 0 },
-            { 0, 1, 0 }, { 0, 3, 0 }, /* case 46 */{ 0, 0, 0 } };
+            { 0, 1, 0 }, { 0, 3, 0 }, /* case 46 */{ 0, 0, 0 }, { 0, 3, 0 }, { 0, 2, 0 }, { 0, 1, 1 } };
 
     @Test
     public void testGetFileLocInfo_case() {
@@ -152,6 +153,30 @@ public class LocUtilTest {
     }
 
     @Test
+    public void testGetFileLocInfo_Python() {
+        String fileName = "input/loc/loc_example.py";
+        int commentLineCount = 7;
+        int blankLineCounts = 2;
+        int commentInLineCounts = 0;
+        int rowLineCounts = 14;
+        try {
+            LocUtil loc = new LocUtil();
+            FileInfo fileInfo = loc.getFileLocInfo(fileName);
+
+            LOG.info("{}", fileInfo.toString());
+            assertEquals(commentLineCount, fileInfo.getCommentCounts());
+            assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
+            assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+            assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
+            assertEquals("54a0b23afe764a9203e13fec72c7ad04", fileInfo.getMd5());
+
+        } catch (SdongException e) {
+            LOG.error(e.getMessage());
+            fail("should not get exception!");
+        }
+    }
+
+    @Test
     public void testCaseFor_COMMNET_LINE() {
         String fileName = "input/loc/loc_cases.c";
         List<String> lines;
@@ -160,12 +185,14 @@ public class LocUtilTest {
             FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
+            MultipleLineComment multiLineCommentStart = new MultipleLineComment();
 
             List<String> matchingCase = Arrays.asList("case 0 ", "case 1 ", "case 18 ", "case 20 ", "case 38 ",
                     "case 39 ", "case 40 ", "case 43 ", "case 44 ");
             List<String> result = new ArrayList<String>();
+
             for (String line : lines) {
-                if (loc.getLineType(line, fileTypeComment) == LineType.COMMNET_LINE) {
+                if (loc.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.COMMNET_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -187,12 +214,13 @@ public class LocUtilTest {
             FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
+            MultipleLineComment multiLineCommentStart = new MultipleLineComment();
 
             List<String> matchingCase = Arrays.asList("case 2 ", "case 3 ", "case 5 ", "case 9 ", "case 11 ",
                     "case 21 ", "case 23 ", "case 27 ", "case 29 ", "case 42 ", "case 45 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
-                if (loc.getLineType(line, fileTypeComment) == LineType.COMMNET_START_LINE) {
+                if (loc.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.COMMNET_START_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -214,13 +242,14 @@ public class LocUtilTest {
             FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
+            MultipleLineComment multiLineCommentStart = new MultipleLineComment();
 
             List<String> matchingCase = Arrays.asList("case 7 ", "case 10 ", "case 11 ", "case 13 ", "case 15 ",
                     "case 16 ", "case 17 ", "case 17 ", "case 25 ", "case 28 ", "case 29", "case 31", "case 33 ",
                     "case 34 ", "case 35", "case 35", "case 45");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
-                if (loc.getLineType(line, fileTypeComment) == LineType.CODE_COMMNET_START_LINE) {
+                if (loc.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.CODE_COMMNET_START_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -242,13 +271,15 @@ public class LocUtilTest {
             FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
+            MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
 
             List<String> matchingCase = Arrays.asList("case 2 ", "case 3 ", "case 7 ", "case 10 ", "case 11 ",
                     "case 16 ", "case 17 ", "case 21 ", "case 25 ", "case 28 ", "case 29 ", "case 34 ", "case 35 ",
                     "case 42 ", "case 45 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
-                if (loc.getMulCommentsLineType(line, fileTypeComment) == LineType.COMMNET_END_LINE) {
+                if (loc.getMulCommentsLineType(line, fileTypeComment,
+                        multiLineCommentStart) == LineType.COMMNET_END_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -270,12 +301,14 @@ public class LocUtilTest {
             FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
+            MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
 
             List<String> matchingCase = Arrays.asList("case 5 ", "case 9 ", "case 13 ", "case 15 ", "case 23 ",
                     "case 27 ", "case 31 ", "case 33 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
-                if (loc.getMulCommentsLineType(line, fileTypeComment) == LineType.COMMNET_END_CODE_LINE) {
+                if (loc.getMulCommentsLineType(line, fileTypeComment,
+                        multiLineCommentStart) == LineType.COMMNET_END_CODE_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -297,11 +330,13 @@ public class LocUtilTest {
             FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
+            MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
 
             List<String> matchingCase = Arrays.asList("case 45 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
-                if (loc.getMulCommentsLineType(line, fileTypeComment) == LineType.COMMNET_END_START_LINE) {
+                if (loc.getMulCommentsLineType(line, fileTypeComment,
+                        multiLineCommentStart) == LineType.COMMNET_END_START_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -323,11 +358,13 @@ public class LocUtilTest {
             FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
+            MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
 
             List<String> matchingCase = Arrays.asList("case 11 ", "case 17 ", "case 29 ", "case 35 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
-                if (loc.getMulCommentsLineType(line, fileTypeComment) == LineType.COMMNET_END_CODE_START_LINE) {
+                if (loc.getMulCommentsLineType(line, fileTypeComment,
+                        multiLineCommentStart) == LineType.COMMNET_END_CODE_START_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }

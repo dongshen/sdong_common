@@ -1,5 +1,4 @@
-# 15 lines, 5 code, 7 comments, 3 blanks
-
+# fileType=Python, blankLineCounts=3, commentCounts=5, commentInLineCounts=0, fileSize=259, lineCounts=7, rowLineCounts=15
 
 def add(x, y):
     """

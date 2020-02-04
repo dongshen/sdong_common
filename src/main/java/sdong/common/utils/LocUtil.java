@@ -67,6 +67,22 @@ public class LocUtil {
         multiLineComment.setEndComent(COMMENT_MULTIPL_END);
         fileTypeComment.addMultiLineCommentList(multiLineComment);
         fileTypeCommentMap.put(FileType.JavaScript, fileTypeComment);
+
+        // Python
+        fileTypeComment = new FileTypeComment(FileType.Python);
+        fileTypeComment.setRegOneline("'''.*?'''|\"\"\".*?\"\"\"|^#.*");
+        fileTypeComment.setRegStringValue("(?!\"\"\")\"[^\"]+(?!\"\"\")\"|(?!''')'[^']+(?!''')'");
+        fileTypeComment.addOneLineCommentList("#");
+        multiLineComment = new MultipleLineComment();
+        multiLineComment.setStartComment("\"\"\"");
+        multiLineComment.setEndComent("\"\"\"");
+        fileTypeComment.addMultiLineCommentList(multiLineComment);
+        multiLineComment = new MultipleLineComment();
+        multiLineComment.setStartComment("'''");
+        multiLineComment.setEndComent("'''");
+        fileTypeComment.addMultiLineCommentList(multiLineComment);
+        fileTypeCommentMap.put(FileType.Python, fileTypeComment);
+
     }
 
     /**
@@ -75,7 +91,7 @@ public class LocUtil {
      * @param fileType input file type
      * @return FileTypeComment
      */
-    public FileTypeComment getFileTypeComment(FileType fileType){
+    public FileTypeComment getFileTypeComment(FileType fileType) {
         return fileTypeCommentMap.get(fileType);
     }
 
@@ -131,10 +147,11 @@ public class LocUtil {
         try (BufferedReader bufReader = new BufferedReader(reader);) {
             String line = null;
             LineType lineType;
+            MultipleLineComment multiLineCommentStart = new MultipleLineComment();
             while ((line = bufReader.readLine()) != null) {
                 fileInfo.setRowLineCounts(fileInfo.getRowLineCounts() + 1);
 
-                lineType = getLineType(line, fileTypeComment);
+                lineType = getLineType(line, fileTypeComment, multiLineCommentStart);
                 switch (lineType) {
                 case BLANK_LINE:
                     fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
@@ -144,11 +161,11 @@ public class LocUtil {
                     break;
                 case COMMNET_START_LINE:
                     fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                    multiCommentLine(bufReader, fileInfo, fileTypeComment);
+                    multiCommentLine(bufReader, fileInfo, fileTypeComment, multiLineCommentStart);
                     break;
                 case CODE_COMMNET_START_LINE:
                     fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
-                    multiCommentLine(bufReader, fileInfo, fileTypeComment);
+                    multiCommentLine(bufReader, fileInfo, fileTypeComment, multiLineCommentStart);
                     break;
                 case COMMNET_CODE_LINE:
                     fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
@@ -171,7 +188,8 @@ public class LocUtil {
      * @param fileTypeComment file type comment bean
      * @return line type
      */
-    public  LineType getLineType(String line, FileTypeComment fileTypeComment) {
+    public LineType getLineType(String line, FileTypeComment fileTypeComment,
+            MultipleLineComment multiLineCommentStart) {
         String lineTrim = line.trim();
         if (lineTrim.isEmpty()) {
             return LineType.BLANK_LINE;
@@ -182,48 +200,36 @@ public class LocUtil {
         LineType lineType = LineType.CODE_LINE;
         if (lineWithoutCommentPair.isEmpty()) {
             lineType = LineType.COMMNET_LINE;
-        } else if (checkComentStartLine(lineWithoutCommentPair, fileTypeComment)) {
-            lineType = LineType.COMMNET_START_LINE;
-        } else if (checkComentStartLineWithCode(lineWithoutCommentPair, fileTypeComment)) {
-            lineType = LineType.CODE_COMMNET_START_LINE;
-        } else if (!lineWithoutStringValue.equals(lineWithoutCommentPair)) {
-            lineType = LineType.COMMNET_CODE_LINE;
+        } else {
+            for (MultipleLineComment multiLineComment : fileTypeComment.getMultiLineCommentList()) {
+                if (lineWithoutCommentPair.startsWith(multiLineComment.getStartComment())) {
+                    lineType = LineType.COMMNET_START_LINE;
+                    multiLineCommentStart.setStartComment(multiLineComment.getStartComment());
+                    multiLineCommentStart.setEndComent(multiLineComment.getEndComent());
+                    return lineType;
+                } else if (lineWithoutCommentPair.indexOf(multiLineComment.getStartComment()) >= 0) {
+                    lineType = LineType.CODE_COMMNET_START_LINE;
+                    multiLineCommentStart.setStartComment(multiLineComment.getStartComment());
+                    multiLineCommentStart.setEndComent(multiLineComment.getEndComent());
+                    return lineType;
+                }
+            }
+            if (!lineWithoutStringValue.equals(lineWithoutCommentPair)) {
+                lineType = LineType.COMMNET_CODE_LINE;
+            }
         }
 
         return lineType;
     }
 
-    private  boolean checkComentStartLine(String line, FileTypeComment fileTypeComment) {
-        boolean isCommentStartLine = false;
-        for (MultipleLineComment multiLineComment : fileTypeComment.getMultiLineCommentList()) {
-            if (line.startsWith(multiLineComment.getStartComment())) {
-                isCommentStartLine = true;
-                break;
-            }
-        }
-        return isCommentStartLine;
-    }
-
-    private  boolean checkComentStartLineWithCode(String line, FileTypeComment fileTypeComment) {
-        boolean isCommentStartLineWithCode = false;
-        for (MultipleLineComment multiLineComment : fileTypeComment.getMultiLineCommentList()) {
-            if (line.indexOf(multiLineComment.getStartComment()) >= 0) {
-                isCommentStartLineWithCode = true;
-                break;
-            }
-        }
-        return isCommentStartLineWithCode;
-    }
-
-    private  void multiCommentLine(BufferedReader bfr, FileInfo fileInfo, FileTypeComment fileTypeComment)
-            throws IOException {
+    private void multiCommentLine(BufferedReader bfr, FileInfo fileInfo, FileTypeComment fileTypeComment,
+            MultipleLineComment multiLineCommentStart) throws IOException {
         String line = null;
         LineType lineType;
         while ((line = bfr.readLine()) != null) {
-            line = line.trim();
             fileInfo.setRowLineCounts(fileInfo.getRowLineCounts() + 1);
 
-            lineType = getMulCommentsLineType(line, fileTypeComment);
+            lineType = getMulCommentsLineType(line, fileTypeComment, multiLineCommentStart);
             switch (lineType) {
             case BLANK_LINE:
             case COMMNET_LINE:
@@ -250,11 +256,12 @@ public class LocUtil {
     /**
      * Get line type for multiple line comment end.
      * 
-     * @param line input line 
+     * @param line            input line
      * @param fileTypeComment file type comment
      * @return line type
      */
-    public  LineType getMulCommentsLineType(String line, FileTypeComment fileTypeComment) {
+    public LineType getMulCommentsLineType(String line, FileTypeComment fileTypeComment,
+            MultipleLineComment multiLineCommentStart) {
         String lineTrim = line.trim();
         if (lineTrim.isEmpty()) {
             return LineType.BLANK_LINE;
@@ -265,97 +272,56 @@ public class LocUtil {
         if (lineWithoutCommentPair.isEmpty()) {
             lineType = LineType.COMMNET_LINE;
         } else {
-            int endPos = -1;
-            int startPos = -1;
-            for (MultipleLineComment multiLineComment : fileTypeComment.getMultiLineCommentList()) {
-                if (lineWithoutCommentPair.endsWith(multiLineComment.getEndComent())) {
-                    lineType = LineType.COMMNET_END_LINE;
-                    break;
-                }
-                endPos = lineWithoutCommentPair.indexOf(multiLineComment.getEndComent());
-                if (endPos >= 0) {
-                    startPos = lineWithoutCommentPair.indexOf(multiLineComment.getStartComment(), endPos);
-                    if (startPos == -1) {
-                        lineType = LineType.COMMNET_END_CODE_LINE;
-                    } else {
-                        String subLine = lineWithoutCommentPair.substring(endPos + multiLineComment.getEndComent().length(), startPos)
-                                .trim();
-                        if (subLine.isEmpty()) {
-                            lineType = LineType.COMMNET_END_START_LINE;
-                        } else {
-                            lineType = LineType.COMMNET_END_CODE_START_LINE;
-                        }
-                    }
-                    break;
-                }
-            }
+            lineType = checkMulCommentsLineType(lineWithoutCommentPair, fileTypeComment, multiLineCommentStart);            
         }
         return lineType;
     }
 
-    public static boolean matchingStartLine(String str, String regex) {
-        String result = str.replaceAll(regex, "").trim();
-        return result.startsWith(COMMENT_MULTIPL_START);
-    }
+    private LineType checkMulCommentsLineType(String lineWithoutCommentPair, FileTypeComment fileTypeComment,
+            MultipleLineComment multiLineCommentStart) {
+        int endPos = -1;
+        int startPos = -1;
+        LineType lineType = LineType.COMMNET_LINE;
 
-    public static boolean matchingStartLineWithCode(String str, String regex) {
-        String result = str.replaceAll(regex, "").trim();
-        if (result.isEmpty() || result.startsWith(COMMENT_MULTIPL_START)) {
-            return false;
+        if (lineWithoutCommentPair.endsWith(multiLineCommentStart.getEndComent())) {
+            lineType = LineType.COMMNET_END_LINE;
         } else {
-            return result.matches(".*?\\/\\*.*");
-        }
-    }
-
-    public static boolean matchingEndLine(String str, String regex) {
-        String result = str.replaceAll(regex, "").trim();
-        if (result.isEmpty() || result.startsWith(COMMENT_MULTIPL_START)) {
-            return false;
-        } else if (result.endsWith(COMMENT_MULTIPL_END)) {
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean matchingEndLineWithCode(String str, String regex) {
-        String result = str.replaceAll(regex, "").trim();
-        if (result.isEmpty() || result.startsWith("/*")) {
-            return false;
-        } else if (result.endsWith("*/")) {
-            return false;
-        } else {
-            if (result.matches(".*?\\*\\/.*")) {
-                if (result.matches(".*?\\/\\*.*")) {
-                    return false;
+            endPos = lineWithoutCommentPair.indexOf(multiLineCommentStart.getEndComent());
+            if (endPos >= 0) {
+                startPos = lineWithoutCommentPair.indexOf(multiLineCommentStart.getStartComment(),
+                        endPos + multiLineCommentStart.getEndComent().length());
+                if (startPos == -1) {
+                    lineType = LineType.COMMNET_END_CODE_LINE;                    
+                    for (MultipleLineComment multiLineComment : fileTypeComment.getMultiLineCommentList()) {
+                        if (!multiLineComment.getStartComment().equals(multiLineCommentStart.getStartComment())) {
+                            startPos = lineWithoutCommentPair.indexOf(multiLineComment.getStartComment(),
+                                    endPos + multiLineCommentStart.getEndComent().length());
+                            if (startPos >= 0) {
+                                String subLine = lineWithoutCommentPair
+                                        .substring(endPos + multiLineCommentStart.getEndComent().length(), startPos)
+                                        .trim();
+                                if (subLine.isEmpty()) {
+                                    lineType = LineType.COMMNET_END_START_LINE;                                   
+                                } else {
+                                    lineType = LineType.COMMNET_END_CODE_START_LINE;
+                                }
+                                multiLineCommentStart.setStartComment(multiLineComment.getStartComment());
+                                multiLineCommentStart.setEndComent(multiLineComment.getEndComent());            
+                                break;
+                            }
+                        }
+                    }                                         
                 } else {
-                    return true;
-                }
-            } else {
-                return false;
-            }
-        }
-    }
-
-    public static boolean matchingEndLineWithCodeAndStarAgain(String str, String regex) {
-        String result = str.replaceAll(regex, "").trim();
-        if (result.isEmpty() || result.startsWith(COMMENT_MULTIPL_START)) {
-            return false;
-        } else if (result.endsWith("*/")) {
-            return false;
-        } else {
-            if (result.matches(".*?\\*\\/.*")) { // */ code
-                if (result.matches(".*?\\/\\*.*")) { // */ code /*
-                    if (result.matches(".*?\\*/\\s*/\\*.*")) { // *//*
-                        return false;
+                    String subLine = lineWithoutCommentPair
+                            .substring(endPos + multiLineCommentStart.getEndComent().length(), startPos).trim();
+                    if (subLine.isEmpty()) {
+                        lineType = LineType.COMMNET_END_START_LINE;
                     } else {
-                        return true;
+                        lineType = LineType.COMMNET_END_CODE_START_LINE;
                     }
-                } else {
-                    return false;
                 }
-            } else {
-                return false;
             }
         }
+        return lineType;
     }
 }

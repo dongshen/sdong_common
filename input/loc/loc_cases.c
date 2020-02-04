@@ -131,3 +131,13 @@ void foo(){
   printf("caes 46 */");
 }
 
+/* case 47 case 47 
+// case 47 case 47 /* case 47
+case 47 case 47 */
+
+/* case 48 case 48
+// case 48 case 48 /* case 48 */ 
+
+/* case 49 case 49
+// case 49 case 49 /* case 49 */ int a=0;
+
