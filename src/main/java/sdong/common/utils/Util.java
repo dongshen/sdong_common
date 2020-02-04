@@ -1,14 +1,15 @@
 package sdong.common.utils;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
+import com.fasterxml.uuid.Generators;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.uuid.Generators;
+import java.io.File;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 import sdong.common.exception.SdongException;
 
@@ -80,7 +81,11 @@ public class Util {
 	}
 
 	public static String generateFileMd5(String fileName) throws SdongException {
-		return generateMD5(FileUtil.readFileToByteArray(fileName));
+		return generateFileMd5(new File(fileName));
+	}
+
+	public static String generateFileMd5(File file) throws SdongException {
+		return generateMD5(FileUtil.readFileToByteArray(file));
 	}
 
 }

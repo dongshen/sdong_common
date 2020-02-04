@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,7 +51,7 @@ public class LocUtilTest {
                 commentInLineCounts);
         try {
             LocUtil loc = new LocUtil();
-            FileInfo fileInfo = loc.getFileLocInfo(caseFileName);
+            FileInfo fileInfo = loc.getFileLocInfo(new File(caseFileName));
 
             LOG.info("{}", fileInfo.toString());
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
@@ -58,7 +59,6 @@ public class LocUtilTest {
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("90b666e98590e0d36cc7a63d39bbb5e1", fileInfo.getMd5());
-
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -113,7 +113,7 @@ public class LocUtilTest {
         int rowLineCounts = 277;
         try {
             LocUtil loc = new LocUtil();
-            FileInfo fileInfo = loc.getFileLocInfo(fileName);
+            FileInfo fileInfo = loc.getFileLocInfo(new File(fileName));
 
             LOG.info("{}", fileInfo.toString());
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
@@ -136,7 +136,7 @@ public class LocUtilTest {
         int rowLineCounts = 21;
         try {
             LocUtil loc = new LocUtil();
-            FileInfo fileInfo = loc.getFileLocInfo(fileName);
+            FileInfo fileInfo = loc.getFileLocInfo(new File(fileName));
 
             LOG.info("{}", fileInfo.toString());
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
@@ -159,7 +159,7 @@ public class LocUtilTest {
         int rowLineCounts = 14;
         try {
             LocUtil loc = new LocUtil();
-            FileInfo fileInfo = loc.getFileLocInfo(fileName);
+            FileInfo fileInfo = loc.getFileLocInfo(new File(fileName));
 
             LOG.info("{}", fileInfo.toString());
             assertEquals(commentLineCount, fileInfo.getCommentCounts());

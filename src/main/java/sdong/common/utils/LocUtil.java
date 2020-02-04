@@ -124,17 +124,17 @@ public class LocUtil {
      * @return file info bean
      * @throws SdongException module exception
      */
-    public FileInfo getFileLocInfo(String fileName) throws SdongException {
+    public FileInfo getFileLocInfo(File file) throws SdongException {
         FileInfo fileInfo = new FileInfo();
-        try (Reader reader = new InputStreamReader(new FileInputStream(fileName))) {
+        try (Reader reader = new InputStreamReader(new FileInputStream(file))) {
             // update basic info
-            File file = new File(fileName);
             fileInfo.setFileName(file.getCanonicalPath());
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(fileName));
+            fileInfo.setFileSize(file.length());
+            fileInfo.setMd5(Util.generateFileMd5(file));
+
+            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(file.getName()));
             if (fileType != null) {
                 fileInfo.setFileType(fileType);
-                fileInfo.setFileSize(file.length());
-                fileInfo.setMd5(Util.generateFileMd5(fileName));
 
                 // get Loc of file
                 getFileLocInfo(reader, fileInfo);
@@ -143,8 +143,9 @@ public class LocUtil {
                 fileInfo.setLineCounts(
                         fileInfo.getRowLineCounts() - fileInfo.getBlankLineCounts() - fileInfo.getCommentCounts());
             } else {
-                LOG.warn("Not support LOC for file:{}", fileName);
+                LOG.warn("Not support LOC for file:{}", file.getName());
                 fileInfo.setRowLineCounts(FileUtil.getFileLineNum(file));
+                fileInfo.setLineCounts(fileInfo.getRowLineCounts());
             }
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);

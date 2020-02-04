@@ -74,10 +74,10 @@ public class FileUtil {
 	}
 
 	public static int getFileLineNum(File file) throws SdongException {
-		try(LineNumberReader reader = new LineNumberReader(new FileReader(file))){
+		try (LineNumberReader reader = new LineNumberReader(new FileReader(file))) {
 			reader.skip(Integer.MAX_VALUE);
-			return reader.getLineNumber() + 1;
-		}catch(IOException e){
+			return reader.getLineNumber();
+		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e.getMessage());
 		}
@@ -161,9 +161,12 @@ public class FileUtil {
 	}
 
 	public static byte[] readFileToByteArray(String fileName) throws SdongException {
+		return readFileToByteArray(new File(fileName));
+	}
 
-		File f = new File(fileName);
-		try (FileInputStream fs = new FileInputStream(f); FileChannel channel = fs.getChannel();) {
+	public static byte[] readFileToByteArray(File file) throws SdongException {
+
+		try (FileInputStream fs = new FileInputStream(file); FileChannel channel = fs.getChannel();) {
 			ByteBuffer byteBuffer = ByteBuffer.allocate((int) channel.size());
 			channel.read(byteBuffer);
 			return byteBuffer.array();
