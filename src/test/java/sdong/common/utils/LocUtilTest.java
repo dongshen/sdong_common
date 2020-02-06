@@ -42,7 +42,7 @@ public class LocUtilTest {
         int blankLineCounts = result.length;
         int commentLineCount = 0;
         int commentInLineCounts = 0;
-        int rowLineCounts = 133;
+        int rowLineCounts = 143;
         for (int[] value : result) {
             commentLineCount = commentLineCount + value[1];
             commentInLineCounts = commentInLineCounts + value[2];
@@ -58,7 +58,7 @@ public class LocUtilTest {
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
-            assertEquals("90b666e98590e0d36cc7a63d39bbb5e1", fileInfo.getMd5());
+            assertEquals("cdbeae51a04ffffdbbde623b9f66913f", fileInfo.getMd5());
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -166,7 +166,7 @@ public class LocUtilTest {
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
-            assertEquals("54a0b23afe764a9203e13fec72c7ad04", fileInfo.getMd5());
+            assertEquals("e44019a4e0e7fb50d0bd6acd26592312", fileInfo.getMd5());
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
@@ -184,7 +184,7 @@ public class LocUtilTest {
             MultipleLineComment multiLineCommentStart = new MultipleLineComment();
 
             List<String> matchingCase = Arrays.asList("case 0 ", "case 1 ", "case 18 ", "case 20 ", "case 38 ",
-                    "case 39 ", "case 40 ", "case 43 ", "case 44 ");
+                    "case 39 ", "case 40 ", "case 43 ", "case 44 ", "case 47 ", "case 48 ", "case 49 ");
             List<String> result = new ArrayList<String>();
 
             for (String line : lines) {
@@ -211,7 +211,8 @@ public class LocUtilTest {
             MultipleLineComment multiLineCommentStart = new MultipleLineComment();
 
             List<String> matchingCase = Arrays.asList("case 2 ", "case 3 ", "case 5 ", "case 9 ", "case 11 ",
-                    "case 21 ", "case 23 ", "case 27 ", "case 29 ", "case 42 ", "case 45 ");
+                    "case 21 ", "case 23 ", "case 27 ", "case 29 ", "case 42 ", "case 45 ", "case 47 ", "case 48 ",
+                    "case 49 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 if (loc.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.COMMNET_START_LINE) {
@@ -264,9 +265,10 @@ public class LocUtilTest {
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
 
-            List<String> matchingCase = Arrays.asList("case 2 ", "case 3 ", "case 7 ", "case 10 ", "case 11 ",
-                    "case 16 ", "case 17 ", "case 21 ", "case 25 ", "case 28 ", "case 29 ", "case 34 ", "case 35 ",
-                    "case 42 ", "case 45 ");
+            List<String> matchingCase = Arrays.asList("case 1 ", "case 2 ", "case 3 ", "case 6 ", "case 7 ", "case 10 ",
+                    "case 11 ", "case 16 ", "case 17 ", "case 20 ", "case 21 ", "case 24 ", "case 25 ", "case 28 ",
+                    "case 29 ", "case 34 ", "case 35 ", "case 37 ", "case 39 ", "case 40 ", "case 42 ", "case 43 ",
+                    "case 44 ", "case 45 ", "case 47 ", "case 48 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 if (loc.getMulCommentsLineType(line, fileTypeComment,
@@ -293,8 +295,9 @@ public class LocUtilTest {
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
 
-            List<String> matchingCase = Arrays.asList("case 5 ", "case 9 ", "case 13 ", "case 15 ", "case 23 ",
-                    "case 27 ", "case 31 ", "case 33 ");
+            List<String> matchingCase = Arrays.asList("case 4 ", "case 5 ", "case 8 ", "case 9 ", "case 12 ",
+                    "case 13 ", "case 14 ", "case 15 ", "case 22 ", "case 23 ", "case 26 ", "case 27 ", "case 30 ",
+                    "case 31 ", "case 32 ", "case 33 ", "case 36 ", "case 41 ", "case 46 ", "case 49 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 if (loc.getMulCommentsLineType(line, fileTypeComment,
@@ -320,7 +323,7 @@ public class LocUtilTest {
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
 
-            List<String> matchingCase = Arrays.asList("case 45 ");
+            List<String> matchingCase = Arrays.asList("case 45 ", "case 45 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 if (loc.getMulCommentsLineType(line, fileTypeComment,
@@ -338,7 +341,7 @@ public class LocUtilTest {
 
     @Test
     public void testCaseFor_COMMNET_END_CODE_START_LINE() {
-       List<String> lines;
+        List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
             FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
@@ -346,7 +349,8 @@ public class LocUtilTest {
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
 
-            List<String> matchingCase = Arrays.asList("case 11 ", "case 17 ", "case 29 ", "case 35 ");
+            List<String> matchingCase = Arrays.asList("case 10 ", "case 11 ", "case 16 ", "case 17 ", "case 28 ",
+                    "case 29 ", "case 34 ", "case 35 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 if (loc.getMulCommentsLineType(line, fileTypeComment,
@@ -365,8 +369,10 @@ public class LocUtilTest {
     @Test
     public void testGetFileLocInfoQuestionMark() {
         String input = "char *p = \"/* case 37 */ // case 37\";";
-        String result = input.replaceAll(LocUtil.REG_ONELINE, "");
+        String result = input.replaceAll(LocUtil.REG_STRING_VALUE, "");
+
         LOG.info("result:{}", result);
+        assertEquals("char *p = \"\"", result);
     }
 
     private void verifyResult(List<String> matchingCase, List<String> result) {

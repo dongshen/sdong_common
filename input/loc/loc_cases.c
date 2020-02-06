@@ -1,4 +1,4 @@
-// case 0  133 lines, blankLineCounts=47, commentCounts=41, commentInLineCounts=36, fileSize=2805, lineCounts=45, rowLineCounts=133
+// case 0  blankLineCounts=50, commentCounts=47, commentInLineCounts=37, fileSize=3089, lineCounts=46,  rowLineCounts=143
 
 /* case 1 */
 
@@ -128,7 +128,7 @@ void foo(){
   for(i =0 ;i<100; i++){
     a += i;
   }
-  printf("caes 46 */");
+  printf("case 46 */");
 }
 
 /* case 47 case 47 
