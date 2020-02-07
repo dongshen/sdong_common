@@ -26,7 +26,7 @@ import sdong.common.exception.SdongException;
  */
 public class LocUtil {
     public static final String COMMENT_SETTING_FILE = "filetype/fileTypeComment.json";
-    public static final String REG_STRING_VALUE = "\".+?\"|'.+?'";
+    public static final String REG_STRING_VALUE = "\"(.+?)\"|'.+?'";
     public static final String REG_ONELINE = "\\/\\*.*?\\*\\/|\\/\\/.*";
     public static final String COMMENT_MULTIPL_START = "/*";
     public static final String COMMENT_MULTIPL_END = "*/";
@@ -49,8 +49,6 @@ public class LocUtil {
         }
     }
 
-    /**
-     * 
     /**
      * Load comment setting from config file
      *

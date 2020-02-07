@@ -3,7 +3,7 @@
         {
             fileType: "C",
             regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
-            regStringValue: "\".+?\"|'.+?'",
+            regStringValue: "\"(.+?)\"|'.+?'",
             stringMarkList: [
                 "'",
                 "\""
@@ -21,7 +21,7 @@
         {
             fileType: "Java",
             regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
-            regStringValue: "\".+?\"|'.+?'",
+            regStringValue: "\"(.+?)\"|'.+?'",
             stringMarkList: [
                 "'",
                 "\""
@@ -39,7 +39,7 @@
         {
             fileType: "Go",
             regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
-            regStringValue: "\".+?\"|'.+?'",
+            regStringValue: "\"(.+?)\"|'.+?'",
             oneLineCommentList: [
                 "//"
             ],
@@ -53,7 +53,7 @@
         {
             fileType: "JavaScript",
             regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
-            regStringValue: "\".+?\"|'.+?'",
+            regStringValue: "\"(.+?)\"|'.+?'",
             stringMarkList: [
                 "'",
                 "\""

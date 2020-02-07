@@ -1,7 +1,5 @@
 package sdong.common.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +13,6 @@ public class FileTypeComments implements Serializable {
 
     private static final long serialVersionUID = -3952331934176464798L;
 
-    @SerializedName("fileTypeCommentList")
     private List<FileTypeComment> fileTypeCommentList = new ArrayList<FileTypeComment>();
 
     public List<FileTypeComment> getFileTypeCommentList() {
