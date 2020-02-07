@@ -1,19 +1,21 @@
 package sdong.common.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.concurrent.ConcurrentHashMap;
-
 import sdong.common.bean.FileInfo;
 import sdong.common.bean.FileType;
 import sdong.common.bean.FileTypeComment;
+import sdong.common.bean.FileTypeComments;
 import sdong.common.bean.LineType;
 import sdong.common.bean.MultipleLineComment;
 import sdong.common.exception.SdongException;
@@ -23,6 +25,7 @@ import sdong.common.exception.SdongException;
  *
  */
 public class LocUtil {
+    public static final String COMMENT_SETTING_FILE = "filetype/fileTypeComment.json";
     public static final String REG_STRING_VALUE = "\".+?\"|'.+?'";
     public static final String REG_ONELINE = "\\/\\*.*?\\*\\/|\\/\\/.*";
     public static final String COMMENT_MULTIPL_START = "/*";
@@ -35,76 +38,38 @@ public class LocUtil {
 
     public LocUtil() {
         fileTypeCommentMap = new ConcurrentHashMap<FileType, FileTypeComment>();
+        try (InputStream stream = LocUtil.class.getClassLoader().getResourceAsStream(LocUtil.COMMENT_SETTING_FILE);
+                Reader reader = new InputStreamReader(stream)) {
+            
+            fileTypeCommentMap = parseFileTypeComment(reader);
+            LOG.info("Get comment setting: {}",fileTypeCommentMap.size() );
 
-        // C
-        FileTypeComment fileTypeComment = new FileTypeComment(FileType.C);
-        fileTypeComment.setRegOneline(REG_ONELINE);
-        fileTypeComment.setRegStringValue(REG_STRING_VALUE);
-        fileTypeComment.addOneLineCommentList(COMMENT_ONELINE);
-        MultipleLineComment multiLineComment = new MultipleLineComment();
-        multiLineComment.setStartComment(COMMENT_MULTIPL_START);
-        multiLineComment.setEndComment(COMMENT_MULTIPL_END);
-        fileTypeComment.addMultiLineCommentList(multiLineComment);
-        fileTypeCommentMap.put(FileType.C, fileTypeComment);
+        } catch (IOException e) {
+            LOG.error(e.getMessage());            
+        }
+    }
 
-        // Java
-        fileTypeComment = new FileTypeComment(FileType.Java);
-        fileTypeComment.setRegOneline(REG_ONELINE);
-        fileTypeComment.setRegStringValue(REG_STRING_VALUE);
-        fileTypeComment.addOneLineCommentList(COMMENT_ONELINE);
-        multiLineComment = new MultipleLineComment();
-        multiLineComment.setStartComment(COMMENT_MULTIPL_START);
-        multiLineComment.setEndComment(COMMENT_MULTIPL_END);
-        fileTypeComment.addMultiLineCommentList(multiLineComment);
-        fileTypeCommentMap.put(FileType.Java, fileTypeComment);
-
-        // Go
-        fileTypeComment = new FileTypeComment(FileType.Go);
-        fileTypeComment.setRegOneline(REG_ONELINE);
-        fileTypeComment.setRegStringValue(REG_STRING_VALUE);
-        fileTypeComment.addOneLineCommentList(COMMENT_ONELINE);
-        multiLineComment = new MultipleLineComment();
-        multiLineComment.setStartComment(COMMENT_MULTIPL_START);
-        multiLineComment.setEndComment(COMMENT_MULTIPL_END);
-        fileTypeComment.addMultiLineCommentList(multiLineComment);
-        fileTypeCommentMap.put(FileType.Go, fileTypeComment);
-
-        // Kotlin
-        fileTypeComment = new FileTypeComment(FileType.Kotlin);
-        fileTypeComment.setRegOneline(REG_ONELINE);
-        fileTypeComment.setRegStringValue(REG_STRING_VALUE);
-        fileTypeComment.addOneLineCommentList(COMMENT_ONELINE);
-        multiLineComment = new MultipleLineComment();
-        multiLineComment.setStartComment(COMMENT_MULTIPL_START);
-        multiLineComment.setEndComment(COMMENT_MULTIPL_END);
-        fileTypeComment.addMultiLineCommentList(multiLineComment);
-        fileTypeCommentMap.put(FileType.Kotlin, fileTypeComment);
-
-        // JavaScript
-        fileTypeComment = new FileTypeComment(FileType.JavaScript);
-        fileTypeComment.setRegOneline(REG_ONELINE);
-        fileTypeComment.setRegStringValue(REG_STRING_VALUE);
-        fileTypeComment.addOneLineCommentList(COMMENT_ONELINE);
-        multiLineComment = new MultipleLineComment();
-        multiLineComment.setStartComment(COMMENT_MULTIPL_START);
-        multiLineComment.setEndComment(COMMENT_MULTIPL_END);
-        fileTypeComment.addMultiLineCommentList(multiLineComment);
-        fileTypeCommentMap.put(FileType.JavaScript, fileTypeComment);
-
-        // Python
-        fileTypeComment = new FileTypeComment(FileType.Python);
-        fileTypeComment.setRegOneline("'''.*?'''|\"\"\".*?\"\"\"|^#.*");
-        fileTypeComment.setRegStringValue("(?!\"\"\")\"[^\"]+(?!\"\"\")\"|(?!''')'[^']+(?!''')'");
-        fileTypeComment.addOneLineCommentList("#");
-        multiLineComment = new MultipleLineComment();
-        multiLineComment.setStartComment("\"\"\"");
-        multiLineComment.setEndComment("\"\"\"");
-        fileTypeComment.addMultiLineCommentList(multiLineComment);
-        multiLineComment = new MultipleLineComment();
-        multiLineComment.setStartComment("'''");
-        multiLineComment.setEndComment("'''");
-        fileTypeComment.addMultiLineCommentList(multiLineComment);
-        fileTypeCommentMap.put(FileType.Python, fileTypeComment);
+    /**
+     * 
+    /**
+     * Load comment setting from config file
+     *
+     * @param inputReader input reader
+     * @return file type comment map
+     */
+    public ConcurrentHashMap<FileType, FileTypeComment> parseFileTypeComment(Reader inputReader) {
+        ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap = new ConcurrentHashMap<FileType, FileTypeComment>();
+        
+        try (Reader reader = new BufferedReader(inputReader)){
+            
+            Gson gson = new GsonBuilder().create();                
+            FileTypeComments comments =  gson.fromJson(reader, FileTypeComments.class);
+            fileTypeCommentMap = comments.getFileTypeCommentMap();
+        } catch (IOException e) {
+            LOG.error(e.getMessage());
+        }
+        
+        return fileTypeCommentMap;
     }
 
     /**
@@ -219,8 +184,8 @@ public class LocUtil {
             return LineType.BLANK_LINE;
         }
 
-        String lineWithoutStringValue = lineTrim.replaceAll(fileTypeComment.getRegStringValue(), "").trim();
-        String lineWithoutCommentPair = lineWithoutStringValue.replaceAll(fileTypeComment.getRegOneline(), "").trim();
+        String lineWithoutStringValue = lineTrim.replaceAll(fileTypeComment.getRegStringValue(), "\"\"").trim();
+        String lineWithoutCommentPair = lineWithoutStringValue.replaceAll(fileTypeComment.getRegOneLine(), "").trim();
 
         if (lineWithoutCommentPair.isEmpty()) {
             return LineType.COMMNET_LINE;
@@ -329,4 +294,14 @@ public class LocUtil {
         }
         return lineType;
     }
+
+    public ConcurrentHashMap<FileType, FileTypeComment> getFileTypeCommentMap() {
+        return fileTypeCommentMap;
+    }
+
+    public void setFileTypeCommentMap(
+            ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap) {
+        LocUtil.fileTypeCommentMap = fileTypeCommentMap;
+    }
+    
 }

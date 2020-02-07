@@ -5,10 +5,45 @@ package sdong.common.bean;
  *
  */
 public enum LineType {
-    CODE_LINE("CODE_LINE", 0), BLANK_LINE("BLANK_LINE", 1), COMMNET_LINE("COMMNET_LINE", 2),
-    COMMNET_START_LINE("COMMNET_START_LINE", 3), CODE_COMMNET_START_LINE("CODE_COMMNET_START_LINE", 4),
-    COMMNET_END_LINE("COMMNET_END_LINE", 5),COMMNET_END_CODE_LINE("COMMNET_END_CODE_LINE", 6),
-    COMMNET_END_START_LINE("COMMNET_END_START_LINE", 7),COMMNET_END_CODE_START_LINE("COMMNET_END_CODE_START_LINE", 8),
+    /**
+     * code line
+     */
+    CODE_LINE("CODE_LINE", 0), 
+    /**
+     * blan line
+     */
+    BLANK_LINE("BLANK_LINE", 1), 
+    /**
+     * comment line
+     */
+    COMMNET_LINE("COMMNET_LINE", 2),
+    /**
+     * multiple comment start line
+     */
+    COMMNET_START_LINE("COMMNET_START_LINE", 3),
+    /**
+     * code with multiple comment start line
+     */
+    CODE_COMMNET_START_LINE("CODE_COMMNET_START_LINE", 4),
+    /**
+     * multiple comment end line
+     */
+    COMMNET_END_LINE("COMMNET_END_LINE", 5),
+    /**
+     * multiple comment end line with code
+     */
+    COMMNET_END_CODE_LINE("COMMNET_END_CODE_LINE", 6),
+    /**
+     * multiple comment end line with multiple comment start line
+     */
+    COMMNET_END_START_LINE("COMMNET_END_START_LINE", 7),
+    /**
+     * multiple comment end line with code and multiple comment start line
+     */
+    COMMNET_END_CODE_START_LINE("COMMNET_END_CODE_START_LINE", 8),
+    /**
+     * comment with code line
+     */
     COMMNET_CODE_LINE("COMMNET_CODE_LINE", 9);
 
     private String lineType;

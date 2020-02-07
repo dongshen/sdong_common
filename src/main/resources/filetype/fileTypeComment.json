@@ -1,0 +1,95 @@
+{
+    fileTypeCommentList: [
+        {
+            fileType: "C",
+            regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
+            regStringValue: "\".+?\"|'.+?'",
+            stringMarkList: [
+                "'",
+                "\""
+            ],            
+            oneLineCommentList: [
+                "//"
+            ],
+            multiLineCommentList: [
+                {
+                    startComment: "/*",
+                    endComment: "*/"
+                }
+            ]
+        },
+        {
+            fileType: "Java",
+            regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
+            regStringValue: "\".+?\"|'.+?'",
+            stringMarkList: [
+                "'",
+                "\""
+            ],              
+            oneLineCommentList: [
+                "//"
+            ],
+            multiLineCommentList: [
+                {
+                    startComment: "/*",
+                    endComment: "*/"
+                }
+            ]
+        },
+        {
+            fileType: "Go",
+            regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
+            regStringValue: "\".+?\"|'.+?'",
+            oneLineCommentList: [
+                "//"
+            ],
+            multiLineCommentList: [
+                {
+                    startComment: "/*",
+                    endComment: "*/"
+                }
+            ]
+        },
+        {
+            fileType: "JavaScript",
+            regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
+            regStringValue: "\".+?\"|'.+?'",
+            stringMarkList: [
+                "'",
+                "\""
+            ],               
+            oneLineCommentList: [
+                "//"
+            ],
+            
+            multiLineCommentList: [
+                {
+                    startComment: "/*",
+                    endComment: "*/"
+                }
+            ]
+        },
+        {
+            fileType: "Python",
+            regOneLine: "'''.*?'''|\"\"\".*?\"\"\"|^#.*",
+            regStringValue: "(?!\"\"\")\"[^\"]+(?!\"\"\")\"|(?!''')'[^']+(?!''')'",
+                stringMarkList: [
+                "'",
+                "\""
+            ],                   
+            oneLineCommentList: [
+                "#"
+            ],
+            multiLineCommentList: [
+                {
+                    startComment: "\"\"\"",
+                    endComment: "\"\"\""
+                },
+                {
+                    startComment: "'''",
+                    endComment: "'''"
+                }
+            ]
+        }
+    ]
+}

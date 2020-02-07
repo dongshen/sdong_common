@@ -12,6 +12,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import sdong.common.bean.FileInfo;
 import sdong.common.bean.FileType;
@@ -369,10 +370,28 @@ public class LocUtilTest {
     @Test
     public void testGetFileLocInfoQuestionMark() {
         String input = "char *p = \"/* case 37 */ // case 37\";";
-        String result = input.replaceAll(LocUtil.REG_STRING_VALUE, "");
+        String result = input.replaceAll(LocUtil.REG_STRING_VALUE, "\"\"");
 
         LOG.info("result:{}", result);
-        assertEquals("char *p = \"\"", result);
+        assertEquals("char *p = \"\";", result);
+    }
+
+    @Test
+    public void testParseFileTypeComment() {
+        LocUtil loc = new LocUtil();
+        ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap = loc.getFileTypeCommentMap();
+        LOG.info("Comment map size:{}", fileTypeCommentMap.size());
+        assertEquals(5, fileTypeCommentMap.size());
+
+        FileTypeComment comment = fileTypeCommentMap.get(FileType.C);
+        assertEquals(LocUtil.REG_ONELINE, comment.getRegOneLine());
+        assertEquals(LocUtil.REG_STRING_VALUE, comment.getRegStringValue());
+        assertEquals(1, comment.getOneLineCommentList().size());
+        assertEquals(LocUtil.COMMENT_ONELINE, comment.getOneLineCommentList().get(0));
+        assertEquals(1, comment.getMultiLineCommentList().size());
+        assertEquals(LocUtil.COMMENT_MULTIPL_START, comment.getMultiLineCommentList().get(0).getStartComment());
+        assertEquals(LocUtil.COMMENT_MULTIPL_END, comment.getMultiLineCommentList().get(0).getEndComment());
+
     }
 
     private void verifyResult(List<String> matchingCase, List<String> result) {
