@@ -179,7 +179,7 @@ public class LocUtilTest {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
+            FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = new MultipleLineComment();
@@ -206,7 +206,7 @@ public class LocUtilTest {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
+            FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = new MultipleLineComment();
@@ -233,7 +233,7 @@ public class LocUtilTest {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
+            FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = new MultipleLineComment();
@@ -261,7 +261,7 @@ public class LocUtilTest {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
+            FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
@@ -291,7 +291,7 @@ public class LocUtilTest {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
+            FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
@@ -319,7 +319,7 @@ public class LocUtilTest {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
+            FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
@@ -345,7 +345,7 @@ public class LocUtilTest {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(caseFileName));
+            FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(caseFileName));
             LocUtil loc = new LocUtil();
             FileTypeComment fileTypeComment = loc.getFileTypeComment(fileType);
             MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);

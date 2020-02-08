@@ -12,10 +12,10 @@ public class FileTypeTest {
 
     @Test
     public void testGetFileType(){
-        assertEquals(FileType.Python,FileType.getFileType("py"));
-        assertEquals(FileType.C,FileType.getFileType("c"));
-        assertEquals(FileType.C,FileType.getFileType("h"));
-        assertEquals(FileType.Java,FileType.getFileType("java"));
-        assertEquals(FileType.JavaScript,FileType.getFileType("js"));
+        assertEquals(FileType.Python,FileType.getFileTypeByExt("py"));
+        assertEquals(FileType.C,FileType.getFileTypeByExt("c"));
+        assertEquals(FileType.C,FileType.getFileTypeByExt("h"));
+        assertEquals(FileType.Java,FileType.getFileTypeByExt("java"));
+        assertEquals(FileType.JavaScript,FileType.getFileTypeByExt("js"));
     }
 }

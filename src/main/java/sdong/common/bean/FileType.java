@@ -1,10 +1,15 @@
 package sdong.common.bean;
 
+import com.google.common.base.Optional;
+
+import sdong.common.utils.Util;
+
 /**
  * File type enum
  */
 public enum FileType {
-    C("C/C++"), Java("Java"), JavaScript("JavaScript"), Python("Python"), Go("Go"), Kotlin("Kotlin"), Jsp("Jsp");
+    C("C/C++"), Java("Java"), JavaScript("JavaScript"), Python("Python"), Go("Go"), Kotlin("Kotlin"), Jsp("Jsp"),
+    Others("Others");
 
     private static final String EXT_C = "idc,cats,c,tpp,tcc,ipp,h++,C,cc,c++,cpp,CPP,cxx,ec,h,H,hh,hpp,hxx,inl,pcc,pgc,";
     private static final String EXT_JAVA = "java,";
@@ -30,7 +35,7 @@ public enum FileType {
      * @param extension file extension
      * @return file type
      */
-    public static FileType getFileType(String extension) {
+    public static FileType getFileTypeByExt(String extension) {
         String ext = extension + ",";
         if (EXT_C.indexOf(ext) >= 0) {
             return FileType.C;
@@ -47,7 +52,56 @@ public enum FileType {
         } else if (EXT_JSP.indexOf(ext) >= 0) {
             return FileType.Jsp;
         } else {
-            return null;
+            return FileType.Others;
         }
+    }
+
+    /**
+     * Get File type
+     *
+     * @param fileTypeName file type name
+     * @return file type
+     */
+    public static FileType getFileTypeByTypeName(String fileTypeName) {
+        Optional<FileType> option = Util.getEnum(FileType.class, fileTypeName);
+        if (option.isPresent()) {
+            return option.get();
+        } else {
+            return FileType.Others;
+        }
+    }
+
+    /**
+     * Get file type related extsion
+     *
+     * @param fileType input file type
+     * @return extension
+     */
+    public static String getFileTypeExt(FileType fileType) {
+        String ext = "";
+        if (fileType == null) {
+            return ext;
+        }
+        switch (fileType) {
+        case C:
+            return EXT_C;
+        case Java:
+            return EXT_JAVA;
+        case JavaScript:
+            return EXT_JAVASCRIPT;
+        case Python:
+            return EXT_PYTHON;
+        case Go:
+            return EXT_GO;
+        case Kotlin:
+            return EXT_KOTLIN;
+        case Jsp:
+            return EXT_JSP;
+        case Others:
+            return ext;
+        default:
+            break;
+        }
+        return ext;
     }
 }

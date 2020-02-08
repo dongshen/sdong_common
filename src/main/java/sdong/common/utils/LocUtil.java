@@ -30,9 +30,11 @@ public class LocUtil {
     public static final String REG_ONELINE = "\\/\\*.*?\\*\\/|\\/\\/.*";
     public static final String COMMENT_MULTIPL_START = "/*";
     public static final String COMMENT_MULTIPL_END = "*/";
-    public static final String COMMENT_ONELINE = "//";
+    public static final String COMMENT_ONELINE = "//";    
 
     private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
+
+    private static final int NOT_FIND_MARK = -1;
 
     private static ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap;
 
@@ -95,7 +97,7 @@ public class LocUtil {
             fileInfo.setFileSize(file.length());
             fileInfo.setMd5(Util.generateFileMd5(file));
 
-            FileType fileType = FileType.getFileType(FileUtil.getFileExtension(file.getName()));
+            FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(file.getName()));
             if (fileType != null) {
                 fileInfo.setFileType(fileType);
 
@@ -254,9 +256,8 @@ public class LocUtil {
         }
 
         // check first end comment in line
-        int endPos = -1;
-        endPos = lineTrim.indexOf(multiLineCommentStart.getEndComment());
-        if (endPos == -1) {
+        int endPos = lineTrim.indexOf(multiLineCommentStart.getEndComment());
+        if (endPos == NOT_FIND_MARK) {
             return LineType.COMMNET_LINE;
         }
 

@@ -1,6 +1,8 @@
 package sdong.common.utils;
 
 import com.fasterxml.uuid.Generators;
+import com.google.common.base.Enums;
+import com.google.common.base.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,4 +90,14 @@ public class Util {
 		return generateMD5(FileUtil.readFileToByteArray(file));
 	}
 
+	/**
+	 * Get enum value
+	 * @param <T> enum type
+	 * @param enumClass enum class
+	 * @param strValue convert string 
+	 * @return enum
+	 */
+	public static <T extends Enum<T>> Optional<T> getEnum(Class<T> enumClass,String strValue){
+		return Enums.getIfPresent(enumClass, strValue);
+	}
 }

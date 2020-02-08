@@ -1,11 +1,14 @@
 package sdong.common.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import com.google.common.base.Optional;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sdong.common.bean.FileType;
 import sdong.common.exception.SdongException;
 
 public class UtilTest {
@@ -38,7 +41,33 @@ public class UtilTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
+
+	@Test
+	public void testGetEnum() {
+		assertEquals(FileType.C, FileType.getFileTypeByTypeName("C"));
+		assertEquals(FileType.Others, FileType.getFileTypeByTypeName("XXX"));
+	}
+	@Test
+    public void testOptional() throws Exception { 
+        Optional<Integer> possible=Optional.of(6);
+        Optional<Integer> absentOpt=Optional.absent();
+        Optional<Integer> NullableOpt=Optional.fromNullable(null);
+        Optional<Integer> NoNullableOpt=Optional.fromNullable(10);
+        if(possible.isPresent()){
+            System.out.println("possible isPresent:"+possible.isPresent());
+            System.out.println("possible value:"+possible.get());
+        }
+        if(absentOpt.equals(Optional.absent())){
+            System.out.println("absentOpt isPresent:"+absentOpt.isPresent()); ;
+        }
+        if(NullableOpt.isPresent()){
+            System.out.println("fromNullableOpt isPresent:"+NullableOpt.isPresent()); ;
+        }
+        if(NoNullableOpt.isPresent()){
+            System.out.println("NoNullableOpt isPresent:"+NoNullableOpt.isPresent()); ;
+        }
+    } 
+
 
 }

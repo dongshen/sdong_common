@@ -113,6 +113,15 @@ public class FileUtil {
 
 	}
 
+	public static List<String> getFilesInFolderSum(String folderList) throws SdongException {
+		List<String> fileList = new ArrayList<String>();
+		String[] folders = folderList.split(",");
+		for(String file:folders){
+			fileList.addAll(getFilesInFolder(file));
+		}
+		return fileList;
+	}
+
 	public static List<String> getFilesInFolder(String folder) throws SdongException {
 		List<String> fileList = new ArrayList<String>();
 		try {
