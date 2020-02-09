@@ -1,3 +1,4 @@
+package sdong.common.thread;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,5 +33,6 @@ public class LocInfoCallable implements Callable<List<FileInfo>> {
             LOG.error(e.getMessage(),e );
             throw new Exception(e.getMessage());
         }
+        return fileInfoList;
     }
 }
