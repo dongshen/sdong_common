@@ -50,7 +50,7 @@ public class Util {
 		try {
 			value = Integer.parseInt(input);
 		} catch (NumberFormatException exp) {
-			logger.error("Parse " + input + "to integer error!");
+			logger.error("Parse {} to integer error!", input );
 		}
 		return value;
 	}

@@ -26,7 +26,7 @@ public class LocUtilTest {
     private static final Logger LOG = LoggerFactory.getLogger(LocUtilTest.class);
 
     // test case file name
-    String caseFileName = "input/loc/loc_cases.c";
+    String caseFileName = "input/loc/example/loc_cases.c";
 
     // test csae result. 0:blank line; 1:comment line; 2:comment in line;
     private static final int[][] result = { { 0, 1, 0 }, /* case 1 */{ 0, 1, 0 }, { 0, 3, 0 }, { 0, 3, 0 }, { 0, 0, 1 },
@@ -107,11 +107,12 @@ public class LocUtilTest {
 
     @Test
     public void testGetFileLocInfo_C() {
-        String fileName = "input/loc/loc_example.c";
+        String fileName = "input/loc/example/loc_example.c";
         int commentLineCount = 62;
         int blankLineCounts = 57;
         int commentInLineCounts = 14;
         int rowLineCounts = 277;
+        int lineCounts = 158;
         try {
             LocUtil loc = new LocUtil();
             FileInfo fileInfo = loc.getFileLocInfo(new File(fileName));
@@ -120,6 +121,7 @@ public class LocUtilTest {
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+            assertEquals(lineCounts, fileInfo.getLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("a699c02176bab00a5a9f0c193c019f0a", fileInfo.getMd5());
         } catch (SdongException e) {
@@ -130,11 +132,13 @@ public class LocUtilTest {
 
     @Test
     public void testGetFileLocInfo_Java() {
-        String fileName = "input/loc/loc_example.java";
+        String fileName = "input/loc/example/loc_example.java";
         int commentLineCount = 9;
         int blankLineCounts = 5;
         int commentInLineCounts = 0;
         int rowLineCounts = 21;
+        int lineCounts = 7;
+
         try {
             LocUtil loc = new LocUtil();
             FileInfo fileInfo = loc.getFileLocInfo(new File(fileName));
@@ -143,6 +147,7 @@ public class LocUtilTest {
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+            assertEquals(lineCounts, fileInfo.getLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("54a0b23afe764a9203e13fec72c7ad04", fileInfo.getMd5());
         } catch (SdongException e) {
@@ -153,11 +158,12 @@ public class LocUtilTest {
 
     @Test
     public void testGetFileLocInfo_Python() {
-        String fileName = "input/loc/loc_example.py";
+        String fileName = "input/loc/example/loc_example.py";
         int commentLineCount = 7;
         int blankLineCounts = 2;
         int commentInLineCounts = 0;
         int rowLineCounts = 14;
+        int lineCounts = 5;
         try {
             LocUtil loc = new LocUtil();
             FileInfo fileInfo = loc.getFileLocInfo(new File(fileName));
@@ -166,6 +172,7 @@ public class LocUtilTest {
             assertEquals(commentLineCount, fileInfo.getCommentCounts());
             assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
             assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+            assertEquals(lineCounts, fileInfo.getLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("e44019a4e0e7fb50d0bd6acd26592312", fileInfo.getMd5());
         } catch (SdongException e) {
@@ -257,7 +264,6 @@ public class LocUtilTest {
 
     @Test
     public void testCaseFor_COMMNET_END_LINE() {
-        String caseFileName = "input/loc/loc_cases.c";
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);

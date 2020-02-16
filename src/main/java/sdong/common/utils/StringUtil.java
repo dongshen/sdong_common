@@ -32,9 +32,13 @@ public class StringUtil {
 	}
 
 	public static final String joinStringListToStringByLineBreak(List<String> list) {
+		return joinStringListToString(list, LINE_BREAK);
+	}
+
+	public static final String joinStringListToString(List<String> list, String split) {
 		StringBuffer bf = new StringBuffer();
 		for (String line : list) {
-			bf.append(line).append(LINE_BREAK);
+			bf.append(line).append(split);
 		}
 
 		return bf.toString();
