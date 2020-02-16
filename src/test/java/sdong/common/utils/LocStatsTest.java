@@ -44,12 +44,12 @@ public class LocStatsTest {
         List<String> fileList;
         try {
             fileList = FileUtil.getFilesInFolderSum(teseCaseFiles);
-            assertEquals(4, fileList.size());
+            assertEquals(5, fileList.size());
 
             List<FileInfo> fileInfoList = LocStats.getFieInfoThread(fileList, 1);
             boolean isPrintList = false;
             ConcurrentHashMap<FileType, FileInfoSum> sumMap = LocStats.printFileInfoSum(fileInfoList, isPrintList);
-            assertEquals(3, sumMap.size());
+            assertEquals(4, sumMap.size());
 
             // get C
             FileInfoSum sumC = sumMap.get(FileType.C);
@@ -81,6 +81,15 @@ public class LocStatsTest {
             assertEquals(5, sumP.getLineCounts());
             assertEquals(14, sumP.getRowLineCounts());
 
+            // get Python
+            FileInfoSum sumX = sumMap.get(FileType.Xml);
+            assertEquals(1, sumX.getFilesCounts());
+            assertEquals(0, sumX.getBlankLineCounts());
+            assertEquals(2, sumX.getCommentCounts());
+            assertEquals(1, sumX.getCommentInLineCounts());
+            assertEquals(480, sumX.getFileSize());
+            assertEquals(12, sumX.getLineCounts());
+            assertEquals(14, sumX.getRowLineCounts());
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
