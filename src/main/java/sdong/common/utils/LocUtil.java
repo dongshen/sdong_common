@@ -183,8 +183,14 @@ public class LocUtil {
             return LineType.BLANK_LINE;
         }
 
-        String lineWithoutStringValue = lineTrim.replaceAll(fileTypeComment.getRegStringValue(), "\"\"").trim();
-        String lineWithoutCommentPair = lineWithoutStringValue.replaceAll(fileTypeComment.getRegOneLine(), "").trim();
+        String lineWithoutStringValue = lineTrim;
+        if(!fileTypeComment.getRegStringValue().isEmpty()){
+            lineWithoutStringValue = lineTrim.replaceAll(fileTypeComment.getRegStringValue(), "\"\"").trim();
+        }
+        String lineWithoutCommentPair = lineWithoutStringValue;
+        if(!fileTypeComment.getRegOneLine().isEmpty()){
+            lineWithoutCommentPair = lineWithoutStringValue.replaceAll(fileTypeComment.getRegOneLine(), "").trim();
+        }
 
         if (lineWithoutCommentPair.isEmpty()) {
             return LineType.COMMNET_LINE;

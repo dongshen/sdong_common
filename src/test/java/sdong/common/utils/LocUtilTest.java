@@ -182,6 +182,31 @@ public class LocUtilTest {
     }
 
     @Test
+    public void testGetFileLocInfo_Xml() {
+        String fileName = "input/loc/example/loc_example.xml";
+        int commentLineCount = 2;
+        int blankLineCounts = 0;
+        int commentInLineCounts = 1;
+        int rowLineCounts = 14;
+        int lineCounts = 12;
+        try {
+            LocUtil loc = new LocUtil();
+            FileInfo fileInfo = loc.getFileLocInfo(new File(fileName));
+
+            LOG.info("{}", fileInfo.toString());
+            assertEquals(commentLineCount, fileInfo.getCommentCounts());
+            assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
+            assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+            assertEquals(lineCounts, fileInfo.getLineCounts());
+            assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
+            assertEquals("7fd9d6551bed2f83b2b741655a432be1", fileInfo.getMd5());
+        } catch (SdongException e) {
+            LOG.error(e.getMessage());
+            fail("should not get exception!");
+        }
+    }
+
+    @Test
     public void testCaseFor_COMMNET_LINE() {
         List<String> lines;
         try {

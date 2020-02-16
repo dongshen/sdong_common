@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- My Comment -->
+<DocumentElement myAttribute="myAttributeValue">
+    <!-- My Comment -->
+    <ChildElement>Element Value</ChildElement>
+</DocumentElement>
+<DocumentElement myAttribute="my Attribute Value">
+    <ChildElement attribute="<!--My Comment -->">
+         Element <!-- My Comment --> Value
+    <ChildElement/>
+</DocumentElement>
+<DocumentElement>
+    <![CDATA[ Some <!-- My Comment --> Value ]]>
+</DocumentElement>

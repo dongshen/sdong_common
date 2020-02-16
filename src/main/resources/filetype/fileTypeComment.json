@@ -90,6 +90,22 @@
                     endComment: "'''"
                 }
             ]
-        }
+        },
+        {
+            fileType: "Xml",
+            regOneLine: "<!--.*-->",
+            regStringValue: "\"(.+?)\"|<!\\[CDATA\\[.*\\]\\]>",
+            stringMarkList: [
+                "\""
+            ],                   
+            oneLineCommentList: [
+            ],
+            multiLineCommentList: [
+                {
+                    startComment: "<!--",
+                    endComment: "-->"
+                }
+            ]
+        }        
     ]
 }

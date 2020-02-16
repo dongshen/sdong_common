@@ -9,7 +9,7 @@ import sdong.common.utils.Util;
  */
 public enum FileType {
     C("C/C++"), Java("Java"), JavaScript("JavaScript"), Python("Python"), Go("Go"), Kotlin("Kotlin"), Jsp("Jsp"),
-    Others("Others");
+    Xml("Xml"), Others("Others");
 
     private static final String EXT_C = "idc,cats,c,tpp,tcc,ipp,h++,C,cc,c++,cpp,CPP,cxx,ec,h,H,hh,hpp,hxx,inl,pcc,pgc,";
     private static final String EXT_JAVA = "java,";
@@ -18,6 +18,14 @@ public enum FileType {
     private static final String EXT_GO = "go,";
     private static final String EXT_KOTLIN = "kt,ktm,kts,";
     private static final String EXT_JSP = "jsp,jspf,";
+    private static final String EXT_XML = "zcml,xul,xspec,xproj,xml.dist,xliff,xlf,xib,xacro,x3d,wsf,"
+            + "web.release.config,web.debug.config,web.config,vxml,vstemplate,vssettings,vsixmanifest,vcxproj,"
+            + "ux,urdf,tmtheme,tmsnippet,tmpreferences,tmlanguage,tml,tmcommand,targets,sublime-snippet,sttheme,"
+            + "storyboard,srdf,shproj,sfproj,settings.stylecop,scxml,rss,resx,rdf,pt,psc1,ps1xml,props,proj,plist,"
+            + "pkgproj,packages.config,osm,odd,nuspec,nuget.config,nproj,ndproj,natvis,mjml,mdpolicy,launch,kml,"
+            + "jsproj,jelly,ivy,iml,grxml,gmx,fsproj,filters,dotsettings,dll.config,ditaval,ditamap,depproj,ct,"
+            + "csl,csdef,cscfg,cproject,clixml,ccxml,ccproj,builds,axml,app.config,ant,admx,adml,project,"
+            + "classpath,xml,XML,mxml,MXML";
 
     private final String fileType;
 
@@ -55,6 +63,8 @@ public enum FileType {
             return FileType.Kotlin;
         } else if (EXT_JSP.indexOf(ext) >= 0) {
             return FileType.Jsp;
+        } else if (EXT_XML.indexOf(ext) >= 0) {
+            return FileType.Xml;
         } else {
             return FileType.Others;
         }
@@ -101,6 +111,8 @@ public enum FileType {
             return EXT_KOTLIN;
         case Jsp:
             return EXT_JSP;
+        case Xml:
+            return EXT_XML;
         case Others:
             return ext;
         default:
