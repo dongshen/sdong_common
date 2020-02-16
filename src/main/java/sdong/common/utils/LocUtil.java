@@ -98,9 +98,8 @@ public class LocUtil {
             fileInfo.setMd5(Util.generateFileMd5(file));
 
             FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(file.getName()));
-            if (fileType != null) {
-                fileInfo.setFileType(fileType);
-
+            fileInfo.setFileType(fileType);
+            if (fileType != null) {                
                 // get Loc of file
                 getFileLocInfo(reader, fileInfo);
 

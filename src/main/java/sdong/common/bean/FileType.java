@@ -36,6 +36,10 @@ public enum FileType {
      * @return file type
      */
     public static FileType getFileTypeByExt(String extension) {
+        if (extension == null || extension.isEmpty()) {
+            return FileType.Others;
+        }
+
         String ext = extension + ",";
         if (EXT_C.indexOf(ext) >= 0) {
             return FileType.C;
