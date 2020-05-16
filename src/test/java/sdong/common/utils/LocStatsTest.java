@@ -10,9 +10,9 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import sdong.common.bean.FileInfo;
-import sdong.common.bean.FileInfoSum;
-import sdong.common.bean.FileType;
+import sdong.common.bean.loc.FileInfo;
+import sdong.common.bean.loc.FileInfoSum;
+import sdong.common.bean.loc.FileType;
 import sdong.common.exception.SdongException;
 
 public class LocStatsTest {

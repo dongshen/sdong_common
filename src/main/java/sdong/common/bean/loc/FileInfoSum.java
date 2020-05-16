@@ -1,24 +1,22 @@
-package sdong.common.bean;
+package sdong.common.bean.loc;
 
 import java.io.Serializable;
 
 /**
- * Source file info for SLOC and md5
+ * Source file info Summary
  *
  */
-public class FileInfo implements Serializable {
-
-    private static final long serialVersionUID = -4954627059067418661L;
-
-    String fileName;
+public class FileInfoSum implements Serializable {
+    private static final long serialVersionUID = -8661761088227801742L;    
     FileType fileType;
+    int filesCounts;
     int rowLineCounts;
     int lineCounts;
     int commentCounts;
     int blankLineCounts;
     int commentInLineCounts;
     long fileSize;
-    String md5;
+
 
     public int getLineCounts() {
         return lineCounts;
@@ -42,14 +40,6 @@ public class FileInfo implements Serializable {
 
     public void setBlankLineCounts(int blankLineCounts) {
         this.blankLineCounts = blankLineCounts;
-    }
-
-    public String getMd5() {
-        return md5;
-    }
-
-    public void setMd5(String md5) {
-        this.md5 = md5;
     }
 
     public int getCommentInLineCounts() {
@@ -84,19 +74,18 @@ public class FileInfo implements Serializable {
         this.fileType = fileType;
     }
 
-    public String getFileName() {
-        return fileName;
+    public int getFilesCounts() {
+        return filesCounts;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFilesCounts(int filesCounts) {
+        this.filesCounts = filesCounts;
     }
-
+    
     @Override
     public String toString() {
-        return "FileInfo [fileName=" + fileName + ", fileType=" + fileType + ", blankLineCounts=" + blankLineCounts
+        return "FileInfoSum [fileType=" + fileType+", filesCounts=" + filesCounts + ", blankLineCounts=" + blankLineCounts
                 + ", commentCounts=" + commentCounts + ", commentInLineCounts=" + commentInLineCounts + ", fileSize="
-                + fileSize + ", lineCounts=" + lineCounts + ", md5=" + md5 + ", rowLineCounts=" + rowLineCounts + "]";
+                + fileSize + ", lineCounts=" + lineCounts + ", rowLineCounts=" + rowLineCounts + "]";
     }
-
 }

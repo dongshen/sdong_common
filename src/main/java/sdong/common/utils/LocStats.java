@@ -13,9 +13,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
-import sdong.common.bean.FileInfo;
-import sdong.common.bean.FileInfoSum;
-import sdong.common.bean.FileType;
+import sdong.common.bean.loc.FileInfo;
+import sdong.common.bean.loc.FileInfoSum;
+import sdong.common.bean.loc.FileType;
 import sdong.common.exception.SdongException;
 import sdong.common.thread.LocInfoCallable;
 

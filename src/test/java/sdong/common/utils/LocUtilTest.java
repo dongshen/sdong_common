@@ -14,11 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import sdong.common.bean.FileInfo;
-import sdong.common.bean.FileType;
-import sdong.common.bean.FileTypeComment;
-import sdong.common.bean.LineType;
-import sdong.common.bean.MultipleLineComment;
+import sdong.common.bean.loc.FileInfo;
+import sdong.common.bean.loc.FileType;
+import sdong.common.bean.loc.FileTypeComment;
+import sdong.common.bean.loc.LineType;
+import sdong.common.bean.loc.MultipleLineComment;
 import sdong.common.exception.SdongException;
 
 public class LocUtilTest {

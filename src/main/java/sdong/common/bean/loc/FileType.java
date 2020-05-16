@@ -1,4 +1,4 @@
-package sdong.common.bean;
+package sdong.common.bean.loc;
 
 import com.google.common.base.Optional;
 

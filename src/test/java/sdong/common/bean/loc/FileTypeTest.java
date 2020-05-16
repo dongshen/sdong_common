@@ -1,4 +1,4 @@
-package sdong.common.bean;
+package sdong.common.bean.loc;
 
 import static org.junit.Assert.assertEquals;
 

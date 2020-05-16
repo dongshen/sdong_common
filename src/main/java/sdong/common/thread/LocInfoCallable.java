@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import sdong.common.bean.FileInfo;
+import sdong.common.bean.loc.FileInfo;
 import sdong.common.exception.SdongException;
 import sdong.common.utils.LocUtil;
 
