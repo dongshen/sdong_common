@@ -2,7 +2,7 @@ package sdong.common.bean.loc;
 
 import com.google.common.base.Optional;
 
-import sdong.common.utils.Util;
+import sdong.common.utils.CommonUtil;
 
 /**
  * File type enum
@@ -77,7 +77,7 @@ public enum FileType {
      * @return file type
      */
     public static FileType getFileTypeByTypeName(String fileTypeName) {
-        Optional<FileType> option = Util.getEnum(FileType.class, fileTypeName);
+        Optional<FileType> option = CommonUtil.getEnum(FileType.class, fileTypeName);
         if (option.isPresent()) {
             return option.get();
         } else {

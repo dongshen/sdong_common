@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sdong.common.Constants;
+import sdong.common.CommonConstants;
 import sdong.common.exception.SdongException;
 
 public class RunCommandUtil {
@@ -77,7 +77,7 @@ public class RunCommandUtil {
 			StringBuffer sb = new StringBuffer();
 
 			while ((line = br.readLine()) != null) {
-				sb.append(line).append(Constants.LINE_BREAK);
+				sb.append(line).append(CommonConstants.LINE_BREAK);
 			}
 			result = sb.toString();
 

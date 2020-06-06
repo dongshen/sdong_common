@@ -54,7 +54,7 @@ public class LocStats {
                 } else if (parm.indexOf(PARM_PRINT_LIST) >= 0) {
                     isPrintList = true;
                 } else if (parm.indexOf(PARM_PRINT_THREAD) >= 0) {
-                    threadNum = Util
+                    threadNum = CommonUtil
                             .parseInteger(parm.substring(parm.indexOf(PARM_PRINT_THREAD) + PARM_PRINT_THREAD.length()));
                     threadNum = 0 == threadNum ? 1 : threadNum;
                 }

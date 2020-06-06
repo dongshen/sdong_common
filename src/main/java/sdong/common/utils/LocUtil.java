@@ -95,7 +95,7 @@ public class LocUtil {
             // update basic info
             fileInfo.setFileName(file.getCanonicalPath());
             fileInfo.setFileSize(file.length());
-            fileInfo.setMd5(Util.generateFileMd5(file));
+            fileInfo.setMd5(CommonUtil.generateFileMd5(file));
 
             FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(file.getName()));
             fileInfo.setFileType(fileType);

@@ -231,16 +231,26 @@ public class FileUtil {
 		}
 	}
 
-	public static File createFile(String fileName) {
+	/**
+	 * create file, if parent folder is not exist, then create parent folder.
+	 * @param fileName file name 
+	 * @return File
+	 * @throws SdongException create fail
+	 */
+	public static File createFile(String fileName) throws SdongException {
 		File file = new File(fileName);
 		File parent = file.getParentFile();
 		if (!parent.exists()) {
-			parent.mkdirs();
+			if(!parent.mkdirs()){
+				if (!parent.exists()) {
+					throw new SdongException("Create folder fail!");
+				}
+			}
 		}
 		return file;
 	}
 
-	public static void copyFile(String fromFile, String toFile) throws IOException {
+	public static void copyFile(String fromFile, String toFile) throws IOException, SdongException {
 		Files.copy(new File(fromFile), createFile(toFile));
 	}
 }

@@ -18,14 +18,14 @@ public class UtilTest {
 	@Test
 	public void testGetUUID() {
 		for (int i = 0; i < 10; i++) {
-			LOG.info("UUID= " + Util.getUUID());
+			LOG.info("UUID= " + CommonUtil.getUuid());
 		}
 	}
 
 	@Test
 	public void testGenerateUUIDSeq() {
 		for (int i = 0; i < 10; i++) {
-			LOG.info("UUID= " + Util.generateUUIDSeq());
+			LOG.info("UUID= " + CommonUtil.generateUuidSeq());
 		}
 	}
 
@@ -34,7 +34,7 @@ public class UtilTest {
 		String content = "xxxx";
 		String md5;
 		try {
-			md5 = Util.generateMD5(content);
+			md5 = CommonUtil.generateMD5(content);
 			LOG.info("md5=" + md5);
 			assertEquals("ea416ed0759d46a8de58f63a59077499", md5);
 		} catch (SdongException e) {
