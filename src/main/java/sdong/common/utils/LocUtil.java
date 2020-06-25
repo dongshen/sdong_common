@@ -1,9 +1,5 @@
 package sdong.common.utils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +8,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import sdong.common.bean.loc.FileInfo;
 import sdong.common.bean.loc.FileType;
 import sdong.common.bean.loc.FileTypeComment;
@@ -26,11 +29,6 @@ import sdong.common.exception.SdongException;
  */
 public class LocUtil {
     public static final String COMMENT_SETTING_FILE = "filetype/fileTypeComment.json";
-    public static final String REG_STRING_VALUE = "\"(.+?)\"|'.+?'";
-    public static final String REG_ONELINE = "\\/\\*.*?\\*\\/|\\/\\/.*";
-    public static final String COMMENT_MULTIPL_START = "/*";
-    public static final String COMMENT_MULTIPL_END = "*/";
-    public static final String COMMENT_ONELINE = "//";    
 
     private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
 
@@ -38,16 +36,15 @@ public class LocUtil {
 
     private static ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap;
 
-    public LocUtil() {
+    // initial file type comment setting
+    static {
         fileTypeCommentMap = new ConcurrentHashMap<FileType, FileTypeComment>();
         try (InputStream stream = LocUtil.class.getClassLoader().getResourceAsStream(LocUtil.COMMENT_SETTING_FILE);
                 Reader reader = new InputStreamReader(stream)) {
-            
-            fileTypeCommentMap = parseFileTypeComment(reader);
-            LOG.info("Get comment setting: {}",fileTypeCommentMap.size() );
-
+            setFileTypeCommentMap(parseFileTypeComment(reader));
+            LOG.info("Get comment setting: {}", fileTypeCommentMap.size());
         } catch (IOException e) {
-            LOG.error(e.getMessage());            
+            LOG.error(e.getMessage());
         }
     }
 
@@ -56,19 +53,17 @@ public class LocUtil {
      *
      * @param inputReader input reader
      * @return file type comment map
+     * @throws IOException file operation fail
      */
-    public ConcurrentHashMap<FileType, FileTypeComment> parseFileTypeComment(Reader inputReader) {
+    public static ConcurrentHashMap<FileType, FileTypeComment> parseFileTypeComment(Reader inputReader)
+            throws IOException {
         ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap = new ConcurrentHashMap<FileType, FileTypeComment>();
-        
-        try (Reader reader = new BufferedReader(inputReader)){
-            
-            Gson gson = new GsonBuilder().create();                
-            FileTypeComments comments =  gson.fromJson(reader, FileTypeComments.class);
+        try (Reader reader = new BufferedReader(inputReader)) {
+            Gson gson = new GsonBuilder().create();
+            FileTypeComments comments = gson.fromJson(reader, FileTypeComments.class);
             fileTypeCommentMap = comments.getFileTypeCommentMap();
-        } catch (IOException e) {
-            LOG.error(e.getMessage());
         }
-        
+
         return fileTypeCommentMap;
     }
 
@@ -78,7 +73,7 @@ public class LocUtil {
      * @param fileType input file type
      * @return FileTypeComment
      */
-    public FileTypeComment getFileTypeComment(FileType fileType) {
+    public static FileTypeComment getFileTypeComment(FileType fileType) {
         return fileTypeCommentMap.get(fileType);
     }
 
@@ -89,7 +84,7 @@ public class LocUtil {
      * @return file info bean
      * @throws SdongException module exception
      */
-    public FileInfo getFileLocInfo(File file) throws SdongException {
+    public static FileInfo getFileLocInfo(File file) throws SdongException {
         FileInfo fileInfo = new FileInfo();
         try (Reader reader = new InputStreamReader(new FileInputStream(file))) {
             // update basic info
@@ -99,7 +94,7 @@ public class LocUtil {
 
             FileType fileType = FileType.getFileTypeByExt(FileUtil.getFileExtension(file.getName()));
             fileInfo.setFileType(fileType);
-            if (fileType != null) {                
+            if (fileType != null) {
                 // get Loc of file
                 getFileLocInfo(reader, fileInfo);
 
@@ -125,8 +120,7 @@ public class LocUtil {
      * @param fileInfo file info bean
      * @throws SdongException module exception
      */
-    public void getFileLocInfo(Reader reader, FileInfo fileInfo) throws SdongException {
-
+    public static void getFileLocInfo(Reader reader, FileInfo fileInfo) throws SdongException {
         FileTypeComment fileTypeComment = fileTypeCommentMap.get(fileInfo.getFileType());
         if (fileTypeComment == null) {
             return;
@@ -141,25 +135,25 @@ public class LocUtil {
 
                 lineType = getLineType(line, fileTypeComment, multiLineCommentStart);
                 switch (lineType) {
-                case BLANK_LINE:
-                    fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
-                    break;
-                case COMMNET_LINE:
-                    fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                    break;
-                case COMMNET_START_LINE:
-                    fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                    multiCommentLine(bufReader, fileInfo, fileTypeComment, multiLineCommentStart);
-                    break;
-                case CODE_COMMNET_START_LINE:
-                    fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
-                    multiCommentLine(bufReader, fileInfo, fileTypeComment, multiLineCommentStart);
-                    break;
-                case COMMNET_CODE_LINE:
-                    fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
-                    break;
-                default:
-                    break;
+                    case BLANK_LINE:
+                        fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
+                        break;
+                    case COMMNET_LINE:
+                        fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
+                        break;
+                    case COMMNET_START_LINE:
+                        fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
+                        multiCommentLine(bufReader, fileInfo, fileTypeComment, multiLineCommentStart);
+                        break;
+                    case CODE_COMMNET_START_LINE:
+                        fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
+                        multiCommentLine(bufReader, fileInfo, fileTypeComment, multiLineCommentStart);
+                        break;
+                    case COMMNET_CODE_LINE:
+                        fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
+                        break;
+                    default:
+                        break;
                 }
             }
             bufReader.close();
@@ -176,7 +170,7 @@ public class LocUtil {
      * @param fileTypeComment file type comment bean
      * @return line type
      */
-    public LineType getLineType(String line, FileTypeComment fileTypeComment,
+    public static LineType getLineType(String line, FileTypeComment fileTypeComment,
             MultipleLineComment multiLineCommentStart) {
         String lineTrim = line.trim();
         if (lineTrim.isEmpty()) {
@@ -184,11 +178,11 @@ public class LocUtil {
         }
 
         String lineWithoutStringValue = lineTrim;
-        if(!fileTypeComment.getRegStringValue().isEmpty()){
+        if (!fileTypeComment.getRegStringValue().isEmpty()) {
             lineWithoutStringValue = lineTrim.replaceAll(fileTypeComment.getRegStringValue(), "\"\"").trim();
         }
         String lineWithoutCommentPair = lineWithoutStringValue;
-        if(!fileTypeComment.getRegOneLine().isEmpty()){
+        if (!fileTypeComment.getRegOneLine().isEmpty()) {
             lineWithoutCommentPair = lineWithoutStringValue.replaceAll(fileTypeComment.getRegOneLine(), "").trim();
         }
 
@@ -215,7 +209,7 @@ public class LocUtil {
         }
     }
 
-    private void multiCommentLine(BufferedReader bfr, FileInfo fileInfo, FileTypeComment fileTypeComment,
+    private static void multiCommentLine(BufferedReader bfr, FileInfo fileInfo, FileTypeComment fileTypeComment,
             MultipleLineComment multiLineCommentStart) throws IOException {
         String line = null;
         LineType lineType;
@@ -224,23 +218,23 @@ public class LocUtil {
 
             lineType = getMulCommentsLineType(line, fileTypeComment, multiLineCommentStart);
             switch (lineType) {
-            case BLANK_LINE:
-            case COMMNET_LINE:
-            case COMMNET_END_START_LINE:
-                fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                break;
-            case COMMNET_END_LINE:
-                fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                return;
-            case COMMNET_END_CODE_LINE:
-                fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
-                return;
-            case COMMNET_END_CODE_START_LINE:
-                fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
-                break;
-            default:
-                fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
-                break;
+                case BLANK_LINE:
+                case COMMNET_LINE:
+                case COMMNET_END_START_LINE:
+                    fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
+                    break;
+                case COMMNET_END_LINE:
+                    fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
+                    return;
+                case COMMNET_END_CODE_LINE:
+                    fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
+                    return;
+                case COMMNET_END_CODE_START_LINE:
+                    fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
+                    break;
+                default:
+                    fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
+                    break;
             }
         }
         return;
@@ -253,7 +247,7 @@ public class LocUtil {
      * @param fileTypeComment file type comment
      * @return line type
      */
-    public LineType getMulCommentsLineType(String line, FileTypeComment fileTypeComment,
+    public static LineType getMulCommentsLineType(String line, FileTypeComment fileTypeComment,
             MultipleLineComment multiLineCommentStart) {
         String lineTrim = line.trim();
         if (lineTrim.isEmpty()) {
@@ -275,37 +269,36 @@ public class LocUtil {
 
         LineType lineType = getLineType(lineTrim, fileTypeComment, multiLineCommentStart);
         switch (lineType) {
-        case BLANK_LINE:
-            lineType = LineType.COMMNET_END_LINE;
-            break;
-        case COMMNET_LINE:
-            lineType = LineType.COMMNET_END_LINE;
-            break;
-        case CODE_LINE:
-            lineType = LineType.COMMNET_END_CODE_LINE;
-            break;
-        case COMMNET_START_LINE:
-            lineType = LineType.COMMNET_END_START_LINE;
-            break;
-        case CODE_COMMNET_START_LINE:
-            lineType = LineType.COMMNET_END_CODE_START_LINE;
-            break;
-        case COMMNET_CODE_LINE:
-            lineType = LineType.COMMNET_END_CODE_LINE;
-            break;
-        default:
-            break;
+            case BLANK_LINE:
+                lineType = LineType.COMMNET_END_LINE;
+                break;
+            case COMMNET_LINE:
+                lineType = LineType.COMMNET_END_LINE;
+                break;
+            case CODE_LINE:
+                lineType = LineType.COMMNET_END_CODE_LINE;
+                break;
+            case COMMNET_START_LINE:
+                lineType = LineType.COMMNET_END_START_LINE;
+                break;
+            case CODE_COMMNET_START_LINE:
+                lineType = LineType.COMMNET_END_CODE_START_LINE;
+                break;
+            case COMMNET_CODE_LINE:
+                lineType = LineType.COMMNET_END_CODE_LINE;
+                break;
+            default:
+                break;
         }
         return lineType;
     }
 
-    public ConcurrentHashMap<FileType, FileTypeComment> getFileTypeCommentMap() {
+    public static ConcurrentHashMap<FileType, FileTypeComment> getFileTypeCommentMap() {
         return fileTypeCommentMap;
     }
 
-    public void setFileTypeCommentMap(
-            ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap) {
+    public static void setFileTypeCommentMap(ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap) {
         LocUtil.fileTypeCommentMap = fileTypeCommentMap;
     }
-    
+
 }

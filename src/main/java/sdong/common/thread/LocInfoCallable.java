@@ -24,10 +24,9 @@ public class LocInfoCallable implements Callable<List<FileInfo>> {
     @Override
     public List<FileInfo> call() throws Exception{
         List<FileInfo> fileInfoList = new ArrayList<FileInfo>();
-        try{
-            LocUtil loc = new LocUtil();
+        try{           
             for(String fileName: fileList){
-                fileInfoList.add(loc.getFileLocInfo(new File(fileName)));
+                fileInfoList.add(LocUtil.getFileLocInfo(new File(fileName)));
             }
         }catch(SdongException e){
             LOG.error(e.getMessage(),e );
