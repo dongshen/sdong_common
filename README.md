@@ -4,3 +4,47 @@ my own common module
 # build
 mvn package -Dmaven.test.skip=true
 
+# LocUtil
+
+* Source lines of code
+引自[wiki](http://en.wikipedia.org/wiki/Source_lines_of_code)  
+源代码行（SLOC或LOC）是一种软件度量标准，用于通过计算程序源代码文本中的行数来衡量软件程序的大小。SLOC通常用于预测开发程序所需的工作量，并在软件生产完成后估算编程的生产率或工作量。
+
+* 測量方法
+SLOC度量有两种主要类型：
+    * 物理SLOC（LOC）: 最常见定义是程序源代码文本中包含注释行的行数。
+    * 逻辑SLOC（LLOC）: 逻辑LOC尝试测量“语句”的数量，它们的特定定义与特定的计算机语言相关（对于类似于C的编程语言，一种简单的逻辑LOC度量是语句终止分号的数量）。
+
+这里使用的方法主要指物理LOC.
+  
+* 开源LOC tools
+
+|名称|网址|开发语言|license|最后更新时间|特性|比对|
+|-|-|-|-|-|-|-|
+|cloc|https://github.com/AlDanial/cloc|perl|GPL v2|2020-05-18|正则表达式|√|
+|scc|https://github.com/boyter/scc/|go|MIT|2020-03-03|字节状态机|√|
+|loc|https://github.com/cgag/loc|rust|MIT|2017-10-15| contains code from Tokei by Aaronepower and ripgrep by BurntSushi.|√|
+|gocloc|https://github.com/hhatto/gocloc|go|MIT|2020-04-02|inspired by tokei,不支持windows|
+|tokei|https://github.com/Aaronepower/tokei|rust|APACHE 2.0|2020-06-24|字节状态机|√|
+|Ohcount|https://github.com/blackducksoftware/ohcount|ruby|GPL 2.0|2020-02-12|不支持windows||
+|sclc|https://code.google.com/archive/p/sclc/|||||GPL|
+|SLOCCount|https://dwheeler.com/sloccount/||GPL|2004-08-02||
+|Sonar|http://www.sonarsource.org/||||||
+|ployglot|https://github.com/vmchale/polyglot|ATS|BSD 3|2020-01-11|不支持windows||
+|locCount|https://gitlab.com/esr/loccount|go|BSD 2||SLOCCount by go|
+|Unified Code Count|http://csse.usc.edu/ucc_new/wordpress/|||||
+
+
+* 参考
+  * [Sloc Cloc and Code - What happened on the way to faster Cloc](https://boyter.org/posts/sloc-cloc-code/)
+  * [Polyglot Is the Fastest Code-counting Tool Available](http://blog.vmchale.com/article/polyglot-comparisons)
+
+* 精确度比较
+  |期望值\工具|testcase|cloc 1.86|scc 2.12.0|tokei 12.0.4|loc 0.4.1|
+  |-|-|-|-|-|-|
+  |blank Line|50|50(√)|50(√)|50(√)|50(√)|
+  |comment line|47|57(×)|47(√)|60(×)|41(×)|
+  |comment in Line|37|||
+  |Line of Code| 46|36(×)|46(√)|60(×)|52(×)|
+  |row line|143||143(√)|143(√)|143(√)|
+  |use time||0.03s|
