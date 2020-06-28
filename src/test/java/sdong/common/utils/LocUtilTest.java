@@ -214,7 +214,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMNET_LINE() {
+    public void testCaseFor_COMMENT_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -228,7 +228,7 @@ public class LocUtilTest {
             List<String> result = new ArrayList<String>();
 
             for (String line : lines) {
-                if (LocUtil.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.COMMNET_LINE) {
+                if (LocUtil.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.COMMENT_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -241,7 +241,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMNET_START_LINE() {
+    public void testCaseFor_COMMENT_START_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -255,7 +255,7 @@ public class LocUtilTest {
                     "case 49 ");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
-                if (LocUtil.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.COMMNET_START_LINE) {
+                if (LocUtil.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.COMMENT_START_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -268,7 +268,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_CODE_COMMNET_START_LINE() {
+    public void testCaseFor_CODE_COMMENT_START_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -282,7 +282,7 @@ public class LocUtilTest {
                     "case 34 ", "case 35", "case 35", "case 45");
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
-                if (LocUtil.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.CODE_COMMNET_START_LINE) {
+                if (LocUtil.getLineType(line, fileTypeComment, multiLineCommentStart) == LineType.CODE_COMMENT_START_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -295,7 +295,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMNET_END_LINE() {
+    public void testCaseFor_COMMENT_END_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -311,7 +311,7 @@ public class LocUtilTest {
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 if (LocUtil.getMulCommentsLineType(line, fileTypeComment,
-                        multiLineCommentStart) == LineType.COMMNET_END_LINE) {
+                        multiLineCommentStart) == LineType.COMMENT_END_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -325,7 +325,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMNET_END_CODE_LINE() {
+    public void testCaseFor_COMMENT_END_CODE_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -340,7 +340,7 @@ public class LocUtilTest {
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 if (LocUtil.getMulCommentsLineType(line, fileTypeComment,
-                        multiLineCommentStart) == LineType.COMMNET_END_CODE_LINE) {
+                        multiLineCommentStart) == LineType.COMMENT_END_CODE_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -353,7 +353,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMNET_END_START_LINE() {
+    public void testCaseFor_COMMENT_END_START_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -366,7 +366,7 @@ public class LocUtilTest {
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 if (LocUtil.getMulCommentsLineType(line, fileTypeComment,
-                        multiLineCommentStart) == LineType.COMMNET_END_START_LINE) {
+                        multiLineCommentStart) == LineType.COMMENT_END_START_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }
@@ -379,7 +379,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMNET_END_CODE_START_LINE() {
+    public void testCaseFor_COMMENT_END_CODE_START_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -393,7 +393,7 @@ public class LocUtilTest {
             List<String> result = new ArrayList<String>();
             for (String line : lines) {
                 if (LocUtil.getMulCommentsLineType(line, fileTypeComment,
-                        multiLineCommentStart) == LineType.COMMNET_END_CODE_START_LINE) {
+                        multiLineCommentStart) == LineType.COMMENT_END_CODE_START_LINE) {
                     LOG.info("{}", line);
                     result.add(line);
                 }

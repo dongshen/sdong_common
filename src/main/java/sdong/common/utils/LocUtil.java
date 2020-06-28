@@ -138,18 +138,18 @@ public class LocUtil {
                     case BLANK_LINE:
                         fileInfo.setBlankLineCounts(fileInfo.getBlankLineCounts() + 1);
                         break;
-                    case COMMNET_LINE:
+                    case COMMENT_LINE:
                         fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
                         break;
-                    case COMMNET_START_LINE:
+                    case COMMENT_START_LINE:
                         fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
                         multiCommentLine(bufReader, fileInfo, fileTypeComment, multiLineCommentStart);
                         break;
-                    case CODE_COMMNET_START_LINE:
+                    case CODE_COMMENT_START_LINE:
                         fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
                         multiCommentLine(bufReader, fileInfo, fileTypeComment, multiLineCommentStart);
                         break;
-                    case COMMNET_CODE_LINE:
+                    case COMMENT_CODE_LINE:
                         fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
                         break;
                     default:
@@ -187,23 +187,23 @@ public class LocUtil {
         }
 
         if (lineWithoutCommentPair.isEmpty()) {
-            return LineType.COMMNET_LINE;
+            return LineType.COMMENT_LINE;
         }
 
         for (MultipleLineComment multiLineComment : fileTypeComment.getMultiLineCommentList()) {
             if (lineWithoutCommentPair.startsWith(multiLineComment.getStartComment())) {
                 multiLineCommentStart.setStartComment(multiLineComment.getStartComment());
                 multiLineCommentStart.setEndComment(multiLineComment.getEndComment());
-                return LineType.COMMNET_START_LINE;
+                return LineType.COMMENT_START_LINE;
             } else if (lineWithoutCommentPair.indexOf(multiLineComment.getStartComment()) >= 0) {
                 multiLineCommentStart.setStartComment(multiLineComment.getStartComment());
                 multiLineCommentStart.setEndComment(multiLineComment.getEndComment());
-                return LineType.CODE_COMMNET_START_LINE;
+                return LineType.CODE_COMMENT_START_LINE;
             }
         }
 
         if (!lineWithoutStringValue.equals(lineWithoutCommentPair)) {
-            return LineType.COMMNET_CODE_LINE;
+            return LineType.COMMENT_CODE_LINE;
         } else {
             return LineType.CODE_LINE;
         }
@@ -219,17 +219,17 @@ public class LocUtil {
             lineType = getMulCommentsLineType(line, fileTypeComment, multiLineCommentStart);
             switch (lineType) {
                 case BLANK_LINE:
-                case COMMNET_LINE:
-                case COMMNET_END_START_LINE:
+                case COMMENT_LINE:
+                case COMMENT_END_START_LINE:
                     fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
                     break;
-                case COMMNET_END_LINE:
+                case COMMENT_END_LINE:
                     fileInfo.setCommentCounts(fileInfo.getCommentCounts() + 1);
                     return;
-                case COMMNET_END_CODE_LINE:
+                case COMMENT_END_CODE_LINE:
                     fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
                     return;
-                case COMMNET_END_CODE_START_LINE:
+                case COMMENT_END_CODE_START_LINE:
                     fileInfo.setCommentInLineCounts(fileInfo.getCommentInLineCounts() + 1);
                     break;
                 default:
@@ -257,11 +257,11 @@ public class LocUtil {
         // check first end comment in line
         int endPos = lineTrim.indexOf(multiLineCommentStart.getEndComment());
         if (endPos == NOT_FIND_MARK) {
-            return LineType.COMMNET_LINE;
+            return LineType.COMMENT_LINE;
         }
 
         if (lineTrim.length() == endPos + multiLineCommentStart.getEndComment().length() - 1) {
-            return LineType.COMMNET_END_LINE;
+            return LineType.COMMENT_END_LINE;
         }
 
         // remove first end comment from line and check again;
@@ -270,22 +270,22 @@ public class LocUtil {
         LineType lineType = getLineType(lineTrim, fileTypeComment, multiLineCommentStart);
         switch (lineType) {
             case BLANK_LINE:
-                lineType = LineType.COMMNET_END_LINE;
+                lineType = LineType.COMMENT_END_LINE;
                 break;
-            case COMMNET_LINE:
-                lineType = LineType.COMMNET_END_LINE;
+            case COMMENT_LINE:
+                lineType = LineType.COMMENT_END_LINE;
                 break;
             case CODE_LINE:
-                lineType = LineType.COMMNET_END_CODE_LINE;
+                lineType = LineType.COMMENT_END_CODE_LINE;
                 break;
-            case COMMNET_START_LINE:
-                lineType = LineType.COMMNET_END_START_LINE;
+            case COMMENT_START_LINE:
+                lineType = LineType.COMMENT_END_START_LINE;
                 break;
-            case CODE_COMMNET_START_LINE:
-                lineType = LineType.COMMNET_END_CODE_START_LINE;
+            case CODE_COMMENT_START_LINE:
+                lineType = LineType.COMMENT_END_CODE_START_LINE;
                 break;
-            case COMMNET_CODE_LINE:
-                lineType = LineType.COMMNET_END_CODE_LINE;
+            case COMMENT_CODE_LINE:
+                lineType = LineType.COMMENT_END_CODE_LINE;
                 break;
             default:
                 break;

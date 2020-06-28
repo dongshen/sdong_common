@@ -16,35 +16,35 @@ public enum LineType {
     /**
      * comment line
      */
-    COMMNET_LINE("COMMNET_LINE", 2),
+    COMMENT_LINE("COMMENT_LINE", 2),
     /**
      * multiple comment start line
      */
-    COMMNET_START_LINE("COMMNET_START_LINE", 3),
+    COMMENT_START_LINE("COMMENT_START_LINE", 3),
     /**
      * code with multiple comment start line
      */
-    CODE_COMMNET_START_LINE("CODE_COMMNET_START_LINE", 4),
+    CODE_COMMENT_START_LINE("CODE_COMMENT_START_LINE", 4),
     /**
      * multiple comment end line
      */
-    COMMNET_END_LINE("COMMNET_END_LINE", 5),
+    COMMENT_END_LINE("COMMENT_END_LINE", 5),
     /**
      * multiple comment end line with code
      */
-    COMMNET_END_CODE_LINE("COMMNET_END_CODE_LINE", 6),
+    COMMENT_END_CODE_LINE("COMMENT_END_CODE_LINE", 6),
     /**
      * multiple comment end line with multiple comment start line
      */
-    COMMNET_END_START_LINE("COMMNET_END_START_LINE", 7),
+    COMMENT_END_START_LINE("COMMENT_END_START_LINE", 7),
     /**
      * multiple comment end line with code and multiple comment start line
      */
-    COMMNET_END_CODE_START_LINE("COMMNET_END_CODE_START_LINE", 8),
+    COMMENT_END_CODE_START_LINE("COMMENT_END_CODE_START_LINE", 8),
     /**
      * comment with code line
      */
-    COMMNET_CODE_LINE("COMMNET_CODE_LINE", 9);
+    COMMENT_CODE_LINE("COMMENT_CODE_LINE", 9);
 
     private String lineType;
     private int index;

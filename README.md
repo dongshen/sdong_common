@@ -26,18 +26,19 @@ SLOC度量有两种主要类型：
 |loc|https://github.com/cgag/loc|rust|MIT|2017-10-15| contains code from Tokei by Aaronepower and ripgrep by BurntSushi.|√|
 |gocloc|https://github.com/hhatto/gocloc|go|MIT|2020-04-02|inspired by tokei,不支持windows|
 |tokei|https://github.com/Aaronepower/tokei|rust|APACHE 2.0|2020-06-24|字节状态机|√|
-|Ohcount|https://github.com/blackducksoftware/ohcount|ruby|GPL 2.0|2020-02-12|不支持windows||
-|sclc|https://code.google.com/archive/p/sclc/|||||GPL|
-|SLOCCount|https://dwheeler.com/sloccount/||GPL|2004-08-02||
-|Sonar|http://www.sonarsource.org/||||||
+|Ohcount|https://github.com/blackducksoftware/ohcount|ruby|GPL 2.0|2020-02-12|不支持windows,Ragel(状态机)||
+|sclc|https://code.google.com/archive/p/sclc/|perl|GPL|2010-08-09||
+|SLOCCount|https://dwheeler.com/sloccount/|perl|GPL|2004-08-02||
+|Sonar|http://www.sonarsource.org/|java|GPL 3.0|2020-04||
 |ployglot|https://github.com/vmchale/polyglot|ATS|BSD 3|2020-01-11|不支持windows||
 |locCount|https://gitlab.com/esr/loccount|go|BSD 2||SLOCCount by go|
-|Unified Code Count|http://csse.usc.edu/ucc_new/wordpress/|||||
+|Unified Code Count|http://csse.usc.edu/ucc_new/wordpress/|C++|2015-06-09|USC-CSSE||
 
 
 * 参考
   * [Sloc Cloc and Code - What happened on the way to faster Cloc](https://boyter.org/posts/sloc-cloc-code/)
   * [Polyglot Is the Fastest Code-counting Tool Available](http://blog.vmchale.com/article/polyglot-comparisons)
+  * [Differences in the Deﬁnition and Calculation of the LOC Metric in Free Tools](http://inf.u-szeged.hu/~beszedes/research/SED-TR2014-001-LOC.pdf)
 
 * 精确度比较
   |期望值\工具|testcase|cloc 1.86|scc 2.12.0|tokei 12.0.4|loc 0.4.1|
