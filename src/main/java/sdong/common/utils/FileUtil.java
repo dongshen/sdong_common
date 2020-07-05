@@ -1,10 +1,5 @@
 package sdong.common.utils;
 
-import com.google.common.io.Files;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -20,7 +15,14 @@ import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+
+import com.google.common.io.Files;
+
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import sdong.common.exception.SdongException;
 
@@ -116,12 +118,19 @@ public class FileUtil {
 	public static List<String> getFilesInFolderSum(String folderList) throws SdongException {
 		List<String> fileList = new ArrayList<String>();
 		String[] folders = folderList.split(",");
-		for(String file:folders){
+		for (String file : folders) {
 			fileList.addAll(getFilesInFolder(file));
 		}
 		return fileList;
 	}
 
+	/**
+	 * get all files under folder
+	 *
+	 * @param folder search folder
+	 * @return file list
+	 * @throws SdongException IOException
+	 */
 	public static List<String> getFilesInFolder(String folder) throws SdongException {
 		List<String> fileList = new ArrayList<String>();
 		try {
@@ -131,13 +140,18 @@ public class FileUtil {
 				}
 			}
 		} catch (IOException e) {
-			logger.error(e.getMessage());
 			throw new SdongException(e.getMessage());
 		}
 		return fileList;
 
 	}
 
+	/**
+	 * Get folder name base on file name
+	 *
+	 * @param fileName file name
+	 * @return folder name
+	 */
 	public static String getFolderName(String fileName) {
 
 		File file = new File(fileName);
@@ -151,6 +165,12 @@ public class FileUtil {
 		}
 	}
 
+	/**
+	 * get file name
+	 *
+	 * @param fileName file path
+	 * @return file name
+	 */
 	public static String getFileName(String fileName) {
 
 		File file = new File(fileName);
@@ -233,7 +253,8 @@ public class FileUtil {
 
 	/**
 	 * create file, if parent folder is not exist, then create parent folder.
-	 * @param fileName file name 
+	 * 
+	 * @param fileName file name
 	 * @return File
 	 * @throws SdongException create fail
 	 */
@@ -241,7 +262,7 @@ public class FileUtil {
 		File file = new File(fileName);
 		File parent = file.getParentFile();
 		if (!parent.exists()) {
-			if(!parent.mkdirs()){
+			if (!parent.mkdirs()) {
 				if (!parent.exists()) {
 					throw new SdongException("Create folder fail!");
 				}
@@ -250,7 +271,68 @@ public class FileUtil {
 		return file;
 	}
 
-	public static void copyFile(String fromFile, String toFile) throws IOException, SdongException {
-		Files.copy(new File(fromFile), createFile(toFile));
+	/**
+	 * google copy file
+	 *
+	 * @param fromFile source file
+	 * @param toFile   to file
+	 * @throws SdongException
+	 */
+	public static void copyFile(String fromFile, String toFile) throws SdongException {
+		try {
+			Files.copy(new File(fromFile), createFile(toFile));
+		} catch (IOException e) {
+			throw new SdongException(e);
+		}
+	}
+
+	/**
+	 * use apache delete folder
+	 * 
+	 * @param folder delete folder
+	 * @throws SdongException
+	 */
+	public static void deleteFolder(String folder) throws SdongException {
+		try {
+			FileUtils.deleteDirectory(new File(folder));
+		} catch (IOException e) {
+			throw new SdongException(e);
+		}
+
+	}
+
+	/**
+	 * check file/folder exist
+	 *
+	 * @param file check file or folder
+	 * @return exist or not
+	 */
+	public static boolean fileExist(String file) {
+		return new File(file).exists();
+	}
+
+	/**
+	 * get file list by extension list
+	 *
+	 * @param folder     search folder
+	 * @param extensions extension list
+	 * @return filter result
+	 * @throws SdongException
+	 */
+	public static List<String> filterFiles(String folder, Set<String> extensions) throws SdongException {
+		List<String> fileList = new ArrayList<String>();
+		try {
+			for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
+				if (file.isFile()) {
+					if (extensions == null || extensions.contains(file.getName())) {
+						fileList.add(file.getCanonicalPath());
+					}
+				}
+			}
+		} catch (IOException e) {
+			throw new SdongException(e.getMessage());
+		}
+		return fileList;
+
 	}
 }
