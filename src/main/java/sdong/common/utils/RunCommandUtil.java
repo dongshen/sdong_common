@@ -69,9 +69,7 @@ public class RunCommandUtil {
 
 	public static String readFromInputStream(InputStream input) throws SdongException {
 		String result = null;
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new InputStreamReader(input, Charset.forName("UTF-8")));
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(input, Charset.forName("UTF-8")));) {
 
 			String line = null;
 			StringBuffer sb = new StringBuffer();
@@ -80,19 +78,11 @@ public class RunCommandUtil {
 				sb.append(line).append(CommonConstants.LINE_BREAK);
 			}
 			result = sb.toString();
-
+			br.close();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					logger.error(e.getMessage());
-				}
-			}
-		}
+		} 
 		return result;
 	}
 
