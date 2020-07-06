@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -43,7 +44,7 @@ public class LocStatsTest {
     public void testMainVerify() {
         List<String> fileList;
         try {
-            fileList = FileUtil.getFilesInFolderSum(teseCaseFiles);
+            fileList = FileUtil.getFilesInFolderList(Arrays.asList(teseCaseFiles.split(",")));
             assertEquals(5, fileList.size());
 
             List<FileInfo> fileInfoList = LocStats.getFieInfoThread(fileList, 1);

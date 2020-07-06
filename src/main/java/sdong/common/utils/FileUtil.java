@@ -115,9 +115,15 @@ public class FileUtil {
 
 	}
 
-	public static List<String> getFilesInFolderSum(String folderList) throws SdongException {
+	/**
+	 * get files in folder list
+	 * 
+	 * @param folders folder list
+	 * @return files
+	 * @throws SdongException IOException
+	 */
+	public static List<String> getFilesInFolderList(List<String> folders) throws SdongException {
 		List<String> fileList = new ArrayList<String>();
-		String[] folders = folderList.split(",");
 		for (String file : folders) {
 			fileList.addAll(getFilesInFolder(file));
 		}
@@ -136,6 +142,33 @@ public class FileUtil {
 		try {
 			for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
 				if (file.isFile()) {
+					fileList.add(file.getCanonicalPath());
+				}
+			}
+		} catch (IOException e) {
+			throw new SdongException(e.getMessage());
+		}
+		return fileList;
+
+	}
+
+	/**
+	 * get all files under folder filter by file extension list
+	 *
+	 * @param folder search folder
+	 * @param exts   extsion list
+	 * @return file list
+	 * @throws SdongException IOException
+	 */
+	public static List<String> filterFilesInFolder(String folder, Set<String> exts) throws SdongException {
+		if (exts == null || exts.isEmpty()) {
+			return getFilesInFolder(folder);
+		}
+
+		List<String> fileList = new ArrayList<String>();
+		try {
+			for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
+				if (file.isFile() && exts.contains(FileUtil.getFileExtension(file.getName()))) {
 					fileList.add(file.getCanonicalPath());
 				}
 			}
@@ -309,30 +342,5 @@ public class FileUtil {
 	 */
 	public static boolean fileExist(String file) {
 		return new File(file).exists();
-	}
-
-	/**
-	 * get file list by extension list
-	 *
-	 * @param folder     search folder
-	 * @param extensions extension list
-	 * @return filter result
-	 * @throws SdongException
-	 */
-	public static List<String> filterFiles(String folder, Set<String> extensions) throws SdongException {
-		List<String> fileList = new ArrayList<String>();
-		try {
-			for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
-				if (file.isFile()) {
-					if (extensions == null || extensions.contains(file.getName())) {
-						fileList.add(file.getCanonicalPath());
-					}
-				}
-			}
-		} catch (IOException e) {
-			throw new SdongException(e.getMessage());
-		}
-		return fileList;
-
 	}
 }

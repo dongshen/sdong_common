@@ -30,6 +30,7 @@ public class LocStats {
     private final static String PARM_PRINT_LIST = "-list";
     private final static String PARM_PRINT_THREAD = "-j";
     private final static int DEFAULT_THREAD_NUM = 5;
+    private final static String PARM_SPLIT = ",";
 
     private static final Logger LOG = LoggerFactory.getLogger(LocStats.class);
 
@@ -38,7 +39,7 @@ public class LocStats {
         try {
             // check folder
             String argFloder = args[ARG_FLODER];
-            List<String> fileList = FileUtil.getFilesInFolderSum(argFloder);
+            List<String> fileList = FileUtil.getFilesInFolderList(Arrays.asList(argFloder.split(PARM_SPLIT)));
 
             int threadNum = DEFAULT_THREAD_NUM;
 
@@ -143,14 +144,10 @@ public class LocStats {
     }
 
     private static List<String> getExtList(String langList) {
-        String[] langs = langList.split(",");
+        String[] langs = langList.split(PARM_SPLIT);
         List<String> extList = new ArrayList<String>();
-        String extStr;
         for (String lang : langs) {
-            extStr = FileType.getFileTypeExt(FileType.getFileTypeByTypeName(lang));
-            if (extStr != null && !extStr.isEmpty()) {
-                extList.addAll(Arrays.asList(extStr.split(",")));
-            }
+            extList.addAll(FileType.getFileTypeExt(FileType.getFileTypeByTypeName(lang)));
         }
 
         return extList;
@@ -158,13 +155,12 @@ public class LocStats {
 
     private static List<String> filterFileByExt(List<String> fileList, List<String> extList) {
         List<String> filterFiles = new ArrayList<String>();
-        String split = ",";
-        String filterExt = StringUtil.joinStringListToString(extList, split);
+        String filterExt = StringUtil.joinStringListToString(extList, PARM_SPLIT);
         String fileExt;
         for (String file : fileList) {
             fileExt = FileUtil.getFileExtension(file);
             if (!fileExt.isEmpty()) {
-                if ((fileExt + split).indexOf(filterExt) >= 0) {
+                if ((fileExt + PARM_SPLIT).indexOf(filterExt) >= 0) {
                     filterFiles.add(file);
                 }
             }
