@@ -1,10 +1,18 @@
 package sdong.common.utils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
@@ -22,9 +30,9 @@ import org.slf4j.LoggerFactory;
 import sdong.common.exception.SdongException;
 
 public class ZlibUtil {
-	private static final Logger log = LoggerFactory.getLogger(ZlibUtil.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ZlibUtil.class);
 
-	// private static final int BUFFER_SIZE = 1024 * 1024;
+	private static final int BUFFER_SIZE = 1024 * 1024;
 
 	/**
 	 * compress byte[] with default deflater
@@ -43,7 +51,7 @@ public class ZlibUtil {
 
 			output = byteArrayOutputStream.toByteArray();
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 		return output;
@@ -79,7 +87,7 @@ public class ZlibUtil {
 			result = outputStream.toByteArray();
 
 		} catch (IOException e) {
-			log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			throw new SdongException(e);
 		}
 		return result;
@@ -98,7 +106,7 @@ public class ZlibUtil {
 		try (InputStream inputStream = new ByteArrayInputStream(data);) {
 			output = decompress(inputStream);
 		} catch (Exception e) {
-			log.error(e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 
@@ -137,7 +145,7 @@ public class ZlibUtil {
 			gzipOutputStream.finish();
 			output = outputStream.toByteArray();
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 
@@ -162,7 +170,7 @@ public class ZlibUtil {
 
 			ungzipBytes = outputStream.toByteArray();
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 
@@ -185,14 +193,14 @@ public class ZlibUtil {
 			ZipEntry entry = new ZipEntry("zipfile");
 
 			zipOutputStream.putNextEntry(entry);
-			 zipOutputStream.write(inputBytes);
-			//ByteStreams.copy(new ByteArrayInputStream(inputBytes), zipOutputStream);
+			zipOutputStream.write(inputBytes);
+			// ByteStreams.copy(new ByteArrayInputStream(inputBytes), zipOutputStream);
 			zipOutputStream.closeEntry();
 			zipOutputStream.finish();
 			compressedBytes = outputStream.toByteArray();
 
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 		return compressedBytes;
@@ -212,7 +220,7 @@ public class ZlibUtil {
 		try (ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(data));) {
 			ZipEntry entry;
 			while ((entry = zipInputStream.getNextEntry()) != null) {
-				log.debug("entry name:{}", entry.getName());
+				LOG.debug("entry name:{}", entry.getName());
 				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 				ByteStreams.copy(zipInputStream, outputStream);
 				ziplist.put(entry.getName(), outputStream.toByteArray());
@@ -220,39 +228,71 @@ public class ZlibUtil {
 			}
 
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 		return ziplist;
 	}
 
-	public static final ConcurrentHashMap<String, byte[]> unzip(InputStream inputStream) throws SdongException {
-
+	/**
+	 * unzip input stream to byte[]
+	 * 
+	 * @param inputStream input stream
+	 * @return unzip map
+	 * @throws SdongException module exception
+	 */
+	public static final ConcurrentHashMap<String, byte[]> unzipStream(InputStream inputStream) throws SdongException {
 		ConcurrentHashMap<String, byte[]> ziplist = new ConcurrentHashMap<String, byte[]>();
 
 		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 				ZipInputStream zipInputStream = new ZipInputStream(inputStream);) {
 			ZipEntry entry;
 			while ((entry = zipInputStream.getNextEntry()) != null) {
-				log.info("entry name:{}", entry.getName());
-
-				log.info("size:{}", entry.getCompressedSize());
-				ByteStreams.copy(zipInputStream, outputStream);
-				ziplist.put(entry.getName(), outputStream.toByteArray());
+				LOG.debug("entry name:{}", entry.getName());
+				LOG.debug("size:{}", entry.getCompressedSize());
+				if (!entry.isDirectory()) {
+					ByteStreams.copy(zipInputStream, outputStream);
+					ziplist.put(entry.getName(), outputStream.toByteArray());
+				}
 			}
-
-			/*
-			 * byte[] buffer = new byte[BUFFER_SIZE]; int offset = -1; while ((offset =
-			 * zipInputStream.read(buffer, 0, BUFFER_SIZE)) != -1) {
-			 * outputStream.write(buffer, 0, offset); } outputStream.flush();
-			 * zipInputStream.closeEntry();
-			 */
-			// unCompressedBytes = outputStream.toByteArray();
 		} catch (IOException e) {
-			log.error(e.getMessage());
 			throw new SdongException(e);
 		}
 		return ziplist;
+	}
+
+	/**
+	 * unzip input stream to byte[]
+	 * 
+	 * @param inputStream input stream
+	 * @return unzip map
+	 * @throws SdongException module exception
+	 */
+	public static final void unzip(String zipFile, String outputFolder, Set<String> unzipList) throws SdongException {
+		byte[] buffer = new byte[BUFFER_SIZE];
+		try (FileInputStream inputStream = new FileInputStream(zipFile);
+				BufferedInputStream bufInputStream = new BufferedInputStream(inputStream);
+				ZipInputStream zipInputStream = new ZipInputStream(bufInputStream);) {
+			ZipEntry entry;
+			String fileName;
+			while ((entry = zipInputStream.getNextEntry()) != null) {
+				fileName = entry.getName();
+				if (!entry.isDirectory() && (unzipList == null || unzipList.isEmpty()|| unzipList.contains(fileName))) {
+					LOG.debug("entry name:{}, size:{}", fileName, entry.getCompressedSize());
+					File newFile = FileUtil.createFile(outputFolder + File.separator + fileName);
+					try (FileOutputStream fos = new FileOutputStream(newFile);
+							BufferedOutputStream bos = new BufferedOutputStream(fos, buffer.length)) {
+						int len;
+						while ((len = zipInputStream.read(buffer)) > 0) {
+							bos.write(buffer, 0, len);
+						}
+					}
+				}
+			}
+		} catch (IOException e) {
+			throw new SdongException(e);
+		}
+		return;
 	}
 
 }

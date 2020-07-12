@@ -49,7 +49,23 @@ public class CommonUtil {
 	public static int parseInteger(String input) {
 		int value = 0;
 		try {
+			if (input == null || input.isEmpty()) {
+				return value;
+			}
 			value = Integer.parseInt(input);
+		} catch (NumberFormatException exp) {
+			logger.error("Parse {} to integer error!", input);
+		}
+		return value;
+	}
+
+	public static long parseLong(String input) {
+		long value = 0l;
+		try {
+			if (input == null || input.isEmpty()) {
+				return value;
+			}
+			value = Long.parseLong(input);
 		} catch (NumberFormatException exp) {
 			logger.error("Parse {} to integer error!", input);
 		}

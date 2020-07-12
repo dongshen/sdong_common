@@ -10,15 +10,16 @@ public class FileInfo implements Serializable {
 
     private static final long serialVersionUID = -4954627059067418661L;
 
-    String fileName;
+    String fileName = "";
     FileType fileType;
-    int rowLineCounts;
-    int lineCounts;
-    int commentCounts;
-    int blankLineCounts;
-    int commentInLineCounts;
-    long fileSize;
-    String md5;
+    int rowLineCounts = 0;
+    int lineCounts = 0;
+    int commentCounts = 0;
+    int blankLineCounts = 0;
+    int commentInLineCounts = 0;
+    long fileSize = 0l;
+    String md5 = "";
+    String timestamp = "";
 
     public int getLineCounts() {
         return lineCounts;
@@ -96,7 +97,15 @@ public class FileInfo implements Serializable {
     public String toString() {
         return "FileInfo [fileName=" + fileName + ", fileType=" + fileType + ", blankLineCounts=" + blankLineCounts
                 + ", commentCounts=" + commentCounts + ", commentInLineCounts=" + commentInLineCounts + ", fileSize="
-                + fileSize + ", lineCounts=" + lineCounts + ", md5=" + md5 + ", rowLineCounts=" + rowLineCounts + "]";
+                + fileSize + ", lineCounts=" + lineCounts + ", rowLineCounts=" + rowLineCounts + ", timestamp="
+                + timestamp + ", md5=" + md5 + "]";
     }
 
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
 }
