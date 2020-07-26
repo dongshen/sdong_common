@@ -18,6 +18,7 @@ public class FileInfo implements Serializable {
     int blankLineCounts = 0;
     int commentInLineCounts = 0;
     long fileSize = 0l;
+    String encoding = "";
     String md5 = "";
     String timestamp = "";
 
@@ -98,7 +99,7 @@ public class FileInfo implements Serializable {
         return "FileInfo [fileName=" + fileName + ", fileType=" + fileType + ", blankLineCounts=" + blankLineCounts
                 + ", commentCounts=" + commentCounts + ", commentInLineCounts=" + commentInLineCounts + ", fileSize="
                 + fileSize + ", lineCounts=" + lineCounts + ", rowLineCounts=" + rowLineCounts + ", timestamp="
-                + timestamp + ", md5=" + md5 + "]";
+                + timestamp + ", encoding=" + encoding + ", md5=" + md5 + "]";
     }
 
     public String getTimestamp() {
@@ -107,5 +108,13 @@ public class FileInfo implements Serializable {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 }

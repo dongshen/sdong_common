@@ -30,6 +30,8 @@ public class FileUtil {
 
 	public static final String DEFAULT_FILE_ENCODING = "UTF-8";
 
+	public static final String LINUX_FILE_PATH_SEPERATOR = "/";
+
 	private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
 	public static List<String> readFileToStringList(String fileName) throws SdongException {

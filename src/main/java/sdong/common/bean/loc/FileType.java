@@ -15,7 +15,7 @@ import sdong.common.utils.CommonUtil;
  */
 public enum FileType {
     C("C/C++"), Java("Java"), JavaScript("JavaScript"), Python("Python"), Go("Go"), Kotlin("Kotlin"), Jsp("Jsp"),
-    Xml("Xml"), Others("Others");
+    Xml("Xml"), Properties("Properties"), Others("Others");
 
     private static final String EXT_C = "idc,cats,c,tpp,tcc,ipp,h++,C,cc,c++,cpp,CPP,cxx,ec,h,H,hh,hpp,hxx,inl,pcc,pgc";
     private static final String EXT_JAVA = "java,";
@@ -34,6 +34,7 @@ public enum FileType {
             + "jsproj,jelly,ivy,iml,grxml,gmx,fsproj,filters,dotsettings,dll.config,ditaval,ditamap,depproj,ct,"
             + "csl,csdef,cscfg,cproject,clixml,ccxml,ccproj,builds,axml,app.config,ant,admx,adml,project,"
             + "classpath,xml,XML,mxml,MXML";
+    private static final String EXT_PROPERTIES = "properties";
 
     private static final String SPLIT = ",";
     public static final Map<FileType, Set<String>> FILE_TYPE_MAP = new HashMap<FileType, Set<String>>();
@@ -46,6 +47,7 @@ public enum FileType {
         FILE_TYPE_MAP.put(FileType.Kotlin, new HashSet<String>(Arrays.asList(EXT_KOTLIN.split(SPLIT))));
         FILE_TYPE_MAP.put(FileType.Jsp, new HashSet<String>(Arrays.asList(EXT_JSP.split(SPLIT))));
         FILE_TYPE_MAP.put(FileType.Xml, new HashSet<String>(Arrays.asList(EXT_XML.split(SPLIT))));
+        FILE_TYPE_MAP.put(FileType.Properties, new HashSet<String>(Arrays.asList(EXT_PROPERTIES.split(SPLIT))));
     }
 
     private final String fileType;

@@ -72,6 +72,19 @@ public class CommonUtil {
 		return value;
 	}
 
+	public static boolean parseBoolean(String input) {
+		boolean value = false;
+		try {
+			if (input == null || input.isEmpty()) {
+				return value;
+			}
+			value = Boolean.parseBoolean(input);
+		} catch (NumberFormatException exp) {
+			logger.error("Parse {} to integer error!", input);
+		}
+		return value;
+	}
+
 	public static String generateMD5(String plainText) throws SdongException {
 		return generateMD5(plainText.getBytes());
 	}
