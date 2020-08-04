@@ -8,7 +8,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Test;
@@ -277,8 +276,8 @@ public class LocUtilTest {
         MultipleLineComment multiLineCommentStart = new MultipleLineComment();
         List<String> result = new ArrayList<String>();
         for (String line : lines) {
-            Optional<LineType> lineType = LocUtil.getLineType(line, fileTypeComment, multiLineCommentStart);
-            if (lineType.isPresent() && lineType.get() == checkLineType) {
+            LineType lineType = LocUtil.getLineType(line, fileTypeComment, multiLineCommentStart);
+            if (lineType == checkLineType) {
                 LOG.info("{}", line);
                 result.add(line);
             }
@@ -367,8 +366,8 @@ public class LocUtilTest {
         MultipleLineComment multiLineCommentStart = fileTypeComment.getMultiLineCommentList().get(0);
         List<String> result = new ArrayList<String>();
         for (String line : lines) {
-            Optional<LineType> lineType = LocUtil.getMulCommentsLineType(line, fileTypeComment, multiLineCommentStart);
-            if (lineType.isPresent() && lineType.get() == checkLineType) {
+            LineType lineType = LocUtil.getMulCommentsLineType(line, fileTypeComment, multiLineCommentStart);
+            if (lineType == checkLineType) {
                 LOG.info("{}", line);
                 result.add(line);
             }
