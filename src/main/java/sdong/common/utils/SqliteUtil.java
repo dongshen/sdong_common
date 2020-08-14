@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +28,10 @@ public class SqliteUtil {
     public static void createNewDatabase(String dbFileName) throws SdongException {
 
         String url = JDBC_LINK + dbFileName;
-        FileUtil.createFile(dbFileName);
+        File file = FileUtil.createFile(dbFileName);
+        if (file.exists()) {
+            file.delete();
+        }
 
         try (Connection conn = DriverManager.getConnection(url);) {
             if (conn == null) {
@@ -35,6 +40,7 @@ public class SqliteUtil {
         } catch (SQLException e) {
             throw new SdongException(e.getMessage());
         }
+        LOG.info("Create database:{} done.",FileUtil.getFileName(dbFileName));
     }
 
     /**
@@ -101,5 +107,71 @@ public class SqliteUtil {
             throw new SdongException(e.getMessage());
         }
         return records;
+    }
+
+    /**
+     * get all sql statement from sql file
+     *
+     * @param fileName filename
+     * @return sql list
+     * @throws SdongException module exception
+     */
+    public static List<String> getSqlStmtFromFile(String fileName) throws SdongException {
+        List<String> sqlList = new ArrayList<String>();
+        List<String> lines = FileUtil.readFileToStringList(fileName);
+        StringBuilder sb = new StringBuilder();
+        for (String line : lines) {
+            if (line.startsWith("--")) {
+                continue;
+            } else if (line.endsWith(";")) {
+                sb.append(line);
+                sqlList.add(sb.toString());
+                sb.setLength(0);
+            }
+        }
+        return sqlList;
+    }
+
+    /**
+     * create database and table
+     * 
+     * @param dbFileName database file name
+     * @param sqlFile    table file
+     * @return the number of tables
+     * @throws SdongException module exception
+     */
+    public static int createNewDatabaseAndTable(String dbFileName, List<String> sqlList) throws SdongException {
+        createNewDatabase(dbFileName);
+
+        for (String sqlStmt : sqlList) {
+            exeSql(dbFileName, sqlStmt);
+        }
+        int tables = getDatabaseTables(dbFileName).size();
+        LOG.info("Create table:{}", tables);
+        return tables;
+    }
+
+    /**
+     * get database table list
+     * 
+     * @param dbFileName database name
+     * @return table list
+     * @throws SdongException moudle exception
+     */
+    public static List<String> getDatabaseTables(String dbFileName) throws SdongException {
+        List<String> tables = new ArrayList<String>();
+        String sql = "select name from sqlite_master where type = 'table'";
+        try (Connection conn = getConnection(dbFileName);
+                PreparedStatement pStatement = conn.prepareStatement(sql);
+                ResultSet rs = pStatement.executeQuery();) {
+            while (rs.next()) {
+                tables.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            LOG.debug(e.getMessage());
+            throw new SdongException(e.getMessage());
+        }
+
+        return tables;
     }
 }
