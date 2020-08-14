@@ -16,9 +16,9 @@
     </appender>
 
     
-    <logger name="sdong" level="TRACE"/>
+    <logger name="sdong" level="INFO"/>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
