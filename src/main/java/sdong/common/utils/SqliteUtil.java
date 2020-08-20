@@ -40,7 +40,7 @@ public class SqliteUtil {
         } catch (SQLException e) {
             throw new SdongException(e.getMessage());
         }
-        LOG.info("Create database:{} done.",FileUtil.getFileName(dbFileName));
+        LOG.info("Create database:{} done.", FileUtil.getFileName(dbFileName));
     }
 
     /**
@@ -173,5 +173,19 @@ public class SqliteUtil {
         }
 
         return tables;
+    }
+
+    /**
+     * batch sql insert result
+     * 
+     * @param updateCounts updateCounts
+     * @return update Counts
+     */
+    public static int errorsCount(int[] updateCounts) {
+        int result = 0;
+        for (int count : updateCounts) {
+            result = result + count;
+        }
+        return result;
     }
 }
