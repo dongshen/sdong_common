@@ -1,5 +1,7 @@
 package sdong.common.utils;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
@@ -12,6 +14,8 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import sdong.common.exception.SdongException;
 
 public class XmlUtils {
 
@@ -83,12 +87,9 @@ public class XmlUtils {
 	/**
 	 * format XML
 	 *
-	 * @param document
-	 *            xml doc
-	 * @param charset
-	 *            character set
-	 * @param istrans
-	 *            whether escape
+	 * @param document xml doc
+	 * @param charset  character set
+	 * @param istrans  whether escape
 	 * @return convert to string
 	 */
 	public static String formatXml(Document document, String charset, boolean istrans) {
@@ -126,8 +127,8 @@ public class XmlUtils {
 	}
 
 	/**
-	 * The node with multiple lines, this function will remove the \t and \n to
-	 * one line output.
+	 * The node with multiple lines, this function will remove the \t and \n to one
+	 * line output.
 	 * 
 	 * @param ele
 	 * @param tag
@@ -200,27 +201,85 @@ public class XmlUtils {
 
 	public static List<Namespace> getDeclareNameSpaces(Document doc) {
 
-		List<Namespace> declareNamespaces = doc.getRootElement().declaredNamespaces(); 
+		List<Namespace> declareNamespaces = doc.getRootElement().declaredNamespaces();
 		for (Namespace ns : declareNamespaces) {
 			LOG.debug("namespace prefix:" + ns.getPrefix() + ", namespace URI:" + ns.getURI());
 		}
 		return declareNamespaces;
 	}
-	
+
 	public static Namespace getDefaultNameSpace(Document doc) {
 		Namespace defaultNameSpace = null;
-		
+
 		List<Namespace> declareNamespaces = getDeclareNameSpaces(doc);
-		if(declareNamespaces!= null){
-			for(Namespace ns : declareNamespaces) {
-				if(ns.getPrefix()== null || ns.getPrefix().isEmpty()){
+		if (declareNamespaces != null) {
+			for (Namespace ns : declareNamespaces) {
+				if (ns.getPrefix() == null || ns.getPrefix().isEmpty()) {
 					defaultNameSpace = ns;
 					break;
 				}
 			}
 		}
-		
+
 		return defaultNameSpace;
 	}
 
+	/**
+	 * add tag and text
+	 * 
+	 * @param element element where to add a new tag
+	 * @param tag     tag
+	 * @param text    text
+	 * @return tag element
+	 */
+	public static Element addElementText(Element element, String tag, String text) {
+		if(text == null || text.isEmpty()){
+			return null;
+		}
+		Element tagElement = element.addElement(tag);
+		tagElement.setText(text);
+		return tagElement;
+	}
+
+	/**
+	 * add tag and text
+	 * 
+	 * @param element element where to add a new tag
+	 * @param tag     tag
+	 * @param text    text
+	 * @return tag element
+	 */
+	public static Element addElementCdata(Element element, String tag, String text) {
+		Element tagElement = element.addElement(tag);
+		tagElement.addCDATA(text);
+		return tagElement;
+	}
+
+	/**
+	 * write xml document to file
+	 *
+	 * @param document document
+	 * @param output   output file
+	 * @throws SdongException module exception
+	 */
+	public static void writeDocToFile(Document document, String output) throws SdongException {
+		XMLWriter writer = null;
+		try {
+			File file = FileUtil.createFile(output);
+			
+			writer = new XMLWriter(new FileWriter(file),OutputFormat.createPrettyPrint());
+
+			writer.write(document);
+		} catch (IOException e) {
+			throw new SdongException(e.getMessage());
+		} finally {
+			if (writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					LOG.error(e.getMessage());
+				}
+			}
+		}
+	}
 }

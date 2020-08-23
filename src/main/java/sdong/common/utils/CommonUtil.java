@@ -8,6 +8,7 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 import java.util.UUID;
 
 import com.fasterxml.uuid.Generators;
@@ -29,7 +30,7 @@ public class CommonUtil {
 	 * @return
 	 */
 	public static String getUuid() {
-		return UUID.randomUUID().toString();
+		return UUID.randomUUID().toString().toUpperCase(Locale.ENGLISH);
 	}
 
 	/**
@@ -57,6 +58,19 @@ public class CommonUtil {
 				return value;
 			}
 			value = Integer.parseInt(input);
+		} catch (NumberFormatException exp) {
+			LOG.error("Parse {} to integer error!", input);
+		}
+		return value;
+	}
+
+	public static float parseFloat(String input) {
+		float value = (float) 0.0;
+		try {
+			if (input == null || input.isEmpty()) {
+				return value;
+			}
+			value = Float.parseFloat(input);
 		} catch (NumberFormatException exp) {
 			LOG.error("Parse {} to integer error!", input);
 		}
