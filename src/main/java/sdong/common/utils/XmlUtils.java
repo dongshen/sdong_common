@@ -179,6 +179,39 @@ public class XmlUtils {
 		return ret;
 	}
 
+	/**
+	 * There are multiple node under the tag, change to one line output.
+	 * 
+	 * @param ele element
+	 * @param tag tag
+	 * @return result
+	 */
+	public static String getXMLAllRelatedNodesText(Element ele, String tag,String subTag, String split) {
+		String ret = "";
+		String text = "";
+		Node node = ele.selectSingleNode(tag);
+		if(node == null){
+			return ret;
+		}
+		Element e = (Element) node;
+
+		List<Node> list = e.selectNodes(subTag);
+		if(list.isEmpty()){
+			return e.getText();
+		}
+		for (Object o : list) {
+			Element e_l = (Element) o;
+			text = e_l.getText();
+			if (ret.equals("")) {
+				ret = text;
+			} else {
+				ret = ret + split + text;
+			}
+		}
+
+		return ret;
+	}
+
 	public static String getXMLElementAttribute(Element ele, String tag, String attr) {
 		String ret = "";
 
@@ -233,7 +266,7 @@ public class XmlUtils {
 	 * @return tag element
 	 */
 	public static Element addElementText(Element element, String tag, String text) {
-		if(text == null || text.isEmpty()){
+		if (text == null || text.isEmpty()) {
 			return null;
 		}
 		Element tagElement = element.addElement(tag);
@@ -266,8 +299,8 @@ public class XmlUtils {
 		XMLWriter writer = null;
 		try {
 			File file = FileUtil.createFile(output);
-			
-			writer = new XMLWriter(new FileWriter(file),OutputFormat.createPrettyPrint());
+
+			writer = new XMLWriter(new FileWriter(file), OutputFormat.createPrettyPrint());
 
 			writer.write(document);
 		} catch (IOException e) {
