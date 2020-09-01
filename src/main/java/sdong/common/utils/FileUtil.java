@@ -345,4 +345,17 @@ public class FileUtil {
 	public static boolean fileExist(String file) {
 		return new File(file).exists();
 	}
+
+	/**
+	 * Delete file if exist
+	 * 
+	 * @param file file
+	 * @return successfule/fail
+	 */
+	public static boolean deleteFile(String file) {
+		if (fileExist(file)) {
+			return new File(file).delete();
+		}
+		return true;
+	}
 }
