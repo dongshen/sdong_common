@@ -8,7 +8,9 @@ import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 import com.fasterxml.uuid.Generators;
@@ -189,5 +191,35 @@ public class CommonUtil {
 			}
 		}
 		return inputStream;
+	}
+
+	/**
+	 * base on shannon entropy return bits of entropy represented in string.
+	 * 
+	 * @param inStr input string
+	 * @return bits of entropy represented in string
+	 */
+	public static double shannonEntropy(String inStr) {
+		double result = 0.0;
+		char[] chars = inStr.toCharArray();
+		Map<String, Integer> dict = new HashMap<String, Integer>();
+		String str;
+		for (char ch : chars) {
+			str = Integer.toHexString((int) ch);
+			if (dict.containsKey(str)) {
+				dict.put(str, dict.get(str) + 1);
+			} else {
+				dict.put(str, 1);
+			}
+		}
+
+		int len = dict.size();
+		double frequency;
+		for (Map.Entry<String, Integer> en : dict.entrySet()) {
+			frequency = (double) en.getValue() / len;
+			result -= frequency * (Math.log(frequency) / Math.log(2));
+		}
+
+		return result;
 	}
 }
