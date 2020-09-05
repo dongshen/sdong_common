@@ -16,40 +16,37 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sdong.common.exception.SdongException;
-import sdong.thesis.bean.Paper;
 
-public class ParsePDFTest {
-    private static final Logger logger = LoggerFactory.getLogger(ParsePDFTest.class);
+public class PdfUtilTest {
+    private static final Logger LOG = LoggerFactory.getLogger(PdfUtilTest.class);
 
     @Test
-    public void testGetFileContent_Chinese() {
-        String file = "input/pdf/Chinese_pdf.pdf";
-        ParsePDF parse = new ParsePDF();
+    public void testGetFileContent_English() {
+        //String file = "input/pdf/arxiv_1812.01158.pdf";
+         String file = "input/pdf/arxiv_1807.00515.pdf";
+        PdfUtil parse = new PdfUtil();
         String content;
         try {
             content = parse.getFileContent(file);
-
-            logger.info("content=" + content);
-
+            // logger.info("content=" + content);
         } catch (SdongException e) {
-            logger.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
     }
 
     @Test
-    public void testGetFileContent_English() {
-        String file = "input/pdf/arxiv_1812.01158.pdf";
-        // String file = "input/pdf/arxiv_1807.00515.pdf";
-        ParsePDF parse = new ParsePDF();
+    public void testGetFileContent_Chinese() {
+        String file = "input/pdf/Chinese_pdf.pdf";
+        PdfUtil parse = new PdfUtil();
         String content;
         try {
             content = parse.getFileContent(file);
-            Paper paper = parse.extractPDF(content);
-            // logger.info("content=" + content);
-        } catch (SdongException e) {
-            logger.error(e.getMessage(), e);
-        }
 
+            //LOG.info("content={}" , content);
+
+        } catch (SdongException e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
 
     @Test
@@ -74,9 +71,9 @@ public class ParsePDFTest {
 
                 // split by whitespace
                 String lines[] = pdfFileInText.split("\\r?\\n");
-                System.out.println(lines.length);
-                for (String line : lines) {
-                    System.out.println(line);
+                LOG.info("Totallines:{}",lines.length);
+                for (int ind=0; ind<lines.length;ind ++){
+                    LOG.info("line:{}:{}", ind, lines[ind]);
                 }
 
                 Writer output = new PrintWriter("./output/pdf.html", "utf-8");
@@ -86,13 +83,8 @@ public class ParsePDFTest {
 
             }
             document.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (IOException | ParserConfigurationException e) {
+            LOG.error(e.getMessage(), e);
         }
     }
-
 }

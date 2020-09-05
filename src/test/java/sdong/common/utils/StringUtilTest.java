@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import sdong.common.exception.SdongException;
 
 public class StringUtilTest {
-
 	private static final Logger log = LoggerFactory.getLogger(StringUtilTest.class);
 
 	@Test
@@ -34,7 +33,6 @@ public class StringUtilTest {
 		line = "          kind = void";
 		intended = StringUtil.checkIndentNum(line, checkChar);
 		assertEquals(10, intended);
-
 	}
 
 	@Test
@@ -58,6 +56,21 @@ public class StringUtilTest {
 			log.error(e.getMessage());
 			fail("should not get exception!");
 		}
+	}
 
+	@Test
+	public void testGetCurrentLineInString() {
+		String lines = "line 1\r\nline 2\r\nline 3\r\nline 4\r\nline 5\r\n";
+		int start = lines.indexOf("3");
+		String cur = StringUtil.getCurrentLineInString(lines, start);
+		assertEquals("line 3", cur.trim());
+	}
+
+	@Test
+	public void testGetNextLineInString() {
+		String lines = "line 1\r\nline 2\r\nline 3\r\nline 4\r\nline 5\r\n";
+		int start = lines.indexOf("3");
+		String cur = StringUtil.getNextLineInString(lines, start);
+		assertEquals("line 4", cur.trim());
 	}
 }

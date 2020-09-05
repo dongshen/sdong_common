@@ -17,7 +17,6 @@ public class StringUtil {
 	public static String LINE_BREAK = "\r\n";
 
 	public static final List<String> splitStringToListByLineBreak(String str) throws SdongException {
-
 		List<String> list = new ArrayList<String>();
 		try (BufferedReader reader = new BufferedReader(new StringReader(str));) {
 
@@ -54,31 +53,43 @@ public class StringUtil {
 		return indented;
 	}
 
-	public static int convertStringToInt(String input) throws SdongException {
-		int result = 0;
-		if (input == null) {
-			return result;
+	/**
+	 * Get next line in string
+	 *
+	 * @param contents input contents
+	 * @param start start position
+	 * @return result
+	 */
+	public static String getNextLineInString(String contents, int start) {
+		String result="";
+		int curLineBreak = contents.indexOf("\n", start);
+        if (curLineBreak < 0) {
+            return result;
+        }
+        int nextLineBreak = contents.indexOf("\n", curLineBreak + 1);
+        if (nextLineBreak < 0) {
+            return result;
 		}
-		try {
-			result = Integer.parseInt(input);
-		} catch (NumberFormatException e) {
-			log.error(e.getMessage());
-			throw new SdongException(e.getMessage());
-		}
-
-		return result;
+		return contents.substring(curLineBreak + 1, nextLineBreak);
 	}
 
-	public static boolean convertStringToBoolean(String in) {
-		boolean result = false;
-
-		if (in == null) {
-			return result;
+	/**
+	 * Get current line in string
+	 *
+	 * @param contents input contents
+	 * @param start start position
+	 * @return result
+	 */
+	public static String getCurrentLineInString(String contents, int start) {
+		String result="";
+		int curLineBreak = contents.indexOf("\n", start);
+        if (curLineBreak < 0) {
+            return result;
+        }
+        int pretLineBreak = contents.lastIndexOf("\n", start);
+        if (pretLineBreak < 0) {
+            return result;
 		}
-
-		if (in.trim().equalsIgnoreCase("yes") || in.trim().equalsIgnoreCase("true")) {
-			result = true;
-		}
-		return result;
+		return contents.substring(pretLineBreak + 1, curLineBreak);
 	}
 }

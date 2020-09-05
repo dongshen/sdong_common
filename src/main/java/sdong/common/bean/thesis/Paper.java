@@ -1,4 +1,4 @@
-package sdong.thesis.bean;
+package sdong.common.bean.thesis;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ public class Paper {
     private String summary = "";
     private List<String> keywords = new ArrayList<String>();
     private List<Author> authors = new ArrayList<Author>();
+    private List<String> urlList = new ArrayList<String>();
 
     private List<Paper> referenceList = new ArrayList<Paper>();
 
@@ -17,8 +18,6 @@ public class Paper {
     private String publishVolumn = "";
     private String publishIssue = "";
     private String publishPages = "";
-
-    private String URL = "";
 
     private String categoryId = "";
 
@@ -118,12 +117,11 @@ public class Paper {
         this.categoryId = categoryId;
     }
 
-    public String getURL() {
-        return URL;
+    public List<String> getUrlList() {
+        return urlList;
     }
 
-    public void setURL(String uRL) {
-        URL = uRL;
+    public void setUrlList(List<String> urlList) {
+        this.urlList = urlList;
     }
-
 }

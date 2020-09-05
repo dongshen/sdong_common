@@ -1,4 +1,4 @@
-package sdong.thesis.bean;
+package sdong.common.bean.thesis;
 
 public class Author {
     private String id = "";
