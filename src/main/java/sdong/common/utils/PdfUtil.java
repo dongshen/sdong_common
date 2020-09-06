@@ -3,6 +3,10 @@ package sdong.common.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
@@ -13,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import sdong.common.bean.thesis.Paper;
 import sdong.common.exception.SdongException;
 
 public class PdfUtil {
@@ -52,5 +57,74 @@ public class PdfUtil {
     }
 
     return content;
+  }
+
+  /**
+   * get pdf footer
+   *
+   * @param references
+   * @return
+   * @throws SdongException
+   */
+  public static List<String> checkFooter(List<String> contents) throws SdongException {
+    List<String> footers = new ArrayList<String>();
+    Map<String, Integer> count = new HashMap<String, Integer>(contents.size());
+    for (String line : contents) {
+      if (line.isEmpty()) {
+        continue;
+      }
+      if (count.containsKey(line)) {
+        count.put(line, count.get(line) + 1);
+      } else {
+        count.put(line, 1);
+      }
+    }
+
+    int max = 0;
+    String footer = "";
+    for (Map.Entry<String, Integer> en : count.entrySet()) {
+      if (en.getValue() > max) {
+        footer = en.getKey();
+        max = en.getValue();
+      }
+    }
+    if (max > 1) {
+      LOG.info("Footer max:{},{}", max, footer);
+      footers.add(footer);
+    }
+
+    return footers;
+  }
+
+  public static String getMoreDetail(String ref) throws SdongException {
+    String detail = StringUtil.removeStarAndEndBlankLine(ref);
+
+    List<String> details = StringUtil.splitStringToListByLineBreak(detail);
+    StringBuilder sb = new StringBuilder();
+    String cur;
+    String next;
+    String linkChar = "";
+    int blankline = 0;
+    for (int ind = 0; ind < details.size(); ind++) {
+      cur = details.get(ind);
+      if (cur.isEmpty()) {
+        blankline++;
+        continue;
+      }
+      // remove word continue mark
+      if (cur.endsWith("-")) {
+        cur = cur.substring(0, cur.length() - 1);
+        linkChar = "";
+      } else if (cur.endsWith("–")) {
+        linkChar = "";
+      } else {
+        linkChar = " ";
+      }
+
+      sb.append(cur).append(linkChar);
+    }
+    detail = sb.toString().trim();
+
+    return detail;
   }
 }

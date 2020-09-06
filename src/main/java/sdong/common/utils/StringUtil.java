@@ -9,6 +9,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sdong.common.CommonConstants;
 import sdong.common.exception.SdongException;
 
 public class StringUtil {
@@ -92,4 +93,23 @@ public class StringUtil {
 		}
 		return contents.substring(pretLineBreak + 1, curLineBreak);
 	}
+
+	/**
+	 * remove the line break in begining and end of string.
+	 *
+	 * @param line input string
+	 * @return result
+	 */
+	public static String removeStarAndEndBlankLine(String line) {
+        String result = line;
+        // remove start line break;
+        while (result.indexOf(CommonConstants.LINE_BREAK) == 0) {
+            result = result.substring(2);
+        }
+        // remove end line break;
+        while (result.lastIndexOf(CommonConstants.LINE_BREAK) == result.length() - 2) {
+            result = result.substring(0, result.length()-2);
+        }
+        return result;
+    }
 }

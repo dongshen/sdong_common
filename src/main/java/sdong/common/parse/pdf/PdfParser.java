@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import sdong.common.CommonConstants;
 import sdong.common.bean.thesis.Author;
 import sdong.common.bean.thesis.Paper;
 import sdong.common.exception.SdongException;
@@ -19,7 +20,7 @@ public class PdfParser {
 
     private static final List<String> ABSTRACT_LIST = Arrays.asList("Abstract");
     private static final List<String> KEYWOARD_LIST = Arrays.asList("Index Terms");
-    private static final List<String> REFERENCE_LIST = Arrays.asList("REFERENCES", "References");
+    private static final List<String> REFERENCE_LIST = Arrays.asList("REFERENCES", "References", "References:");
     private static final List<String> INDEX_LIST = Arrays.asList("I Introduction", "1 Introduction");
 
     private final List<String> indexList = new ArrayList<String>();
@@ -141,7 +142,8 @@ public class PdfParser {
 
         // verify
         int curLineBreak = contents.indexOf("\n", position);
-        if (curLineBreak < 0 || position + curIndex.length() != curLineBreak) {
+        if (curLineBreak < 0
+                || (position + curIndex.length() != curLineBreak && position + curIndex.length() + 1 != curLineBreak)) {
             throw new SdongException("Cant find reference!");
         }
         // compare with index position
@@ -164,23 +166,25 @@ public class PdfParser {
         List<Paper> references = new ArrayList<Paper>();
         Iterator<String> itr = indexs.iterator();
         StringBuilder sb = new StringBuilder();
+        boolean isInRef = false;
         while (itr.hasNext()) {
             line = itr.next().trim();
-            if (line.isEmpty()) {
+            if (!isInRef && line.isEmpty()) {
                 continue;
             }
 
             if (line.startsWith("[" + curRef + "]")) {
-                sb.append(line);
+                sb.append(line).append(CommonConstants.LINE_BREAK);
+                isInRef = true;
             } else if (line.startsWith("[" + (curRef + 1) + "]")) {
                 Paper paper = new Paper();
                 paper.setTitle(sb.toString());
                 references.add(paper);
                 sb.setLength(0);
-                sb.append(line);
+                sb.append(line).append(CommonConstants.LINE_BREAK);
                 curRef = curRef + 1;
             } else {
-                sb.append(line);
+                sb.append(line).append(CommonConstants.LINE_BREAK);
             }
         }
         // add last one

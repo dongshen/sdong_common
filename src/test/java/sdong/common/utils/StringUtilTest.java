@@ -73,4 +73,11 @@ public class StringUtilTest {
 		String cur = StringUtil.getNextLineInString(lines, start);
 		assertEquals("line 4", cur.trim());
 	}
+
+	@Test
+	public void testRemoveStarAndEndBlankLine() {
+		String lines = "\r\n\r\nline 1\r\n\r\nline 2\r\nline 3\r\n\r\nline 4\r\nline 5\r\n\r\n";
+		String cur = StringUtil.removeStarAndEndBlankLine(lines);
+		assertEquals("line 1\r\n\r\nline 2\r\nline 3\r\n\r\nline 4\r\nline 5", cur.trim());
+	}
 }
