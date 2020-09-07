@@ -26,7 +26,6 @@ public class SqliteUtil {
      * @throws SdongException module exception
      */
     public static void createNewDatabase(String dbFileName) throws SdongException {
-
         String url = JDBC_LINK + dbFileName;
         File file = FileUtil.createFile(dbFileName);
         if (file.exists()) {
@@ -120,11 +119,14 @@ public class SqliteUtil {
         List<String> sqlList = new ArrayList<String>();
         List<String> lines = FileUtil.readFileToStringList(fileName);
         StringBuilder sb = new StringBuilder();
+        String val = "";
         for (String line : lines) {
-            if (line.startsWith("--")) {
+            val = line.trim();
+            if(val.isEmpty()||val.startsWith("--")){
                 continue;
-            } else if (line.endsWith(";")) {
-                sb.append(line);
+            }
+            sb.append(" ").append(val);
+            if (line.endsWith(";")) {                
                 sqlList.add(sb.toString());
                 sb.setLength(0);
             }
@@ -137,6 +139,18 @@ public class SqliteUtil {
      * 
      * @param dbFileName database file name
      * @param sqlFile    table file
+     * @return the number of tables
+     * @throws SdongException module exception
+     */
+    public static int createNewDatabaseAndTable(String dbFileName, String sqlFile) throws SdongException {
+        return createNewDatabaseAndTable(dbFileName, getSqlStmtFromFile(sqlFile));
+    }
+
+    /**
+     * create database and table
+     * 
+     * @param dbFileName database file name
+     * @param sqlList    sql statement list
      * @return the number of tables
      * @throws SdongException module exception
      */

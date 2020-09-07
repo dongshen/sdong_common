@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import sdong.common.CommonConstants;
-import sdong.common.bean.thesis.Paper;
 import sdong.common.exception.SdongException;
 import sdong.common.parse.pdf.PdfParser;
 
