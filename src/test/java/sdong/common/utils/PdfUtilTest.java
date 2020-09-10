@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -106,7 +107,8 @@ public class PdfUtilTest {
                 LOG.info("footer:{}", footer);
             }
             assertEquals(1, footers.size());
-            assertEquals("ACM Computing Surveys, Vol. online, No. , Article , Publication date: June 2017.", footers.get(0));
+            assertEquals("ACM Computing Surveys, Vol. online, No. , Article , Publication date: June 2017.",
+                    footers.get(0));
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("Should Not get exception!");
@@ -121,7 +123,7 @@ public class PdfUtilTest {
                 + CommonConstants.LINE_BREAK + "Computing. 2005, pp. 37–44.";
         String expected = "[1] R. Abraham and M. Erwig. “Goal-Directed Debugging of Spreadsheets”. In: Proceedings of the 2005 IEEE Symposium on Visual Languages and Human-Centric Computing. 2005, pp. 37–44.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input));
+            assertEquals(expected, PdfUtil.getMoreDetail(input, new ArrayList<String>()));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
@@ -136,7 +138,7 @@ public class PdfUtilTest {
                 + CommonConstants.LINE_BREAK + "411.";
         String expected = "[14] R. Bodik and B. Jobstmann. “Algorithmic Program Synthesis: Introduction”. In: International journal on software tools for technology transfer 15.5 (2013), pp. 397–411.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input));
+            assertEquals(expected, PdfUtil.getMoreDetail(input,new ArrayList<String>()));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
@@ -157,10 +159,34 @@ public class PdfUtilTest {
                 + CommonConstants.LINE_BREAK + "pp. 101–110.";
         String expected = "[15] M. Brodie, S. Ma, G. Lohman, L. Mignet, M. Wilding, J. Champlin, and P. Sohn. “Quickly Finding Known Software Problems via Automated Symptom Matching”. In: Proceedings of the International Conference on Autonomic Computing. 2005, pp. 101–110.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input));
+            assertEquals(expected, PdfUtil.getMoreDetail(input,new ArrayList<String>()));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
         }
     }
+
+    @Test
+    public void testGetMoreDetail4() {
+        String input = "[4] https://github.com/zom/Zom-Android/blob/master/app/src/main/java/"
+                + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK
+                + "org/awesomeapp/messenger/util/SecureMediaStore.java#L125, accessed" + CommonConstants.LINE_BREAK
+                + "in August 2018." + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK + "10"
+                + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK
+                + "https://github.com/cheng2016/LoginSdk/blob/master/src/com/example/loginsdk/util/Util.java#L323"
+                + CommonConstants.LINE_BREAK
+                + "https://github.com/cheng2016/LoginSdk/blob/master/src/com/example/loginsdk/util/Util.java#L323"
+                + CommonConstants.LINE_BREAK
+                + "https://github.com/zom/Zom-Android/blob/master/app/src/main/java/org/awesomeapp/messenger/util/SecureMediaStore.java#L125"
+                + CommonConstants.LINE_BREAK
+                + "https://github.com/zom/Zom-Android/blob/master/app/src/main/java/org/awesomeapp/messenger/util/SecureMediaStore.java#L125";
+        String expected = "[4] https://github.com/zom/Zom-Android/blob/master/app/src/main/java/org/awesomeapp/messenger/util/SecureMediaStore.java#L125, accessed in August 2018.";
+        try {
+            assertEquals(expected, PdfUtil.getMoreDetail(input,new ArrayList<String>()));
+        } catch (SdongException e) {
+            LOG.error(e.getMessage(), e);
+            fail("Should not get exception!");
+        }
+    }
+
 }

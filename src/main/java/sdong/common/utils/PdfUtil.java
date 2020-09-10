@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
-import sdong.common.bean.thesis.Paper;
 import sdong.common.exception.SdongException;
+import sdong.common.parse.pdf.PdfParser;
 
 public class PdfUtil {
   private static final Logger LOG = LoggerFactory.getLogger(PdfUtil.class);
@@ -96,7 +96,7 @@ public class PdfUtil {
     return footers;
   }
 
-  public static String getMoreDetail(String ref) throws SdongException {
+  public static String getMoreDetail(String ref, List<String> footerList) throws SdongException {
     String detail = StringUtil.removeStarAndEndBlankLine(ref);
 
     List<String> details = StringUtil.splitStringToListByLineBreak(detail);
@@ -105,20 +105,44 @@ public class PdfUtil {
     String next;
     String linkChar = "";
     int blankline = 0;
-    for (int ind = 0; ind < details.size(); ind++) {
+    boolean isEndMark = false;
+    int refNumber = details.size();
+    for (int ind = 0; ind < refNumber; ind++) {
       cur = details.get(ind);
       if (cur.isEmpty()) {
         blankline++;
         continue;
       }
+
+      // check page footer
+      if (blankline >= 1) {
+        if (isFooter(cur, footerList)) {
+          continue;
+        }
+        if (checkPageNumber(cur)) {
+          if (isEndMark && (ind + 1 == refNumber || (ind + 1) < refNumber && details.get(ind + 1).isEmpty())) {
+            break;
+          } else {
+            continue;
+          }
+        }
+      }
+
       // remove word continue mark
       if (cur.endsWith("-")) {
         cur = cur.substring(0, cur.length() - 1);
         linkChar = "";
-      } else if (cur.endsWith("–")) {
+      } else if (cur.endsWith("–") || cur.endsWith("/")) {
         linkChar = "";
       } else {
         linkChar = " ";
+      }
+
+      // check end mark
+      if (cur.endsWith(".")) {
+        isEndMark = true;
+      } else {
+        isEndMark = false;
       }
 
       sb.append(cur).append(linkChar);
@@ -126,5 +150,28 @@ public class PdfUtil {
     detail = sb.toString().trim();
 
     return detail;
+  }
+
+  private static boolean checkPageNumber(String line) {
+    boolean isPageNumber = CommonUtil.checkNumber(line);
+    if (!isPageNumber) {
+      String clear = line.replace(":", "");
+      for (String rep : PdfParser.REFERENCE_LIST) {
+        clear = clear.replace(rep, "");
+      }
+      isPageNumber = CommonUtil.checkNumber(clear.trim());
+    }
+    return isPageNumber;
+  }
+
+  private static boolean isFooter(String line, List<String> footerList) {
+    boolean isFooter = false;
+    for (String footer : footerList) {
+      if (line.equals(footer)) {
+        isFooter = true;
+        break;
+      }
+    }
+    return isFooter;
   }
 }

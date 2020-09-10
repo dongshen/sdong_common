@@ -9,9 +9,9 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sdong.common.CommonConstants;
 import sdong.common.bean.thesis.Paper;
 import sdong.common.exception.SdongException;
+import sdong.common.utils.PdfUtil;
 
 public class PdfParserTest {
 	private static final Logger LOG = LoggerFactory.getLogger(PdfParserTest.class);
@@ -74,8 +74,10 @@ public class PdfParserTest {
 			LOG.info("Get refs:{}", refs.size());
 			assertEquals(197, refs.size());
 
+			List<String> footerList = PdfUtil.checkFooter(parser.getContenList());
 			for (Paper ref : refs) {
 				LOG.info("{}", ref.getTitle());
+				LOG.info("Update:{}", PdfUtil.getMoreDetail(ref.getTitle(),footerList));				
 			}
 		} catch (SdongException e) {
 			LOG.error(e.getMessage());
@@ -92,9 +94,11 @@ public class PdfParserTest {
 			List<Paper> refs = parser.getReferenceList();
 			LOG.info("Get refs:{}", refs.size());
 			assertEquals(61, refs.size());
+			List<String> footerList = PdfUtil.checkFooter(parser.getContenList());
 
 			for (Paper ref : refs) {
 				LOG.info("{}", ref.getTitle());
+				LOG.info("Update:{}", PdfUtil.getMoreDetail(ref.getTitle(),footerList));
 			}
 		} catch (SdongException e) {
 			LOG.error(e.getMessage());

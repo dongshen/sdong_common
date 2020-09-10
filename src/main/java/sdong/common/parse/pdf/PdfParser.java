@@ -20,7 +20,7 @@ public class PdfParser {
 
     private static final List<String> ABSTRACT_LIST = Arrays.asList("Abstract");
     private static final List<String> KEYWOARD_LIST = Arrays.asList("Index Terms");
-    private static final List<String> REFERENCE_LIST = Arrays.asList("REFERENCES", "References", "References:");
+    public static final List<String> REFERENCE_LIST = Arrays.asList("REFERENCES", "References", "References:");
     private static final List<String> INDEX_LIST = Arrays.asList("I Introduction", "1 Introduction");
 
     private final List<String> indexList = new ArrayList<String>();
@@ -54,6 +54,7 @@ public class PdfParser {
         paper.setSummary(getSummary());
 
         paper.setReferenceList(getReferenceList());
+        updateReferenceDetailList(paper.getReferenceList());
 
         return paper;
     }
@@ -194,6 +195,12 @@ public class PdfParser {
         sb.setLength(0);
 
         return references;
+    }
+
+    public void updateReferenceDetailList(List<Paper> referenceList) throws SdongException {
+        for(Paper paper: referenceList ){
+            paper.setTitle(PdfUtil.getMoreDetail(paper.getTitle()));
+        }
     }
 
     public List<String> getIndexList() {

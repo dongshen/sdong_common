@@ -222,4 +222,24 @@ public class CommonUtil {
 
 		return result;
 	}
+
+	/**
+	 * check string is number
+	 * 
+	 * @param input input string
+	 * @return true/false
+	 */
+	public static boolean checkNumber(String input) {
+		if (input == null || input.isEmpty()) {
+			return false;
+		}
+
+		for (int ind = 0; ind < input.length(); ind++) {
+			int ch = input.charAt(ind);
+			if (ch > 57 || ch < 48) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

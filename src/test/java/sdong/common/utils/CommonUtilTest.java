@@ -1,5 +1,7 @@
 package sdong.common.utils;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +18,29 @@ public class CommonUtilTest {
     public void testShannonEntropy() {
         String inStr = "abcdefghijklmnopqrstuvwxyz";
         LOG.info("entropy:{}", CommonUtil.shannonEntropy(inStr));
-        
-        inStr ="c2L7yXeGvUyrPgYsDnWRRC1AYEXAMPLE";
+
+        inStr = "c2L7yXeGvUyrPgYsDnWRRC1AYEXAMPLE";
         LOG.info("entropy:{}", CommonUtil.shannonEntropy(inStr));
 
         inStr = "abcdefghijklmnopqrst";
         LOG.info("entropy:{}", CommonUtil.shannonEntropy(inStr));
+    }
+
+    @Test
+    public void testCheckNumber() {
+        String inStr = "0123456789";
+        assertEquals(true, CommonUtil.checkNumber(inStr));
+
+        inStr = "c2L7";
+        assertEquals(false, CommonUtil.checkNumber(inStr));
+
+        inStr = "12 3";
+        assertEquals(false, CommonUtil.checkNumber(inStr));
+
+        inStr = "";
+        assertEquals(false, CommonUtil.checkNumber(inStr));
+
+        inStr = null;
+        assertEquals(false, CommonUtil.checkNumber(inStr));
     }
 }
