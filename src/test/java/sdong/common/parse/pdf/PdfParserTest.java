@@ -74,7 +74,7 @@ public class PdfParserTest {
 			LOG.info("Get refs:{}", refs.size());
 			assertEquals(197, refs.size());
 
-			List<String> footerList = PdfUtil.checkFooter(parser.getContenList());
+			List<String> footerList = PdfUtil.getFooter(parser.getContenList());
 			for (Paper ref : refs) {
 				LOG.info("{}", ref.getTitle());
 				LOG.info("Update:{}", PdfUtil.getMoreDetail(ref.getTitle(),footerList));				
@@ -94,7 +94,7 @@ public class PdfParserTest {
 			List<Paper> refs = parser.getReferenceList();
 			LOG.info("Get refs:{}", refs.size());
 			assertEquals(61, refs.size());
-			List<String> footerList = PdfUtil.checkFooter(parser.getContenList());
+			List<String> footerList = PdfUtil.getFooter(parser.getContenList());
 
 			for (Paper ref : refs) {
 				LOG.info("{}", ref.getTitle());
@@ -115,9 +115,11 @@ public class PdfParserTest {
 			List<Paper> refs = parser.getReferenceList();
 			LOG.info("Get refs:{}", refs.size());
 			assertEquals(77, refs.size());
+			List<String> footerList = PdfUtil.getFooter(parser.getContenList());
 
 			for (Paper ref : refs) {
 				LOG.info("{}", ref.getTitle());
+				LOG.info("Update:{}", PdfUtil.getMoreDetail(ref.getTitle(),footerList));
 			}
 		} catch (SdongException e) {
 			LOG.error(e.getMessage());

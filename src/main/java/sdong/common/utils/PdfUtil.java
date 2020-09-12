@@ -66,10 +66,12 @@ public class PdfUtil {
    * @return
    * @throws SdongException
    */
-  public static List<String> checkFooter(List<String> contents) throws SdongException {
+  public static List<String> getFooter(List<String> contents) throws SdongException {
     List<String> footers = new ArrayList<String>();
     Map<String, Integer> count = new HashMap<String, Integer>(contents.size());
-    for (String line : contents) {
+    String line;
+    for (String content : contents) {
+      line = content.trim();
       if (line.isEmpty()) {
         continue;
       }
@@ -83,7 +85,7 @@ public class PdfUtil {
     int max = 0;
     String footer = "";
     for (Map.Entry<String, Integer> en : count.entrySet()) {
-      if (en.getValue() > max) {
+      if (en.getValue() > max && en.getKey().length() > 10) {
         footer = en.getKey();
         max = en.getValue();
       }
@@ -97,59 +99,92 @@ public class PdfUtil {
   }
 
   public static String getMoreDetail(String ref, List<String> footerList) throws SdongException {
-    String detail = StringUtil.removeStarAndEndBlankLine(ref);
+    List<String> details = StringUtil.splitStringToListByLineBreak(ref);
+    List<String> blocks = PdfUtil.getReferenceblocks(details);
 
-    List<String> details = StringUtil.splitStringToListByLineBreak(detail);
     StringBuilder sb = new StringBuilder();
+    int start = 0;
+    int end = 0;
     String cur;
-    String next;
     String linkChar = "";
-    int blankline = 0;
-    boolean isEndMark = false;
-    int refNumber = details.size();
-    for (int ind = 0; ind < refNumber; ind++) {
-      cur = details.get(ind);
-      if (cur.isEmpty()) {
-        blankline++;
+    for (String lines : blocks) {
+      String[] block = lines.split(",");
+      start = CommonUtil.parseInteger(block[0]);
+      end = CommonUtil.parseInteger(block[1]);
+      if (checkSkipBlcok(details, start, end, footerList)) {
         continue;
       }
 
-      // check page footer
-      if (blankline >= 1) {
-        if (isFooter(cur, footerList)) {
-          continue;
+      for (int ind = start; ind <= end; ind++) {
+        cur = details.get(ind);
+        // remove word continue mark
+        if (cur.endsWith("-")) {
+          cur = cur.substring(0, cur.length() - 1);
+          linkChar = "";
+        } else if (cur.endsWith("–") || cur.endsWith("/")) {
+          linkChar = "";
+        } else {
+          linkChar = " ";
         }
-        if (checkPageNumber(cur)) {
-          if (isEndMark && (ind + 1 == refNumber || (ind + 1) < refNumber && details.get(ind + 1).isEmpty())) {
-            break;
-          } else {
-            continue;
-          }
-        }
-      }
 
-      // remove word continue mark
-      if (cur.endsWith("-")) {
-        cur = cur.substring(0, cur.length() - 1);
-        linkChar = "";
-      } else if (cur.endsWith("–") || cur.endsWith("/")) {
-        linkChar = "";
-      } else {
-        linkChar = " ";
+        sb.append(cur).append(linkChar);
       }
-
-      // check end mark
-      if (cur.endsWith(".")) {
-        isEndMark = true;
-      } else {
-        isEndMark = false;
-      }
-
-      sb.append(cur).append(linkChar);
     }
-    detail = sb.toString().trim();
+    return sb.toString().trim();
+  }
 
-    return detail;
+  private static boolean checkSkipBlcok(List<String> details, int start, int end, List<String> footerList) {
+    boolean isSkip = false;
+    // page no && footer
+    String line;
+    String preLine = details.get(start);
+    for (int ind = start; ind <= end; ind++) {
+      line = details.get(ind);
+      if (checkPageNumber(line) || checkFooter(line, footerList)) {
+        return true;
+      }
+
+      // duplicate http
+      if (preLine.startsWith("http") && preLine.equals(line)) {
+        return true;
+      } else {
+        preLine = line;
+      }
+    }
+    return isSkip;
+  }
+
+  public static List<String> getReferenceblocks(List<String> details) {
+    List<String> blocks = new ArrayList<String>();
+    if (details == null || details.isEmpty()) {
+      return blocks;
+    }
+
+    String line;
+    int mark = 0;
+    // 0:isblank, 1: not blank
+    int preMark = details.get(0).isEmpty() ? 0 : 1;
+    ;
+    int start = 0;
+    int end = 0;
+    for (int ind = 0; ind < details.size(); ind++) {
+      line = details.get(ind);
+      mark = line.isEmpty() ? 0 : 1;
+      if (preMark != mark) {
+        if (preMark == 1) {
+          end = ind - 1;
+          blocks.add(start + "," + end);
+        } else {
+          start = ind;
+        }
+        preMark = mark;
+      }
+    }
+    if (mark == 1) {
+      blocks.add(start + "," + (details.size() - 1));
+    }
+
+    return blocks;
   }
 
   private static boolean checkPageNumber(String line) {
@@ -164,7 +199,7 @@ public class PdfUtil {
     return isPageNumber;
   }
 
-  private static boolean isFooter(String line, List<String> footerList) {
+  private static boolean checkFooter(String line, List<String> footerList) {
     boolean isFooter = false;
     for (String footer : footerList) {
       if (line.equals(footer)) {

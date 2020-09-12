@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -96,13 +97,13 @@ public class PdfUtilTest {
     }
 
     @Test
-    public void testCheckFooter() {
+    public void testgetFooter() {
         String file = "input/pdf/arxiv_1807.00515.pdf";
         PdfParser parser = new PdfParser(file);
         try {
             List<String> contents = parser.getPdfContents();
 
-            List<String> footers = PdfUtil.checkFooter(contents);
+            List<String> footers = PdfUtil.getFooter(contents);
             for (String footer : footers) {
                 LOG.info("footer:{}", footer);
             }
@@ -138,7 +139,7 @@ public class PdfUtilTest {
                 + CommonConstants.LINE_BREAK + "411.";
         String expected = "[14] R. Bodik and B. Jobstmann. “Algorithmic Program Synthesis: Introduction”. In: International journal on software tools for technology transfer 15.5 (2013), pp. 397–411.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input,new ArrayList<String>()));
+            assertEquals(expected, PdfUtil.getMoreDetail(input, new ArrayList<String>()));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
@@ -159,7 +160,8 @@ public class PdfUtilTest {
                 + CommonConstants.LINE_BREAK + "pp. 101–110.";
         String expected = "[15] M. Brodie, S. Ma, G. Lohman, L. Mignet, M. Wilding, J. Champlin, and P. Sohn. “Quickly Finding Known Software Problems via Automated Symptom Matching”. In: Proceedings of the International Conference on Autonomic Computing. 2005, pp. 101–110.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input,new ArrayList<String>()));
+            assertEquals(expected, PdfUtil.getMoreDetail(input,
+                    Arrays.asList("ACM Computing Surveys, Vol. online, No. , Article , Publication date: June 2017.")));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
@@ -182,11 +184,65 @@ public class PdfUtilTest {
                 + "https://github.com/zom/Zom-Android/blob/master/app/src/main/java/org/awesomeapp/messenger/util/SecureMediaStore.java#L125";
         String expected = "[4] https://github.com/zom/Zom-Android/blob/master/app/src/main/java/org/awesomeapp/messenger/util/SecureMediaStore.java#L125, accessed in August 2018.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input,new ArrayList<String>()));
+            assertEquals(expected, PdfUtil.getMoreDetail(input, new ArrayList<String>()));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
         }
+    }
+
+    @Test
+    public void testGetMoreDetail5() {
+        String input = "[91] C. Le Goues, S. Forrest, and W. Weimer. “Current Challenges in Automatic Software"
+                + CommonConstants.LINE_BREAK + "Repair”. In: Software quality journal 21.3 (2013), pp. 421–443."
+                + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK
+                + "ACM Computing Surveys, Vol. online, No. , Article , Publication date: June 2017."
+                + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK
+                + "http://www.computerworld.com/article/2515483/enterprise-applications/epic-failures--11-infamous-software-bugs.html"
+                + CommonConstants.LINE_BREAK
+                + "http://www.computerworld.com/article/2515483/enterprise-applications/epic-failures--11-infamous-software-bugs.html"
+                + CommonConstants.LINE_BREAK
+                + "http://www.computerworld.com/article/2515483/enterprise-applications/epic-failures--11-infamous-software-bugs.html"
+                + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK
+                + "REFERENCES :21" + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK;
+        String expected = "[91] C. Le Goues, S. Forrest, and W. Weimer. “Current Challenges in Automatic Software Repair”. In: Software quality journal 21.3 (2013), pp. 421–443.";
+        try {
+            assertEquals(expected, PdfUtil.getMoreDetail(input,
+                    Arrays.asList("ACM Computing Surveys, Vol. online, No. , Article , Publication date: June 2017.")));
+        } catch (SdongException e) {
+            LOG.error(e.getMessage(), e);
+            fail("Should not get exception!");
+        }
+    }
+
+    @Test
+    public void testGetReferenceblocks() {
+        String input = CommonConstants.LINE_BREAK
+                + "[91] C. Le Goues, S. Forrest, and W. Weimer. “Current Challenges in Automatic Software"
+                + CommonConstants.LINE_BREAK + "Repair”. In: Software quality journal 21.3 (2013), pp. 421–443."
+                + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK
+                + "ACM Computing Surveys, Vol. online, No. , Article , Publication date: June 2017."
+                + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK
+                + "http://www.computerworld.com/article/2515483/enterprise-applications/epic-failures--11-infamous-software-bugs.html"
+                + CommonConstants.LINE_BREAK
+                + "http://www.computerworld.com/article/2515483/enterprise-applications/epic-failures--11-infamous-software-bugs.html"
+                + CommonConstants.LINE_BREAK
+                + "http://www.computerworld.com/article/2515483/enterprise-applications/epic-failures--11-infamous-software-bugs.html"
+                + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK
+                + "REFERENCES :21"+ CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK ;
+        try {
+            List<String> details = StringUtil.splitStringToListByLineBreak(input);
+
+            List<String> list = PdfUtil.getReferenceblocks(details);
+            for (String line : list) {
+                LOG.info("block:{}", line);
+            }
+            assertEquals(4, list.size());
+        } catch (SdongException e) {
+            LOG.error(e.getMessage(), e);
+            fail("Should not get exception!");
+        }
+
     }
 
 }
