@@ -25,14 +25,14 @@ import sdong.common.CommonConstants;
 import sdong.common.exception.SdongException;
 import sdong.common.parse.pdf.PdfParser;
 
-public class PdfUtilTest {
-    private static final Logger LOG = LoggerFactory.getLogger(PdfUtilTest.class);
+public class PaperUtilTest {
+    private static final Logger LOG = LoggerFactory.getLogger(PaperUtilTest.class);
 
     @Test
     public void testGetFileContent_English() {
         // String file = "input/pdf/arxiv_1812.01158.pdf";
         String file = "input/pdf/arxiv_1807.00515.pdf";
-        PdfUtil parse = new PdfUtil();
+        PaperUtil parse = new PaperUtil();
         String content;
         try {
             content = parse.getFileContent(file);
@@ -45,7 +45,7 @@ public class PdfUtilTest {
     @Test
     public void testGetFileContent_Chinese() {
         String file = "input/pdf/Chinese_pdf.pdf";
-        PdfUtil parse = new PdfUtil();
+        PaperUtil parse = new PaperUtil();
         String content;
         try {
             content = parse.getFileContent(file);
@@ -103,7 +103,7 @@ public class PdfUtilTest {
         try {
             List<String> contents = parser.getPdfContents();
 
-            List<String> footers = PdfUtil.getFooter(contents);
+            List<String> footers = PaperUtil.getFooter(contents);
             for (String footer : footers) {
                 LOG.info("footer:{}", footer);
             }
@@ -124,7 +124,7 @@ public class PdfUtilTest {
                 + CommonConstants.LINE_BREAK + "Computing. 2005, pp. 37–44.";
         String expected = "[1] R. Abraham and M. Erwig. “Goal-Directed Debugging of Spreadsheets”. In: Proceedings of the 2005 IEEE Symposium on Visual Languages and Human-Centric Computing. 2005, pp. 37–44.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input, new ArrayList<String>()));
+            assertEquals(expected, PaperUtil.getMoreDetail(input, new ArrayList<String>()));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
@@ -139,7 +139,7 @@ public class PdfUtilTest {
                 + CommonConstants.LINE_BREAK + "411.";
         String expected = "[14] R. Bodik and B. Jobstmann. “Algorithmic Program Synthesis: Introduction”. In: International journal on software tools for technology transfer 15.5 (2013), pp. 397–411.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input, new ArrayList<String>()));
+            assertEquals(expected, PaperUtil.getMoreDetail(input, new ArrayList<String>()));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
@@ -160,7 +160,7 @@ public class PdfUtilTest {
                 + CommonConstants.LINE_BREAK + "pp. 101–110.";
         String expected = "[15] M. Brodie, S. Ma, G. Lohman, L. Mignet, M. Wilding, J. Champlin, and P. Sohn. “Quickly Finding Known Software Problems via Automated Symptom Matching”. In: Proceedings of the International Conference on Autonomic Computing. 2005, pp. 101–110.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input,
+            assertEquals(expected, PaperUtil.getMoreDetail(input,
                     Arrays.asList("ACM Computing Surveys, Vol. online, No. , Article , Publication date: June 2017.")));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
@@ -184,7 +184,7 @@ public class PdfUtilTest {
                 + "https://github.com/zom/Zom-Android/blob/master/app/src/main/java/org/awesomeapp/messenger/util/SecureMediaStore.java#L125";
         String expected = "[4] https://github.com/zom/Zom-Android/blob/master/app/src/main/java/org/awesomeapp/messenger/util/SecureMediaStore.java#L125, accessed in August 2018.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input, new ArrayList<String>()));
+            assertEquals(expected, PaperUtil.getMoreDetail(input, new ArrayList<String>()));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
@@ -207,7 +207,7 @@ public class PdfUtilTest {
                 + "REFERENCES :21" + CommonConstants.LINE_BREAK + CommonConstants.LINE_BREAK;
         String expected = "[91] C. Le Goues, S. Forrest, and W. Weimer. “Current Challenges in Automatic Software Repair”. In: Software quality journal 21.3 (2013), pp. 421–443.";
         try {
-            assertEquals(expected, PdfUtil.getMoreDetail(input,
+            assertEquals(expected, PaperUtil.getMoreDetail(input,
                     Arrays.asList("ACM Computing Surveys, Vol. online, No. , Article , Publication date: June 2017.")));
         } catch (SdongException e) {
             LOG.error(e.getMessage(), e);
@@ -233,7 +233,7 @@ public class PdfUtilTest {
         try {
             List<String> details = StringUtil.splitStringToListByLineBreak(input);
 
-            List<String> list = PdfUtil.getReferenceblocks(details);
+            List<String> list = PaperUtil.getReferenceblocks(details);
             for (String line : list) {
                 LOG.info("block:{}", line);
             }
@@ -242,7 +242,5 @@ public class PdfUtilTest {
             LOG.error(e.getMessage(), e);
             fail("Should not get exception!");
         }
-
     }
-
 }

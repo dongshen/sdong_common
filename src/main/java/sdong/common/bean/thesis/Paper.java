@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Paper {
     private String paperId = "";
+    private PaperType paperType;
+
     private String title = "";
     private String summary = "";
     private List<String> keywords = new ArrayList<String>();
@@ -13,14 +15,18 @@ public class Paper {
 
     private List<Paper> referenceList = new ArrayList<Paper>();
 
-    private String publishYear = "";
-    private String publishIn = "";
-    private String publishVolumn = "";
-    private String publishIssue = "";
-    private String publishPages = "";
-
-    private String categoryId = "";
-
+    // journal =   {{期刊名称}},  booktitle   =   {{会议论文集名称或会议名称}}, publisher = {{出版社名称}},
+    private String journal = "";
+    // volume  =   {卷号},
+    private String volumn = "";
+    // number  =   {期号},
+    private String number = "";
+    // pages   =   {起始页码--终止页码},
+    private String pages = "";
+    //year    =   {年份}
+    private String year = "";
+    private String  url = "";
+    
     public String getPaperId() {
         return paperId;
     }
@@ -69,53 +75,6 @@ public class Paper {
         this.referenceList = referenceList;
     }
 
-    public String getPublishYear() {
-        return publishYear;
-    }
-
-    public void setPublishYear(String publishYear) {
-        this.publishYear = publishYear;
-    }
-
-    public String getPublishIn() {
-        return publishIn;
-    }
-
-    public void setPublishIn(String publishIn) {
-        this.publishIn = publishIn;
-    }
-
-    public String getPublishVolumn() {
-        return publishVolumn;
-    }
-
-    public void setPublishVolumn(String publishVolumn) {
-        this.publishVolumn = publishVolumn;
-    }
-
-    public String getPublishIssue() {
-        return publishIssue;
-    }
-
-    public void setPublishIssue(String publishIssue) {
-        this.publishIssue = publishIssue;
-    }
-
-    public String getPublishPages() {
-        return publishPages;
-    }
-
-    public void setPublishPages(String publishPages) {
-        this.publishPages = publishPages;
-    }
-
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
 
     public List<String> getUrlList() {
         return urlList;
@@ -123,5 +82,61 @@ public class Paper {
 
     public void setUrlList(List<String> urlList) {
         this.urlList = urlList;
+    }
+
+    public String getJournal() {
+        return journal;
+    }
+
+    public void setJournal(String journal) {
+        this.journal = journal;
+    }
+
+    public String getVolumn() {
+        return volumn;
+    }
+
+    public void setVolumn(String volumn) {
+        this.volumn = volumn;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getPages() {
+        return pages;
+    }
+
+    public void setPages(String pages) {
+        this.pages = pages;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public PaperType getPaperType() {
+        return paperType;
+    }
+
+    public void setPaperType(PaperType paperType) {
+        this.paperType = paperType;
     }
 }

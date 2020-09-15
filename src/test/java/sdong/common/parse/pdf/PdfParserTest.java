@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import sdong.common.bean.thesis.Paper;
 import sdong.common.exception.SdongException;
-import sdong.common.utils.PdfUtil;
+import sdong.common.utils.PaperUtil;
 
 public class PdfParserTest {
 	private static final Logger LOG = LoggerFactory.getLogger(PdfParserTest.class);
@@ -74,10 +74,10 @@ public class PdfParserTest {
 			LOG.info("Get refs:{}", refs.size());
 			assertEquals(197, refs.size());
 
-			List<String> footerList = PdfUtil.getFooter(parser.getContenList());
+			List<String> footerList = PaperUtil.getFooter(parser.getContenList());
 			for (Paper ref : refs) {
 				LOG.info("{}", ref.getTitle());
-				LOG.info("Update:{}", PdfUtil.getMoreDetail(ref.getTitle(),footerList));				
+				LOG.info("Update:{}", PaperUtil.getMoreDetail(ref.getTitle(),footerList));				
 			}
 		} catch (SdongException e) {
 			LOG.error(e.getMessage());
@@ -94,11 +94,11 @@ public class PdfParserTest {
 			List<Paper> refs = parser.getReferenceList();
 			LOG.info("Get refs:{}", refs.size());
 			assertEquals(61, refs.size());
-			List<String> footerList = PdfUtil.getFooter(parser.getContenList());
+			List<String> footerList = PaperUtil.getFooter(parser.getContenList());
 
 			for (Paper ref : refs) {
 				LOG.info("{}", ref.getTitle());
-				LOG.info("Update:{}", PdfUtil.getMoreDetail(ref.getTitle(),footerList));
+				LOG.info("Update:{}", PaperUtil.getMoreDetail(ref.getTitle(),footerList));
 			}
 		} catch (SdongException e) {
 			LOG.error(e.getMessage());
@@ -115,11 +115,11 @@ public class PdfParserTest {
 			List<Paper> refs = parser.getReferenceList();
 			LOG.info("Get refs:{}", refs.size());
 			assertEquals(77, refs.size());
-			List<String> footerList = PdfUtil.getFooter(parser.getContenList());
+			List<String> footerList = PaperUtil.getFooter(parser.getContenList());
 
 			for (Paper ref : refs) {
 				LOG.info("{}", ref.getTitle());
-				LOG.info("Update:{}", PdfUtil.getMoreDetail(ref.getTitle(),footerList));
+				LOG.info("Update:{}", PaperUtil.getMoreDetail(ref.getTitle(),footerList));
 			}
 		} catch (SdongException e) {
 			LOG.error(e.getMessage());

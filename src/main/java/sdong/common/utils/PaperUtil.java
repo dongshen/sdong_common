@@ -20,8 +20,8 @@ import org.xml.sax.SAXException;
 import sdong.common.exception.SdongException;
 import sdong.common.parse.pdf.PdfParser;
 
-public class PdfUtil {
-  private static final Logger LOG = LoggerFactory.getLogger(PdfUtil.class);
+public class PaperUtil {
+  private static final Logger LOG = LoggerFactory.getLogger(PaperUtil.class);
 
   /**
    * get contents from pdf file
@@ -100,7 +100,7 @@ public class PdfUtil {
 
   public static String getMoreDetail(String ref, List<String> footerList) throws SdongException {
     List<String> details = StringUtil.splitStringToListByLineBreak(ref);
-    List<String> blocks = PdfUtil.getReferenceblocks(details);
+    List<String> blocks = PaperUtil.getReferenceblocks(details);
 
     StringBuilder sb = new StringBuilder();
     int start = 0;

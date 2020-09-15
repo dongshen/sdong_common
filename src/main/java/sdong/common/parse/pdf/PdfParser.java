@@ -12,7 +12,7 @@ import sdong.common.CommonConstants;
 import sdong.common.bean.thesis.Author;
 import sdong.common.bean.thesis.Paper;
 import sdong.common.exception.SdongException;
-import sdong.common.utils.PdfUtil;
+import sdong.common.utils.PaperUtil;
 import sdong.common.utils.StringUtil;
 
 public class PdfParser {
@@ -35,7 +35,7 @@ public class PdfParser {
     }
 
     public List<String> getPdfContents() throws SdongException {
-        this.contents = PdfUtil.getFileContent(this.fileName);
+        this.contents = PaperUtil.getFileContent(this.fileName);
         contenList = StringUtil.splitStringToListByLineBreak(contents);
         return this.contenList;
     }
@@ -199,7 +199,7 @@ public class PdfParser {
 
     public void updateReferenceDetailList(List<Paper> referenceList) throws SdongException {
         for(Paper paper: referenceList ){
-            paper.setTitle(PdfUtil.getMoreDetail(paper.getTitle()));
+            paper.setTitle(PaperUtil.getMoreDetail(paper.getTitle(),PaperUtil.getFooter(contenList)));
         }
     }
 
