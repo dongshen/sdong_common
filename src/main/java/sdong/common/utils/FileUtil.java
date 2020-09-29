@@ -88,7 +88,6 @@ public class FileUtil {
 	}
 
 	public static List<String> getFilesInFolder2(String dirPath) throws SdongException {
-
 		List<String> fileList = new ArrayList<String>();
 
 		try {
@@ -140,18 +139,7 @@ public class FileUtil {
 	 * @throws SdongException IOException
 	 */
 	public static List<String> getFilesInFolder(String folder) throws SdongException {
-		List<String> fileList = new ArrayList<String>();
-		try {
-			for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
-				if (file.isFile()) {
-					fileList.add(file.getCanonicalPath());
-				}
-			}
-		} catch (IOException e) {
-			throw new SdongException(e.getMessage());
-		}
-		return fileList;
-
+		return filterFilesInFolder(folder, null);
 	}
 
 	/**
@@ -163,22 +151,21 @@ public class FileUtil {
 	 * @throws SdongException IOException
 	 */
 	public static List<String> filterFilesInFolder(String folder, Set<String> exts) throws SdongException {
-		if (exts == null || exts.isEmpty()) {
-			return getFilesInFolder(folder);
-		}
-
 		List<String> fileList = new ArrayList<String>();
 		try {
 			for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
-				if (file.isFile() && exts.contains(FileUtil.getFileExtension(file.getName()))) {
-					fileList.add(file.getCanonicalPath());
+				if (file.isFile()) {
+					if (exts == null || exts.isEmpty()) {
+						fileList.add(file.getCanonicalPath());
+					} else if (exts.contains(FileUtil.getFileExtension(file.getName()))) {
+						fileList.add(file.getCanonicalPath());
+					}
 				}
 			}
 		} catch (IOException e) {
 			throw new SdongException(e.getMessage());
 		}
 		return fileList;
-
 	}
 
 	/**
