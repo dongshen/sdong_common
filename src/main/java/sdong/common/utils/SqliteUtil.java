@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import sdong.common.exception.SdongException;
 
 public class SqliteUtil {
+    public static final int BATCH_SIZE = 1000;
     private static final Logger LOG = LoggerFactory.getLogger(SqliteUtil.class);
     private static final String JDBC_LINK = "jdbc:sqlite:";
 
@@ -201,5 +202,19 @@ public class SqliteUtil {
             result = result + count;
         }
         return result;
+    }
+
+    /**
+     * batch commit
+     * 
+     * @param conn connection
+     * @param pstmt Prepared Statement
+     * @return updated records
+     * @throws SQLException SQL exception
+     */
+    public static int commitBatch(Connection conn, PreparedStatement pstmt) throws SQLException {
+        int[] updateCounts = pstmt.executeBatch();
+        conn.commit();
+        return errorsCount(updateCounts);
     }
 }
