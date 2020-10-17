@@ -175,15 +175,13 @@ public class FileUtil {
 	 * @return folder name
 	 */
 	public static String getFolderName(String fileName) {
-
 		File file = new File(fileName);
-
 		String parentFile = file.getParent();
 
 		if (parentFile == null) {
 			return "";
 		} else {
-			return parentFile;
+			return parentFile.replaceAll("\\\\", LINUX_FILE_PATH_SEPERATOR);
 		}
 	}
 
@@ -194,7 +192,6 @@ public class FileUtil {
 	 * @return file name
 	 */
 	public static String getFileName(String fileName) {
-
 		File file = new File(fileName);
 		return file.getName();
 	}
