@@ -12,7 +12,7 @@ import sdong.common.utils.StringCommonFactor.ChildString;
 import sdong.common.utils.StringCommonFactor.DiffSequence;
 
 public class StringCommonFactorTest {
-	private static final Logger log = LoggerFactory.getLogger(StringCommonFactorTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(StringCommonFactorTest.class);
 
 	@Test
 	public void testGetStringMaxCommmon_case1() {

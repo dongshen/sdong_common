@@ -152,7 +152,7 @@ public class FileUtil {
 	 */
 	public static List<String> filterFilesInFolder(String folder, Set<String> exts) throws SdongException {
 		List<String> fileList = new ArrayList<String>();
-		try {
+		try {		
 			for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
 				if (file.isFile()) {
 					if (exts == null || exts.isEmpty()) {
@@ -278,6 +278,7 @@ public class FileUtil {
 	 * @throws SdongException create fail
 	 */
 	public static File createFile(String fileName) throws SdongException {
+		//guava Files.createParentDirs(new File(fileName));
 		File file = new File(fileName);
 		File parent = file.getParentFile();
 		if (!parent.exists()) {

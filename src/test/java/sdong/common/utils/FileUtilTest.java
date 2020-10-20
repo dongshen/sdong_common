@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -48,7 +49,16 @@ public class FileUtilTest {
 
 	@Test
 	public void testGetFilesInFolder() {
-		fail("Not yet implemented");
+		try {
+			List<String> files = FileUtil.getFilesInFolder("input/loc");
+			assertEquals(7, files.size());
+
+			List<String> file = FileUtil.getFilesInFolder("input/loc/example/loc_cases.c");
+			assertEquals(1, file.size());
+		} catch (SdongException e) {
+			log.error(e.getMessage());
+			fail("should not get exception!");
+		}
 	}
 
 	@Test
@@ -76,7 +86,6 @@ public class FileUtilTest {
 
 	@Test
 	public void testGetFileName() {
-
 		String result = "";
 		String file = "abc" + File.separator + "a.java";
 
@@ -90,7 +99,6 @@ public class FileUtilTest {
 
 	@Test
 	public void testReadFileToByteArray() {
-
 		String filename = "C:\\Users\\shendong\\Downloads\\neo4j-desktop-offline-1.2.1-setup.exe";
 		byte[] result;
 		try {
@@ -107,7 +115,6 @@ public class FileUtilTest {
 			log.error(e.getMessage());
 			fail("should not get exception!");
 		}
-
 	}
 
 }
