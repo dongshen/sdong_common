@@ -49,3 +49,19 @@ SLOC度量有两种主要类型：
   |Line of Code| 46|36(×)|46(√)|60(×)|52(×)|
   |row line|143||143(√)|143(√)|143(√)|
   |use time||0.03s|
+
+
+# Tesseract-OCR
+主要用于图片的文字提取.
+
+## 安装
+1. 下载安装Tesseract-OCR 安装，链接地址https://digi.bib.uni-mannheim.de/tesseract/
+2. 中文的安装: Tesseract-OCR的安装目录要包含识别中文的字符集chi_sim.traineddata，可以在GitHub下载https://github.com/tesseract-ocr/tessdata
+3. 查看版本 tesseract -v
+4. 转换: tesseract test.png result -l chi_sim
+   
+## 训练
+1. 下载安装jTessBoxEditor，https://sourceforge.net/projects/vietocr/files/jTessBoxEditor/
+
+Ref
+* [](https://blog.csdn.net/limingblogs/article/details/104062955)
