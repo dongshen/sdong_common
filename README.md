@@ -1,10 +1,10 @@
-# sdong_common
+# 1. sdong_common
 my own common module
 
-# build
+# 2. build
 mvn package -Dmaven.test.skip=true
 
-# LocUtil
+# 3. LocUtil
 
 * Source lines of code
 引自[wiki](http://en.wikipedia.org/wiki/Source_lines_of_code)  
@@ -51,16 +51,44 @@ SLOC度量有两种主要类型：
   |use time||0.03s|
 
 
-# Tesseract-OCR
+# 4. Tesseract-OCR
 主要用于图片的文字提取.
 
-## 安装
+## 4.1. 安装(目前安装版本:v5.0.0-alpha.20201127)
 1. 下载安装Tesseract-OCR 安装，链接地址https://digi.bib.uni-mannheim.de/tesseract/
 2. 中文的安装: Tesseract-OCR的安装目录要包含识别中文的字符集chi_sim.traineddata，可以在GitHub下载https://github.com/tesseract-ocr/tessdata
-3. 查看版本 tesseract -v
-4. 转换: tesseract test.png result -l chi_sim
+3. 查看版本: tesseract -v
+```
+D:\temp>tesseract -v
+tesseract v5.0.0-alpha.20201127
+ leptonica-1.78.0
+  libgif 5.1.4 : libjpeg 8d (libjpeg-turbo 1.5.3) : libpng 1.6.34 : libtiff 4.0.9 : zlib 1.2.11 : libwebp 0.6.1 : libopenjp2 2.3.0
+ Found AVX2
+ Found AVX
+ Found FMA
+ Found SSE
+ Found libarchive 3.3.2 zlib/1.2.11 liblzma/5.2.3 bz2lib/1.0.6 liblz4/1.7.5
+ Found libcurl/7.59.0 OpenSSL/1.0.2o (WinSSL) zlib/1.2.11 WinIDN libssh2/1.7.0 nghttp2/1.31.0
+```
+4. 检查安装语言: tesseract --list-langs 
+```
+D:\temp>tesseract --list-langs
+List of available languages (6):
+chi_sim
+chi_sim_vert
+chi_tra
+chi_tra_vert
+eng
+osd
+```
+
+5. 转换: tesseract test.png result -l chi_sim
+```
+D:\temp>tesseract test.JPG result -l chi_sim
+Tesseract Open Source OCR Engine v5.0.0-alpha.20201127 with Leptonica
+```
    
-## 训练
+## 4.2. 训练
 1. 下载安装jTessBoxEditor，https://sourceforge.net/projects/vietocr/files/jTessBoxEditor/
 
 Ref
