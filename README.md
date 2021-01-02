@@ -93,3 +93,21 @@ Tesseract Open Source OCR Engine v5.0.0-alpha.20201127 with Leptonica
 
 Ref
 * [](https://blog.csdn.net/limingblogs/article/details/104062955)
+
+# 5. Web Scraper
+* [Web Scraper](https://www.webscraper.io/) 
+
+
+# 6. Excel tips
+## 6.1. Get cell web link
+* 按Alt+F11进入宏操作界面，选择插入-->模块，输入以下代码;
+```
+Sub getLink()
+For Each cell In Range("A1:A11")
+  cell.Offset(0, 1) = cell.Hyperlinks(1).Address
+Nextr
+
+End Sub
+```
+* F5运行宏.
+
