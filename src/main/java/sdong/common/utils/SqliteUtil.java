@@ -88,6 +88,28 @@ public class SqliteUtil {
     }
 
     /**
+     * delete records from table list
+     * 
+     * @param dbFileName database file name
+     * @param tableList  table list
+     * @throws SdongException module exception
+     */
+    public static void clearTableList(String dbFileName, List<String> tableList) throws SdongException {
+        if (!FileUtil.fileExist(dbFileName)) {
+            return;
+        }
+
+        if (tableList == null || tableList.isEmpty()) {
+            return;
+        }
+
+        for (String table : tableList) {
+            LOG.info("Clear table:{}", table);
+            SqliteUtil.clearTable(dbFileName, table);
+        }
+    }
+
+    /**
      * get record count from table
      * 
      * @param dbFileName database file name
@@ -123,11 +145,11 @@ public class SqliteUtil {
         String val = "";
         for (String line : lines) {
             val = line.trim();
-            if(val.isEmpty()||val.startsWith("--")){
+            if (val.isEmpty() || val.startsWith("--")) {
                 continue;
             }
             sb.append(" ").append(val);
-            if (line.endsWith(";")) {                
+            if (line.endsWith(";")) {
                 sqlList.add(sb.toString());
                 sb.setLength(0);
             }
@@ -207,7 +229,7 @@ public class SqliteUtil {
     /**
      * batch commit
      * 
-     * @param conn connection
+     * @param conn  connection
      * @param pstmt Prepared Statement
      * @return updated records
      * @throws SQLException SQL exception
@@ -216,5 +238,33 @@ public class SqliteUtil {
         int[] updateCounts = pstmt.executeBatch();
         conn.commit();
         return errorsCount(updateCounts);
+    }
+
+    /**
+     * import data to database
+     * 
+     * @param dbFileName database name
+     * @param dataFile   data file
+     * @return records
+     * @throws SdongException module exception
+     */
+    public static int importData(String dbFileName, String dataFile) throws SdongException {
+        List<String> dataList = SqliteUtil.getSqlStmtFromFile(dataFile);
+        int records = 0;
+        try (Connection conn = SqliteUtil.getConnection(dbFileName); Statement stmt = conn.createStatement();) {
+            conn.setAutoCommit(false);
+            PreparedStatement pstmt = null;
+            for (String sql : dataList) {
+                pstmt = conn.prepareStatement(sql);
+                records = records + pstmt.executeUpdate();
+            }
+            conn.commit();
+
+        } catch (SQLException e) {
+            throw new SdongException(e.getMessage());
+        }
+
+        LOG.info("import records:{}", records);
+        return records;
     }
 }
