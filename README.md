@@ -19,20 +19,20 @@ SLOC度量有两种主要类型：
   
 * 开源LOC tools
 
-|名称|网址|开发语言|license|最后更新时间|特性|比对|
-|-|-|-|-|-|-|-|
-|cloc|https://github.com/AlDanial/cloc|perl|GPL v2|2020-05-18|正则表达式|√|
-|scc|https://github.com/boyter/scc/|go|MIT|2020-03-03|字节状态机|√|
-|loc|https://github.com/cgag/loc|rust|MIT|2017-10-15| contains code from Tokei by Aaronepower and ripgrep by BurntSushi.|√|
-|gocloc|https://github.com/hhatto/gocloc|go|MIT|2020-04-02|inspired by tokei,不支持windows|
-|tokei|https://github.com/Aaronepower/tokei|rust|APACHE 2.0|2020-06-24|字节状态机|√|
-|Ohcount|https://github.com/blackducksoftware/ohcount|ruby|GPL 2.0|2020-02-12|不支持windows,Ragel(状态机)||
-|sclc|https://code.google.com/archive/p/sclc/|perl|GPL|2010-08-09||
-|SLOCCount|https://dwheeler.com/sloccount/|perl|GPL|2004-08-02||
-|Sonar|http://www.sonarsource.org/|java|GPL 3.0|2020-04||
-|ployglot|https://github.com/vmchale/polyglot|ATS|BSD 3|2020-01-11|不支持windows||
-|locCount|https://gitlab.com/esr/loccount|go|BSD 2||SLOCCount by go|
-|Unified Code Count|http://csse.usc.edu/ucc_new/wordpress/|C++|2015-06-09|USC-CSSE||
+| 名称               | 网址                                         | 开发语言 | license    | 最后更新时间 | 特性                                                               | 比对 |
+| ------------------ | -------------------------------------------- | -------- | ---------- | ------------ | ------------------------------------------------------------------ | ---- |
+| cloc               | https://github.com/AlDanial/cloc             | perl     | GPL v2     | 2020-05-18   | 正则表达式                                                         | √    |
+| scc                | https://github.com/boyter/scc/               | go       | MIT        | 2020-03-03   | 字节状态机                                                         | √    |
+| loc                | https://github.com/cgag/loc                  | rust     | MIT        | 2017-10-15   | contains code from Tokei by Aaronepower and ripgrep by BurntSushi. | √    |
+| gocloc             | https://github.com/hhatto/gocloc             | go       | MIT        | 2020-04-02   | inspired by tokei,不支持windows                                    |
+| tokei              | https://github.com/Aaronepower/tokei         | rust     | APACHE 2.0 | 2020-06-24   | 字节状态机                                                         | √    |
+| Ohcount            | https://github.com/blackducksoftware/ohcount | ruby     | GPL 2.0    | 2020-02-12   | 不支持windows,Ragel(状态机)                                        |      |
+| sclc               | https://code.google.com/archive/p/sclc/      | perl     | GPL        | 2010-08-09   |                                                                    |
+| SLOCCount          | https://dwheeler.com/sloccount/              | perl     | GPL        | 2004-08-02   |                                                                    |
+| Sonar              | http://www.sonarsource.org/                  | java     | GPL 3.0    | 2020-04      |                                                                    |
+| ployglot           | https://github.com/vmchale/polyglot          | ATS      | BSD 3      | 2020-01-11   | 不支持windows                                                      |      |
+| locCount           | https://gitlab.com/esr/loccount              | go       | BSD 2      |              | SLOCCount by go                                                    |
+| Unified Code Count | http://csse.usc.edu/ucc_new/wordpress/       | C++      | 2015-06-09 | USC-CSSE     |                                                                    |
 
 
 * 参考
@@ -41,14 +41,14 @@ SLOC度量有两种主要类型：
   * [Differences in the Deﬁnition and Calculation of the LOC Metric in Free Tools](http://inf.u-szeged.hu/~beszedes/research/SED-TR2014-001-LOC.pdf)
 
 * 精确度比较
-  |期望值\工具|testcase|cloc 1.86|scc 2.12.0|tokei 12.0.4|loc 0.4.1|
-  |-|-|-|-|-|-|
-  |blank Line|50|50(√)|50(√)|50(√)|50(√)|
-  |comment line|47|57(×)|47(√)|60(×)|41(×)|
-  |comment in Line|37|||
-  |Line of Code| 46|36(×)|46(√)|60(×)|52(×)|
-  |row line|143||143(√)|143(√)|143(√)|
-  |use time||0.03s|
+  | 期望值\工具     | testcase | cloc 1.86 | scc 2.12.0 | tokei 12.0.4 | loc 0.4.1 |
+  | --------------- | -------- | --------- | ---------- | ------------ | --------- |
+  | blank Line      | 50       | 50(√)     | 50(√)      | 50(√)        | 50(√)     |
+  | comment line    | 47       | 57(×)     | 47(√)      | 60(×)        | 41(×)     |
+  | comment in Line | 37       |           |            |
+  | Line of Code    | 46       | 36(×)     | 46(√)      | 60(×)        | 52(×)     |
+  | row line        | 143      |           | 143(√)     | 143(√)       | 143(√)    |
+  | use time        |          | 0.03s     |
 
 
 # 4. Tesseract-OCR
@@ -119,33 +119,38 @@ End Sub
 3. 批量填充空值
   * 敲击键盘上的等于号，输入公式后同时按下：ctrl+enter.
 
-# markdown Reference
+# 7. markdown Reference
 * [markdown中公式编辑教程](https://www.jianshu.com/p/25f0139637b7)
 * [katex](https://katex.org/docs/supported.html)
 
-# 7. 希腊字母在数学或物理中代表的意思
-序号 大写 小写 英文注音 国际音标注音 中文读音 意义
-1 Α α alpha a:lf 阿尔法bai 角度；系数
-2 Β β beta bet 贝塔 磁通系数；角度；系数
-3 Γ γ gamma ga:m 伽马 电导系数（小写）
-4 Δ δ delta delt 德尔塔 变动；；屈光度
-5 Ε ε epsilon ep`silon 伊普西龙 对数之基数
-6 Ζ ζ zeta zat 截塔 系数；方位角；阻抗；相对粘度；原子序数
-7 Η η eta eit 艾塔 磁滞系数；效率（小写）
-8 Θ θ thet θit 西塔 温度；相位角
-9 Ι ι iot aiot 约塔 微小，一点儿
-10 Κ κ kappa kap 卡帕 介质常数
-11 ∧ λ lambda lambd 兰布达 波长（小写）；体积
-12 Μ μ mu mju 缪 磁导系数微（千分之一）放大因数（小写）
-13 Ν ν nu nju 纽 磁阻系数
-14 Ξ ξ xi ksi 克西 随机变量
-15 Ο ο omicron omik`ron 奥密克戎 无穷小量：ο(x)
-16 ∏ π pi pai 派 圆周率=圆周÷直径=3.14159 2653589793
-17 Ρ ρ rho rou 肉 电阻系数（小写）密度(小写)
-18 ∑ σ sigma `sigma 西格马 总和（大写），表面密度；跨导（小写）
-19 Τ τ tau tau 套 时间常数
-20 Υ υ upsilon jup`silon 宇普西龙 位移
-21 Φ φ phi fai 佛爱 磁通；黄金分割符号；空集（大写）；工程学中表示直径
-22 Χ χ chi phai 西 卡方分布；电感
-23 Ψ ψ psi psai 普西 角速；介质电通量（静电力线）；角
-24 Ω ω omega o`miga 欧米伽 欧姆（大写）；角速（小写）；角
+# 8. 希腊字母在数学或物理中代表的意思
+| 序号 | 大写 | 小写 | 英文注音 | 国际音标注音 | 中文读音  | 意义                                               |
+| ---- | ---- | ---- | -------- | ------------ | --------- | -------------------------------------------------- |
+| 1    | Α    | α    | alpha    | a:lf         | 阿尔法bai | 角度；系数                                         |
+| 2    | Β    | β    | beta     | bet          | 贝塔      | 磁通系数；角度；系数                               |
+| 3    | Γ    | γ    | gamma    | ga:m         | 伽马      | 电导系数（小写）                                   |
+| 4    | Δ    | δ    | delta    | delt         | 德尔塔    | 变动；；屈光度                                     |
+| 5    | Ε    | ε    | epsilon  | ep`silon     | 伊普西龙  | 对数之基数                                         |
+| 6    | Ζ    | ζ    | zeta     | zat          | 截塔      | 系数；方位角；阻抗；相对粘度；原子序数             |
+| 7    | Η    | η    | eta      | eit          | 艾塔      | 磁滞系数；效率（小写）                             |
+| 8    | Θ    | θ    | thet     | θit          | 西塔      | 温度；相位角                                       |
+| 9    | Ι    | ι    | iot      | aiot         | 约塔      | 微小，一点儿                                       |
+| 10   | Κ    | κ    | kappa    | kap          | 卡帕      | 介质常数                                           |
+| 11   | ∧    | λ    | lambda   | lambd        | 兰布达    | 波长（小写）；体积                                 |
+| 12   | Μ    | μ    | mu       | mju          | 缪        | 磁导系数微（千分之一）放大因数（小写）             |
+| 13   | Ν    | ν    | nu       | nju          | 纽        | 磁阻系数                                           |
+| 14   | Ξ    | ξ    | xi       | ksi          | 克西      | 随机变量                                           |
+| 15   | Ο    | ο    | omicron  | omik`ron     | 奥密克戎  | 无穷小量：ο(x)                                     |
+| 16   | ∏    | π    | pi       | pai          | 派        | 圆周率=圆周÷直径=3.14159 2653589793                |
+| 17   | Ρ    | ρ    | rho      | rou          | 肉        | 电阻系数（小写）密度(小写)                         |
+| 18   | ∑    | σ    | sigma    | `sigma       | 西格马    | 总和（大写），表面密度；跨导（小写）               |
+| 19   | Τ    | τ    | tau      | tau          | 套        | 时间常数                                           |
+| 20   | Υ    | υ    | upsilon  | jup`silon    | 宇普西龙  | 位移                                               |
+| 21   | Φ    | φ    | phi      | fai          | 佛爱      | 磁通；黄金分割符号；空集（大写）；工程学中表示直径 |
+| 22   | Χ    | χ    | chi      | phai         | 西        | 卡方分布；电感                                     |
+| 23   | Ψ    | ψ    | psi      | psai         | 普西      | 角速；介质电通量（静电力线）；角                   |
+| 24   | Ω    | ω    | omega    | o`miga       | 欧米伽    | 欧姆（大写）；角速（小写）；角                     |
+
+# 9. Vscode extension
+* http://asciiflow.com
+* https://www.kite.com/welcome/?id=702879
