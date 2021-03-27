@@ -103,9 +103,9 @@ Ref
 * 按Alt+F11进入宏操作界面，选择插入-->模块，输入以下代码;
 ```
 Sub getLink()
-For Each cell In Range("A1:A11")
+For Each cell In Range("A1:A10")
   cell.Offset(0, 1) = cell.Hyperlinks(1).Address
-Nextr
+Next
 
 End Sub
 ```
