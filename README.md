@@ -82,12 +82,15 @@ eng
 osd
 ```
 
-5. 转换: tesseract test.png result -l chi_sim
+5. 转换: 
+ 
+ * tesseract test.png result -l chi_sim
 ```
 D:\temp>tesseract test.JPG result -l chi_sim
 Tesseract Open Source OCR Engine v5.0.0-alpha.20201127 with Leptonica
 ```
-   
+ * tesseract test.png result -l eng   
+
 ## 4.2. 训练
 1. 下载安装jTessBoxEditor，https://sourceforge.net/projects/vietocr/files/jTessBoxEditor/
 

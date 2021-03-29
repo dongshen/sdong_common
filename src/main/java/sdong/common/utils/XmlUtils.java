@@ -186,22 +186,22 @@ public class XmlUtils {
 	 * @param tag tag
 	 * @return result
 	 */
-	public static String getXMLAllRelatedNodesText(Element ele, String tag,String subTag, String split) {
+	public static String getXMLAllRelatedNodesText(Element ele, String tag, String subTag, String split) {
 		String ret = "";
 		String text = "";
 		Node node = ele.selectSingleNode(tag);
-		if(node == null){
+		if (node == null) {
 			return ret;
 		}
 		Element e = (Element) node;
 
 		List<Node> list = e.selectNodes(subTag);
-		if(list.isEmpty()){
-			return e.getText();
+		if (list.isEmpty()) {
+			return StringUtil.removeStarAndEndBlankLine(node.getText());
 		}
 		for (Object o : list) {
 			Element e_l = (Element) o;
-			text = e_l.getText();
+			text = StringUtil.removeStarAndEndBlankLine(e_l.getText());
 			if (ret.equals("")) {
 				ret = text;
 			} else {
