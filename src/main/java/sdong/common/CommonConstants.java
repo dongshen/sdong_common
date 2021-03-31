@@ -10,6 +10,10 @@ public class CommonConstants {
 	 */
 	final public static String LINUX_LINE_BREAK = "\n";
 	/**
+	 * TAB
+	 */
+	final public static String TAB = "\t";
+	/**
 	 * BOOLEAN_TRUE
 	 */
 	public static final String BOOLEAN_TRUE = "true";
