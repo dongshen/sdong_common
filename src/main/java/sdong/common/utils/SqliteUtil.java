@@ -43,6 +43,37 @@ public class SqliteUtil {
         LOG.info("Create database:{} done.", FileUtil.getFileName(dbFileName));
     }
 
+        /**
+     * create database and table
+     * 
+     * @param dbFileName database file name
+     * @param sqlFile    table file
+     * @return the number of tables
+     * @throws SdongException module exception
+     */
+    public static int createNewDatabaseAndTable(String dbFileName, String sqlFile) throws SdongException {
+        createNewDatabase(dbFileName);
+        return createTables(dbFileName, sqlFile);
+    }
+
+    /**
+     * create table
+     * 
+     * @param dbFileName database file name
+     * @param sqlFile    sql file
+     * @return the number of tables
+     * @throws SdongException module exception
+     */
+    public static int createTables(String dbFileName, String sqlFile) throws SdongException {
+        List<String> sqlList = getSqlStmtFromFile(sqlFile);
+        for (String sqlStmt : sqlList) {
+            exeSql(dbFileName, sqlStmt);
+        }
+        int tables = getDatabaseTables(dbFileName).size();
+        LOG.info("Create table:{}", tables);
+        return tables;
+    }
+    
     /**
      * get connection
      * 
@@ -155,37 +186,6 @@ public class SqliteUtil {
             }
         }
         return sqlList;
-    }
-
-    /**
-     * create database and table
-     * 
-     * @param dbFileName database file name
-     * @param sqlFile    table file
-     * @return the number of tables
-     * @throws SdongException module exception
-     */
-    public static int createNewDatabaseAndTable(String dbFileName, String sqlFile) throws SdongException {
-        return createNewDatabaseAndTable(dbFileName, getSqlStmtFromFile(sqlFile));
-    }
-
-    /**
-     * create database and table
-     * 
-     * @param dbFileName database file name
-     * @param sqlList    sql statement list
-     * @return the number of tables
-     * @throws SdongException module exception
-     */
-    public static int createNewDatabaseAndTable(String dbFileName, List<String> sqlList) throws SdongException {
-        createNewDatabase(dbFileName);
-
-        for (String sqlStmt : sqlList) {
-            exeSql(dbFileName, sqlStmt);
-        }
-        int tables = getDatabaseTables(dbFileName).size();
-        LOG.info("Create table:{}", tables);
-        return tables;
     }
 
     /**
