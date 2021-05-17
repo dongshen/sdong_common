@@ -132,6 +132,21 @@ public class FileUtil {
 	}
 
 	/**
+	 * get files in folder list
+	 * 
+	 * @param folders folder list
+	 * @return files
+	 * @throws SdongException IOException
+	 */
+	public static List<String> getFilesInFolderList(List<String> folders, Set<String> exts) throws SdongException {
+		List<String> fileList = new ArrayList<String>();
+		for (String file : folders) {
+			fileList.addAll(filterFilesInFolder(file, exts));
+		}
+		return fileList;
+	}
+
+	/**
 	 * get all files under folder
 	 *
 	 * @param folder search folder
@@ -152,7 +167,7 @@ public class FileUtil {
 	 */
 	public static List<String> filterFilesInFolder(String folder, Set<String> exts) throws SdongException {
 		List<String> fileList = new ArrayList<String>();
-		try {		
+		try {
 			for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
 				if (file.isFile()) {
 					if (exts == null || exts.isEmpty()) {
@@ -278,7 +293,7 @@ public class FileUtil {
 	 * @throws SdongException create fail
 	 */
 	public static File createFile(String fileName) throws SdongException {
-		//guava Files.createParentDirs(new File(fileName));
+		// guava Files.createParentDirs(new File(fileName));
 		File file = new File(fileName);
 		File parent = file.getParentFile();
 		if (!parent.exists()) {
