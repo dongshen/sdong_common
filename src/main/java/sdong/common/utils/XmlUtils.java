@@ -12,14 +12,14 @@ import org.dom4j.Namespace;
 import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.exception.SdongException;
 
 public class XmlUtils {
 
-	private static final Logger LOG = LoggerFactory.getLogger(XmlUtils.class);
+	private static final Logger LOG = LogManager.getLogger(XmlUtils.class);
 
 	/**
 	 * convert string to unicode with &#xXXXX

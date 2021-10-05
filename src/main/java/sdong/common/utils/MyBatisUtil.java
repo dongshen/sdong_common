@@ -6,12 +6,12 @@ import java.io.InputStream;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class MyBatisUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger(MyBatisUtil.class);
+	private static final Logger logger = LogManager.getLogger(MyBatisUtil.class);
 
 	private static SqlSessionFactory sqlSessionFactory;
 

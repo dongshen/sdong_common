@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.CommonConstants;
 import sdong.common.bean.thesis.Author;
@@ -16,7 +16,7 @@ import sdong.common.utils.PaperUtil;
 import sdong.common.utils.StringUtil;
 
 public class PdfParser {
-    private static final Logger LOG = LoggerFactory.getLogger(PdfParser.class);
+    private static final Logger LOG = LogManager.getLogger(PdfParser.class);
 
     private static final List<String> ABSTRACT_LIST = Arrays.asList("Abstract");
     private static final List<String> KEYWOARD_LIST = Arrays.asList("Index Terms");

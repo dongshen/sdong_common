@@ -18,15 +18,15 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.fit.pdfdom.PDFDomTree;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.CommonConstants;
 import sdong.common.exception.SdongException;
 import sdong.common.parse.pdf.PdfParser;
 
 public class PaperUtilTest {
-    private static final Logger LOG = LoggerFactory.getLogger(PaperUtilTest.class);
+    private static final Logger LOG = LogManager.getLogger(PaperUtilTest.class);
 
     @Test
     public void testGetFileContent_English() {

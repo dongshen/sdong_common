@@ -7,13 +7,13 @@ import java.nio.charset.Charset;
 import java.util.Locale;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.exception.SdongException;
 
 public class RunCommandUtilTest {
-	private static final Logger logger = LoggerFactory.getLogger(RunCommandUtilTest.class);
+	private static final Logger logger = LogManager.getLogger(RunCommandUtilTest.class);
 
 	@Test
 	public void testRunCommand_cov_manage_emit_listjson() {

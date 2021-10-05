@@ -17,14 +17,14 @@ import com.fasterxml.uuid.Generators;
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.CommonConstants;
 import sdong.common.exception.SdongException;
 
 public class CommonUtil {
-	private static final Logger LOG = LoggerFactory.getLogger(CommonUtil.class);
+	private static final Logger LOG = LogManager.getLogger(CommonUtil.class);
 
 	/**
 	 * type = 4

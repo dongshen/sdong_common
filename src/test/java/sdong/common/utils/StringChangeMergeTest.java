@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class StringChangeMergeTest {
 
-	private static final Logger log = LoggerFactory.getLogger(StringChangeMergeTest.class);
+	private static final Logger log = LogManager.getLogger(StringChangeMergeTest.class);
 
 	@Test
 	public void testGenerateMergeString_basic() {

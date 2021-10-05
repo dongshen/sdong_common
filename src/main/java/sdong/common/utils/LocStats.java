@@ -1,7 +1,7 @@
 package sdong.common.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class LocStats {
     private final static int DEFAULT_THREAD_NUM = 5;
     private final static String PARM_SPLIT = ",";
 
-    private static final Logger LOG = LoggerFactory.getLogger(LocStats.class);
+    private static final Logger LOG = LogManager.getLogger(LocStats.class);
 
     public static void main(String[] args) {
 

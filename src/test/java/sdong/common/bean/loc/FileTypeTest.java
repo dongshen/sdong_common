@@ -3,12 +3,12 @@ package sdong.common.bean.loc;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class FileTypeTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FileTypeTest.class);
+    private static final Logger LOG = LogManager.getLogger(FileTypeTest.class);
 
     @Test
     public void testGetFileType(){

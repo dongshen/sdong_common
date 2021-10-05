@@ -9,13 +9,13 @@ import java.time.Instant;
 import java.util.List;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.exception.SdongException;
 
 public class FileUtilTest {
-	private static final Logger log = LoggerFactory.getLogger(FileUtilTest.class);
+	private static final Logger log = LogManager.getLogger(FileUtilTest.class);
 
 	@Test
 	public void testReadFileToStringList() {

@@ -122,6 +122,12 @@ End Sub
 3. 批量填充空值
   * 敲击键盘上的等于号，输入公式后同时按下：ctrl+enter.
 
+## 6.3 得到特殊字符的最有一个值
+例如得到目录里的文件： 
+`
+=RIGHT(E2,LEN(E2)-SEARCH("$",SUBSTITUTE(E2,"/","$",LEN(E2)-LEN(SUBSTITUTE(E2,"/","")))))
+`
+
 # 7. markdown Reference
 * [markdown中公式编辑教程](https://www.jianshu.com/p/25f0139637b7)
 * [katex](https://katex.org/docs/supported.html)
@@ -157,3 +163,7 @@ End Sub
 # 9. Vscode extension
 * http://asciiflow.com
 * https://www.kite.com/welcome/?id=702879
+
+
+# 10. edge tips
+* edge://flags/#enable-parallel-downloading

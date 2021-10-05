@@ -6,15 +6,15 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.bean.thesis.Paper;
 import sdong.common.exception.SdongException;
 import sdong.common.utils.PaperUtil;
 
 public class PdfParserTest {
-	private static final Logger LOG = LoggerFactory.getLogger(PdfParserTest.class);
+	private static final Logger LOG = LogManager.getLogger(PdfParserTest.class);
 
 	@Test
 	public void testGetPdfContents() {

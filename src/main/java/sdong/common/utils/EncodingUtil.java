@@ -4,8 +4,8 @@ import com.google.common.io.ByteStreams;
 import com.ibm.icu.text.CharsetDetector;
 import com.ibm.icu.text.CharsetMatch;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -15,7 +15,7 @@ import sdong.common.exception.SdongException;
 
 public class EncodingUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EncodingUtil.class);
+    private static final Logger LOG = LogManager.getLogger(EncodingUtil.class);
 
     /**
      * detect bytes encoding

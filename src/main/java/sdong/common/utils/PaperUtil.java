@@ -13,15 +13,15 @@ import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.pdf.PDFParser;
 import org.apache.tika.sax.BodyContentHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 import sdong.common.exception.SdongException;
 import sdong.common.parse.pdf.PdfParser;
 
 public class PaperUtil {
-  private static final Logger LOG = LoggerFactory.getLogger(PaperUtil.class);
+  private static final Logger LOG = LogManager.getLogger(PaperUtil.class);
 
   /**
    * get contents from pdf file

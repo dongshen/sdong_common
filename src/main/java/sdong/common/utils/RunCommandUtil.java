@@ -6,15 +6,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.CommonConstants;
 import sdong.common.exception.SdongException;
 
 public class RunCommandUtil {
 
-	private static final Logger logger = LoggerFactory.getLogger(RunCommandUtil.class);
+	private static final Logger logger = LogManager.getLogger(RunCommandUtil.class);
 
 	public static String runCommand(String[] cmd) throws SdongException {
 		Process pro = null;

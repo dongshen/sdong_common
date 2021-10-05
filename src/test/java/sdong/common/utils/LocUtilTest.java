@@ -3,17 +3,6 @@ package sdong.common.utils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.io.File;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import sdong.common.bean.loc.FileInfo;
 import sdong.common.bean.loc.FileType;
 import sdong.common.bean.loc.FileTypeComment;
@@ -21,9 +10,20 @@ import sdong.common.bean.loc.LineType;
 import sdong.common.bean.loc.MultipleLineComment;
 import sdong.common.exception.SdongException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class LocUtilTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LocUtilTest.class);
+    private static final Logger LOG = LogManager.getLogger(LocUtilTest.class);
 
     private static final int FILE_TYPE_NUM = 6;
 

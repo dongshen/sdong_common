@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +18,7 @@ import sdong.common.exception.SdongException;
 
 public class LocStatsTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(LocStatsTest.class);
+    private static final Logger LOG = LogManager.getLogger(LocStatsTest.class);
 
     private final String teseCaseFiles = "input/loc/example";
 

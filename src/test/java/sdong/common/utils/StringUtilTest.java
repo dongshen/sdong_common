@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.exception.SdongException;
 
 public class StringUtilTest {
-	private static final Logger log = LoggerFactory.getLogger(StringUtilTest.class);
+	private static final Logger log = LogManager.getLogger(StringUtilTest.class);
 
 	@Test
 	public void testCheckIndentNum() {

@@ -12,8 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.bean.loc.FileInfo;
 import sdong.common.bean.loc.FileType;
@@ -30,7 +30,7 @@ import sdong.common.exception.SdongException;
 public class LocUtil {
     public static final String COMMENT_SETTING_FILE = "filetype/fileTypeComment.json";
 
-    private static final Logger LOG = LoggerFactory.getLogger(LocUtil.class);
+    private static final Logger LOG = LogManager.getLogger(LocUtil.class);
 
     private static final int NOT_FIND_MARK = -1;
 

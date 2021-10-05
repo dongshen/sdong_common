@@ -5,15 +5,15 @@ import static org.junit.Assert.assertEquals;
 import com.google.common.base.Optional;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import sdong.common.bean.loc.FileType;
 import sdong.common.exception.SdongException;
 
 public class UtilTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(UtilTest.class);
+	private static final Logger LOG = LogManager.getLogger(UtilTest.class);
 
 	@Test
 	public void testGetUUID() {
