@@ -1,0 +1,954 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "properties": {
+        "RulePackage": {
+            "$ref": "#/$defs/RulePackage"
+        },
+        "Rules": {
+            "$ref": "#/$defs/Rules"
+        },
+        "RuleMessages": {
+            "$ref": "#/$defs/RuleMessages"
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "RulePackage",
+        "Rules",
+        "RuleMessages"
+    ],
+    "examples": [
+        {
+            "RulePackage": {
+                "Name": "RulePackage",
+                "Description": "Description",
+                "Version": "Version",
+                "Language": "JAVA",
+                "Locale": "CN"
+            },
+            "Rules": {
+                "Note": "note",
+                "TaintSourceRule": []
+            },
+            "RuleMessages": []
+        }
+    ],
+    "$defs": {
+        "RulePackage": {
+            "$anchor": "RulePackage",
+            "type": "object",
+            "title": "The RulePack schema",
+            "description": "规则包基本信息",
+            "required": [
+                "Name",
+                "Description",
+                "Version",
+                "Language",
+                "Locale"
+            ],
+            "properties": {
+                "Name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "title": "The Name schema",
+                    "description": "规则包的名称",
+                    "examples": [
+                        "Python Dataflow Rules"
+                    ]
+                },
+                "Description": {
+                    "type": "string",
+                    "minLength": 1,
+                    "title": "The Description schema",
+                    "description": "规则包的描述",
+                    "examples": [
+                        "Python Dataflow Rule Package"
+                    ]
+                },
+                "Version": {
+                    "type": "string",
+                    "minLength": 1,
+                    "title": "The Version schema",
+                    "description": "规则包的版本",
+                    "examples": [
+                        "2021.11.09"
+                    ]
+                },
+                "Language": {
+                    "$ref": "#/$defs/Language"
+                },
+                "Locale": {
+                    "$ref": "#/$defs/Locale"
+                }
+            },
+            "additionalProperties": false
+        },
+        "Rules": {
+            "$anchor": "Rules",
+            "type": "object",
+            "title": "The Rules schema",
+            "description": "规则列表",
+            "required": [
+                "Note"
+            ],
+            "properties": {
+                "Note": {
+                    "$ref": "#/$defs/Note"
+                },
+                "TaintSourceRule": {
+                    "$ref": "#/$defs/TaintSourceRule"
+                },
+                "TaintPassthroughRule": {
+                    "$ref": "#/$defs/TaintPassthroughRule"
+                },
+                "TaintSinkRule": {
+                    "$ref": "#/$defs/TaintSinkRule"
+                },
+                "TaintCleanseRule": {
+                    "$ref": "#/$defs/TaintCleanseRule"
+                }
+            },
+            "additionalProperties": false
+        },
+        "TaintSourceRule": {
+            "$anchor": "TaintSourceRule",
+            "type": "array",
+            "title": "The TaintSourceRule schema",
+            "description": "污染源规则列表",
+            "items": {
+                "type": "object",
+                "minProperties": 3,
+                "maxProperties": 3,
+                "title": "The first anyOf schema",
+                "description": "污染源规则",
+                "required": [
+                    "Rule",
+                    "Function",
+                    "Source"
+                ],
+                "properties": {
+                    "Rule": {
+                        "$ref": "#/$defs/RuleBaseInfo"
+                    },
+                    "Function": {
+                        "$ref": "#/$defs/FunctionIdentifier"
+                    },
+                    "Source": {
+                        "$ref": "#/$defs/Source"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "TaintPassthroughRule": {
+            "$anchor": "TaintPassthroughRule",
+            "type": "array",
+            "title": "The TaintPassthroughRule schema",
+            "description": "污点传递规则列表",
+            "items": {
+                "type": "object",
+                "minProperties": 3,
+                "maxProperties": 3,
+                "title": "The first anyOf schema",
+                "description": "污点传递规则",
+                "required": [
+                    "Rule",
+                    "Function",
+                    "Passthrough"
+                ],
+                "properties": {
+                    "Rule": {
+                        "$ref": "#/$defs/RuleBaseInfo"
+                    },
+                    "Function": {
+                        "$ref": "#/$defs/FunctionIdentifier"
+                    },
+                    "Passthrough": {
+                        "$ref": "#/$defs/Passthrough"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "TaintSinkRule": {
+            "$anchor": "TaintSinkRule",
+            "type": "array",
+            "title": "The TaintSinkRule schema",
+            "description": "污染爆发点规则",
+            "examples": [
+                {
+                    "Rule": {
+                        "RuleId": "74420652-95a6-4c52-a51e-7f4358f09350",
+                        "RuleName": "checker"
+                    },
+                    "Vulnerability": {
+                        "Category": "Category",
+                        "Subcategory": "Subcategory",
+                        "IssueType": "IssueType",
+                        "CWE": "95",
+                        "Severity": "Critical"
+                    },
+                    "Function": {
+                        "Class": {
+                            "Value": "value"
+                        }
+                    },
+                    "Sink": {
+                        "InArgs": "1",
+                        "ReportMsgId": "msgid"
+                    }
+                }
+            ],
+            "items": {
+                "type": "object",
+                "minProperties": 4,
+                "maxProperties": 4,
+                "title": "The schema",
+                "description": "污染爆发点规则",
+                "required": [
+                    "Rule",
+                    "Vulnerability",
+                    "Function",
+                    "Sink"
+                ],
+                "properties": {
+                    "Rule": {
+                        "$ref": "#/$defs/RuleCheckerInfo"
+                    },
+                    "Vulnerability": {
+                        "$ref": "#/$defs/Vulnerability"
+                    },
+                    "Function": {
+                        "$ref": "#/$defs/FunctionIdentifier"
+                    },
+                    "Sink": {
+                        "$ref": "#/$defs/Sink"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "TaintCleanseRule": {
+            "$anchor": "TaintCleanseRule",
+            "type": "array",
+            "title": "The TaintCleanseRule schema",
+            "description": "污点清理规则列表",
+            "items": {
+                "type": "object",
+                "minProperties": 3,
+                "maxProperties": 3,
+                "title": "The first anyOf schema",
+                "description": "污染清理规则",
+                "required": [
+                    "Rule",
+                    "Function",
+                    "OutArgs"
+                ],
+                "properties": {
+                    "Rule": {
+                        "$ref": "#/$defs/RuleBaseInfo"
+                    },
+                    "Function": {
+                        "$ref": "#/$defs/FunctionIdentifier"
+                    },
+                    "OutArgs": {
+                        "$ref": "#/$defs/Arguments"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },        
+        "RuleBaseInfo": {
+            "$anchor": "RuleBaseInfo",
+            "type": "object",
+            "title": "The RuleBaseInfo schema",
+            "description": "规则基本信息",
+            "required": [
+                "RuleId"
+            ],
+            "properties": {
+                "RuleId": {
+                    "$ref": "#/$defs/UUID",
+                    "description": "每一个规则需要有一个全局的唯一标识,可用UUID生成"
+                },
+                "Note": {
+                    "$ref": "#/$defs/Note"
+                },
+                "RefInfos": {
+                    "$ref": "#/$defs/RefInfo"
+                }
+            },
+            "additionalProperties": false
+        },
+        "RuleCheckerInfo": {
+            "$anchor": "RuleCheckerInfo",
+            "type": "object",
+            "title": "The RuleCheckerInfo schema",
+            "description": "检查规则基本信息",
+            "required": [
+                "RuleId",
+                "RuleName"
+            ],
+            "properties": {
+                "RuleId": {
+                    "$ref": "#/$defs/UUID",
+                    "description": "每一个规则需要有一个全局的唯一标识,可用UUID生成"
+                },
+                "RuleName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "title": "The RuleName schema",
+                    "description": "规则名",
+                    "examples": [
+                        "Code_Injection"
+                    ]
+                },
+                "Note": {
+                    "$ref": "#/$defs/Note"
+                },
+                "RefInfos": {
+                    "$ref": "#/$defs/RefInfo"
+                }
+            },
+            "additionalProperties": false
+        },
+        "Vulnerability": {
+            "$anchor": "Vulnerability",
+            "type": "object",
+            "title": "The Vulnerability schema",
+            "description": "缺陷信息",
+            "examples": [
+                {
+                    "Category": "Injection",
+                    "Subcategory": "Code Injection",
+                    "IssueType": "Untrusted Input",
+                    "CWE": "95",
+                    "Severity": "Critical"
+                }
+            ],
+            "required": [
+                "Category",
+                "Subcategory",
+                "IssueType",
+                "CWE",
+                "Severity"
+            ],
+            "properties": {
+                "Category": {
+                    "type": "string",
+                    "minLength": 1,
+                    "title": "The Category schema",
+                    "description": "缺陷分类",
+                    "examples": [
+                        "Injection"
+                    ]
+                },
+                "Subcategory": {
+                    "type": "string",
+                    "minLength": 1,
+                    "title": "The Subcategory schema",
+                    "description": "缺陷子类",
+                    "examples": [
+                        "Code Injection"
+                    ]
+                },
+                "IssueType": {
+                    "type": "string",                    
+                    "title": "The IssueType schema",
+                    "description": "缺陷场景",
+                    "examples": [
+                        "Untrusted Input"
+                    ]
+                },
+                "CWE": {
+                    "$ref": "#/$defs/CWE"
+                },
+                "Severity": {
+                    "$ref": "#/$defs/Severity"
+                }
+            },
+            "additionalProperties": false
+        },
+        "RuleMessages": {
+            "$anchor": "RuleMessages",
+            "type": "array",
+            "title": "The RuleMessages schema",
+            "description": "规则的扩展参考信息列表",
+            "items": {
+                "type": "object",
+                "minProperties": 2,
+                "maxProperties": 2,
+                "title": "The first anyOf schema",
+                "description": "规则的扩展参考信息",
+                "examples": [
+                    {
+                        "Id": "Code.Injection.exec|eval",
+                        "Msg": "Untrusted data pass to eval 1st parameter will cause Code Injection."
+                    }
+                ],
+                "required": [
+                    "Id",
+                    "Msg"
+                ],
+                "properties": {
+                    "Id": {
+                        "type": "string",
+                        "title": "The Id schema",
+                        "description": "规则的扩展参考信息ID",
+                        "examples": [
+                            "Code.Injection.exec|eval"
+                        ]
+                    },
+                    "Msg": {
+                        "type": "string",
+                        "title": "The Msg schema",
+                        "description": "规则的扩展参考信息内容",
+                        "examples": [
+                            "Untrusted data pass to eval 1st parameter will cause Code Injection."
+                        ]
+                    }
+                },
+                "additionalProperties": false
+            }
+        },        
+        "Language": {
+            "$anchor": "Language",
+            "enum": [
+                "C",
+                "CPP",
+                "C/CPP",
+                "JAVA",
+                "PYTHON",
+                "GO",
+                "JAVASCRIPT"
+            ],
+            "title": "Code language",
+            "description": "开发语言"
+        },
+        "Locale": {
+            "$anchor": "Locale",
+            "enum": [
+                "EN",
+                "CN"
+            ],
+            "title": "Message locale",
+            "description": "规则显示语言"
+        },
+        "ValueType": {
+            "$anchor": "ValueType",
+            "type": "object",
+            "minProperties": 1,
+            "maxProperties": 1,
+            "title": "The ValueType schema",
+            "description": "值的类型",
+            "properties": {
+                "Value": {
+                    "type": "string",
+                    "title": "The Value schema",
+                    "description": "参数以值的方式提供",
+                    "examples": [
+                        "Python Dataflow Rules"
+                    ]
+                },
+                "Pattern": {
+                    "type": "string",
+                    "format": "regex",
+                    "title": "The Description schema",
+                    "description": "参数以正则表示式的方式提供",
+                    "examples": [
+                        "Python Dataflow Rule Package"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "Severity": {
+            "$anchor": "Severity",
+            "enum": [
+                "Fatal",
+                "Critical",
+                "Normal",
+                "Suggest"
+            ],
+            "title": "weakness Severity",
+            "description": "缺陷的危害等级"
+        },
+        "CWE": {
+            "$anchor": "CWE",
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,3}(,[1-9][0-9]{0,3})*$",
+            "title": "CWE",
+            "description": "CWE"
+        },
+        "Note": {
+            "$anchor": "Note",
+            "type": "string",
+            "title": "Note",
+            "description": "Note"
+        },
+        "UUID": {
+            "$anchor": "UUID",
+            "type": "string",
+            "pattern": "[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}",
+            "title": "UUID",
+            "description": "UUID",
+            "examples": [
+                "74420652-95a6-4c52-a51e-7f4358f09350"
+            ]
+        },
+        "RefInfo": {
+            "$anchor": "RefInfo",
+            "type": "array",
+            "title": "The RefInfo schema",
+            "description": "规则的参考信息列表",
+            "items": [
+                {
+                    "type": "object",
+                    "title": "The schema",
+                    "description": "规则的参考信息",
+                    "required": [
+                        "Key",
+                        "Value"
+                    ],
+                    "properties": {
+                        "Key": {
+                            "type": "string",
+                            "title": "The RefKey schema",
+                            "description": "规则的扩展参考信息名称",
+                            "minLength": 1,
+                            "examples": [
+                                "packge"
+                            ]
+                        },
+                        "Value": {
+                            "type": "string",
+                            "title": "The RefValue schema",
+                            "description": "规则的扩展参考信息内容",
+                            "examples": [
+                                "Python Core"
+                            ]
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            ]
+        },
+        "Parameters": {
+            "$anchor": "Parameters",
+            "type": "object",
+            "minProperties": 1,
+            "title": "The Parameters schema",
+            "description": "参数列表",
+            "properties": {
+                "ParamTypes": {
+                    "type": "array",
+                    "title": "The ParamTypes schema",
+                    "minItems": 1,
+                    "description": "参数的类型",
+                    "items": [
+                        {
+                            "properties": {
+                                "ParamType": {
+                                    "type": "string",
+                                    "title": "The ParamType schema",
+                                    "description": "参数的类型",
+                                    "minLength": 1,
+                                    "examples": [
+                                        "int"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                "WildCard": {
+                    "type": "object",
+                    "minProperties": 1,
+                    "maxProperties": 2,
+                    "title": "The WildCard schema",
+                    "description": "匹配参数的最少和最多的参数个数",
+                    "properties": {
+                        "min": {
+                            "type": "integer",
+                            "title": "The min schema",
+                            "description": "最少的参数个数",
+                            "default": 1,
+                            "examples": [
+                                1
+                            ]
+                        },
+                        "max": {
+                            "type": "integer",
+                            "title": "The max schema",
+                            "description": "最多的参数个数",
+                            "default": 1,
+                            "examples": [
+                                1
+                            ]
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "varArg": {
+                    "type": "boolean",
+                    "title": "The varArg schema",
+                    "description": "标识函数是否有可变参数",
+                    "default": false,
+                    "examples": [
+                        false
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "Modifier": {
+            "$anchor": "Modifier",
+            "enum": [
+                "public",
+                "private",
+                "protected",
+                "static",
+                "final"
+            ],
+            "title": "function Modifier",
+            "description": "定义函数的修饰符"
+        },
+        "FunctionIdentifier": {
+            "$anchor": "FunctionIdentifier",
+            "type": "object",
+            "minProperties": 1,
+            "maxProperties": 8,
+            "title": "The FunctionIdentifier schema",
+            "description": "函数定义",
+            "properties": {
+                "Namespace": {
+                    "$ref": "#/$defs/ValueType"
+                },
+                "Class": {
+                    "$ref": "#/$defs/ValueType"
+                },
+                "Function": {
+                    "$ref": "#/$defs/ValueType"
+                },
+                "Parameters": {
+                    "$ref": "#/$defs/Parameters"
+                },
+                "ReturnType": {
+                    "type": "string",
+                    "title": "The ReturnType schema",
+                    "description": "定义函数返回的类型"
+                },
+                "ApplyTo": {
+                    "type": "boolean",
+                    "title": "The ApplyTo schema",
+                    "description": "函数的适配扩展到接口的所有实现，函数的适配扩展到所有的实现，函数的适配扩展到所有重写的函数",
+                    "default": true
+                },
+                "Modifier": {
+                    "$ref": "#/$defs/Modifier"
+                },
+                "Exclude": {
+                    "$ref": "#FunctionIdentifier"
+                },
+                "additionalProperties": false
+            }
+        },
+        "Arguments": {
+            "$anchor": "Arguments",
+            "type": "string",
+            "pattern": "([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*(,([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*)*",
+            "title": "The Arguments schema",
+            "description": "允许使用多个函数参数(逗号分隔)列表。接受以下形式的表达式：x- 单个参数，其中 x 是一个数字、this、return或globals; 当 x 是一个数字时，它指示函数的第 x 个参数，从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数，包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
+            "minLength": 1,
+            "examples": [
+                "0"
+            ]
+        },
+        "Argument": {
+            "$anchor": "Argument",
+            "type": "string",
+            "pattern": "[0-9]+|this|return",
+            "title": "The Argument schema",
+            "description": "函数的一个参数。值允许this，return；或使用数字n，能代表参数的位置坐标，位置坐标从0开始。",
+            "minLength": 1,
+            "examples": [
+                "0"
+            ]
+        },
+        "ArgumentCompare": {
+            "$anchor": "ArgumentCompare",
+            "type": "object",
+            "title": "The ArgumentCompare schema",
+            "description": "参数比较：ArgumentCompare",
+            "required": [
+                "argument",
+                "value"
+            ],
+            "properties": {
+                "argument": {
+                    "$ref": "#/$defs/Argument"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "参数值"
+                }
+            },
+            "additionalProperties": false
+        },
+        "ReportMsgId": {
+            "$anchor": "ReportMsgId",
+            "type": "string",
+            "title": "The ReportMsgId schema",
+            "description": "规则的扩展参考信息ID",
+            "minLength": 1,
+            "examples": [
+                "Code.Injection.exec|eval"
+            ]
+        },
+        "TaintFlags": {
+            "$anchor": "TaintFlags",
+            "type": "string",
+            "title": "The TaintFlags schema",
+            "description": "定义在这里引入的污染原类型, 可以是多个标识, 用逗号分隔",
+            "minLength": 1,
+            "examples": [
+                "+NUMBER,+STRING"
+            ]
+        },
+        "TaintFlag": {
+            "$anchor": "TaintFlag",
+            "type": "string",
+            "title": "The TaintFlags schema",
+            "description": "定义在这里引入的污染原类型",
+            "minLength": 1,
+            "examples": [
+                "+NUMBER"
+            ]
+        },
+        "Source": {
+            "$anchor": "Source",
+            "type": "object",
+            "title": "The Source schema",
+            "description": "污染源信息",
+            "required": [
+                "OutArgs",
+                "TaintFlags"
+            ],
+            "properties": {
+                "OutArgs": {
+                    "$ref": "#/$defs/Arguments"
+                },
+                "TaintFlags": {
+                    "$ref": "#/$defs/TaintFlags"
+                },
+                "ReportMsgId": {
+                    "$ref": "#/$defs/ReportMsgId"
+                }
+            },
+            "additionalProperties": false
+        },
+        "Passthrough": {
+            "$anchor": "Passthrough",
+            "type": "object",
+            "title": "The Passthrough schema",
+            "description": "污染传播信息",
+            "required": [
+                "InArgs",
+                "OutArgs",
+                "TaintFlags"
+            ],
+            "properties": {
+                "InArgs": {
+                    "$ref": "#/$defs/Arguments"
+                },
+                "OutArgs": {
+                    "$ref": "#/$defs/Arguments"
+                },
+                "TaintFlags": {
+                    "$ref": "#TaintFlags"
+                }
+            },
+            "additionalProperties": false
+        },
+        "Sink": {
+            "$anchor": "Sink",
+            "type": "object",
+            "title": "The Sink schema",
+            "description": "污染池信息",
+            "examples": [
+                {
+                    "InArgs": "1",
+                    "ReportMsgId": "Code.Injection.exec|eval"
+                }
+            ],
+            "required": [
+                "InArgs",
+                "ReportMsgId"
+            ],
+            "properties": {
+                "Conditional": {
+                    "$ref": "#/$defs/Conditional"
+                },
+                "InArgs": {
+                    "$ref": "#/$defs/Arguments"
+                },
+                "ReportMsgId": {
+                    "$ref": "#/$defs/ReportMsgId"
+                }
+            },
+            "additionalProperties": false
+        },
+        "Conditional": {
+            "$anchor": "Conditional",
+            "type": "object",
+            "title": "The Conditional schema",
+            "description": "An explanation about the purpose of this instance.",
+            "examples": [
+                {
+                    "Not": {
+                        "IsType": {
+                            "argument": "0",
+                            "Class": {
+                                "Pattern": "CharArrayReader|CharBuffer|StringReader"
+                            }
+                        }
+                    }
+                }
+            ],
+            "properties": {
+                "And": {
+                    "$ref": "#/$defs/And"
+                },
+                "Or": {
+                    "$ref": "#/$defs/Or"
+                },
+                "Not": {
+                    "$ref": "#/$defs/Not"
+                },
+                "IsConstant": {
+                    "$ref": "#/$defs/IsConstant"
+                },
+                "IsType": {
+                    "$ref": "#/$defs/IsType"
+                },
+                "ConstantEq": {
+                    "$ref": "#/$defs/ArgumentCompare",
+                    "description": "参数常量相等判断，可嵌套其他条件"
+                },
+                "ConstantGt": {
+                    "$ref": "#/$defs/ArgumentCompare",
+                    "description": "参数常量大于判断，可嵌套其他条件"
+                },
+                "ConstantLt": {
+                    "$ref": "#/$defs/ArgumentCompare",
+                    "description": "参数常量小于判断，可嵌套其他条件"
+                },
+                "ConstantMatches": {
+                    "$ref": "#/$defs/ConstantMatches"
+                },
+                "TaintFlag": {
+                    "$ref": "#/$defs/TaintFlag"
+                }
+            },
+            "additionalProperties": false
+        },
+        "And": {
+            "$anchor": "And",
+            "type": "object",
+            "title": "The And schema",
+            "description": "And条件连接符，可嵌套其他条件",
+            "minProperties": 2,
+            "allOf": [
+                {
+                    "$ref": "#/$defs/Conditional"
+                }
+            ]
+        },
+        "Or": {
+            "$anchor": "Or",
+            "type": "object",
+            "title": "The Or schema",
+            "description": "Or条件连接符，可嵌套其他条件",
+            "minProperties": 2,
+            "allOf": [
+                {
+                    "$ref": "#/$defs/Conditional"
+                }
+            ]
+        },
+        "Not": {
+            "$anchor": "Not",
+            "type": "object",
+            "title": "The Not schema",
+            "description": "Not条件连接符，可嵌套其他条件",
+            "minProperties": 1,
+            "maxProperties": 1,
+            "allOf": [
+                {
+                    "$ref": "#/$defs/Conditional"
+                }
+            ]
+        },
+        "IsConstant": {
+            "$anchor": "IsConstant",
+            "type": "object",
+            "title": "The IsConstant schema",
+            "description": "是否为常量判断，可嵌套其他条件",
+            "required": [
+                "argument"
+            ],
+            "properties": {
+                "argument": {
+                    "$ref": "#/$defs/Argument"
+                }
+            },
+            "additionalProperties": false
+        },
+        "IsType": {
+            "$anchor": "IsType",
+            "type": "object",
+            "title": "The IsType schema",
+            "description": "类型判断(值、正则匹配)，可嵌套其他条件",
+            "required": [
+                "Class",
+                "argument"
+            ],
+            "properties": {
+                "Namespace": {
+                    "$ref": "#/$defs/ValueType"
+                },
+                "Class": {
+                    "$ref": "#/$defs/ValueType"
+                },
+                "argument": {
+                    "$ref": "#/$defs/Argument"
+                }
+            },
+            "additionalProperties": false
+        },
+        "ConstantMatches": {
+            "$anchor": "ConstantMatches",
+            "type": "object",
+            "title": "The ConstantMatches schema",
+            "description": "参数常量匹配(正则表达式)判断，可嵌套其他条件",
+            "required": [
+                "argument",
+                "pattern"
+            ],
+            "properties": {
+                "argument": {
+                    "$ref": "#/$defs/Argument"
+                },
+                "pattern": {
+                    "type": "string",
+                    "format": "regex",
+                    "description": "参数匹配正则表达式"
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}
