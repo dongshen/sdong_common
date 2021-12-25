@@ -175,17 +175,17 @@ public class PdfParser {
             }
 
             if (line.startsWith("[" + curRef + "]")) {
-                sb.append(line).append(CommonConstants.LINE_BREAK);
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
                 isInRef = true;
             } else if (line.startsWith("[" + (curRef + 1) + "]")) {
                 Paper paper = new Paper();
                 paper.setTitle(sb.toString());
                 references.add(paper);
                 sb.setLength(0);
-                sb.append(line).append(CommonConstants.LINE_BREAK);
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
                 curRef = curRef + 1;
             } else {
-                sb.append(line).append(CommonConstants.LINE_BREAK);
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
             }
         }
         // add last one

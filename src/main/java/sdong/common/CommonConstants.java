@@ -4,11 +4,11 @@ public class CommonConstants {
 	/**
 	 * LINE_BREAK
 	 */
-	final public static String LINE_BREAK = "\r\n";
+	final public static String LINE_BREAK_CRLF = "\r\n";
 	/**
 	 * LINUX_LINE_BREAK
 	 */
-	final public static String LINUX_LINE_BREAK = "\n";
+	final public static String LINE_BREAK_LF = "\n";
 	/**
 	 * TAB
 	 */

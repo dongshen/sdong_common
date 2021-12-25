@@ -75,7 +75,7 @@ public class RunCommandUtil {
 			StringBuffer sb = new StringBuffer();
 
 			while ((line = br.readLine()) != null) {
-				sb.append(line).append(CommonConstants.LINE_BREAK);
+				sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
 			}
 			result = sb.toString();
 			br.close();

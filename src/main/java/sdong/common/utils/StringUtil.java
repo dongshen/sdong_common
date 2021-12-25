@@ -30,7 +30,7 @@ public class StringUtil {
 	}
 
 	public static final String joinStringListToStringByLineBreak(List<String> list) {
-		return joinStringListToString(list, CommonConstants.LINE_BREAK);
+		return joinStringListToString(list, CommonConstants.LINE_BREAK_CRLF);
 	}
 
 	public static final String joinStringListToString(List<String> list, String split) {
@@ -108,11 +108,11 @@ public class StringUtil {
 		boolean change = false;
 		do {
 			change = false;
-			if (result.indexOf(CommonConstants.LINE_BREAK) == 0) {
-				result = result.substring(CommonConstants.LINE_BREAK.length());
+			if (result.indexOf(CommonConstants.LINE_BREAK_CRLF) == 0) {
+				result = result.substring(CommonConstants.LINE_BREAK_CRLF.length());
 				change = true;
-			} else if (result.indexOf(CommonConstants.LINUX_LINE_BREAK) == 0) {
-				result = result.substring(CommonConstants.LINUX_LINE_BREAK.length());
+			} else if (result.indexOf(CommonConstants.LINE_BREAK_LF) == 0) {
+				result = result.substring(CommonConstants.LINE_BREAK_LF.length());
 				change = true;
 			} else if (result.indexOf(CommonConstants.TAB) == 0) {
 				result = result.substring(CommonConstants.TAB.length());
@@ -128,13 +128,13 @@ public class StringUtil {
 		// remove end line break;
 		do {
 			change = false;
-			if (result.lastIndexOf(CommonConstants.LINE_BREAK) == result.length()
-					- CommonConstants.LINE_BREAK.length()) {
-				result = result.substring(0, result.length() - CommonConstants.LINE_BREAK.length());
+			if (result.lastIndexOf(CommonConstants.LINE_BREAK_CRLF) == result.length()
+					- CommonConstants.LINE_BREAK_CRLF.length()) {
+				result = result.substring(0, result.length() - CommonConstants.LINE_BREAK_CRLF.length());
 				change = true;
-			} else if (result.lastIndexOf(CommonConstants.LINUX_LINE_BREAK) == result.length()
-					- CommonConstants.LINUX_LINE_BREAK.length()) {
-				result = result.substring(0, result.length() - CommonConstants.LINUX_LINE_BREAK.length());
+			} else if (result.lastIndexOf(CommonConstants.LINE_BREAK_LF) == result.length()
+					- CommonConstants.LINE_BREAK_LF.length()) {
+				result = result.substring(0, result.length() - CommonConstants.LINE_BREAK_LF.length());
 				change = true;
 			} else if (result.lastIndexOf(CommonConstants.TAB) == result.length() - CommonConstants.TAB.length()) {
 				result = result.substring(0, result.length() - CommonConstants.TAB.length());
