@@ -56,7 +56,7 @@ public class JsonUtil {
     /**
      * write object end
      * 
-     * @param bw bufferwriter
+     * @param bw    bufferwriter
      * @param isEnd is the last object
      * @throws IOException module exception
      */
@@ -90,6 +90,40 @@ public class JsonUtil {
         } else if (value instanceof Boolean) {
             sb.append(value.toString());
         }
+        if (!isEnd) {
+            sb.append(JSON_SPLIT);
+        }
+        bw.write(sb.toString());
+    }
+
+    /**
+     * write json array start
+     * 
+     * @param bw  bufferwriter
+     * @param key array name
+     * @throws IOException module exception
+     */
+    public static void writeArrayStart(BufferedWriter bw, String key) throws IOException {
+        StringBuffer sb = new StringBuffer();
+        if (key == null || key.isEmpty()) {
+            sb.append(JSON_ARRAY_LEFT);
+        } else {
+            sb.append(JSON_VALUE).append(key).append(JSON_VALUE)
+                    .append(JSON_VALUE_SPLIT).append(JSON_ARRAY_LEFT);
+        }
+        bw.write(sb.toString());
+    }
+
+    /**
+     * write json array end
+     * 
+     * @param bw  bufferwriter
+     * @param isEnd is end
+     * @throws IOException module exception
+     */
+    public static void writeArrayEnd(BufferedWriter bw, boolean isEnd) throws IOException {
+        StringBuffer sb = new StringBuffer();
+        sb.append(JSON_ARRAY_RIGHT);
         if (!isEnd) {
             sb.append(JSON_SPLIT);
         }
