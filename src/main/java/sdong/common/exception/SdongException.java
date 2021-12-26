@@ -25,8 +25,12 @@ public class SdongException extends Exception {
 		this.reason = message;
 	}
 
+    public SdongException(String message, Throwable cause) {
+        super(message, cause);
+		this.reason = message;
+    }
+
 	public String getMessage() {
 		return reason;
 	}
-
 }

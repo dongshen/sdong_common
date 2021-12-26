@@ -1,15 +1,15 @@
 package sdong.common.bean.defect;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import sdong.common.bean.loc.FileInfo;
+import sdong.common.bean.rules.RuleChecker;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import sdong.common.bean.loc.FileInfo;
-import sdong.common.bean.rules.Rule;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class ScanResult {
     private static final Logger LOG = LogManager.getLogger(ScanResult.class);
@@ -42,7 +42,7 @@ public class ScanResult {
     List<Defect> defectList = new ArrayList<Defect>();
 
     // rules
-    ConcurrentMap<String, Rule> ruleList = new ConcurrentHashMap<String, Rule>();
+    ConcurrentMap<String, RuleChecker> ruleList = new ConcurrentHashMap<String, RuleChecker>();
 
     public String getBuildId() {
         return buildId;
@@ -156,11 +156,11 @@ public class ScanResult {
         this.fileList = fileList;
     }
 
-    public ConcurrentMap<String, Rule> getRuleList() {
+    public ConcurrentMap<String, RuleChecker> getRuleList() {
         return ruleList;
     }
 
-    public void setRuleList(ConcurrentMap<String, Rule> ruleList) {
+    public void setRuleList(ConcurrentMap<String, RuleChecker> ruleList) {
         this.ruleList = ruleList;
     }
 
@@ -198,11 +198,11 @@ public class ScanResult {
      *
      * @param rule rule
      */
-    public void addRule(Rule rule) {
-        if (rule == null || rule.getCheckerId().isEmpty()) {
+    public void addRule(RuleChecker rule) {
+        if (rule == null || rule.getRuleId().isEmpty()) {
             LOG.error("Null rule add fail!");
         } else {
-            ruleList.put(rule.getCheckerId(), rule);
+            ruleList.put(rule.getRuleId(), rule);
         }
     }
 }

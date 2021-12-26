@@ -18,7 +18,6 @@ import org.apache.logging.log4j.Logger;
 import sdong.common.exception.SdongException;
 
 public class XmlUtils {
-
 	private static final Logger LOG = LogManager.getLogger(XmlUtils.class);
 
 	/**
