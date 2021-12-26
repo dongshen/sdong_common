@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * rule base
  */
-public class RuleBase {
+public class RuleBase implements Irule{
     private String RuleId = "";
 
     private String ruleName = "";
