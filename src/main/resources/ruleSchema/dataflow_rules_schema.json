@@ -260,7 +260,7 @@
                 },
                 "additionalProperties": false
             }
-        },        
+        },
         "RuleBaseInfo": {
             "$anchor": "RuleBaseInfo",
             "type": "object",
@@ -356,7 +356,7 @@
                     ]
                 },
                 "IssueType": {
-                    "type": "string",                    
+                    "type": "string",
                     "title": "The IssueType schema",
                     "description": "缺陷场景",
                     "examples": [
@@ -413,7 +413,7 @@
                 },
                 "additionalProperties": false
             }
-        },        
+        },
         "Language": {
             "$anchor": "Language",
             "enum": [
