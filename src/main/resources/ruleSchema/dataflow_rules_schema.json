@@ -225,7 +225,10 @@
                         "$ref": "#/$defs/FunctionIdentifier"
                     },
                     "Sink": {
-                        "$ref": "#/$defs/Sink"
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/$defs/Sink"
+                        }
                     }
                 },
                 "additionalProperties": false
@@ -245,7 +248,7 @@
                 "required": [
                     "Rule",
                     "Function",
-                    "OutArgs"
+                    "Cleanse"
                 ],
                 "properties": {
                     "Rule": {
@@ -254,8 +257,8 @@
                     "Function": {
                         "$ref": "#/$defs/FunctionIdentifier"
                     },
-                    "OutArgs": {
-                        "$ref": "#/$defs/Arguments"
+                    "Cleanse": {
+                        "$ref": "#/$defs/Passthrough"
                     }
                 },
                 "additionalProperties": false
@@ -551,46 +554,17 @@
                     "items": [
                         {
                             "properties": {
+                                "Index": {
+                                    "type": "integer",
+                                    "title": "The index of paramter position",
+                                    "description": "参数的位置"
+                                },
                                 "ParamType": {
-                                    "type": "string",
-                                    "title": "The ParamType schema",
-                                    "description": "参数的类型",
-                                    "minLength": 1,
-                                    "examples": [
-                                        "int"
-                                    ]
+                                    "$ref": "#/$defs/ValueType"
                                 }
                             }
                         }
                     ]
-                },
-                "WildCard": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "maxProperties": 2,
-                    "title": "The WildCard schema",
-                    "description": "匹配参数的最少和最多的参数个数",
-                    "properties": {
-                        "min": {
-                            "type": "integer",
-                            "title": "The min schema",
-                            "description": "最少的参数个数",
-                            "default": 1,
-                            "examples": [
-                                1
-                            ]
-                        },
-                        "max": {
-                            "type": "integer",
-                            "title": "The max schema",
-                            "description": "最多的参数个数",
-                            "default": 1,
-                            "examples": [
-                                1
-                            ]
-                        },
-                        "additionalProperties": false
-                    }
                 },
                 "varArg": {
                     "type": "boolean",
@@ -651,7 +625,12 @@
                     "$ref": "#/$defs/Modifier"
                 },
                 "Exclude": {
-                    "$ref": "#FunctionIdentifier"
+                    "type": "array",
+                    "title": "function exclude",
+                    "description": "定义不包含的函数",
+                    "items": {
+                        "$ref": "#/$defs/FunctionIdentifier"
+                    }
                 },
                 "additionalProperties": false
             }
@@ -738,6 +717,9 @@
                 "TaintFlags"
             ],
             "properties": {
+                "Conditional": {
+                    "$ref": "#/$defs/Conditional"
+                },
                 "OutArgs": {
                     "$ref": "#/$defs/Arguments"
                 },
@@ -768,7 +750,7 @@
                     "$ref": "#/$defs/Arguments"
                 },
                 "TaintFlags": {
-                    "$ref": "#TaintFlags"
+                    "$ref": "#/$defs/TaintFlags"
                 }
             },
             "additionalProperties": false
@@ -857,27 +839,31 @@
         },
         "And": {
             "$anchor": "And",
-            "type": "object",
+            "type": "array",
             "title": "The And schema",
             "description": "And条件连接符，可嵌套其他条件",
-            "minProperties": 2,
-            "allOf": [
-                {
-                    "$ref": "#/$defs/Conditional"
-                }
-            ]
+            "items": {
+                "minProperties": 2,
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/Conditional"
+                    }
+                ]
+            }
         },
         "Or": {
             "$anchor": "Or",
-            "type": "object",
+            "type": "array",
             "title": "The Or schema",
             "description": "Or条件连接符，可嵌套其他条件",
-            "minProperties": 2,
-            "allOf": [
-                {
-                    "$ref": "#/$defs/Conditional"
-                }
-            ]
+            "items": {
+                "minProperties": 2,
+                "allOf": [
+                    {
+                        "$ref": "#/$defs/Conditional"
+                    }
+                ]
+            }
         },
         "Not": {
             "$anchor": "Not",
