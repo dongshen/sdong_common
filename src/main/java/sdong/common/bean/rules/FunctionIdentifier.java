@@ -15,7 +15,7 @@ public class FunctionIdentifier {
     private String modifier = "";
     private String returnType = "";
 
-    private List<Parameter> parameters = new ArrayList<Parameter>();
+    private List<FunctionParameter> parameters = new ArrayList<FunctionParameter>();
     private boolean varArgs = false;
     
     private boolean isApplyTo = true;
@@ -94,11 +94,11 @@ public class FunctionIdentifier {
         this.returnType = returnType;
     }
 
-    public List<Parameter> getParameters() {
+    public List<FunctionParameter> getParameters() {
         return parameters;
     }
 
-    public void setParameters(List<Parameter> parameters) {
+    public void setParameters(List<FunctionParameter> parameters) {
         this.parameters = parameters;
     }
 

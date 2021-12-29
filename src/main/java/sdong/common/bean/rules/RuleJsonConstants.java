@@ -53,6 +53,7 @@ public class RuleJsonConstants {
      * Parameters
      */
     public static final String PARAMETERS = "Parameters";
+    public static final String PARM_INDEX = "ParamInd";
     public static final String PARM_TYPES = "ParamType";
     public static final String PARM_VAR_ARG = "varArg";
 
@@ -72,4 +73,10 @@ public class RuleJsonConstants {
      */
     public static final String TAINT_FLAGS = "TaintFlags";
     public static final String TAINT_FLAG = "TaintFlag";
+
+    /**
+     * ValueType
+     */
+    public static final String VALUE_TYPE_VALUE = "Value";
+    public static final String VALUE_TYPE_PATTERN = "Pattern";
 }

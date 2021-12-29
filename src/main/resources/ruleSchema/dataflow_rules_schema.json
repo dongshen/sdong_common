@@ -554,7 +554,7 @@
                     "items": [
                         {
                             "properties": {
-                                "Index": {
+                                "ParamInd": {
                                     "type": "integer",
                                     "title": "The index of paramter position",
                                     "description": "参数的位置"
