@@ -43,7 +43,7 @@ public class SqliteUtil {
         LOG.info("Create database:{} done.", FileUtil.getFileName(dbFileName));
     }
 
-        /**
+    /**
      * create database and table
      * 
      * @param dbFileName database file name
@@ -73,7 +73,7 @@ public class SqliteUtil {
         LOG.info("Create table:{}", tables);
         return tables;
     }
-    
+
     /**
      * get connection
      * 
@@ -98,7 +98,6 @@ public class SqliteUtil {
      * @throws SdongException module exception
      */
     public static void exeSql(String dbFileName, String sqlStmt) throws SdongException {
-
         try (Connection conn = getConnection(dbFileName); Statement stmt = conn.createStatement();) {
             stmt.execute(sqlStmt);
         } catch (SQLException e) {
@@ -253,13 +252,12 @@ public class SqliteUtil {
         int records = 0;
         try (Connection conn = SqliteUtil.getConnection(dbFileName); Statement stmt = conn.createStatement();) {
             conn.setAutoCommit(false);
-            PreparedStatement pstmt = null;
             for (String sql : dataList) {
-                pstmt = conn.prepareStatement(sql);
-                records = records + pstmt.executeUpdate();
+                try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
+                    records = records + pstmt.executeUpdate();
+                }
             }
             conn.commit();
-
         } catch (SQLException e) {
             throw new SdongException(e.getMessage());
         }
