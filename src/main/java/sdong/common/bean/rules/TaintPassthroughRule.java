@@ -1,22 +1,13 @@
 package sdong.common.bean.rules;
 
 public class TaintPassthroughRule extends DataFlowRule{
-    private String inArgs ="";
-    private String outArgs ="";
+    private TaintPassThrough passthrough = new TaintPassThrough();
 
-    public String getInArgs() {
-        return inArgs;
+    public TaintPassThrough getPassthrough() {
+        return passthrough;
     }
 
-    public void setInArgs(String inArgs) {
-        this.inArgs = inArgs;
+    public void setPassthrough(TaintPassThrough passthrough) {
+        this.passthrough = passthrough;
     }
-
-    public String getOutArgs() {
-        return outArgs;
-    }
-
-    public void setOutArgs(String outArgs) {
-        this.outArgs = outArgs;
-    }   
 }

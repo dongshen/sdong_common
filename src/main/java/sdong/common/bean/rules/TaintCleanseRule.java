@@ -1,13 +1,13 @@
 package sdong.common.bean.rules;
 
 public class TaintCleanseRule extends DataFlowRule{
-    private String outArgs ="";
+    private TaintCleanse cleanse = new TaintCleanse();
 
-    public String getOutArgs() {
-        return outArgs;
+    public TaintCleanse getCleanse() {
+        return cleanse;
     }
 
-    public void setOutArgs(String outArgs) {
-        this.outArgs = outArgs;
-    }
+    public void setCleanse(TaintCleanse cleanse) {
+        this.cleanse = cleanse;
+    }   
 }

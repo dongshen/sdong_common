@@ -3,19 +3,13 @@ package sdong.common.bean.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaintSinkRule extends DataFlowRule{
-    private String inArgs ="";
+/**
+ * Taint sink rule
+ */
+public class TaintSinkRule extends DataFlowRule {
+    private List<TaintSink> taintSinks = new ArrayList<TaintSink>();
+    private List<TaintSource> taintSources = new ArrayList<TaintSource>();
     private Vulnerability vulnerability = new Vulnerability();
-
-    private List<ReportMessage> messages = new ArrayList<ReportMessage>();
-
-    public String getInArgs() {
-        return inArgs;
-    }
-
-    public void setInArgs(String inArgs) {
-        this.inArgs = inArgs;
-    }
 
     public Vulnerability getVulnerability() {
         return vulnerability;
@@ -25,11 +19,19 @@ public class TaintSinkRule extends DataFlowRule{
         this.vulnerability = vulnerability;
     }
 
-    public List<ReportMessage> getMessages() {
-        return messages;
+    public List<TaintSink> getTaintSinks() {
+        return taintSinks;
     }
 
-    public void setMessages(List<ReportMessage> messages) {
-        this.messages = messages;
+    public void setTaintSinks(List<TaintSink> taintSinks) {
+        this.taintSinks = taintSinks;
+    }
+
+    public List<TaintSource> getTaintSources() {
+        return taintSources;
+    }
+
+    public void setTaintSources(List<TaintSource> taintSources) {
+        this.taintSources = taintSources;
     }
 }

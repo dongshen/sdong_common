@@ -1,5 +1,15 @@
 package sdong.common.utils;
 
+import com.fasterxml.uuid.Generators;
+import com.google.common.base.Enums;
+import com.google.common.base.Optional;
+
+import sdong.common.CommonConstants;
+import sdong.common.exception.SdongException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,16 +22,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
-
-import com.fasterxml.uuid.Generators;
-import com.google.common.base.Enums;
-import com.google.common.base.Optional;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import sdong.common.CommonConstants;
-import sdong.common.exception.SdongException;
 
 public class CommonUtil {
 	private static final Logger LOG = LogManager.getLogger(CommonUtil.class);

@@ -63,6 +63,16 @@ public class RuleJsonConstants {
     public static final String SOURCE = "Source";
 
     /**
+     * Passthrough
+     */
+    public static final String PASSTHROUGH = "Passthrough";
+
+    /**
+     * Sink
+     */
+    public static final String SINK = "Sink";
+
+    /**
      * Args
      */
     public static final String OUT_ARGS = "OutArgs";
@@ -79,4 +89,25 @@ public class RuleJsonConstants {
      */
     public static final String VALUE_TYPE_VALUE = "Value";
     public static final String VALUE_TYPE_PATTERN = "Pattern";
+
+    /**
+     * Conditional
+     */
+    public static final String CONDITIONAL = "Conditioanl";
+
+    /**
+     * Vulnerability
+     */
+    public static final String VULNERABILITY = "Vulnerability";
+    public static final String VULN_CATEGORY = "Category";
+    public static final String VULN_SUB_CATEGORY = "Subcategory";
+    public static final String VULN_ISSUE_TYPE = "IssueType";
+    public static final String VULN_CWE = "CWE";
+    public static final String VULN_SEVERITY = "Severity";
+
+    /**
+     * ReportMsg
+     */
+    public static final String MSG_ID = "MessageId";
+    public static final String MSG_MSG = "Message";
 }

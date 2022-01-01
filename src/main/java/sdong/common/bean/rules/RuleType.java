@@ -1,5 +1,6 @@
 package sdong.common.bean.rules;
 
+
 import com.google.common.base.Optional;
 
 import sdong.common.utils.CommonUtil;

@@ -1,13 +1,16 @@
 package sdong.common.bean.rules;
 
-public class TaintSourceRule extends DataFlowRule{
-    private String outArgs ="";
+import java.util.ArrayList;
+import java.util.List;
 
-    public String getOutArgs() {
-        return outArgs;
+public class TaintSourceRule extends DataFlowRule{
+    private List<TaintSource> sourceList = new ArrayList<TaintSource>();
+
+    public List<TaintSource> getSourceList() {
+        return sourceList;
     }
 
-    public void setOutArgs(String outArgs) {
-        this.outArgs = outArgs;
-    }   
+    public void setSourceList(List<TaintSource> sourceList) {
+        this.sourceList = sourceList;
+    }
 }
