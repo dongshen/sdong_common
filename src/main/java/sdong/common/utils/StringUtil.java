@@ -1,16 +1,17 @@
 package sdong.common.utils;
 
+import sdong.common.CommonConstants;
+import sdong.common.exception.SdongException;
+
+import org.apache.commons.text.StringEscapeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import sdong.common.CommonConstants;
-import sdong.common.exception.SdongException;
 
 public class StringUtil {
 	private static final Logger log = LogManager.getLogger(StringUtil.class);
@@ -143,5 +144,15 @@ public class StringUtil {
 			result = result.trim();
 		} while (change);
 		return result;
+	}
+
+	/**
+	 * secape string for java
+	 * 
+	 * @param inputStr input string
+	 * @return output string
+	 */
+	public static String escapeJava(String inputStr){
+		return StringEscapeUtils.escapeJava(inputStr);
 	}
 }

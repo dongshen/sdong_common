@@ -10,8 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class StringChangeMergeTest {
-
-	private static final Logger log = LogManager.getLogger(StringChangeMergeTest.class);
+	private static final Logger LOG = LogManager.getLogger(StringChangeMergeTest.class);
 
 	@Test
 	public void testGenerateMergeString_basic() {
