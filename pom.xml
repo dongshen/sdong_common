@@ -51,19 +51,6 @@
 			<artifactId>sqlite-jdbc</artifactId>
 		</dependency>
 
-		<!-- pdf -->
-		<!-- https://mvnrepository.com/artifact/net.sf.cssbox/pdf2dom -->
-		<dependency>
-			<groupId>net.sf.cssbox</groupId>
-			<artifactId>pdf2dom</artifactId>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.apache.tika/tika-parsers -->
-		<dependency>
-			<groupId>org.apache.tika</groupId>
-			<artifactId>tika-parsers</artifactId>
-		</dependency>
-
 		<!-- encoding -->
 		<!-- https://mvnrepository.com/artifact/com.ibm.icu/icu4j -->
 		<dependency>
