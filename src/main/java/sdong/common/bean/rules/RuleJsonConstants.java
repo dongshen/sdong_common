@@ -73,10 +73,16 @@ public class RuleJsonConstants {
     public static final String SINK = "Sink";
 
     /**
+     * Cleanse
+     */
+    public static final String CLEANSE = "Cleanse";
+
+    /**
      * Args
      */
     public static final String OUT_ARGS = "OutArgs";
     public static final String IN_ARGS = "InArgs";
+    public static final String ARGS = "Args";
 
     /**
      * taint flag
@@ -94,6 +100,18 @@ public class RuleJsonConstants {
      * Conditional
      */
     public static final String CONDITIONAL = "Conditioanl";
+    public static final String CONDITIONAL_AND = "And";
+    public static final String CONDITIONAL_OR = "Or";
+    public static final String CONDITIONAL_NOT = "Not";
+    public static final String CONDITIONAL_CON_IS_CONSTANT = "IsConstant";
+    public static final String CONDITIONAL_CON_IS_TYPE = "IsType";
+    public static final String CONDITIONAL_CONSTANT_EQ = "ConstantEq";
+    public static final String CONDITIONAL_CONSTANT_GT = "ConstantGt";
+    public static final String CONDITIONAL_CONSTANT_LT = "ConstantLt";
+    public static final String CONDITIONAL_CONSTANT_MATCHES = "ConstantMatches";
+    public static final String CONDITIONAL_NAME_EQ = "NameEq";
+    public static final String CONDITIONAL_NAME_MATCHES = "NameMatches";
+    public static final String CONDITIONAL_TAINT_FLAGSET = "TaintFlagSet";    
 
     /**
      * Vulnerability
