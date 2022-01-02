@@ -39,27 +39,42 @@ public class JsonUtil {
     public static final String JSON_VALUE = "\"";
 
     /**
-     * write json object start
+     * write json object start: "key":{ or {
      * 
      * @param sb          StringBuilder
-     * @param hasPreValue has previous value
+     * @param hasPreValue has previous value, then print ","
      * @param key         object name
      * @return false
      */
-    public static boolean writeObjectStart(StringBuilder sb, boolean hasPreValue, String key)  {
+    public static boolean writeObjectStart(StringBuilder sb, boolean hasPreValue, String key) {
         if (hasPreValue) {
             sb.append(JSON_SPLIT);
         }
-        sb.append(JSON_VALUE).append(key).append(JSON_VALUE)
-                .append(JSON_VALUE_SPLIT).append(JSON_GROUP_LEFT);
+        if (key == null || key.isEmpty()) {
+            sb.append(JSON_GROUP_LEFT);
+        } else {
+            sb.append(JSON_VALUE).append(key).append(JSON_VALUE)
+                    .append(JSON_VALUE_SPLIT).append(JSON_GROUP_LEFT);
+        }
         return false;
     }
 
     /**
-     * write json object value
+     * write json object end: }
+     * 
+     * @param sb StringBuilder
+     * @return true
+     */
+    public static boolean writeObjectEnd(StringBuilder sb) {
+        sb.append(JSON_GROUP_RIGHT);
+        return true;
+    }
+
+    /**
+     * write json object value: "object":"value"
      * 
      * @param sb          StringBuilder
-     * @param hasPreValue has previous value
+     * @param hasPreValue has previous value, then print ","
      * @param key         object name
      * @param value       object value
      * @return has value return true else false
@@ -86,46 +101,50 @@ public class JsonUtil {
     }
 
     /**
-     * write json array start
+     * write json array start: [ or "key":[
      * 
-     * @param sb  StringBuilder
-     * @param key array name
+     * @param sb          StringBuilder
+     * @param hasPreValue has previous value, then print ","
+     * @param key         array name
+     * @return has value return true else false
      */
-    public static void writeArrayStart(StringBuilder sb, String key) {
+    public static boolean writeArrayStart(StringBuilder sb, boolean hasPreValue, String key) {
+        if (hasPreValue) {
+            sb.append(JSON_SPLIT);
+        }
+
         if (key == null || key.isEmpty()) {
             sb.append(JSON_ARRAY_LEFT);
         } else {
             sb.append(JSON_VALUE).append(key).append(JSON_VALUE)
                     .append(JSON_VALUE_SPLIT).append(JSON_ARRAY_LEFT);
         }
+        return false;
     }
 
     /**
-     * write json array end
+     * write json array end: ]
      * 
-     * @param sb    StringBuilder
-     * @param isEnd is end
+     * @param sb StringBuilder
+     * @return has value return true else false
      */
-    public static void writeArrayEnd(StringBuilder sb, boolean isEnd)  {
+    public static boolean writeArrayEnd(StringBuilder sb) {
         sb.append(JSON_ARRAY_RIGHT);
-        if (!isEnd) {
-            sb.append(JSON_SPLIT);
-        }
+        return true;
     }
 
     /**
-     * write valueType
+     * write valueType: "Value":"xxx" or "Pattern":"yyy"
      * 
      * @param sb          StringBuilder
-     * @param hasPreValue has Previous Value
+     * @param hasPreValue has previous value, then print ","
      * @param key         key
      * @param value       value
      * @param pattern     pattern
      * @return has value return true else false
      */
     public static boolean writeValueType(StringBuilder sb, boolean hasPreValue, String key, String value,
-            String pattern)
-            {
+            String pattern) {
         if ((value == null || value.isEmpty()) && (pattern == null || pattern.isEmpty())) {
             return hasPreValue;
         }
