@@ -1,14 +1,22 @@
 package sdong.common.bean.rules;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Rule Severity enum
  */
 public enum RuleSeverity {
+    @SerializedName(value = "Fatal") 
     FATAL("Fatal", 1),
+    @SerializedName(value = "Critical")    
     CRITICAL("Critical", 2),
+    @SerializedName(value = "Medium")
     MEDIUM("Medium", 3),
+    @SerializedName(value = "Normal")
     NORMAL("Normal", 4),
+    @SerializedName(value = "Suggest")
     SUGGEST("Suggest", 5),
+    @SerializedName(value = "Others")
     OTHTERS("Others", 6);
 
     private final String name;
