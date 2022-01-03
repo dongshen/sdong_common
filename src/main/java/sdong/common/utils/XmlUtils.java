@@ -274,6 +274,22 @@ public class XmlUtils {
 	}
 
 	/**
+	 * add element attribute and text
+	 * 
+	 * @param element element where to add attribute
+	 * @param tag     tag
+	 * @param text    text
+	 */
+	public static void addElementAttribute(Element element, String attTag, String attribute) {
+		if (attribute == null || attribute.isEmpty()) {
+			return;
+		}
+		
+		element.addAttribute(attTag, attribute);
+		return ;
+	}
+
+	/**
 	 * add tag and text
 	 * 
 	 * @param element element where to add a new tag
@@ -282,6 +298,9 @@ public class XmlUtils {
 	 * @return tag element
 	 */
 	public static Element addElementCdata(Element element, String tag, String text) {
+		if (text == null || text.isEmpty()) {
+			return null;
+		}
 		Element tagElement = element.addElement(tag);
 		tagElement.addCDATA(text);
 		return tagElement;

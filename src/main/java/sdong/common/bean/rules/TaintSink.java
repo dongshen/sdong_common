@@ -1,11 +1,17 @@
 package sdong.common.bean.rules;
 
+import com.google.gson.annotations.SerializedName;
+
 public class TaintSink {
+    @SerializedName(value = RuleJsonConstants.IN_ARGS)
     private String inArgs = "";
+    
     private boolean isMain = false;
 
+    //@SerializedName(value = RuleJsonConstants.CONDITIONAL)
     private String conditional = "";
     
+    @SerializedName(value = RuleJsonConstants.RULE_MSG)
     private ReportMessage reportMsg = new ReportMessage();
 
     public String getInArgs() {

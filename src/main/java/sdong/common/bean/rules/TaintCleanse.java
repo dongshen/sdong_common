@@ -1,6 +1,9 @@
 package sdong.common.bean.rules;
 
+import com.google.gson.annotations.SerializedName;
+
 public class TaintCleanse {
+    @SerializedName(value = RuleJsonConstants.OUT_ARGS)
     private String outArgs = "";
 
     public String getOutArgs() {

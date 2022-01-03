@@ -1,7 +1,12 @@
 package sdong.common.bean.rules;
 
+import com.google.gson.annotations.SerializedName;
+
 public class TaintPassThrough {
+    @SerializedName(value = RuleJsonConstants.IN_ARGS)
     private String inArgs = "";
+
+    @SerializedName(value = RuleJsonConstants.OUT_ARGS)
     private String outArgs = "";
 
     public String getInArgs() {

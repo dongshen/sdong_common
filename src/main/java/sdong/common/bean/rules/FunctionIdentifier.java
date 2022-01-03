@@ -1,21 +1,32 @@
 package sdong.common.bean.rules;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class FunctionIdentifier {
+public class FunctionIdentifier {    
     private String funcionType = "";
-    private String NamespaceNameValue = "";
-    private String NamespaceNamePattern = "";
-    private String ClassNameValue = "";
-    private String ClassNamePattern = "";
-    private String FunctionNameValue = "";
-    private String FunctionNamePattern = "";
 
+    @SerializedName(value = RuleJsonConstants.FUNC_NAMESPACE)
+    private RuleValueType namespaceName = new RuleValueType();
+
+    @SerializedName(value = RuleJsonConstants.FUNC_CLASS)
+    private RuleValueType className = new RuleValueType();
+
+    @SerializedName(value = RuleJsonConstants.FUNC_FUNC)
+    private RuleValueType functionName = new RuleValueType();
+
+    @SerializedName(value = RuleJsonConstants.FUNC_MODIFIER)
     private String modifier = "";
+
+    @SerializedName(value = RuleJsonConstants.FUNC_RETURN_TYPE)
     private String returnType = "";
 
+    @SerializedName(value = RuleJsonConstants.PARAMETERS)
     private List<FunctionParameter> parameters = new ArrayList<FunctionParameter>();
+
+    @SerializedName(value = RuleJsonConstants.PARM_VAR_ARG)
     private boolean varArgs = false;
     
     private boolean isApplyTo = true;
@@ -30,52 +41,28 @@ public class FunctionIdentifier {
         this.funcionType = funcionType;
     }
 
-    public String getNamespaceNameValue() {
-        return NamespaceNameValue;
+    public RuleValueType getNamespaceName() {
+        return namespaceName;
     }
 
-    public void setNamespaceNameValue(String namespaceNameValue) {
-        NamespaceNameValue = namespaceNameValue;
+    public void setNamespaceName(RuleValueType namespaceName) {
+        this.namespaceName = namespaceName;
     }
 
-    public String getNamespaceNamePattern() {
-        return NamespaceNamePattern;
+    public RuleValueType getClassName() {
+        return className;
     }
 
-    public void setNamespaceNamePattern(String namespaceNamePattern) {
-        NamespaceNamePattern = namespaceNamePattern;
+    public void setClassName(RuleValueType className) {
+        this.className = className;
     }
 
-    public String getClassNameValue() {
-        return ClassNameValue;
+    public RuleValueType getFunctionName() {
+        return functionName;
     }
 
-    public void setClassNameValue(String classNameValue) {
-        ClassNameValue = classNameValue;
-    }
-
-    public String getClassNamePattern() {
-        return ClassNamePattern;
-    }
-
-    public void setClassNamePattern(String classNamePattern) {
-        ClassNamePattern = classNamePattern;
-    }
-
-    public String getFunctionNameValue() {
-        return FunctionNameValue;
-    }
-
-    public void setFunctionNameValue(String functionNameValue) {
-        FunctionNameValue = functionNameValue;
-    }
-
-    public String getFunctionNamePattern() {
-        return FunctionNamePattern;
-    }
-
-    public void setFunctionNamePattern(String functionNamePattern) {
-        FunctionNamePattern = functionNamePattern;
+    public void setFunctionName(RuleValueType functionName) {
+        this.functionName = functionName;
     }
 
     public String getModifier() {

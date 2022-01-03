@@ -3,7 +3,7 @@ package sdong.common.bean.rules;
 public class RuleJsonConstants {
     public static final String RULE_PACKAGE = "RulePackage";
     public static final String RULES = "Rules";
-    public static final String RULE_MESSAGE = "RuleMessages";
+    public static final String RULE_MESSAGES = "RuleMessages";
 
     /**
      * pakage info
@@ -17,16 +17,22 @@ public class RuleJsonConstants {
     /**
      * Rule info
      */
+    public static final String RULES_TAINT_SOURCE = "TaintSourceRules";
+    public static final String RULES_TAINT_PASSTHROUGH = "TaintPassthroughRules";
+    public static final String RULES_TAINT_SINK = "TaintSinkRules";
+    public static final String RULES_TAINT_CLEANSE = "TaintCleanseRules";
+
     public static final String RULE_TAINT_SOURCE = "TaintSourceRule";
     public static final String RULE_TAINT_PASSTHROUGH = "TaintPassthroughRule";
     public static final String RULE_TAINT_SINK = "TaintSinkRule";
-    public static final String RULE_TAINT_CLEAN = "TaintCleanseRule";
+    public static final String RULE_TAINT_CLEANSE = "TaintCleanseRule";
 
     /**
      * Rule
      */
     public static final String RULE = "Rule";
     public static final String RULE_ID = "RuleId";
+    public static final String RULE_NAME = "RuleName";
     public static final String RULE_NOTE = "Note";
 
     /**
@@ -128,6 +134,7 @@ public class RuleJsonConstants {
     /**
      * ReportMsg
      */
+    public static final String RULE_MSG = "RuleMessage";
     public static final String MSG_ID = "MessageId";
     public static final String MSG_MSG = "Message";
 }

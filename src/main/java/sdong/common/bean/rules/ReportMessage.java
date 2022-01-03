@@ -1,15 +1,20 @@
 package sdong.common.bean.rules;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ReportMessage {
-    private String reportMsgId = "";
+    @SerializedName(value = RuleJsonConstants.MSG_ID)
+    private String msgssageId = "";
+
+    @SerializedName(value = RuleJsonConstants.MSG_MSG)
     private String message = "";
 
-    public String getReportMsgId() {
-        return reportMsgId;
+    public String getMsgssageId() {
+        return msgssageId;
     }
 
-    public void setReportMsgId(String reportMsgId) {
-        this.reportMsgId = reportMsgId;
+    public void setMsgssageId(String msgssageId) {
+        this.msgssageId = msgssageId;
     }
 
     public String getMessage() {

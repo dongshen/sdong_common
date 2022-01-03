@@ -1,9 +1,13 @@
 package sdong.common.bean.rules;
 
+import com.google.gson.annotations.SerializedName;
+
 public class FunctionParameter {
+    @SerializedName(value = RuleJsonConstants.PARM_INDEX)
     private int paramInd = 0;
-    private String paramValue = "";
-    private String paramPattern = "";
+
+    @SerializedName(value = RuleJsonConstants.PARM_TYPES)
+    private RuleValueType paramType = new RuleValueType();
 
     public int getParamInd() {
         return paramInd;
@@ -13,19 +17,11 @@ public class FunctionParameter {
         this.paramInd = paramInd;
     }
 
-    public String getParamValue() {
-        return paramValue;
+    public RuleValueType getParamType() {
+        return paramType;
     }
 
-    public void setParamValue(String paramValue) {
-        this.paramValue = paramValue;
-    }
-
-    public String getParamPattern() {
-        return paramPattern;
-    }
-
-    public void setParamPattern(String paramPattern) {
-        this.paramPattern = paramPattern;
+    public void setParamType(RuleValueType paramType) {
+        this.paramType = paramType;
     }
 }

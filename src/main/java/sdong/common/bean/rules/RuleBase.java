@@ -1,58 +1,61 @@
 package sdong.common.bean.rules;
 
-import java.util.concurrent.ConcurrentHashMap;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 /**
  * rule base
  */
 public class RuleBase implements Irule{
-    private String RuleId = "";
+    @SerializedName(value = RuleJsonConstants.RULE)
+    RuleInfo ruleInfo = new RuleInfo();
 
-    private String ruleName = "";
+    public RuleInfo getRuleInfo() {
+        return ruleInfo;
+    }
 
-    private String note = "";
-
-    private RuleType ruleType = RuleType.BASE;
-
-    private ConcurrentHashMap<String, String> refInfos = new ConcurrentHashMap<String, String>();
+    public void setRuleInfo(RuleInfo ruleInfo) {
+        this.ruleInfo = ruleInfo;
+    }
 
     public String getRuleId() {
-        return RuleId;
+        return ruleInfo.getRuleId();
     }
 
     public void setRuleId(String ruleId) {
-        RuleId = ruleId;
+        ruleInfo.setRuleId(ruleId);
     }
 
     public String getRuleName() {
-        return ruleName;
+        return ruleInfo.getRuleName();
     }
 
     public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
+        ruleInfo.setRuleName(ruleName);
     }
 
     public RuleType getRuleType() {
-        return ruleType;
+        return ruleInfo.getRuleType();
     }
 
     public void setRuleType(RuleType ruleType) {
-        this.ruleType = ruleType;
+        ruleInfo.setRuleType(ruleType);
     }
 
-    public ConcurrentHashMap<String, String> getRefInfos() {
-        return refInfos;
+    public List<RuleReferenceInfo> getRefInfos() {
+        return ruleInfo.getRefInfos();
     }
 
-    public void setRefInfos(ConcurrentHashMap<String, String> refInfos) {
-        this.refInfos = refInfos;
+    public void setRefInfos(List<RuleReferenceInfo> refInfos) {
+        ruleInfo.setRefInfos(refInfos);
     }
 
     public String getNote() {
-        return note;
+        return ruleInfo.getNote();
     }
 
     public void setNote(String note) {
-        this.note = note;
+        ruleInfo.setNote(note);
     }
-}
+}   

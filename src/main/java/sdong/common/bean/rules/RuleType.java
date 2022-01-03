@@ -13,7 +13,7 @@ public enum RuleType {
     TAINT_SOURCE("TaintSourceRule"),
     TAINT_PASSTHROUGH("TaintPassthroughRule"),
     TAINT_SINK("TaintSinkRule"),
-    TAINT_CLEAN("TaintCleanseRule"),
+    TAINT_CLEANSE("TaintCleanseRule"),
     OTHTERS("Others");
 
     private final String ruleType;

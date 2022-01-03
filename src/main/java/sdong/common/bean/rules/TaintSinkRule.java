@@ -1,5 +1,7 @@
 package sdong.common.bean.rules;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,8 +9,13 @@ import java.util.List;
  * Taint sink rule
  */
 public class TaintSinkRule extends DataFlowRule {
+    @SerializedName(value = RuleJsonConstants.SINK)
     private List<TaintSink> taintSinks = new ArrayList<TaintSink>();
+
+    @SerializedName(value = RuleJsonConstants.SOURCE)
     private List<TaintSource> taintSources = new ArrayList<TaintSource>();
+    
+    @SerializedName(value = RuleJsonConstants.VULNERABILITY)
     private Vulnerability vulnerability = new Vulnerability();
 
     public Vulnerability getVulnerability() {

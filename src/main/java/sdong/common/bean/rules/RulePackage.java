@@ -1,17 +1,25 @@
 package sdong.common.bean.rules;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 public class RulePackage {
     private String packageId = "";
+
+    @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_NAME)
     private String name = "";
+
+    @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_VER)
     private String version = "";
+    
+    @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_LANGUAGE)
     private String language = "";
+
+    @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_DES)
     private String description = "";
+
+    @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_LOCALE)
     private String locale = "";
-    List<Irule> rules = new ArrayList<Irule>();
-    List<ReportMessage> messages = new ArrayList<ReportMessage>();
+   
 
     public String getPackageId() {
         return packageId;
@@ -60,21 +68,4 @@ public class RulePackage {
     public void setLocale(String locale) {
         this.locale = locale;
     }
-
-    public List<Irule> getRules() {
-        return rules;
-    }
-
-    public void setRules(List<Irule> rules) {
-        this.rules = rules;
-    }
-
-    public List<ReportMessage> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<ReportMessage> messages) {
-        this.messages = messages;
-    }
-
 }

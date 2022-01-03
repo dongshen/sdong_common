@@ -1,6 +1,9 @@
 package sdong.common.bean.rules;
 
-public class TaintPassthroughRule extends DataFlowRule{
+import com.google.gson.annotations.SerializedName;
+
+public class TaintPassThroughRule extends DataFlowRule{
+    @SerializedName(value = RuleJsonConstants.PASSTHROUGH)
     private TaintPassThrough passthrough = new TaintPassThrough();
 
     public TaintPassThrough getPassthrough() {
