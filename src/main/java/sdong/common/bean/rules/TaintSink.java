@@ -2,14 +2,19 @@ package sdong.common.bean.rules;
 
 import com.google.gson.annotations.SerializedName;
 
+import sdong.common.bean.rules.conditional.Conditional;
+import sdong.common.bean.rules.conditional.ConditionalNode;
+
 public class TaintSink {
     @SerializedName(value = RuleJsonConstants.IN_ARGS)
     private String inArgs = "";
     
     private boolean isMain = false;
 
-    //@SerializedName(value = RuleJsonConstants.CONDITIONAL)
-    private String conditional = "";
+    @SerializedName(value = RuleJsonConstants.CONDITIONAL)
+    private ConditionalNode conditional = new ConditionalNode();
+
+    private String conditionalStr = "";
     
     @SerializedName(value = RuleJsonConstants.RULE_MSG)
     private ReportMessage reportMsg = new ReportMessage();
@@ -30,12 +35,12 @@ public class TaintSink {
         this.isMain = isMain;
     }
 
-    public String getConditional() {
-        return conditional;
+    public String getConditionalStr() {
+        return conditionalStr;
     }
 
-    public void setConditional(String conditional) {
-        this.conditional = conditional;
+    public void setConditionalStr(String conditional) {
+        this.conditionalStr = conditional;
     }
 
     public ReportMessage getReportMsg() {
@@ -44,5 +49,13 @@ public class TaintSink {
 
     public void setReportMsg(ReportMessage reportMsg) {
         this.reportMsg = reportMsg;
+    }
+
+    public Conditional getConditional() {
+        return conditional;
+    }
+
+    public void setConditional(Conditional conditional) {
+        this.conditional = conditional;
     }
 }
