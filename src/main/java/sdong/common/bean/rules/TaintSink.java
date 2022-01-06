@@ -3,7 +3,6 @@ package sdong.common.bean.rules;
 import com.google.gson.annotations.SerializedName;
 
 import sdong.common.bean.rules.conditional.Conditional;
-import sdong.common.bean.rules.conditional.ConditionalNode;
 
 public class TaintSink {
     @SerializedName(value = RuleJsonConstants.IN_ARGS)
@@ -12,7 +11,7 @@ public class TaintSink {
     private boolean isMain = false;
 
     @SerializedName(value = RuleJsonConstants.CONDITIONAL)
-    private ConditionalNode conditional = new ConditionalNode();
+    private Conditional conditional = new Conditional();
 
     private String conditionalStr = "";
     

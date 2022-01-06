@@ -1,8 +1,18 @@
 package sdong.common.bean.rules.conditional;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
+
+import sdong.common.bean.rules.RuleJsonConstants;
 
 public class Conditional {
-    ConditionalNode conditional = new ConditionalNode();
+    @SerializedName(value = RuleJsonConstants.CONDITIONAL)
+    private ConditionalNode cond;
+
+    public ConditionalNode getCond() {
+        return cond;
+    }
+
+    public void setCond(ConditionalNode cond) {
+        this.cond = cond;
+    }
 }

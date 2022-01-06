@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import sdong.common.bean.rules.RuleJsonConstants;
 import sdong.common.bean.rules.RuleValueType;
 
-public class CondIsType extends ConditionalNode {
+public class CondIsType {
     @SerializedName(value = RuleJsonConstants.ARGS)
     String arg = "";
 

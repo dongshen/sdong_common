@@ -107,7 +107,7 @@ public class RuleJsonConstants {
     /**
      * Conditional
      */
-    public static final String CONDITIONAL = "Conditioanl";
+    public static final String CONDITIONAL = "Conditional";
     public static final String CONDITIONAL_AND = "And";
     public static final String CONDITIONAL_OR = "Or";
     public static final String CONDITIONAL_NOT = "Not";
