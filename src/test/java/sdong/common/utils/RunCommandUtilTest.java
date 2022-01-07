@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 import sdong.common.exception.SdongException;
 
 public class RunCommandUtilTest {
-	private static final Logger logger = LogManager.getLogger(RunCommandUtilTest.class);
+	private static final Logger LOG = LogManager.getLogger(RunCommandUtilTest.class);
 
 	@Test
 	public void testRunCommand_cov_manage_emit_listjson() {
@@ -21,9 +21,9 @@ public class RunCommandUtilTest {
 
 		try {
 			String result = RunCommandUtil.runCommand(cmd);
-			logger.info("result=" + result);
+			LOG.info("result=" + result);
 		} catch (SdongException e) {
-			e.printStackTrace();
+			LOG.error("Get exception:{}",e.getMessage());
 			fail("should not have exception!");
 		}
 	}
@@ -35,9 +35,9 @@ public class RunCommandUtilTest {
 
 		try {
 			String result = RunCommandUtil.runCommand(cmd);
-			logger.info("result=" + result);
+			LOG.info("result=" + result);
 		} catch (SdongException e) {
-			e.printStackTrace();
+			LOG.error("Get exception:{}",e.getMessage());
 			fail("should not have exception!");
 		}
 	}
@@ -49,9 +49,9 @@ public class RunCommandUtilTest {
 
 		try {
 			String result = RunCommandUtil.runCommand(cmd);
-			logger.info("result=" + result);
+			LOG.info("result=" + result);
 		} catch (SdongException e) {
-			e.printStackTrace();
+			LOG.error("Get exception:{}",e.getMessage());
 			fail("should not have exception!");
 		}
 	}
@@ -63,9 +63,9 @@ public class RunCommandUtilTest {
 
 		try {
 			String result = RunCommandUtil.runCommand(cmd);
-			logger.info("result=" + result);
+			LOG.info("result=" + result);
 		} catch (SdongException e) {
-			e.printStackTrace();
+			LOG.error("Get exception:{}",e.getMessage());
 			fail("should not have exception!");
 		}
 	}

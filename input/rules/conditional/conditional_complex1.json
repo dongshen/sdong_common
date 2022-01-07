@@ -1,0 +1,80 @@
+{
+    "Conditional": {
+        "And": [
+            {
+                "And": [
+                    {
+                        "And": [
+                            {
+                                "TaintFlag": "XSS"
+                            },
+                            {
+                                "Or": [
+                                    {
+                                        "TaintFlag": "DATABASE"
+                                    },
+                                    {
+                                        "TaintFlag": "LDAP"
+                                    },
+                                    {
+                                        "TaintFlag": "NAMING"
+                                    },
+                                    {
+                                        "TaintFlag": "XML"
+                                    },
+                                    {
+                                        "TaintFlag": "OPEN_XML"
+                                    },
+                                    {
+                                        "TaintFlag": "JSON"
+                                    },
+                                    {
+                                        "TaintFlag": "WEBSERVICE"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "Not": {
+                            "Or": [
+                                {
+                                    "IsType": {
+                                        "Args": "0",
+                                        "Namespace": {
+                                            "Value": "javax.servlet"
+                                        },
+                                        "Class": {
+                                            "Value": "ServletOutputStream"
+                                        }
+                                    }
+                                },
+                                {
+                                    "IsType": {
+                                        "Args": "0",
+                                        "Namespace": {
+                                            "Value": "javax.servlet.jsp"
+                                        },
+                                        "Class": {
+                                            "Value": "JspWriter"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            {
+                "Not": {
+                    "TaintFlag": "POORVALIDATION"
+                }
+            },
+            {
+                "Not": {
+                    "TaintFlag": "VALIDATED_CROSS_SITE_SCRIPTING_PERSISTENT"
+                }
+            }
+        ]
+    }
+}

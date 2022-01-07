@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LocUtilTest {
-
     private static final Logger LOG = LogManager.getLogger(LocUtilTest.class);
 
     private static final int FILE_TYPE_NUM = 6;

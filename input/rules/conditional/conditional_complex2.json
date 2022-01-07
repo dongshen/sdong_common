@@ -1,0 +1,50 @@
+{
+    "Conditional": {
+        "And": [
+            {
+                "Not": {
+                    "Or": [
+                        {
+                            "TaintFlag": "VALIDATED_DENIAL_OF_SERVICE_STRINGBUILDER"
+                        },
+                        {
+                            "TaintFlag": "NUMBER"
+                        },
+                        {
+                            "TaintFlag": "DATABASE"
+                        },
+                        {
+                            "TaintFlag": "FILE_SYSTEM"
+                        }
+                    ]
+                }
+            },
+            {
+                "Or": [
+                    {
+                        "IsType": {
+                            "Args": "1",
+                            "Namespace": {
+                                "Value": "java.lang"
+                            },
+                            "Class": {
+                                "Pattern": "AbstractStringBuilder|CharSequence|String"
+                            }
+                        }
+                    },
+                    {
+                        "IsType": {
+                            "Args": "1",
+                            "Namespace": {
+                                "Pattern": ".*"
+                            },
+                            "Class": {
+                                "Value": "char[]"
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

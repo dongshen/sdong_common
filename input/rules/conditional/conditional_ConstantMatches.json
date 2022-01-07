@@ -1,0 +1,1 @@
+{"Conditional":{"And":[{"TaintFlag":"PROCESS"},{"Not":{"TaintFlag":"SHELL_PROCESS"}},{"Not":{"TaintFlag":"VALIDATED_COMMAND_INJECTION"}},{"IsConstant":{"Args":"0"}},{"Or":[{"ConstantMatches":{"Pattern":"\\$","Mode":"value","Args":"0"}},{"ConstantMatches":{"Pattern":"%.*%","Mode":"value","Args":"0"}}]}]}}

@@ -37,6 +37,8 @@ public class ConditionalNode implements IconditionalNode {
     @SerializedName(value = RuleJsonConstants.CONDITIONAL_CONSTANT_MATCHES)
     CondConstantMatches constantMatches;
 
+    ConditionalType type;
+
     public String getTaintFlag() {
         return taintFlag;
     }
@@ -50,6 +52,7 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public void setCondAnd(List<ConditionalNode> condAnd) {
+        setType(ConditionalType.AND);
         this.condAnd = condAnd;
     }
 
@@ -58,6 +61,7 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public void setCondNot(ConditionalNode condNot) {
+        setType(ConditionalType.NOT);
         this.condNot = condNot;
     }
 
@@ -66,6 +70,7 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public void setCondOr(List<ConditionalNode> condOr) {
+        setType(ConditionalType.OR);
         this.condOr = condOr;
     }
 
@@ -74,6 +79,7 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public void setIsType(CondIsType isType) {
+        setType(ConditionalType.IS_TYPE);
         this.isType = isType;
     }
 
@@ -82,6 +88,7 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public void setIsConstant(CondConstant isConstant) {
+        setType(ConditionalType.IS_CONSTANT);
         this.isConstant = isConstant;
     }
 
@@ -90,6 +97,7 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public void setConstantEq(CondConstantEq constantEq) {
+        setType(ConditionalType.CONSTANT_EQ);
         this.constantEq = constantEq;
     }
 
@@ -98,6 +106,7 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public void setConstantGt(CondConstantGt constantGt) {
+        setType(ConditionalType.CONSTANT_GT);
         this.constantGt = constantGt;
     }
 
@@ -106,6 +115,7 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public void setConstantLt(CondConstantLt constantLt) {
+        setType(ConditionalType.CONSTANT_LT);
         this.constantLt = constantLt;
     }
 
@@ -114,6 +124,42 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public void setConstantMatches(CondConstantMatches constantMatches) {
+        setType(ConditionalType.CONSTANT_MATCHES);
         this.constantMatches = constantMatches;
+    }
+
+    public ConditionalType getType() {
+        if(type != null){
+            return type;
+        }
+
+        if(condAnd != null){
+            setType(ConditionalType.AND);
+        }else if(condOr != null){
+            setType(ConditionalType.OR);
+        }else if(condNot != null){
+            setType(ConditionalType.NOT);
+        }else if(taintFlag != null){
+            setType(ConditionalType.OR);
+        }else if(isType != null){
+            setType(ConditionalType.IS_TYPE);
+        }else if(isConstant != null){
+            setType(ConditionalType.IS_CONSTANT);
+        }else if(constantEq != null){
+            setType(ConditionalType.CONSTANT_EQ);
+        }else if(constantGt != null){
+            setType(ConditionalType.CONSTANT_GT);
+        }else if(constantLt != null){
+            setType(ConditionalType.CONSTANT_LT);            
+        }else if(constantMatches != null){
+            setType(ConditionalType.CONSTANT_MATCHES);            
+        }else{
+            setType(ConditionalType.OTHTERS); 
+        }
+        return type;
+    }
+
+    public void setType(ConditionalType type) {
+        this.type = type;
     }
 }

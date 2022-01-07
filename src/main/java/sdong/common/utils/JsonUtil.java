@@ -1,6 +1,17 @@
 package sdong.common.utils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+
 import sdong.common.bean.rules.RuleJsonConstants;
+import sdong.common.exception.SdongException;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.lang.reflect.Type;
 
 public class JsonUtil {
     /**
@@ -163,5 +174,54 @@ public class JsonUtil {
         }
         sb.append(JSON_GROUP_RIGHT);
         return true;
+    }
+
+    /**
+     * convert object to json string
+     * 
+     * @param obj       object
+     * @param classType object class
+     * @return json string
+     */
+    public static String objectToJsonString(Object obj, Type classType) {
+        return new Gson().toJson(obj, classType);
+    }
+
+    /**
+     * convert json string to object
+     * 
+     * @param <T>       object class type
+     * @param jsonStr   json string
+     * @param classType class type
+     * @return object
+     * @throws SdongException Module exception
+     */
+    public static <T> T jsonStringToObject(String jsonStr, Class<T> classType) throws SdongException {
+        try {
+            T obj = new Gson().fromJson(jsonStr, classType);
+
+            return obj;
+        } catch (JsonSyntaxException e) {
+            throw new SdongException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * parse json file to object
+     * 
+     * @param <T>       object class type
+     * @param jsonFile   json file
+     * @param classType class type
+     * @return object
+     * @throws SdongException Module exception
+     */
+    public static <T> T jsonFileToObject(String jsonFile, Class<T> classType ) throws SdongException{
+        try (Reader reader = new BufferedReader(new FileReader(jsonFile))) {
+            Gson gson = new GsonBuilder().create();
+            T object = gson.fromJson(reader, classType);                        
+            return object;
+        }catch (IOException e){
+            throw new SdongException(e.getMessage(), e);
+        }
     }
 }

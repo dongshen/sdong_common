@@ -1,0 +1,1 @@
+{"Conditional":{"And":[{"TaintFlag":"STRING_LENGTH"},{"TaintFlag":"STRING_LENGTH"}]}}
