@@ -3,7 +3,9 @@ package sdong.common.bean.rules.conditional;
 import com.google.gson.annotations.SerializedName;
 
 import sdong.common.bean.rules.RuleJsonConstants;
+import sdong.common.utils.JsonUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConditionalNode implements IconditionalNode {
@@ -35,9 +37,9 @@ public class ConditionalNode implements IconditionalNode {
     private CondConstantLt constantLt;
 
     @SerializedName(value = RuleJsonConstants.CONDITIONAL_CONSTANT_MATCHES)
-    CondConstantMatches constantMatches;
+    private CondConstantMatches constantMatches;
 
-    ConditionalType type;
+    private transient ConditionalType type;
 
     public String getTaintFlag() {
         return taintFlag;
@@ -56,6 +58,13 @@ public class ConditionalNode implements IconditionalNode {
         this.condAnd = condAnd;
     }
 
+    public void addCondAnd(ConditionalNode condAnd) {
+        if (getCondAnd() == null) {
+            setCondAnd(new ArrayList<ConditionalNode>());
+        }
+        getCondAnd().add(condAnd);
+    }
+
     public ConditionalNode getCondNot() {
         return condNot;
     }
@@ -72,6 +81,13 @@ public class ConditionalNode implements IconditionalNode {
     public void setCondOr(List<ConditionalNode> condOr) {
         setType(ConditionalType.OR);
         this.condOr = condOr;
+    }
+
+    public void addCondOr(ConditionalNode condOr) {
+        if (getCondOr() == null) {
+            setCondOr(new ArrayList<ConditionalNode>());
+        }
+        getCondOr().add(condOr);
     }
 
     public CondIsType getIsType() {
@@ -129,37 +145,42 @@ public class ConditionalNode implements IconditionalNode {
     }
 
     public ConditionalType getType() {
-        if(type != null){
+        if (type != null) {
             return type;
         }
 
-        if(condAnd != null){
+        if (condAnd != null) {
             setType(ConditionalType.AND);
-        }else if(condOr != null){
+        } else if (condOr != null) {
             setType(ConditionalType.OR);
-        }else if(condNot != null){
+        } else if (condNot != null) {
             setType(ConditionalType.NOT);
-        }else if(taintFlag != null){
+        } else if (taintFlag != null) {
             setType(ConditionalType.OR);
-        }else if(isType != null){
+        } else if (isType != null) {
             setType(ConditionalType.IS_TYPE);
-        }else if(isConstant != null){
+        } else if (isConstant != null) {
             setType(ConditionalType.IS_CONSTANT);
-        }else if(constantEq != null){
+        } else if (constantEq != null) {
             setType(ConditionalType.CONSTANT_EQ);
-        }else if(constantGt != null){
+        } else if (constantGt != null) {
             setType(ConditionalType.CONSTANT_GT);
-        }else if(constantLt != null){
-            setType(ConditionalType.CONSTANT_LT);            
-        }else if(constantMatches != null){
-            setType(ConditionalType.CONSTANT_MATCHES);            
-        }else{
-            setType(ConditionalType.OTHTERS); 
+        } else if (constantLt != null) {
+            setType(ConditionalType.CONSTANT_LT);
+        } else if (constantMatches != null) {
+            setType(ConditionalType.CONSTANT_MATCHES);
+        } else {
+            setType(ConditionalType.OTHTERS);
         }
         return type;
     }
 
     public void setType(ConditionalType type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString(){
+        return JsonUtil.objectToJsonString(this, ConditionalNode.class);
     }
 }

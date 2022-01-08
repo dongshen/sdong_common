@@ -13,10 +13,10 @@ public class TaintSink {
     @SerializedName(value = RuleJsonConstants.CONDITIONAL)
     private ConditionalNode conditional;
 
-    private String conditionalStr;
+    private transient String conditionalStr;
     
     @SerializedName(value = RuleJsonConstants.RULE_MSG)
-    private ReportMessage reportMsg = new ReportMessage();
+    private ReportMessage reportMsg;
 
     public String getInArgs() {
         return inArgs;
@@ -36,7 +36,7 @@ public class TaintSink {
 
     public String getConditionalStr() {
         if(conditionalStr == null || conditionalStr.isEmpty()){
-            
+
         }
         return conditionalStr;
     }

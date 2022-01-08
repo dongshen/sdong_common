@@ -3,23 +3,22 @@ package sdong.common.bean.rules;
 import com.google.gson.annotations.SerializedName;
 
 public class RulePackage {
-    private String packageId = "";
+    private String packageId;
 
     @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_NAME)
-    private String name = "";
+    private String name;
 
     @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_VER)
-    private String version = "";
-    
+    private String version;
+
     @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_LANGUAGE)
-    private String language = "";
+    private String language;
 
     @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_DES)
-    private String description = "";
+    private String description;
 
     @SerializedName(value = RuleJsonConstants.RULE_PACKAGE_LOCALE)
-    private String locale = "";
-   
+    private String locale;
 
     public String getPackageId() {
         return packageId;

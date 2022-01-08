@@ -6,7 +6,7 @@ import sdong.common.bean.rules.RuleJsonConstants;
 
 public class CondConstantEq extends CondConstant {
     @SerializedName(value = RuleJsonConstants.ARGS_VALUE)
-    private String value = "";
+    private String value;
 
     @SerializedName(value = RuleJsonConstants.ARGS_MODE)
     private String mode = "value";

@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class RuleValueType {
     @SerializedName(value = RuleJsonConstants.VALUE_TYPE_VALUE)
-    String value = "";
+    String value;
 
     @SerializedName(value = RuleJsonConstants.VALUE_TYPE_PATTERN)
-    String pattern = "";
+    String pattern;
 
     public String getValue() {
         return value;

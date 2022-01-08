@@ -2,12 +2,13 @@ package sdong.common.bean.rules;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * rule base
  */
-public class RuleBase implements Irule{
+public class RuleBase implements Irule {
     @SerializedName(value = RuleJsonConstants.RULE)
     RuleInfo ruleInfo = new RuleInfo();
 
@@ -51,6 +52,14 @@ public class RuleBase implements Irule{
         ruleInfo.setRefInfos(refInfos);
     }
 
+    public void addRefInfo(RuleReferenceInfo refInfo) {
+        if (getRefInfos() == null) {
+            setRefInfos(new ArrayList<RuleReferenceInfo>());
+        }
+        getRefInfos().add(refInfo);
+
+    }
+
     public String getNote() {
         return ruleInfo.getNote();
     }
@@ -58,4 +67,4 @@ public class RuleBase implements Irule{
     public void setNote(String note) {
         ruleInfo.setNote(note);
     }
-}   
+}

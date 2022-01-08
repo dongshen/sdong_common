@@ -116,7 +116,7 @@ public class XmlUtils {
 	 * @return
 	 */
 	public static String getXMLSingleNodeText(Element ele, String tag) {
-		String ret = "";
+		String ret = null;
 		Node node = ele.selectSingleNode(tag);
 		if (node != null) {
 			ret = node.getText();
@@ -134,13 +134,16 @@ public class XmlUtils {
 	 * @return
 	 */
 	public static String getXMLSingleNodeTextNoEnter(Element ele, String tag) {
-		String ret = "";
+		String ret = null;
 		ret = getXMLSingleNodeText(ele, tag);
 
 		return mergeLines(ret);
 	}
 
 	public static String mergeLines(String linesText) {
+		if (linesText == null) {
+			return null;
+		}
 		String ret_value = "";
 		String[] lines = linesText.split("\n");
 
@@ -165,6 +168,9 @@ public class XmlUtils {
 		String ret = "";
 		String text = "";
 		List<Node> list = ele.selectNodes(tag);
+		if (list == null) {
+			return null;
+		}
 		for (Object o : list) {
 			Element e_l = (Element) o;
 			text = mergeLines(e_l.getText());
@@ -190,7 +196,7 @@ public class XmlUtils {
 		String text = "";
 		Node node = ele.selectSingleNode(tag);
 		if (node == null) {
-			return ret;
+			return null;
 		}
 		Element e = (Element) node;
 
@@ -212,27 +218,19 @@ public class XmlUtils {
 	}
 
 	public static String getXMLElementAttribute(Element ele, String tag, String attr) {
-		String ret = "";
-
 		Element e_tag = (Element) ele.selectSingleNode(tag);
-		if (e_tag != null) {
-			ret = getXMLAttributeValue(e_tag, attr);
-		}
 
-		return ret;
+		if (e_tag == null) {
+			return null;
+		}
+		return getXMLAttributeValue(e_tag, attr);
 	}
 
 	public static String getXMLAttributeValue(Element ele, String attr) {
-		String ret = "";
-		ret = ele.attributeValue(attr);
-		if (ret == null) {
-			ret = "";
-		}
-		return ret;
+		return ele.attributeValue(attr);
 	}
 
 	public static List<Namespace> getDeclareNameSpaces(Document doc) {
-
 		List<Namespace> declareNamespaces = doc.getRootElement().declaredNamespaces();
 		for (Namespace ns : declareNamespaces) {
 			LOG.debug("namespace prefix:" + ns.getPrefix() + ", namespace URI:" + ns.getURI());
@@ -284,9 +282,9 @@ public class XmlUtils {
 		if (attribute == null || attribute.isEmpty()) {
 			return;
 		}
-		
+
 		element.addAttribute(attTag, attribute);
-		return ;
+		return;
 	}
 
 	/**
@@ -319,7 +317,6 @@ public class XmlUtils {
 			File file = FileUtil.createFile(output);
 
 			writer = new XMLWriter(new FileWriter(file), OutputFormat.createPrettyPrint());
-
 			writer.write(document);
 		} catch (IOException e) {
 			throw new SdongException(e.getMessage());

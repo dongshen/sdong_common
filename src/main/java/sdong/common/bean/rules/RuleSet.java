@@ -7,13 +7,13 @@ import java.util.List;
 
 public class RuleSet {
     @SerializedName(value = RuleJsonConstants.RULE_PACKAGE)
-    private RulePackage rulePackage = new RulePackage();
+    private RulePackage rulePackage;
 
     @SerializedName(value = RuleJsonConstants.RULES)
-    private Rules rules = new Rules();
+    private Rules rules;
 
     @SerializedName(value = RuleJsonConstants.RULE_MESSAGES)
-    private List<ReportMessage> messages = new ArrayList<ReportMessage>();
+    private List<ReportMessage> messages;
 
     public RulePackage getRulePackage() {
         return rulePackage;
@@ -37,5 +37,12 @@ public class RuleSet {
 
     public void setMessages(List<ReportMessage> messages) {
         this.messages = messages;
+    }
+
+    public void addMessage(ReportMessage message) {
+        if (getMessages() == null) {
+            setMessages(new ArrayList<ReportMessage>());
+        }
+        getMessages().add(message);
     }
 }

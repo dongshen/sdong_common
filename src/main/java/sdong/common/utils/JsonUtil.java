@@ -9,6 +9,7 @@ import sdong.common.exception.SdongException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Type;
@@ -184,7 +185,7 @@ public class JsonUtil {
      * @return json string
      */
     public static String objectToJsonString(Object obj, Type classType) {
-        return new Gson().toJson(obj, classType);
+        return new GsonBuilder().excludeFieldsWithModifiers().create().toJson(obj, classType);
     }
 
     /**
@@ -210,17 +211,36 @@ public class JsonUtil {
      * parse json file to object
      * 
      * @param <T>       object class type
-     * @param jsonFile   json file
+     * @param jsonFile  json file
      * @param classType class type
      * @return object
      * @throws SdongException Module exception
      */
-    public static <T> T jsonFileToObject(String jsonFile, Class<T> classType ) throws SdongException{
+    public static <T> T jsonFileToObject(String jsonFile, Class<T> classType) throws SdongException {
         try (Reader reader = new BufferedReader(new FileReader(jsonFile))) {
             Gson gson = new GsonBuilder().create();
-            T object = gson.fromJson(reader, classType);                        
+            T object = gson.fromJson(reader, classType);
             return object;
-        }catch (IOException e){
+        } catch (IOException e) {
+            throw new SdongException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * parse json file to object
+     * 
+     * @param <T>       object class type
+     * @param jsonFile  json file
+     * @param classType class type
+     * @return object
+     * @throws SdongException Module exception
+     */
+    public static void writeJsonObjectToFile(String jsonFile, Object object, Type classType) throws SdongException {
+        String jsonString = objectToJsonString(object, classType);
+        try (FileWriter fileWriter = new FileWriter(jsonFile)) {
+            fileWriter.write(jsonString);
+            fileWriter.close();
+        } catch (IOException e) {
             throw new SdongException(e.getMessage(), e);
         }
     }

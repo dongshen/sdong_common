@@ -7,7 +7,7 @@ import java.util.List;
 
 public class DataFlowRule extends RuleBase {
     @SerializedName(value = RuleJsonConstants.FUNCTION)
-    private List<FunctionIdentifier> functions = new ArrayList<FunctionIdentifier>();
+    private List<FunctionIdentifier> functions;
 
     public List<FunctionIdentifier> getFunctions() {
         return functions;
@@ -15,5 +15,12 @@ public class DataFlowRule extends RuleBase {
 
     public void setFunctions(List<FunctionIdentifier> functions) {
         this.functions = functions;
+    }
+
+    public void addFunction(FunctionIdentifier function) {
+        if (getFunctions() == null) {
+            setFunctions(new ArrayList<FunctionIdentifier>());
+        }
+        getFunctions().add(function);
     }
 }

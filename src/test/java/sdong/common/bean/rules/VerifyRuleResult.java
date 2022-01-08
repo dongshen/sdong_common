@@ -190,10 +190,12 @@ public class VerifyRuleResult {
                     }
                 }
 
-                List<TaintSink> sink = rule.getTaintSinks();
-                assertEquals(1, sink.size());
+                List<TaintSink> sinks = rule.getTaintSinks();
+                assertEquals(1, sinks.size());
 
-                assertEquals("2", sink.get(0).getInArgs());
+                TaintSink sink = sinks.get(0);
+                assertEquals("2", sink.getInArgs());
+                assertEquals("VALIDATED_BUFFER_OVERFLOW",sink.getConditional().getCondNot().getTaintFlag());
 
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
@@ -218,9 +220,11 @@ public class VerifyRuleResult {
                     }
                 }
 
-                List<TaintSink> sink = rule.getTaintSinks();
-                assertEquals(1, sink.size());
-                assertEquals("1", sink.get(0).getInArgs());
+                List<TaintSink> sinks = rule.getTaintSinks();
+                assertEquals(1, sinks.size());
+                TaintSink sink = sinks.get(0);
+                assertEquals("1", sink.getInArgs());
+                assertEquals("VALIDATED_FORMAT_STRING",sink.getConditional().getCondNot().getTaintFlag());
 
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
@@ -239,9 +243,11 @@ public class VerifyRuleResult {
                 assertEquals("package", metaInfos.get(0).getKey());
                 assertEquals("C Core", metaInfos.get(0).getValue());
 
-                List<TaintSink> sink = rule.getTaintSinks();
-                assertEquals(1, sink.size());
-                assertEquals("1", sink.get(0).getInArgs());
+                List<TaintSink> sinks = rule.getTaintSinks();
+                assertEquals(1, sinks.size());
+                TaintSink sink = sinks.get(0);
+                assertEquals("1", sink.getInArgs());
+                assertEquals("VALIDATED_FORMAT_STRING",sink.getConditional().getCondNot().getTaintFlag());
 
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());

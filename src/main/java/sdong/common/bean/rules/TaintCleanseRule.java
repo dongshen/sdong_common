@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class TaintCleanseRule extends DataFlowRule{
     @SerializedName(value = RuleJsonConstants.CLEANSE)
-    private TaintCleanse cleanse = new TaintCleanse();
+    private TaintCleanse cleanse;
 
     public TaintCleanse getCleanse() {
         return cleanse;

@@ -7,16 +7,16 @@ import java.util.List;
 
 public class Rules {    
     @SerializedName(value = RuleJsonConstants.RULES_TAINT_SOURCE)
-    private List<TaintSourceRule> taintSourceRules = new ArrayList<TaintSourceRule>();
+    private List<TaintSourceRule> taintSourceRules;
 
     @SerializedName(value = RuleJsonConstants.RULES_TAINT_PASSTHROUGH)
-    private List<TaintPassThroughRule> taintPassThroughRules = new ArrayList<TaintPassThroughRule>();
+    private List<TaintPassThroughRule> taintPassThroughRules;
 
     @SerializedName(value = RuleJsonConstants.RULES_TAINT_SINK)
-    private List<TaintSinkRule> taintSinkRules = new ArrayList<TaintSinkRule>();
+    private List<TaintSinkRule> taintSinkRules;
 
     @SerializedName(value = RuleJsonConstants.RULES_TAINT_CLEANSE)
-    private List<TaintCleanseRule> taintCleanesRules = new ArrayList<TaintCleanseRule>();
+    private List<TaintCleanseRule> taintCleanesRules;
 
     public List<TaintSourceRule> getTaintSourceRules() {
         return taintSourceRules;
@@ -24,6 +24,13 @@ public class Rules {
 
     public void setTaintSourceRules(List<TaintSourceRule> taintSourceRules) {
         this.taintSourceRules = taintSourceRules;
+    }
+
+    public void addTaintSourceRule(TaintSourceRule sourceRule) {
+        if (getTaintSourceRules() == null) {
+            setTaintSourceRules(new ArrayList<TaintSourceRule>());
+        }
+        getTaintSourceRules().add(sourceRule);
     }
 
     public List<TaintPassThroughRule> getTaintPassThroughRules() {
@@ -34,6 +41,13 @@ public class Rules {
         this.taintPassThroughRules = taintPassThroughRules;
     }
 
+    public void addTaintPassThroughRule(TaintPassThroughRule passThroughRule) {
+        if (getTaintPassThroughRules() == null) {
+            setTaintPassThroughRules(new ArrayList<TaintPassThroughRule>());
+        }
+        getTaintPassThroughRules().add(passThroughRule);
+    }
+
     public List<TaintSinkRule> getTaintSinkRules() {
         return taintSinkRules;
     }
@@ -42,12 +56,26 @@ public class Rules {
         this.taintSinkRules = taintSinkRules;
     }
 
+    public void addTaintSinkRule(TaintSinkRule sinkRule) {
+        if (getTaintSinkRules() == null) {
+            setTaintSinkRules(new ArrayList<TaintSinkRule>());
+        }
+        getTaintSinkRules().add(sinkRule);
+    }
+
     public List<TaintCleanseRule> getTaintCleanesRules() {
         return taintCleanesRules;
     }
 
     public void setTaintCleanesRules(List<TaintCleanseRule> taintCleanesRules) {
         this.taintCleanesRules = taintCleanesRules;
+    }
+
+    public void addTaintCleanesRule(TaintCleanseRule cleanesRule) {
+        if (getTaintCleanesRules() == null) {
+            setTaintCleanesRules(new ArrayList<TaintCleanseRule>());
+        }
+        getTaintCleanesRules().add(cleanesRule);
     }
 
     public boolean isEmpty() {

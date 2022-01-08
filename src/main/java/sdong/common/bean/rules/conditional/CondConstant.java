@@ -6,7 +6,7 @@ import sdong.common.bean.rules.RuleJsonConstants;
 
 public class CondConstant {
     @SerializedName(value = RuleJsonConstants.ARGS)
-    String arg = "";
+    String arg;
 
     public String getArg() {
         return arg;

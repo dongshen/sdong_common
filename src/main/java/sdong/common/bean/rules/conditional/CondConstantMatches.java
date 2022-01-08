@@ -6,10 +6,10 @@ import sdong.common.bean.rules.RuleJsonConstants;
 
 public class CondConstantMatches extends CondConstant {
     @SerializedName(value = RuleJsonConstants.VALUE_TYPE_PATTERN)
-    private String pattern = "";
+    private String pattern;
 
     @SerializedName(value = RuleJsonConstants.ARGS_MODE)
-    String mode = "";
+    private String mode;
 
     public String getPattern() {
         return pattern;

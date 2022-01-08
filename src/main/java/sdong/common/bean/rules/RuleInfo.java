@@ -7,18 +7,18 @@ import java.util.List;
 
 public class RuleInfo {
     @SerializedName(value = RuleJsonConstants.RULE_ID)
-    private String ruleId = "";
+    private String ruleId;
 
     @SerializedName(value = RuleJsonConstants.RULE_NAME)
-    private String ruleName = "";
+    private String ruleName;
 
     @SerializedName(value = RuleJsonConstants.RULE_NOTE)
-    private String note = "";
-
-    private RuleType ruleType = RuleType.BASE;
+    private String note;
+    
+    private transient RuleType ruleType = RuleType.BASE;
 
     @SerializedName(value = RuleJsonConstants.REF_INFOS)
-    private List<RuleReferenceInfo> refInfos = new ArrayList<RuleReferenceInfo>();
+    private List<RuleReferenceInfo> refInfos;
 
     public String getRuleId() {
         return ruleId;
@@ -50,6 +50,13 @@ public class RuleInfo {
 
     public void setRefInfos(List<RuleReferenceInfo> refInfos) {
         this.refInfos = refInfos;
+    }
+
+    public void addRefInfo(RuleReferenceInfo refInfo) {
+        if (getRefInfos() == null) {
+            setRefInfos(new ArrayList<RuleReferenceInfo>());
+        }
+        getRefInfos().add(refInfo);
     }
 
     public String getNote() {

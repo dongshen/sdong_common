@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class TaintPassThrough {
     @SerializedName(value = RuleJsonConstants.IN_ARGS)
-    private String inArgs = "";
+    private String inArgs;
 
     @SerializedName(value = RuleJsonConstants.OUT_ARGS)
-    private String outArgs = "";
+    private String outArgs;
 
     public String getInArgs() {
         return inArgs;

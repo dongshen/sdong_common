@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class TaintCleanse {
     @SerializedName(value = RuleJsonConstants.OUT_ARGS)
-    private String outArgs = "";
+    private String outArgs;
 
     public String getOutArgs() {
         return outArgs;

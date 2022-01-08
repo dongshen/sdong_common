@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class TaintSource {
     @SerializedName(value = RuleJsonConstants.OUT_ARGS)
-    private String outArgs = "";
+    private String outArgs;
 
     @SerializedName(value = RuleJsonConstants.TAINT_FLAGS)
-    private String taintFlags = "";
+    private String taintFlags;
 
     @SerializedName(value = RuleJsonConstants.RULE_MSG)
-    private ReportMessage reportMsg = new ReportMessage();
+    private ReportMessage reportMsg;
 
     public String getOutArgs() {
         return outArgs;

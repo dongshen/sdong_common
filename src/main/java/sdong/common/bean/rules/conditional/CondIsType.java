@@ -7,13 +7,13 @@ import sdong.common.bean.rules.RuleValueType;
 
 public class CondIsType {
     @SerializedName(value = RuleJsonConstants.ARGS)
-    String arg = "";
+    String arg;
 
     @SerializedName(value = RuleJsonConstants.FUNC_NAMESPACE)
-    private RuleValueType namespaceName = new RuleValueType();
+    private RuleValueType namespaceName;
 
     @SerializedName(value = RuleJsonConstants.FUNC_CLASS)
-    private RuleValueType className = new RuleValueType();
+    private RuleValueType className;
 
     public String getArg() {
         return arg;

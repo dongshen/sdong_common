@@ -7,7 +7,7 @@ public class FunctionParameter {
     private int paramInd = 0;
 
     @SerializedName(value = RuleJsonConstants.PARM_TYPES)
-    private RuleValueType paramType = new RuleValueType();
+    private RuleValueType paramType;
 
     public int getParamInd() {
         return paramInd;

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class TaintSourceRule extends DataFlowRule{
     @SerializedName(value = RuleJsonConstants.SOURCE)
-    private List<TaintSource> sourceList = new ArrayList<TaintSource>();
+    private List<TaintSource> sourceList;
 
     public List<TaintSource> getSourceList() {
         return sourceList;
@@ -15,5 +15,12 @@ public class TaintSourceRule extends DataFlowRule{
 
     public void setSourceList(List<TaintSource> sourceList) {
         this.sourceList = sourceList;
+    }
+
+    public void addSource(TaintSource taintSource) {
+        if (getSourceList() == null) {
+            setSourceList(new ArrayList<TaintSource>());
+        }
+        getSourceList().add(taintSource);
     }
 }

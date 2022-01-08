@@ -3,6 +3,7 @@ package sdong.common.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import sdong.common.bean.rules.RuleValueType;
 import sdong.common.bean.rules.conditional.Conditional;
 import sdong.common.bean.rules.conditional.ConditionalNode;
 import sdong.common.bean.rules.conditional.ConditionalType;
@@ -20,31 +21,52 @@ public class RuleUtil {
      * @param node conditional node
      * @return string
      */
-    public static String convertConditionalNodeToString(ConditionalNode node){
+    public static String convertConditionalNodeToString(ConditionalNode node) {
         String condStr = "";
-        if(node == null || node.getType() == ConditionalType.OTHTERS ){
+        if (node == null || node.getType() == ConditionalType.OTHTERS) {
             return condStr;
         }
         return new Gson().toJson(node, ConditionalNode.class);
     }
 
-    public static Conditional convertStringToConditional(String condStr){
-        if(condStr == null || condStr.isEmpty()){
+    public static Conditional convertStringToConditional(String condStr) {
+        if (condStr == null || condStr.isEmpty()) {
             return null;
         }
-        
+
         return new Gson().fromJson(condStr, Conditional.class);
     }
 
-    public static Conditional parseRuleConditioanalJson(String jsonFile) throws SdongException{
+    public static Conditional parseRuleConditioanalJson(String jsonFile) throws SdongException {
         Conditional conditional;
         try (Reader reader = new BufferedReader(new FileReader(jsonFile))) {
             Gson gson = new GsonBuilder().create();
-            conditional = gson.fromJson(reader, Conditional.class);                        
-        }catch (IOException e){
+            conditional = gson.fromJson(reader, Conditional.class);
+        } catch (IOException e) {
             throw new SdongException(e.getMessage(), e);
         }
 
         return conditional;
+    }
+
+    /**
+     * set RuleValueType object
+     * 
+     * @param value input value
+     * @param pattern input pattern
+     * @return RuleValueType
+     */
+    public static RuleValueType setRuleVuleType(String value, String pattern) {
+        if (value == null && pattern == null) {
+            return null;
+        }
+
+        RuleValueType valueType = new RuleValueType();
+        if (value != null) {
+            valueType.setValue(value);
+        } else {
+            valueType.setPattern(pattern);
+        }
+        return valueType;
     }
 }
