@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 
 public class JsonUtil {
@@ -185,7 +186,7 @@ public class JsonUtil {
      * @return json string
      */
     public static String objectToJsonString(Object obj, Type classType) {
-        return new GsonBuilder().excludeFieldsWithModifiers().create().toJson(obj, classType);
+        return new GsonBuilder().excludeFieldsWithModifiers(Modifier.TRANSIENT).create().toJson(obj, classType);
     }
 
     /**
@@ -237,6 +238,7 @@ public class JsonUtil {
      */
     public static void writeJsonObjectToFile(String jsonFile, Object object, Type classType) throws SdongException {
         String jsonString = objectToJsonString(object, classType);
+        FileUtil.createFile(jsonFile);
         try (FileWriter fileWriter = new FileWriter(jsonFile)) {
             fileWriter.write(jsonString);
             fileWriter.close();
