@@ -2,8 +2,8 @@
 my own common module
 
 # 2. build
-mvn package -Dmaven.test.skip=true
-
+* mvn package 
+* mvn clean compile assembly:assembly
 # 3. LocUtil
 
 * Source lines of code
@@ -50,6 +50,12 @@ SLOC度量有两种主要类型：
   | row line        | 143      |           | 143(√)     | 143(√)       | 143(√)    |
   | use time        |          | 0.03s     |
 
+
+## 3.1. 运行
+
+```
+java -jar .\target\sdong_common-1.1.1-jar-with-dependencies.jar .\input\loc\example\
+```
 
 # 4. Tesseract-OCR
 主要用于图片的文字提取.
@@ -122,7 +128,7 @@ End Sub
 3. 批量填充空值
   * 敲击键盘上的等于号，输入公式后同时按下：ctrl+enter.
 
-## 6.3 得到特殊字符的最有一个值
+## 6.3. 6.3 得到特殊字符的最有一个值
 例如得到目录里的文件： 
 `
 =RIGHT(E2,LEN(E2)-SEARCH("$",SUBSTITUTE(E2,"/","$",LEN(E2)-LEN(SUBSTITUTE(E2,"/","")))))
