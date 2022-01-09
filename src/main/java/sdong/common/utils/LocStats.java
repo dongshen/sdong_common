@@ -156,14 +156,14 @@ public class LocStats {
 
     private static void printFileInfoBySysteOut(Map<FileType, FileInfoSum> sumMap) {
         System.out.println(
-                "|File Type|          Files|    Blank Lines|       Comments|Comment in Line|      File Size|    Line Counts|Row Line Counts|");
+                "| File Type|          Files|    Blank Lines|       Comments|Comment in Line|      File Size|    Line Counts|Row Line Counts|");
         System.out.println(
-                "|---------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|");
+                "|----------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|");
         FileInfoSum info;
         for (Map.Entry<FileType, FileInfoSum> sum : sumMap.entrySet()) {
             LOG.debug(sum.getValue().toString());
             info = sum.getValue();
-            System.out.println(String.format("|%-9s|% 15d|% 15d|% 15d|% 15d|% 15d|% 15d|% 15d|", sum.getKey(),
+            System.out.println(String.format("|%-10s|% 15d|% 15d|% 15d|% 15d|% 15d|% 15d|% 15d|", sum.getKey(),
                     info.getFilesCounts(), info.getBlankLineCounts(), info.getCommentCounts(),
                     info.getCommentInLineCounts(), info.getFileSize(),
                     info.getLineCounts(), info.getRowLineCounts()));

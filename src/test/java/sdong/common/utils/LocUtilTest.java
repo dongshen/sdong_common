@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocUtilTest {
     private static final Logger LOG = LogManager.getLogger(LocUtilTest.class);
 
-    private static final int FILE_TYPE_NUM = 6;
+    private static final int FILE_TYPE_NUM = 7;
 
     public static final String C_REG_STRING_VALUE = "\"(.+?)\"|'.+?'";
     public static final String C_REG_ONELINE = "\\/\\*.*?\\*\\/|\\/\\/.*";
@@ -207,6 +207,32 @@ public class LocUtilTest {
             assertEquals(lineCounts, fileInfo.getLineCounts());
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("7fd9d6551bed2f83b2b741655a432be1", fileInfo.getMd5());
+        } catch (SdongException e) {
+            LOG.error(e.getMessage());
+            fail("should not get exception!");
+        }
+    }
+    
+    @Test
+    public void testGetFileLocInfo_Properties() {
+        // fileType=Properties, blankLineCounts=3, commentCounts=14, commentInLineCounts=0, fileSize=866, lineCounts=3,rowLineCounts=20
+        String fileName = "input/loc/example/loc_example.properties";
+
+        int commentLineCount = 14;
+        int blankLineCounts = 3;
+        int commentInLineCounts = 0;
+        int rowLineCounts = 20;
+        int lineCounts = 3;
+        try {
+            FileInfo fileInfo = LocUtil.getFileLocInfo(new File(fileName));
+
+            LOG.info("{}", fileInfo.toString());
+            assertEquals(commentLineCount, fileInfo.getCommentCounts());
+            assertEquals(blankLineCounts, fileInfo.getBlankLineCounts());
+            assertEquals(commentInLineCounts, fileInfo.getCommentInLineCounts());
+            assertEquals(lineCounts, fileInfo.getLineCounts());
+            assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
+            assertEquals("2fb102498981b7f9326113e565248762", fileInfo.getMd5());
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");

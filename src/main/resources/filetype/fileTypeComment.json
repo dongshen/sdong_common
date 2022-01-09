@@ -98,14 +98,23 @@
             stringMarkList: [
                 "\""
             ],                   
-            oneLineCommentList: [
-            ],
+            oneLineCommentList: [],
             multiLineCommentList: [
                 {
                     startComment: "<!--",
                     endComment: "-->"
                 }
             ]
-        }        
+        },
+        {
+            fileType: "Properties",
+            regOneLine: "^#.*",
+            regStringValue: "",                 
+            oneLineCommentList: [
+                "#"
+            ],
+            multiLineCommentList: [
+            ]
+        }
     ]
 }
