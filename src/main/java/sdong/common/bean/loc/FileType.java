@@ -6,10 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.base.Optional;
-
-import sdong.common.utils.CommonUtil;
-
 /**
  * File type enum
  */
@@ -88,12 +84,21 @@ public enum FileType {
      * @return file type
      */
     public static FileType getFileTypeByTypeName(String fileTypeName) {
-        Optional<FileType> option = CommonUtil.getEnum(FileType.class, fileTypeName);
-        if (option.isPresent()) {
-            return option.get();
-        } else {
+        if (fileTypeName == null || fileTypeName.isEmpty()) {
             return FileType.Others;
         }
+
+        // set cpp as C
+        if (fileTypeName.equalsIgnoreCase("cpp")) {
+            return FileType.C;
+        }
+
+        for (FileType type : FileType.values()) {
+            if (type.toString().equalsIgnoreCase(fileTypeName)) {
+                return type;
+            }
+        }
+        return FileType.Others;
     }
 
     /**

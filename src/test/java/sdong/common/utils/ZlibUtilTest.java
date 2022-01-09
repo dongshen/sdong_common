@@ -20,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 import sdong.common.exception.SdongException;
 
 public class ZlibUtilTest {
-
 	private static final Logger LOG = LogManager.getLogger(ZlibUtilTest.class);
 
 	@Test

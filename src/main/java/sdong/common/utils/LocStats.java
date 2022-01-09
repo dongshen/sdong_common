@@ -1,23 +1,25 @@
 package sdong.common.utils;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-
 import sdong.common.bean.loc.FileInfo;
 import sdong.common.bean.loc.FileInfoSum;
 import sdong.common.bean.loc.FileType;
 import sdong.common.exception.SdongException;
 import sdong.common.thread.LocInfoCallable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 /**
  * Calculate file source of line count
@@ -26,6 +28,7 @@ import sdong.common.thread.LocInfoCallable;
 public class LocStats {
 
     private final static int ARG_FLODER = 0;
+    private final static String PARM_HELP = "-h";
     private final static String PARM_LANGUAGE = "lang=";
     private final static String PARM_PRINT_LIST = "-list";
     private final static String PARM_PRINT_THREAD = "-j";
@@ -37,31 +40,40 @@ public class LocStats {
     public static void main(String[] args) {
 
         try {
+            if (args.length == 0 || args[0].equals(PARM_HELP)) {
+                System.out.println("<scan folder> [lang=] [-list] [-j]");
+                System.out.println("<scan folder>: mandatory seperate by \",\"");
+                System.out.println("[lang=]: optional, only scan special language. like c,java");
+                System.out.println("[-list]: optional, output inforamtion by file");
+                System.out.println("[-j]: optional, thread number, default is 5.");
+                return;
+            }
+
+            long startTime = System.currentTimeMillis();
             // check folder
             String argFloder = args[ARG_FLODER];
-            List<String> fileList = FileUtil.getFilesInFolderList(Arrays.asList(argFloder.split(PARM_SPLIT)));
+            Set<String> extList = new HashSet<String>();
 
             int threadNum = DEFAULT_THREAD_NUM;
-
             String parm;
             boolean isPrintList = false;
             for (int ind = 1; ind < args.length; ind++) {
                 parm = args[ind];
                 if (parm.indexOf(PARM_LANGUAGE) >= 0) {
                     // check language
-                    List<String> extList = new ArrayList<String>();
-                    extList = getExtList(parm.substring(parm.indexOf(PARM_LANGUAGE)));
-                    fileList = filterFileByExt(fileList, extList);
+                    extList = getExtList(parm.substring(parm.indexOf(PARM_LANGUAGE) + PARM_LANGUAGE.length()));
                 } else if (parm.indexOf(PARM_PRINT_LIST) >= 0) {
                     isPrintList = true;
                 } else if (parm.indexOf(PARM_PRINT_THREAD) >= 0) {
                     threadNum = CommonUtil
                             .parseInteger(parm.substring(parm.indexOf(PARM_PRINT_THREAD) + PARM_PRINT_THREAD.length()));
-                    threadNum = 0 == threadNum ? 1 : threadNum;
+                    threadNum = 0 == threadNum ? DEFAULT_THREAD_NUM : threadNum;
                 }
             }
+            List<String> fileList = FileUtil.getFilesInFolderList(Arrays.asList(argFloder.split(PARM_SPLIT)), extList);
 
             List<FileInfo> fileInfoList = getFieInfoThread(fileList, threadNum);
+            System.out.println("Use: " + (System.currentTimeMillis() - startTime) + " msec.");
             printFileInfoSum(fileInfoList, isPrintList);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -136,35 +148,35 @@ public class LocStats {
             fileInfoSum.setLineCounts(fileInfoSum.getLineCounts() + info.getLineCounts());
             fileInfoSum.setRowLineCounts(fileInfoSum.getRowLineCounts() + info.getRowLineCounts());
         }
-        for (Map.Entry<FileType, FileInfoSum> sum : sumMap.entrySet()) {
-            LOG.info(sum.getValue().toString());
-        }
+
+        printFileInfoBySysteOut(sumMap);
         return sumMap;
 
     }
 
-    private static List<String> getExtList(String langList) {
+    private static void printFileInfoBySysteOut(Map<FileType, FileInfoSum> sumMap) {
+        System.out.println(
+                "|File Type|          Files|    Blank Lines|       Comments|Comment in Line|      File Size|    Line Counts|Row Line Counts|");
+        System.out.println(
+                "|---------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|");
+        FileInfoSum info;
+        for (Map.Entry<FileType, FileInfoSum> sum : sumMap.entrySet()) {
+            LOG.debug(sum.getValue().toString());
+            info = sum.getValue();
+            System.out.println(String.format("|%-9s|% 15d|% 15d|% 15d|% 15d|% 15d|% 15d|% 15d|", sum.getKey(),
+                    info.getFilesCounts(), info.getBlankLineCounts(), info.getCommentCounts(),
+                    info.getCommentInLineCounts(), info.getFileSize(),
+                    info.getLineCounts(), info.getRowLineCounts()));
+        }
+    }
+
+    protected static Set<String> getExtList(String langList) {
+        Set<String> extList = new HashSet<String>();
         String[] langs = langList.split(PARM_SPLIT);
-        List<String> extList = new ArrayList<String>();
         for (String lang : langs) {
             extList.addAll(FileType.getFileTypeExt(FileType.getFileTypeByTypeName(lang)));
         }
 
         return extList;
-    }
-
-    private static List<String> filterFileByExt(List<String> fileList, List<String> extList) {
-        List<String> filterFiles = new ArrayList<String>();
-        String filterExt = StringUtil.joinStringListToString(extList, PARM_SPLIT);
-        String fileExt;
-        for (String file : fileList) {
-            fileExt = FileUtil.getFileExtension(file);
-            if (!fileExt.isEmpty()) {
-                if ((fileExt + PARM_SPLIT).indexOf(filterExt) >= 0) {
-                    filterFiles.add(file);
-                }
-            }
-        }
-        return filterFiles;
     }
 }

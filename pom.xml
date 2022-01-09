@@ -84,7 +84,11 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
-
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+		</dependency>
+		
 		<!-- Log -->
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
@@ -114,15 +118,15 @@
 							<manifestEntries>
 								<Class-Path>.</Class-Path>
 							</manifestEntries>
-						</archive>						
+						</archive>
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
-						</descriptorRefs>						
+						</descriptorRefs>
 					</configuration>
 					<executions>
 						<execution>
-							<id>make-assembly</id>	
-							<phase>package</phase>	
+							<id>make-assembly</id>
+							<phase>package</phase>
 							<goals>
 								<goal>single</goal>
 							</goals>

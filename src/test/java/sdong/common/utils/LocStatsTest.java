@@ -3,18 +3,20 @@ package sdong.common.utils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import org.junit.Test;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-
 import sdong.common.bean.loc.FileInfo;
 import sdong.common.bean.loc.FileInfoSum;
 import sdong.common.bean.loc.FileType;
 import sdong.common.exception.SdongException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LocStatsTest {
 
@@ -23,8 +25,32 @@ public class LocStatsTest {
     private final String teseCaseFiles = "input/loc/example";
 
     @Test
+    public void testGetExtList() {
+        String langList = "C";
+        Set<String> extList = LocStats.getExtList(langList);
+        assertEquals(FileType.getFileTypeExt(FileType.C), extList);
+
+        langList = "c";
+        extList = LocStats.getExtList(langList);
+        assertEquals(FileType.getFileTypeExt(FileType.C), extList);
+
+        langList = "c,Java";
+        extList = LocStats.getExtList(langList);
+        Set<String> ext = new HashSet<String>();
+        ext.addAll(FileType.getFileTypeExt(FileType.C));
+        ext.addAll(FileType.getFileTypeExt(FileType.Java));
+        assertEquals(ext, extList);
+    }
+
+    @Test
     public void testMain() {
         String[] args = { teseCaseFiles };
+        LocStats.main(args);
+    }
+
+    @Test
+    public void testMainLanguage() {
+        String[] args = { teseCaseFiles, "lang=c" };
         LocStats.main(args);
     }
 
