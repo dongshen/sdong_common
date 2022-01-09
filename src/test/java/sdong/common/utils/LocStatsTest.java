@@ -108,7 +108,7 @@ public class LocStatsTest {
             assertEquals(5, sumP.getLineCounts());
             assertEquals(14, sumP.getRowLineCounts());
 
-            // get Python
+            // get xml
             FileInfoSum sumX = sumMap.get(FileType.Xml);
             assertEquals(1, sumX.getFilesCounts());
             assertEquals(0, sumX.getBlankLineCounts());
