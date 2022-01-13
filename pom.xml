@@ -35,6 +35,12 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.github.java-json-tools/json-schema-validator -->
+		<dependency>
+			<groupId>com.github.java-json-tools</groupId>
+			<artifactId>json-schema-validator</artifactId>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -88,7 +94,7 @@
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 		</dependency>
-		
+
 		<!-- Log -->
 		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
@@ -155,17 +161,14 @@
 						</execution>
 					</executions>
 				</plugin>
-				-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.4</version>
 					<configuration>
-						<!-- 设置字符编码集 -->
 						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
-				<!--
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
