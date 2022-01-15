@@ -9,7 +9,10 @@ import sdong.common.exception.SdongException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.everit.json.schema.Schema;
 import org.junit.Test;
+
+import java.util.Optional;
 
 public class JsonUtilTest {
     private static final Logger LOG = LogManager.getLogger(JsonUtilTest.class);
@@ -40,6 +43,33 @@ public class JsonUtilTest {
             ConditionalNode condNode = JsonUtil.jsonStringToObject(nodeStr, ConditionalNode.class);
 
             assertEquals(nodeStr, JsonUtil.objectToJsonString(condNode, ConditionalNode.class));
+        } catch (SdongException e) {
+            LOG.error("Get exception:{}", e.getMessage());
+            fail("should not have exception!");
+        }
+    }
+
+    @Test
+    public void testGetTaintRuleSchema() {
+        try {
+            Schema schema = JsonUtil.getTaintRulesSchema();
+            assertEquals("The taint rules schema for static analysis 1.0", schema.getTitle());
+        } catch (SdongException e) {
+            LOG.error("Get exception:{}", e.getMessage());
+            fail("should not have exception!");
+        }
+    }
+
+    @Test
+    public void testValidatTaintRule(){
+        try {
+            String rule = "input/rules/dataflow_rules_c.json";
+            Optional<String> validat = JsonUtil.validatTaintRule(rule); 
+            LOG.info(validat.isPresent());
+            if(validat.isPresent()){
+                LOG.error(validat.get());
+            }
+            assertEquals(false, validat.isPresent());            
         } catch (SdongException e) {
             LOG.error("Get exception:{}", e.getMessage());
             fail("should not have exception!");

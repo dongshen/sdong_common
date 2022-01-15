@@ -2,7 +2,7 @@ package sdong.common.bean.rules;
 
 import com.google.gson.annotations.SerializedName;
 
-public class FunctionParameter {
+public class FunctionParameterType {
     @SerializedName(value = RuleJsonConstants.PARM_INDEX)
     private int paramInd = 0;
 

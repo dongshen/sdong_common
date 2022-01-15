@@ -24,10 +24,7 @@ public class FunctionIdentifier {
     private String returnType;
 
     @SerializedName(value = RuleJsonConstants.PARAMETERS)
-    private List<FunctionParameter> parameters;
-
-    @SerializedName(value = RuleJsonConstants.PARM_VAR_ARG)
-    private boolean varArgs = false;
+    private FunctionParameters parameters;
 
     @SerializedName(value = RuleJsonConstants.FUNC_APPLYTO)
     private boolean isApplyTo = true;
@@ -83,19 +80,12 @@ public class FunctionIdentifier {
         this.returnType = returnType;
     }
 
-    public List<FunctionParameter> getParameters() {
+    public FunctionParameters getParameters() {
         return parameters;
     }
 
-    public void setParameters(List<FunctionParameter> parameters) {
+    public void setParameters(FunctionParameters parameters) {
         this.parameters = parameters;
-    }
-
-    public void addParameter(FunctionParameter parameter) {
-        if (parameters == null) {
-            parameters = new ArrayList<FunctionParameter>();
-        }
-        parameters.add(parameter);
     }
 
     public boolean isApplyTo() {
@@ -119,13 +109,5 @@ public class FunctionIdentifier {
             exclude = new ArrayList<FunctionIdentifier>();
         }
         exclude.add(function);
-    }
-
-    public boolean isVarArgs() {
-        return varArgs;
-    }
-
-    public void setVarArgs(boolean varArgs) {
-        this.varArgs = varArgs;
     }
 }

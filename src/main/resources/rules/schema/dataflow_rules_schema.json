@@ -1,8 +1,8 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
-    "title": "The root schema",
-    "description": "The root schema comprises the entire JSON document.",
+    "title": "The taint rules schema for static analysis 1.0",
+    "description": "The root schema comprises the entire JSON document for taint rules in static analysis.",
     "properties": {
         "RulePackage": {
             "$ref": "#/$defs/RulePackage"
@@ -98,16 +98,16 @@
                 "Note": {
                     "$ref": "#/$defs/Note"
                 },
-                "TaintSourceRule": {
+                "TaintSourceRules": {
                     "$ref": "#/$defs/TaintSourceRule"
                 },
-                "TaintPassthroughRule": {
+                "TaintPassthroughRules": {
                     "$ref": "#/$defs/TaintPassthroughRule"
                 },
-                "TaintSinkRule": {
+                "TaintSinkRules": {
                     "$ref": "#/$defs/TaintSinkRule"
                 },
-                "TaintCleanseRule": {
+                "TaintCleanseRules": {
                     "$ref": "#/$defs/TaintCleanseRule"
                 }
             },
@@ -126,15 +126,19 @@
                 "description": "污染源规则",
                 "required": [
                     "Rule",
-                    "Function",
+                    "Functions",
                     "Source"
                 ],
                 "properties": {
                     "Rule": {
                         "$ref": "#/$defs/RuleBaseInfo"
                     },
-                    "Function": {
-                        "$ref": "#/$defs/FunctionIdentifier"
+                    "Functions": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "$ref": "#/$defs/FunctionIdentifier"
+                        }
                     },
                     "Source": {
                         "$ref": "#/$defs/Source"
@@ -156,15 +160,19 @@
                 "description": "污点传递规则",
                 "required": [
                     "Rule",
-                    "Function",
+                    "Functions",
                     "Passthrough"
                 ],
                 "properties": {
                     "Rule": {
                         "$ref": "#/$defs/RuleBaseInfo"
                     },
-                    "Function": {
-                        "$ref": "#/$defs/FunctionIdentifier"
+                    "Functions": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "$ref": "#/$defs/FunctionIdentifier"
+                        }
                     },
                     "Passthrough": {
                         "$ref": "#/$defs/Passthrough"
@@ -191,11 +199,13 @@
                         "CWE": "95",
                         "Severity": "Critical"
                     },
-                    "Function": {
-                        "Class": {
-                            "Value": "value"
+                    "Functions": [
+                        {
+                            "Class": {
+                                "Value": "value"
+                            }
                         }
-                    },
+                    ],
                     "Sink": {
                         "InArgs": "1",
                         "ReportMsgId": "msgid"
@@ -211,8 +221,8 @@
                 "required": [
                     "Rule",
                     "Vulnerability",
-                    "Function",
-                    "Sink"
+                    "Functions",
+                    "Sinks"
                 ],
                 "properties": {
                     "Rule": {
@@ -221,10 +231,14 @@
                     "Vulnerability": {
                         "$ref": "#/$defs/Vulnerability"
                     },
-                    "Function": {
-                        "$ref": "#/$defs/FunctionIdentifier"
+                    "Functions": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "$ref": "#/$defs/FunctionIdentifier"
+                        }
                     },
-                    "Sink": {
+                    "Sinks": {
                         "type": "array",
                         "items": {
                             "$ref": "#/$defs/Sink"
@@ -247,18 +261,22 @@
                 "description": "污染清理规则",
                 "required": [
                     "Rule",
-                    "Function",
+                    "Functions",
                     "Cleanse"
                 ],
                 "properties": {
                     "Rule": {
                         "$ref": "#/$defs/RuleBaseInfo"
                     },
-                    "Function": {
-                        "$ref": "#/$defs/FunctionIdentifier"
+                    "Functions": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "$ref": "#/$defs/FunctionIdentifier"
+                        }
                     },
                     "Cleanse": {
-                        "$ref": "#/$defs/Passthrough"
+                        "$ref": "#/$defs/Cleanse"
                     }
                 },
                 "additionalProperties": false
@@ -274,7 +292,7 @@
             ],
             "properties": {
                 "RuleId": {
-                    "$ref": "#/$defs/UUID",
+                    "$ref": "#/$defs/RuleId",
                     "description": "每一个规则需要有一个全局的唯一标识,可用UUID生成"
                 },
                 "Note": {
@@ -297,7 +315,7 @@
             ],
             "properties": {
                 "RuleId": {
-                    "$ref": "#/$defs/UUID",
+                    "$ref": "#/$defs/RuleId",
                     "description": "每一个规则需要有一个全局的唯一标识,可用UUID生成"
                 },
                 "RuleName": {
@@ -482,7 +500,7 @@
         "CWE": {
             "$anchor": "CWE",
             "type": "string",
-            "pattern": "^[1-9][0-9]{0,3}(,[1-9][0-9]{0,3})*$",
+            "pattern": ".{0}|^[1-9][0-9]{0,3}(,[1-9][0-9]{0,3})*$",
             "title": "CWE",
             "description": "CWE"
         },
@@ -490,14 +508,13 @@
             "$anchor": "Note",
             "type": "string",
             "title": "Note",
-            "description": "Note"
+            "description": "描述或注释"
         },
-        "UUID": {
-            "$anchor": "UUID",
+        "RuleId": {
+            "$anchor": "RuleId",
             "type": "string",
-            "pattern": "[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}",
-            "title": "UUID",
-            "description": "UUID",
+            "title": "Rule Id",
+            "description": "规则编号",
             "examples": [
                 "74420652-95a6-4c52-a51e-7f4358f09350"
             ]
@@ -593,10 +610,9 @@
         "FunctionIdentifier": {
             "$anchor": "FunctionIdentifier",
             "type": "object",
-            "minProperties": 1,
-            "maxProperties": 8,
             "title": "The FunctionIdentifier schema",
             "description": "函数定义",
+            "minProperties": 1,
             "properties": {
                 "Namespace": {
                     "$ref": "#/$defs/ValueType"
@@ -640,7 +656,7 @@
             "type": "string",
             "pattern": "([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*(,([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*)*",
             "title": "The Arguments schema",
-            "description": "允许使用多个函数参数(逗号分隔)列表。接受以下形式的表达式：x- 单个参数，其中 x 是一个数字、this、return或globals; 当 x 是一个数字时，它指示函数的第 x 个参数，从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数，包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
+            "description": "允许使用多个函数参数(逗号分隔)列表。接受以下形式的表达式:x- 单个参数，其中 x 是一个数字、this、return或globals; 当 x 是一个数字时，它指示函数的第 x 个参数，从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数，包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
             "minLength": 1,
             "examples": [
                 "0"
@@ -661,7 +677,7 @@
             "$anchor": "ArgumentCompare",
             "type": "object",
             "title": "The ArgumentCompare schema",
-            "description": "参数比较：ArgumentCompare",
+            "description": "参数比较:ArgumentCompare",
             "required": [
                 "argument",
                 "value"
@@ -700,7 +716,7 @@
         "TaintFlag": {
             "$anchor": "TaintFlag",
             "type": "string",
-            "title": "The TaintFlags schema",
+            "title": "The TaintFlag schema",
             "description": "定义在这里引入的污染原类型",
             "minLength": 1,
             "examples": [
@@ -739,10 +755,12 @@
             "description": "污染传播信息",
             "required": [
                 "InArgs",
-                "OutArgs",
-                "TaintFlags"
+                "OutArgs"
             ],
             "properties": {
+                "Conditional": {
+                    "$ref": "#/$defs/Conditional"
+                },
                 "InArgs": {
                     "$ref": "#/$defs/Arguments"
                 },
@@ -755,11 +773,26 @@
             },
             "additionalProperties": false
         },
+        "Cleanse": {
+            "$anchor": "Cleanse",
+            "type": "object",
+            "title": "The Cleanse schema",
+            "description": "污染清理信息",
+            "required": [
+                "OutArgs"
+            ],
+            "properties": {
+                "OutArgs": {
+                    "$ref": "#/$defs/Arguments"
+                }
+            },
+            "additionalProperties": false
+        },
         "Sink": {
             "$anchor": "Sink",
             "type": "object",
             "title": "The Sink schema",
-            "description": "污染池信息",
+            "description": "污染爆发信息",
             "examples": [
                 {
                     "InArgs": "1",

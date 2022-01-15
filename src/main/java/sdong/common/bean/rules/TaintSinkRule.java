@@ -9,7 +9,7 @@ import java.util.List;
  * Taint sink rule
  */
 public class TaintSinkRule extends DataFlowRule {
-    @SerializedName(value = RuleJsonConstants.SINK)
+    @SerializedName(value = RuleJsonConstants.SINKS)
     private List<TaintSink> taintSinks;
 
     @SerializedName(value = RuleJsonConstants.SOURCE)

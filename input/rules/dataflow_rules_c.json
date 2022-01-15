@@ -3,10 +3,11 @@
         "Name": "Fortify Secure Coding Rules, C/C++",
         "Description": "fortify C/C++ rules",
         "Version": "2021.12.22",
-        "Language": "cpp",
-        "Locale": "en"
+        "Language": "CPP",
+        "Locale": "EN"
     },
     "Rules": {
+        "Note": "taint rules exmaple",
         "TaintSourceRules": [
             {
                 "Rule": {
@@ -22,7 +23,7 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Function": {
                             "Pattern": "read|pread|pread64|readv"
@@ -30,12 +31,10 @@
                         "varArg": false
                     }
                 ],
-                "Source": [
-                    {
-                        "OutArgs": "1",
-                        "TaintFlags": "+STREAM,+NOT_NULL_TERMINATED"
-                    }
-                ]
+                "Source": {
+                    "OutArgs": "1",
+                    "TaintFlags": "+STREAM,+NOT_NULL_TERMINATED"
+                }
             },
             {
                 "Rule": {
@@ -51,7 +50,7 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Function": {
                             "Value": "readline"
@@ -59,12 +58,10 @@
                         "varArg": false
                     }
                 ],
-                "Source": [
-                    {
-                        "OutArgs": "return",
-                        "TaintFlags": "+STDIN,+NO_NEW_LINE"
-                    }
-                ]
+                "Source": {
+                    "OutArgs": "return",
+                    "TaintFlags": "+STDIN,+NO_NEW_LINE"
+                }
             },
             {
                 "Rule": {
@@ -76,28 +73,28 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Function": {
                             "Value": "operator>>"
                         },
                         "varArg": false,
-                        "Parameters": [
-                            {
-                                "ParamInd": 0,
-                                "ParamType": {
-                                    "Value": "std::basic_istream*"
+                        "Parameters": {
+                            "ParamTypes": [
+                                {
+                                    "ParamInd": 0,
+                                    "ParamType": {
+                                        "Value": "std::basic_istream*"
+                                    }
                                 }
-                            }
-                        ]
+                            ]
+                        }
                     }
                 ],
-                "Source": [
-                    {
-                        "OutArgs": "1",
-                        "TaintFlags": "+STREAM,+NOT_NULL_TERMINATED"
-                    }
-                ]
+                "Source": {
+                    "OutArgs": "1",
+                    "TaintFlags": "+STREAM,+NOT_NULL_TERMINATED"
+                }
             }
         ],
         "TaintPassthroughRules": [
@@ -111,7 +108,7 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Function": {
                             "Value": "strtrns"
@@ -134,7 +131,7 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Function": {
                             "Pattern": "((vs)|(vf)|(f)|(s))scanf"
@@ -158,32 +155,34 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Function": {
                             "Value": "swprintf"
                         },
                         "varArg": true,
-                        "Parameters": [
-                            {
-                                "ParamInd": 0,
-                                "ParamType": {
-                                    "Value": "long*"
+                        "Parameters": {
+                            "ParamTypes": [
+                                {
+                                    "ParamInd": 0,
+                                    "ParamType": {
+                                        "Value": "long*"
+                                    }
+                                },
+                                {
+                                    "ParamInd": 1,
+                                    "ParamType": {
+                                        "Value": "unsigned int"
+                                    }
+                                },
+                                {
+                                    "ParamInd": 2,
+                                    "ParamType": {
+                                        "Value": "long*"
+                                    }
                                 }
-                            },
-                            {
-                                "ParamInd": 1,
-                                "ParamType": {
-                                    "Value": "unsigned int"
-                                }
-                            },
-                            {
-                                "ParamInd": 2,
-                                "ParamType": {
-                                    "Value": "long*"
-                                }
-                            }
-                        ]
+                            ]
+                        }
                     }
                 ],
                 "Passthrough": {
@@ -196,6 +195,7 @@
             {
                 "Rule": {
                     "RuleId": "DataflowSinkRuleId_1",
+                    "RuleName": "VALIDATED_BUFFER_OVERFLOW",
                     "RefInfos": [
                         {
                             "Key": "package",
@@ -203,7 +203,7 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Function": {
                             "Value": "RaedFiledEx"
@@ -211,25 +211,29 @@
                         "varArg": false
                     }
                 ],
-                "Sink": [
+                "Sinks": [
                     {
                         "InArgs": "2",
                         "Conditional": {
                             "Not": {
                                 "TaintFlag": "VALIDATED_BUFFER_OVERFLOW"
                             }
-                        }
+                        },
+                        "ReportMsgId": "%SOURCE% sink at %SINK%."
                     }
                 ],
                 "Vulnerability": {
                     "Category": "Input Validation and Representation",
                     "Subcategory": "Buffer Overflow",
+                    "IssueType": "issue type",
+                    "CWE": "",
                     "Severity": "Critical"
                 }
             },
             {
                 "Rule": {
                     "RuleId": "DataflowSinkRuleId_2",
+                    "RuleName": "VALIDATED_FORMAT_STRING_",
                     "Note": "\n            fwscanf, swscanf, vfwscanf, vswscanf\n                        ",
                     "RefInfos": [
                         {
@@ -238,7 +242,7 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Function": {
                             "Pattern": "((fw)|(sw)|(vfw)|(vsw))scanf"
@@ -246,25 +250,29 @@
                         "varArg": false
                     }
                 ],
-                "Sink": [
+                "Sinks": [
                     {
                         "InArgs": "1",
                         "Conditional": {
                             "Not": {
                                 "TaintFlag": "VALIDATED_FORMAT_STRING"
                             }
-                        }
+                        },
+                        "ReportMsgId": "%SOURCE% sink at %SINK%, through %s."
                     }
                 ],
                 "Vulnerability": {
                     "Category": "Input Validation and Representation",
                     "Subcategory": "Format String",
+                    "IssueType": "",
+                    "CWE": "20,23",
                     "Severity": "Critical"
                 }
             },
             {
                 "Rule": {
                     "RuleId": "DataflowSinkRuleId_3",
+                    "RuleName": "VALIDATED_FORMAT_STRING",
                     "Note": "windows api specific prototype",
                     "RefInfos": [
                         {
@@ -273,41 +281,46 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Function": {
                             "Value": "swprintf"
                         },
                         "varArg": false,
-                        "Parameters": [
-                            {
-                                "ParamInd": 0,
-                                "ParamType": {
-                                    "Value": "unsigned short*"
+                        "Parameters": {
+                            "ParamTypes": [
+                                {
+                                    "ParamInd": 0,
+                                    "ParamType": {
+                                        "Value": "unsigned short*"
+                                    }
+                                },
+                                {
+                                    "ParamInd": 1,
+                                    "ParamType": {
+                                        "Value": "unsigned short*"
+                                    }
                                 }
-                            },
-                            {
-                                "ParamInd": 1,
-                                "ParamType": {
-                                    "Value": "unsigned short*"
-                                }
-                            }
-                        ]
+                            ]
+                        }
                     }
                 ],
-                "Sink": [
+                "Sinks": [
                     {
                         "InArgs": "1",
                         "Conditional": {
                             "Not": {
                                 "TaintFlag": "VALIDATED_FORMAT_STRING"
                             }
-                        }
+                        },
+                        "ReportMsgId": "%SOURCE% sink at %SINK%, through %s."
                     }
                 ],
                 "Vulnerability": {
                     "Category": "Input Validation and Representation",
                     "Subcategory": "Format String",
+                    "IssueType": "issue type",
+                    "CWE": "10",
                     "Severity": "Critical"
                 }
             }
@@ -324,7 +337,7 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Namespace": {
                             "Pattern": "(std)?"
@@ -353,7 +366,7 @@
                         }
                     ]
                 },
-                "Function": [
+                "Functions": [
                     {
                         "Namespace": {
                             "Pattern": "(std)?"

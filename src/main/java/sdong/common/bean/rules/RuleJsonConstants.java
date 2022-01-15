@@ -46,6 +46,7 @@ public class RuleJsonConstants {
     /**
      * Function
      */
+    public static final String FUNCTIONS = "Functions";
     public static final String FUNCTION = "Function";
     public static final String FUNC_NAMESPACE = "Namespace";
     public static final String FUNC_CLASS = "Class";
@@ -59,6 +60,7 @@ public class RuleJsonConstants {
      * Parameters
      */
     public static final String PARAMETERS = "Parameters";
+    public static final String PARAMETER_TYPES = "ParamTypes";
     public static final String PARM_INDEX = "ParamInd";
     public static final String PARM_TYPES = "ParamType";
     public static final String PARM_VAR_ARG = "varArg";
@@ -76,6 +78,7 @@ public class RuleJsonConstants {
     /**
      * Sink
      */
+    public static final String SINKS = "Sinks";
     public static final String SINK = "Sink";
 
     /**

@@ -4,16 +4,27 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
+import sdong.common.bean.rules.RuleConstants;
 import sdong.common.bean.rules.RuleJsonConstants;
 import sdong.common.exception.SdongException;
 
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.ValidationException;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.util.Optional;
 
 public class JsonUtil {
     /**
@@ -50,6 +61,11 @@ public class JsonUtil {
      * JSON_VALUE
      */
     public static final String JSON_VALUE = "\"";
+
+    /**
+     * taint schema
+     */
+    private static final Schema TAINT_SCHEMA = null;
 
     /**
      * write json object start: "key":{ or {
@@ -244,6 +260,41 @@ public class JsonUtil {
             fileWriter.close();
         } catch (IOException e) {
             throw new SdongException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * get taint rule schema
+     * 
+     * @return schema
+     * @throws SdongException module exception
+     */
+    public static Schema getTaintRulesSchema() throws SdongException {
+        if (TAINT_SCHEMA != null) {
+            return TAINT_SCHEMA;
+        }
+
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream(RuleConstants.TAINT_RULES_SCHEMA)) {
+            JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
+            return SchemaLoader.load(rawSchema);
+        } catch (IOException | JSONException e) {
+            throw new SdongException("Taint schema setting get error:" + e.getMessage(), e);
+        }
+    }
+
+    public static Optional<String> validatTaintRule(String ruleFile) throws SdongException {
+        try (InputStream inputStream = new FileInputStream(ruleFile)) {
+            Schema schema = getTaintRulesSchema();
+            JSONObject jsonSubject = new JSONObject(new JSONTokener(inputStream));
+            schema.validate(jsonSubject);
+            return Optional.empty();
+        } catch (ValidationException ex) {
+            StringBuffer result = new StringBuffer("Validation against Json schema failed: \n");
+            ex.getAllMessages().stream().peek(e -> result.append("\n")).forEach(result::append);
+            return Optional.of(result.toString());
+        } catch (JSONException | IOException e) {
+            throw new SdongException("Varify taint rule " + ruleFile + "fail on:" + e.getMessage(), e);
         }
     }
 }

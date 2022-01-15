@@ -46,7 +46,7 @@ public class VerifyRuleResult {
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
                 assertEquals("read|pread|pread64|readv", functionList.get(0).getFunctionName().getPattern());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
             } else if (rule.getRuleId().equals("DataflowSourceRuleId_2")) {
                 // assertEquals(RuleType.TAINT_SOURCE, rule.getRuleType());
                 List<RuleReferenceInfo> metaInfos = rule.getRefInfos();
@@ -69,7 +69,7 @@ public class VerifyRuleResult {
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
                 assertEquals("readline", functionList.get(0).getFunctionName().getValue());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
             } else if (rule.getRuleId().equals("DataflowSourceRuleId_3")) {
                 // assertEquals(RuleType.TAINT_SOURCE, rule.getRuleType());
                 List<RuleReferenceInfo> metaInfos = rule.getRefInfos();
@@ -86,11 +86,11 @@ public class VerifyRuleResult {
                 assertEquals(1, functionList.size());
                 assertEquals("operator>>", functionList.get(0).getFunctionName().getValue());
 
-                List<FunctionParameter> parameters = functionList.get(0).getParameters();
+                List<FunctionParameterType> parameters = functionList.get(0).getParameters().getParameterTypes();
                 assertEquals(1, parameters.size());
                 assertEquals("std::basic_istream*", parameters.get(0).getParamType().getValue());
                 assertEquals(0, parameters.get(0).getParamInd());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
             } else {
                 fail("wrong rule!");
             }
@@ -119,7 +119,7 @@ public class VerifyRuleResult {
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
                 assertEquals("strtrns", functionList.get(0).getFunctionName().getValue());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
             } else if (rule.getRuleId().equals("DataflowPassthroughRuleId_2")) {
                 // assertEquals(RuleType.TAINT_SOURCE, rule.getRuleType());
                 List<RuleReferenceInfo> metaInfos = rule.getRefInfos();
@@ -139,7 +139,7 @@ public class VerifyRuleResult {
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
                 assertEquals("((vs)|(vf)|(f)|(s))scanf", functionList.get(0).getFunctionName().getPattern());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
             } else if (rule.getRuleId().equals("DataflowPassthroughRuleId_3")) {
                 // assertEquals(RuleType.TAINT_SOURCE, rule.getRuleType());
                 List<RuleReferenceInfo> metaInfos = rule.getRefInfos();
@@ -154,11 +154,11 @@ public class VerifyRuleResult {
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
                 assertEquals("swprintf", functionList.get(0).getFunctionName().getValue());
-                assertEquals(true, functionList.get(0).isVarArgs());
+                assertEquals(true, functionList.get(0).getParameters().isVarArgs());
 
-                List<FunctionParameter> parameters = functionList.get(0).getParameters();
+                List<FunctionParameterType> parameters = functionList.get(0).getParameters().getParameterTypes();
                 assertEquals(3, parameters.size());
-                for (FunctionParameter parameter : parameters) {
+                for (FunctionParameterType parameter : parameters) {
                     if (parameter.getParamInd() == 0) {
                         assertEquals("long*", parameter.getParamType().getValue());
                     } else if (parameter.getParamInd() == 1) {
@@ -200,7 +200,7 @@ public class VerifyRuleResult {
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
                 assertEquals("RaedFiledEx", functionList.get(0).getFunctionName().getValue());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
 
                 Vulnerability vuln = rule.getVulnerability();
                 assertEquals("Input Validation and Representation", vuln.getCategory());
@@ -229,7 +229,7 @@ public class VerifyRuleResult {
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
                 assertEquals("((fw)|(sw)|(vfw)|(vsw))scanf", functionList.get(0).getFunctionName().getPattern());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
 
                 Vulnerability vuln = rule.getVulnerability();
                 assertEquals("Input Validation and Representation", vuln.getCategory());
@@ -252,11 +252,11 @@ public class VerifyRuleResult {
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
                 assertEquals("swprintf", functionList.get(0).getFunctionName().getValue());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
 
-                List<FunctionParameter> parameters = functionList.get(0).getParameters();
+                List<FunctionParameterType> parameters = functionList.get(0).getParameters().getParameterTypes();
                 assertEquals(2, parameters.size());
-                for (FunctionParameter parameter : parameters) {
+                for (FunctionParameterType parameter : parameters) {
                     if (parameter.getParamInd() == 0) {
                         assertEquals("unsigned short*", parameter.getParamType().getValue());
                     } else if (parameter.getParamInd() == 1) {
@@ -302,7 +302,7 @@ public class VerifyRuleResult {
                 assertEquals("(std)?", functionList.get(0).getNamespaceName().getPattern());
                 assertEquals("list", functionList.get(0).getClassName().getValue());
                 assertEquals("clear", functionList.get(0).getFunctionName().getValue());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
             } else if (rule.getRuleId().equals("DataflowCleanseRuleId_2")) {
                 // assertEquals(RuleType.TAINT_SOURCE, rule.getRuleType());
                 assertEquals(
@@ -327,7 +327,7 @@ public class VerifyRuleResult {
                 assertEquals("(vector)|(set)|(multiset)|(map)|(multimap)",
                         functionList.get(0).getClassName().getPattern());
                 assertEquals("clear", functionList.get(0).getFunctionName().getValue());
-                assertEquals(false, functionList.get(0).isVarArgs());
+                assertEquals(false, functionList.get(0).getParameters().isVarArgs());
             } else {
                 fail("wrong rule!");
             }
