@@ -10,9 +10,9 @@ public class VerifyRuleResult {
         RulePackage rulePackage = ruleSet.getRulePackage();
         assertEquals("Fortify Secure Coding Rules, C/C++", rulePackage.getName());
         assertEquals("2021.12.22", rulePackage.getVersion());
-        assertEquals("cpp", rulePackage.getLanguage());
+        assertEquals("CPP", rulePackage.getLanguage());
         assertEquals("fortify C/C++ rules", rulePackage.getDescription());
-        assertEquals("en", rulePackage.getLocale());
+        assertEquals("EN", rulePackage.getLocale());
         assertEquals(11, ruleSet.getRules().size());
 
         testTaintSourceRules(ruleSet.getRules().getTaintSourceRules());
@@ -38,10 +38,9 @@ public class VerifyRuleResult {
                     }
                 }
 
-                List<TaintSource> sources = rule.getSourceList();
-                assertEquals(1, sources.size());
-                assertEquals("+STREAM,+NOT_NULL_TERMINATED", sources.get(0).getTaintFlags());
-                assertEquals("1", sources.get(0).getOutArgs());
+                TaintSource source = rule.getSource();
+                assertEquals("+STREAM,+NOT_NULL_TERMINATED", source.getTaintFlags());
+                assertEquals("1", source.getOutArgs());
 
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
@@ -61,10 +60,9 @@ public class VerifyRuleResult {
                     }
                 }
 
-                List<TaintSource> sources = rule.getSourceList();
-                assertEquals(1, sources.size());
-                assertEquals("+STDIN,+NO_NEW_LINE", sources.get(0).getTaintFlags());
-                assertEquals("return", sources.get(0).getOutArgs());
+                TaintSource source = rule.getSource();
+                assertEquals("+STDIN,+NO_NEW_LINE", source.getTaintFlags());
+                assertEquals("return", source.getOutArgs());
 
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());
@@ -77,10 +75,9 @@ public class VerifyRuleResult {
                 assertEquals("package", metaInfos.get(0).getKey());
                 assertEquals("CPP Core", metaInfos.get(0).getValue());
 
-                List<TaintSource> sources = rule.getSourceList();
-                assertEquals(1, sources.size());
-                assertEquals("+STREAM,+NOT_NULL_TERMINATED", sources.get(0).getTaintFlags());
-                assertEquals("1", sources.get(0).getOutArgs());
+                TaintSource source = rule.getSource();
+                assertEquals("+STREAM,+NOT_NULL_TERMINATED", source.getTaintFlags());
+                assertEquals("1", source.getOutArgs());
 
                 List<FunctionIdentifier> functionList = rule.getFunctions();
                 assertEquals(1, functionList.size());

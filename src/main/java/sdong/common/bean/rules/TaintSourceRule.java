@@ -2,25 +2,15 @@ package sdong.common.bean.rules;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TaintSourceRule extends DataFlowRule{
     @SerializedName(value = RuleJsonConstants.SOURCE)
-    private List<TaintSource> sourceList;
+    private TaintSource source;
 
-    public List<TaintSource> getSourceList() {
-        return sourceList;
+    public TaintSource getSource() {
+        return source;
     }
 
-    public void setSourceList(List<TaintSource> sourceList) {
-        this.sourceList = sourceList;
-    }
-
-    public void addSource(TaintSource taintSource) {
-        if (getSourceList() == null) {
-            setSourceList(new ArrayList<TaintSource>());
-        }
-        getSourceList().add(taintSource);
+    public void setSource(TaintSource source) {
+        this.source = source;
     }
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataFlowRule extends RuleBase {
-    @SerializedName(value = RuleJsonConstants.FUNCTION)
+    @SerializedName(value = RuleJsonConstants.FUNCTIONS)
     private List<FunctionIdentifier> functions;
 
     public List<FunctionIdentifier> getFunctions() {
