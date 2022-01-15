@@ -679,16 +679,20 @@
             "title": "The ArgumentCompare schema",
             "description": "参数比较:ArgumentCompare",
             "required": [
-                "argument",
-                "value"
+                "Argument",
+                "Value"
             ],
             "properties": {
-                "argument": {
+                "Argument": {
                     "$ref": "#/$defs/Argument"
                 },
-                "value": {
+                "Value": {
                     "type": "string",
                     "description": "参数值"
+                },
+                "Mode": {
+                    "type": "string",
+                    "description": "参数值模式"
                 }
             },
             "additionalProperties": false
@@ -821,6 +825,7 @@
             "type": "object",
             "title": "The Conditional schema",
             "description": "An explanation about the purpose of this instance.",
+            "minProperties": 1,
             "examples": [
                 {
                     "Not": {
@@ -875,8 +880,8 @@
             "type": "array",
             "title": "The And schema",
             "description": "And条件连接符，可嵌套其他条件",
+            "minItems": 2,
             "items": {
-                "minProperties": 2,
                 "allOf": [
                     {
                         "$ref": "#/$defs/Conditional"
@@ -889,8 +894,9 @@
             "type": "array",
             "title": "The Or schema",
             "description": "Or条件连接符，可嵌套其他条件",
+            "minItems": 2,            
             "items": {
-                "minProperties": 2,
+                "minProperties": 1,
                 "allOf": [
                     {
                         "$ref": "#/$defs/Conditional"
@@ -917,10 +923,10 @@
             "title": "The IsConstant schema",
             "description": "是否为常量判断，可嵌套其他条件",
             "required": [
-                "argument"
+                "Argument"
             ],
             "properties": {
-                "argument": {
+                "Argument": {
                     "$ref": "#/$defs/Argument"
                 }
             },
@@ -933,7 +939,7 @@
             "description": "类型判断(值、正则匹配)，可嵌套其他条件",
             "required": [
                 "Class",
-                "argument"
+                "Argument"
             ],
             "properties": {
                 "Namespace": {
@@ -942,7 +948,7 @@
                 "Class": {
                     "$ref": "#/$defs/ValueType"
                 },
-                "argument": {
+                "Argument": {
                     "$ref": "#/$defs/Argument"
                 }
             },
@@ -954,17 +960,21 @@
             "title": "The ConstantMatches schema",
             "description": "参数常量匹配(正则表达式)判断，可嵌套其他条件",
             "required": [
-                "argument",
-                "pattern"
+                "Argument",
+                "Pattern"
             ],
             "properties": {
-                "argument": {
+                "Argument": {
                     "$ref": "#/$defs/Argument"
                 },
-                "pattern": {
+                "Pattern": {
                     "type": "string",
                     "format": "regex",
                     "description": "参数匹配正则表达式"
+                },
+                "Mode": {
+                    "type": "string",
+                    "description": "参数匹配模式"
                 }
             },
             "additionalProperties": false

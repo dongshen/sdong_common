@@ -6,7 +6,7 @@ import sdong.common.bean.rules.RuleJsonConstants;
 import sdong.common.bean.rules.RuleValueType;
 
 public class CondIsType {
-    @SerializedName(value = RuleJsonConstants.ARGS)
+    @SerializedName(value = RuleJsonConstants.ARGUMENT)
     String arg;
 
     @SerializedName(value = RuleJsonConstants.FUNC_NAMESPACE)

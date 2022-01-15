@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import sdong.common.bean.rules.RuleJsonConstants;
 
 public class CondConstant {
-    @SerializedName(value = RuleJsonConstants.ARGS)
+    @SerializedName(value = RuleJsonConstants.ARGUMENT)
     String arg;
 
     public String getArg() {

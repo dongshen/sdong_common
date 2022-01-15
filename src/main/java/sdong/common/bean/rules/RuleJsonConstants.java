@@ -91,7 +91,7 @@ public class RuleJsonConstants {
      */
     public static final String OUT_ARGS = "OutArgs";
     public static final String IN_ARGS = "InArgs";
-    public static final String ARGS = "Args";
+    public static final String ARGUMENT = "Argument";
     public static final String ARGS_VALUE = "Value";
     public static final String ARGS_MODE = "Mode";
 

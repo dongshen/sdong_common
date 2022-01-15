@@ -109,7 +109,7 @@ public class JsonUtil {
      * @return has value return true else false
      */
     public static boolean writeObjectValue(StringBuilder sb, boolean hasPreValue, String key, Object value) {
-        if (value == null || value.toString().isEmpty()) {
+        if (value == null) {
             return hasPreValue;
         }
 
