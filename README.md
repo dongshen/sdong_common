@@ -3,13 +3,13 @@ My common module
 
 # 2. build
 * mvn package 
-* mvn clean compile assembly:assembly
-
+* mvn clean assembly:assembly -Pdist
+* mvn clean install -Pdist
 
 # 3. LocUtil
 ## 3.1. 运行
 ```
-java -jar .\target\sdong_common-1.1.1-jar-with-dependencies.jar .\input\loc\example\
+java -jar .\target\locutil.jar .\input\loc\example\
 ```
 
 ## 3.2. LocUtil 介绍
