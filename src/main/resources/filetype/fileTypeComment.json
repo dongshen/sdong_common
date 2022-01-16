@@ -37,6 +37,24 @@
             ]
         },
         {
+            fileType: "Kotlin",
+            regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
+            regStringValue: "\"(.+?)\"|'.+?'",
+            stringMarkList: [
+                "'",
+                "\""
+            ],              
+            oneLineCommentList: [
+                "//"
+            ],
+            multiLineCommentList: [
+                {
+                    startComment: "/*",
+                    endComment: "*/"
+                }
+            ]
+        },        
+        {
             fileType: "Go",
             regOneLine: "\\/\\*.*?\\*\\/|\\/\\/.*",
             regStringValue: "\"(.+?)\"|'.+?'",

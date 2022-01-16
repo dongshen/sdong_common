@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.TreeMap;
 
 public class LocStatsTest {
 
@@ -71,12 +71,12 @@ public class LocStatsTest {
         List<String> fileList;
         try {
             fileList = FileUtil.getFilesInFolderList(Arrays.asList(teseCaseFiles.split(",")));
-            assertEquals(5, fileList.size());
+            assertEquals(6, fileList.size());
 
             List<FileInfo> fileInfoList = LocStats.getFieInfoThread(fileList, 1);
             boolean isPrintList = false;
-            ConcurrentHashMap<FileType, FileInfoSum> sumMap = LocStats.printFileInfoSum(fileInfoList, isPrintList);
-            assertEquals(4, sumMap.size());
+            TreeMap<FileType, FileInfoSum> sumMap = LocStats.printFileInfoSum(fileInfoList, isPrintList);
+            assertEquals(5, sumMap.size());
 
             // get C
             FileInfoSum sumC = sumMap.get(FileType.C);
@@ -117,10 +117,19 @@ public class LocStatsTest {
             assertEquals(480, sumX.getFileSize());
             assertEquals(12, sumX.getLineCounts());
             assertEquals(14, sumX.getRowLineCounts());
+
+            // get properties
+            FileInfoSum sumProperties = sumMap.get(FileType.Properties);
+            assertEquals(1, sumProperties.getFilesCounts());
+            assertEquals(3, sumProperties.getBlankLineCounts());
+            assertEquals(14, sumProperties.getCommentCounts());
+            assertEquals(0, sumProperties.getCommentInLineCounts());
+            assertEquals(866, sumProperties.getFileSize());
+            assertEquals(3, sumProperties.getLineCounts());
+            assertEquals(20, sumProperties.getRowLineCounts());
         } catch (SdongException e) {
             LOG.error(e.getMessage());
             fail("should not get exception!");
         }
-
     }
 }

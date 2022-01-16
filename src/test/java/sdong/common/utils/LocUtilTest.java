@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LocUtilTest {
     private static final Logger LOG = LogManager.getLogger(LocUtilTest.class);
 
-    private static final int FILE_TYPE_NUM = 7;
+    private static final int FILE_TYPE_NUM = 8;
 
     public static final String C_REG_STRING_VALUE = "\"(.+?)\"|'.+?'";
     public static final String C_REG_ONELINE = "\\/\\*.*?\\*\\/|\\/\\/.*";

@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -123,14 +124,14 @@ public class LocStats {
         return fileInfoList;
     }
 
-    public static ConcurrentHashMap<FileType, FileInfoSum> printFileInfoSum(List<FileInfo> fileInfoList,
+    public static TreeMap<FileType, FileInfoSum> printFileInfoSum(List<FileInfo> fileInfoList,
             boolean isPrintList) {
         if (isPrintList) {
             for (FileInfo info : fileInfoList) {
                 LOG.info(info.toString());
             }
         }
-        ConcurrentHashMap<FileType, FileInfoSum> sumMap = new ConcurrentHashMap<FileType, FileInfoSum>();
+        TreeMap<FileType, FileInfoSum> sumMap = new TreeMap<FileType, FileInfoSum>();
         FileInfoSum fileInfoSum;
         for (FileInfo info : fileInfoList) {
             if (sumMap.containsKey(info.getFileType())) {
@@ -159,15 +160,31 @@ public class LocStats {
                 "| File Type|          Files|    Blank Lines|       Comments|Comment in Line|      File Size|    Line Counts|Row Line Counts|");
         System.out.println(
                 "|----------|---------------|---------------|---------------|---------------|---------------|---------------|---------------|");
+
         FileInfoSum info;
+        long files = 0l;
+        long blines = 0l;
+        long comments = 0l;
+        long inlines = 0l;
+        long size = 0l;
+        long lines = 0l;
+        long rlines = 0l;
         for (Map.Entry<FileType, FileInfoSum> sum : sumMap.entrySet()) {
-            LOG.debug(sum.getValue().toString());
             info = sum.getValue();
-            System.out.println(String.format("|%-10s|% 15d|% 15d|% 15d|% 15d|% 15d|% 15d|% 15d|", sum.getKey(),
+            System.out.println(String.format("|%-10s|% ,15d|% ,15d|% ,15d|% ,15d|% ,15d|% ,15d|% ,15d|", sum.getKey(),
                     info.getFilesCounts(), info.getBlankLineCounts(), info.getCommentCounts(),
                     info.getCommentInLineCounts(), info.getFileSize(),
                     info.getLineCounts(), info.getRowLineCounts()));
+            files = files + info.getFilesCounts();
+            blines = blines + info.getBlankLineCounts();
+            comments = comments + info.getCommentCounts();
+            inlines = inlines + info.getCommentInLineCounts();
+            size = size + info.getFileSize();
+            lines = lines + info.getLineCounts();
+            rlines = rlines + info.getRowLineCounts();
         }
+        System.out.println(String.format("|%-10s|% ,15d|% ,15d|% ,15d|% ,15d|% ,15d|% ,15d|% ,15d|", "Total",
+                files, blines, comments, inlines, size, lines, rlines));
     }
 
     protected static Set<String> getExtList(String langList) {
