@@ -491,6 +491,7 @@
             "enum": [
                 "Fatal",
                 "Critical",
+                "Medium",
                 "Normal",
                 "Suggest"
             ],
@@ -804,10 +805,17 @@
                 }
             ],
             "required": [
+                "IsMain",
                 "InArgs",
                 "ReportMsgId"
             ],
             "properties": {
+                "IsMain": {
+                    "type": "boolean",
+                    "title": "Sink is main",
+                    "description": "报告sink的sink",
+                    "default": true
+                },
                 "Conditional": {
                     "$ref": "#/$defs/Conditional"
                 },

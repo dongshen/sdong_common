@@ -230,6 +230,7 @@
                 ],
                 "Sinks": [
                     {
+                        "IsMain": true,
                         "InArgs": "2",
                         "Conditional": {
                             "Not": {
@@ -272,6 +273,7 @@
                 ],
                 "Sinks": [
                     {
+                        "IsMain": true,
                         "InArgs": "1",
                         "Conditional": {
                             "Not": {
@@ -328,6 +330,7 @@
                 ],
                 "Sinks": [
                     {
+                        "IsMain": true,
                         "InArgs": "1",
                         "Conditional": {
                             "Not": {

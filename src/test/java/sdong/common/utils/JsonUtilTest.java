@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import sdong.common.bean.rules.conditional.Conditional;
 import sdong.common.bean.rules.conditional.ConditionalNode;
+import sdong.common.bean.rules.json.validator.JsonValidatErrors;
 import sdong.common.exception.SdongException;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 import org.everit.json.schema.Schema;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class JsonUtilTest {
@@ -64,7 +67,7 @@ public class JsonUtilTest {
     public void testValidatTaintRule(){
         try {
             String rule = "input/rules/dataflow_rules_c.json";
-            Optional<String> validat = JsonUtil.validatTaintRule(rule); 
+            Optional<JsonValidatErrors> validat = JsonUtil.validatTaintRule(rule); 
             LOG.info(validat.isPresent());
             if(validat.isPresent()){
                 LOG.error(validat.get());

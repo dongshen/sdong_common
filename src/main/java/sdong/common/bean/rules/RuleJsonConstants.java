@@ -80,6 +80,7 @@ public class RuleJsonConstants {
      */
     public static final String SINKS = "Sinks";
     public static final String SINK = "Sink";
+    public static final String SINK_IS_MAIN = "IsMain";
 
     /**
      * Cleanse
@@ -140,4 +141,10 @@ public class RuleJsonConstants {
     public static final String RULE_MSG = "RuleMessage";
     public static final String MSG_ID = "MessageId";
     public static final String MSG_MSG = "Message";
+
+    /**
+     * validator
+     */
+    public static final String VALIDAT_ERRORS = "causingExceptions";
+
 }

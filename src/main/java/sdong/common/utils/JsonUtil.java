@@ -6,8 +6,11 @@ import com.google.gson.JsonSyntaxException;
 
 import sdong.common.bean.rules.RuleConstants;
 import sdong.common.bean.rules.RuleJsonConstants;
+import sdong.common.bean.rules.json.validator.JsonValidatErrors;
 import sdong.common.exception.SdongException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.everit.json.schema.loader.SchemaLoader;
@@ -27,6 +30,8 @@ import java.lang.reflect.Type;
 import java.util.Optional;
 
 public class JsonUtil {
+    private static final Logger LOG = LogManager.getLogger(JsonUtil.class);
+
     /**
      * JSON_GROUP_LEFT
      */
@@ -283,7 +288,7 @@ public class JsonUtil {
         }
     }
 
-    public static Optional<String> validatTaintRule(String ruleFile) throws SdongException {
+    public static Optional<JsonValidatErrors> validatTaintRule(String ruleFile) throws SdongException {
         try (InputStream inputStream = new FileInputStream(ruleFile)) {
             Schema schema = getTaintRulesSchema();
             JSONObject jsonSubject = new JSONObject(new JSONTokener(inputStream));
@@ -292,7 +297,9 @@ public class JsonUtil {
         } catch (ValidationException ex) {
             StringBuffer result = new StringBuffer("Validation against Json schema failed: \n");
             ex.getAllMessages().stream().peek(e -> result.append("\n")).forEach(result::append);
-            return Optional.of(result.toString());
+            LOG.error("Get validate erorrs:{}",ex.getAllMessages().size());
+            LOG.error("Validate erorrs:{}",result.toString());
+            return Optional.of(JsonUtil.jsonStringToObject(ex.toJSON().toString(), JsonValidatErrors.class));
         } catch (JSONException | IOException e) {
             throw new SdongException("Varify taint rule " + ruleFile + "fail on:" + e.getMessage(), e);
         }

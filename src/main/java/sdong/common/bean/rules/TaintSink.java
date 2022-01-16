@@ -8,7 +8,8 @@ public class TaintSink {
     @SerializedName(value = RuleJsonConstants.IN_ARGS)
     private String inArgs;
     
-    private boolean isMain = false;
+    @SerializedName(value = RuleJsonConstants.SINK_IS_MAIN)
+    private boolean isMain = true;
 
     @SerializedName(value = RuleJsonConstants.CONDITIONAL)
     private ConditionalNode conditional;
