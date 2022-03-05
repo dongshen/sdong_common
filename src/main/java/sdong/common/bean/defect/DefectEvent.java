@@ -20,7 +20,7 @@ public class DefectEvent {
     String contentId = "";
     String snippetId = "";
 
-    List<DefectEvent> subEvent = new ArrayList<DefectEvent>();
+    List<DefectEvent> subEvent;
 
     String refNodeId = "";
 
@@ -126,6 +126,13 @@ public class DefectEvent {
 
     public void setSubEvent(List<DefectEvent> subEvent) {
         this.subEvent = subEvent;
+    }
+
+    public void addSubEvent(DefectEvent event){
+        if(subEvent == null ){
+            subEvent = new ArrayList<DefectEvent>();
+        }
+        subEvent.add(event);
     }
 
     public String getRefNodeId() {

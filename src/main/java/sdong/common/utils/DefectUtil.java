@@ -59,6 +59,9 @@ public class DefectUtil {
 
     private static int getDefectSubEventSize(List<DefectEvent> eventList) {
         int size = 0;
+        if(eventList == null){
+            return size;
+        }
         for (DefectEvent event : eventList) {
             size = size + 1;
             size = size + getDefectSubEventSize(event.getSubEvent());

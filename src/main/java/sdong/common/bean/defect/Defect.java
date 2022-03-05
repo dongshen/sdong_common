@@ -18,7 +18,7 @@ public class Defect {
     String extra = "";
     String mergekey = "";
 
-    List<List<DefectEvent>> eventList = new ArrayList<List<DefectEvent>>();
+    List<DefectEvent> eventList;
 
     public String getDefectId() {
         return defectId;
@@ -84,12 +84,12 @@ public class Defect {
         this.mergekey = mergekey;
     }
 
-    public List<List<DefectEvent>> getEventList() {
+    public List<DefectEvent> getEventList() {
         return eventList;
     }
 
-    public void addEventList(List<DefectEvent> eventList) {
-        this.eventList.add(eventList);
+    public void setEventList(List<DefectEvent> eventList) {
+        this.eventList = eventList;
     }
 
     /**
@@ -98,15 +98,10 @@ public class Defect {
      * @param event event
      */
     public void addEvent(DefectEvent event) {
-        int curlist = this.eventList.size();
-        if (curlist == 0) {
-            List<DefectEvent> eventList = new ArrayList<DefectEvent>();
-            eventList.add(event);
-            this.eventList.add(eventList);
-        } else {
-            List<DefectEvent> eventList = this.eventList.get(curlist - 1);
-            eventList.add(event);
+        if(eventList == null){
+            eventList = new ArrayList<DefectEvent>();
         }
+        this.eventList.add(event);
     }
 
     public String getCheckerId() {
