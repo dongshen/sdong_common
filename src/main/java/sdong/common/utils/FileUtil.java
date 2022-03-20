@@ -353,9 +353,16 @@ public class FileUtil {
 	 * @return successfule/fail
 	 */
 	public static boolean deleteFile(String file) {
-		if (fileExist(file)) {
-			return new File(file).delete();
+		boolean status = false;
+		try {
+			if (fileExist(file)){
+				FileUtils.forceDelete(new File(file));
+			}	
+			status = true;
+		} catch (IOException e) {
+			logger.error("delete file get error:{}", e.getMessage());
+			status = false;
 		}
-		return true;
+		return status;
 	}
 }
