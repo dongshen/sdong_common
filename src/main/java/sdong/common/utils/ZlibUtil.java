@@ -277,7 +277,7 @@ public class ZlibUtil {
 				fileName = entry.getName();
 				if (!entry.isDirectory() && (unzipList == null || unzipList.isEmpty()|| unzipList.contains(fileName))) {
 					LOG.debug("entry name:{}, size:{}", fileName, entry.getCompressedSize());
-					File newFile = FileUtil.createFile(outputFolder + File.separator + fileName);
+					File newFile = FileUtil.makeFileFolder(outputFolder + File.separator + fileName);
 					try (FileOutputStream fos = new FileOutputStream(newFile);
 							BufferedOutputStream bos = new BufferedOutputStream(fos, buffer.length)) {
 						int len;

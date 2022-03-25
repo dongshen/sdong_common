@@ -314,7 +314,7 @@ public class XmlUtils {
 	public static void writeDocToFile(Document document, String output) throws SdongException {
 		XMLWriter writer = null;
 		try {
-			File file = FileUtil.createFile(output);
+			File file = FileUtil.makeFileFolder(output);
 
 			writer = new XMLWriter(new FileWriter(file), OutputFormat.createPrettyPrint());
 			writer.write(document);

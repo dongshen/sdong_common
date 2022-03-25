@@ -21,4 +21,9 @@ public class CommonConstants {
 	 * BOOLEAN_FALSE
 	 */
 	public static final String BOOLEAN_FALSE = "false";
+
+	/**
+	 * SHOULD_NOT_GET_EXCEPTION
+	 */
+	public static final String SHOULD_NOT_GET_EXCEPTION = "Should not get exception!";
 }

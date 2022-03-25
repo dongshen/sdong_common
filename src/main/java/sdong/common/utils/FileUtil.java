@@ -20,6 +20,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.Charset;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -278,7 +279,7 @@ public class FileUtil {
 
 	public static void writeBytesToFile(byte[] outputBytes, String fileName) throws SdongException {
 		try {
-			Files.write(outputBytes, createFile(fileName));
+			Files.write(outputBytes, makeFileFolder(fileName));
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			throw new SdongException(e);
@@ -289,10 +290,10 @@ public class FileUtil {
 	 * create file, if parent folder is not exist, then create parent folder.
 	 * 
 	 * @param fileName file name
-	 * @return File
+	 * @return File create file handle
 	 * @throws SdongException create fail
 	 */
-	public static File createFile(String fileName) throws SdongException {
+	public static File makeFileFolder(String fileName) throws SdongException {
 		// guava Files.createParentDirs(new File(fileName));
 		File file = new File(fileName);
 		File parent = file.getParentFile();
@@ -315,7 +316,7 @@ public class FileUtil {
 	 */
 	public static void copyFile(String fromFile, String toFile) throws SdongException {
 		try {
-			Files.copy(new File(fromFile), createFile(toFile));
+			Files.copy(new File(fromFile), makeFileFolder(toFile));
 		} catch (IOException e) {
 			throw new SdongException(e);
 		}
@@ -355,14 +356,35 @@ public class FileUtil {
 	public static boolean deleteFile(String file) {
 		boolean status = false;
 		try {
-			if (fileExist(file)){
+			if (fileExist(file)) {
 				FileUtils.forceDelete(new File(file));
-			}	
+			}
 			status = true;
 		} catch (IOException e) {
 			logger.error("delete file get error:{}", e.getMessage());
 			status = false;
 		}
 		return status;
+	}
+
+	/**
+	 * write string list to file
+	 * 
+	 * @param outputFile output file
+	 * @param lines      string list
+	 * @throws SdongException module exception
+	 */
+	public static void writeStringList(String outputFile, List<String> lines, boolean isAppend) throws SdongException {
+		try {
+			makeFileFolder(outputFile);
+			if (isAppend) {
+				java.nio.file.Files.write(Paths.get(outputFile), lines, Charset.forName(DEFAULT_FILE_ENCODING),
+						StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+			} else {
+				java.nio.file.Files.write(Paths.get(outputFile), lines, Charset.forName(DEFAULT_FILE_ENCODING));
+			}
+		} catch (IOException e) {
+			throw new SdongException(e.getMessage(), e);
+		}
 	}
 }
