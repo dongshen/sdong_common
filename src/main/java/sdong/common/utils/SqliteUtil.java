@@ -251,13 +251,13 @@ public class SqliteUtil {
         List<String> dataList = SqliteUtil.getSqlStmtFromFile(dataFile);
         int records = 0;
         try (Connection conn = SqliteUtil.getConnection(dbFileName); Statement stmt = conn.createStatement();) {
-            conn.setAutoCommit(false);
+            conn.setAutoCommit(true);
             for (String sql : dataList) {
                 try (PreparedStatement pstmt = conn.prepareStatement(sql);) {
                     records = records + pstmt.executeUpdate();
                 }
             }
-            conn.commit();
+            //conn.commit();
         } catch (SQLException e) {
             throw new SdongException(e.getMessage());
         }
