@@ -363,3 +363,19 @@ End Sub
 
 # 10. edge tips
 * edge://flags/#enable-parallel-downloading
+
+# 11. GOOGLE 人机验证(RECAPTCHA)无法显示解决方案
+* Header editor
+
+https://blog.csdn.net/qq_42729058/article/details/116915982
+
+首先在此处下载我写好的配置: GitHub Release
+
+在“本地文件”点击“导入”，导入刚才你下载的配置文件。
+
+方法2: 导入在线配置
+
+在下载规则中，填入下面的地址(任选其一，推荐使用 GitHub 版本):
+
+(GitHub，推荐) https://azurezeng.github.io/static/HE-GoogleRedirect.json
+(本站服务器) https://www.azurezeng.com/static/HE-GoogleRedirect.json
