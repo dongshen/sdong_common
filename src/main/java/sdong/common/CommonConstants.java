@@ -26,4 +26,9 @@ public class CommonConstants {
 	 * SHOULD_NOT_GET_EXCEPTION
 	 */
 	public static final String SHOULD_NOT_GET_EXCEPTION = "Should not get exception!";
+
+	/**
+	 * ENCODEING_DEFAULT utf-8
+	 */
+	public static final String ENCODEING_DEFAULT = "utf-8";
 }

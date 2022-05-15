@@ -13,6 +13,7 @@ Tips
 - [6. Vscode extension](#6-vscode-extension)
 - [7. edge tips](#7-edge-tips)
 - [8. GOOGLE 人机验证(RECAPTCHA)无法显示解决方案](#8-google-人机验证recaptcha无法显示解决方案)
+- [9. Git](#9-git)
 
 # 1. Tesseract-OCR
 主要用于图片的文字提取.
@@ -146,3 +147,8 @@ https://blog.csdn.net/qq_42729058/article/details/116915982
 
 (GitHub，推荐) https://azurezeng.github.io/static/HE-GoogleRedirect.json
 (本站服务器) https://www.azurezeng.com/static/HE-GoogleRedirect.json
+
+# 9. Git
+* 永久删除不用的大文件
+git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch -r input/Juliet_Test_Suite_v1.3_for_Java' --prune-empty --tag-name-filter cat -- --all
+git push origin --all --force
