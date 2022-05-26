@@ -477,7 +477,7 @@
                 "Pattern": {
                     "type": "string",
                     "format": "regex",
-                    "title": "The Description schema",
+                    "title": "The Pattern schema",
                     "description": "参数以正则表示式的方式提供",
                     "examples": [
                         "Python Dataflow Rule Package"
@@ -635,7 +635,7 @@
                 "ApplyTo": {
                     "type": "boolean",
                     "title": "The ApplyTo schema",
-                    "description": "函数的适配扩展到接口的所有实现，函数的适配扩展到所有的实现，函数的适配扩展到所有重写的函数",
+                    "description": "函数的适配扩展到接口的所有实现,函数的适配扩展到所有的实现,函数的适配扩展到所有重写的函数",
                     "default": true
                 },
                 "Modifier": {
@@ -657,7 +657,7 @@
             "type": "string",
             "pattern": "([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*(,([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*)*",
             "title": "The Arguments schema",
-            "description": "允许使用多个函数参数(逗号分隔)列表。接受以下形式的表达式:x- 单个参数，其中 x 是一个数字、this、return或globals; 当 x 是一个数字时，它指示函数的第 x 个参数，从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数，包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
+            "description": "允许使用多个函数参数(逗号分隔)列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
             "minLength": 1,
             "examples": [
                 "0"
@@ -668,7 +668,7 @@
             "type": "string",
             "pattern": "[0-9]+|this|return",
             "title": "The Argument schema",
-            "description": "函数的一个参数。值允许this，return；或使用数字n，能代表参数的位置坐标，位置坐标从0开始。",
+            "description": "函数的一个参数。值允许this,return;或使用数字n,能代表参数的位置坐标,位置坐标从0开始。",
             "minLength": 1,
             "examples": [
                 "0"
@@ -712,7 +712,7 @@
             "$anchor": "TaintFlags",
             "type": "string",
             "title": "The TaintFlags schema",
-            "description": "定义在这里引入的污染原类型, 可以是多个标识, 用逗号分隔",
+            "description": "定义在这里引入的污染源类型, 可以是多个标识, 用逗号分隔",
             "minLength": 1,
             "examples": [
                 "+NUMBER,+STRING"
@@ -722,7 +722,7 @@
             "$anchor": "TaintFlag",
             "type": "string",
             "title": "The TaintFlag schema",
-            "description": "定义在这里引入的污染原类型",
+            "description": "定义在这里引入的污染源类型",
             "minLength": 1,
             "examples": [
                 "+NUMBER"
@@ -832,7 +832,7 @@
             "$anchor": "Conditional",
             "type": "object",
             "title": "The Conditional schema",
-            "description": "An explanation about the purpose of this instance.",
+            "description": "条件表达式",
             "minProperties": 1,
             "examples": [
                 {
@@ -864,15 +864,15 @@
                 },
                 "ConstantEq": {
                     "$ref": "#/$defs/ArgumentCompare",
-                    "description": "参数常量相等判断，可嵌套其他条件"
+                    "description": "参数常量相等判断,可嵌套其他条件"
                 },
                 "ConstantGt": {
                     "$ref": "#/$defs/ArgumentCompare",
-                    "description": "参数常量大于判断，可嵌套其他条件"
+                    "description": "参数常量大于判断,可嵌套其他条件"
                 },
                 "ConstantLt": {
                     "$ref": "#/$defs/ArgumentCompare",
-                    "description": "参数常量小于判断，可嵌套其他条件"
+                    "description": "参数常量小于判断,可嵌套其他条件"
                 },
                 "ConstantMatches": {
                     "$ref": "#/$defs/ConstantMatches"
@@ -887,7 +887,7 @@
             "$anchor": "And",
             "type": "array",
             "title": "The And schema",
-            "description": "And条件连接符，可嵌套其他条件",
+            "description": "And条件连接符,可嵌套其他条件",
             "minItems": 2,
             "items": {
                 "allOf": [
@@ -901,7 +901,7 @@
             "$anchor": "Or",
             "type": "array",
             "title": "The Or schema",
-            "description": "Or条件连接符，可嵌套其他条件",
+            "description": "Or条件连接符,可嵌套其他条件",
             "minItems": 2,            
             "items": {
                 "minProperties": 1,
@@ -916,7 +916,7 @@
             "$anchor": "Not",
             "type": "object",
             "title": "The Not schema",
-            "description": "Not条件连接符，可嵌套其他条件",
+            "description": "Not条件连接符,可嵌套其他条件",
             "minProperties": 1,
             "maxProperties": 1,
             "allOf": [
@@ -929,7 +929,7 @@
             "$anchor": "IsConstant",
             "type": "object",
             "title": "The IsConstant schema",
-            "description": "是否为常量判断，可嵌套其他条件",
+            "description": "是否为常量判断,可嵌套其他条件",
             "required": [
                 "Argument"
             ],
@@ -944,7 +944,7 @@
             "$anchor": "IsType",
             "type": "object",
             "title": "The IsType schema",
-            "description": "类型判断(值、正则匹配)，可嵌套其他条件",
+            "description": "类型判断(值、正则匹配),可嵌套其他条件",
             "required": [
                 "Class",
                 "Argument"
@@ -966,7 +966,7 @@
             "$anchor": "ConstantMatches",
             "type": "object",
             "title": "The ConstantMatches schema",
-            "description": "参数常量匹配(正则表达式)判断，可嵌套其他条件",
+            "description": "参数常量匹配(正则表达式)判断,可嵌套其他条件",
             "required": [
                 "Argument",
                 "Pattern"
