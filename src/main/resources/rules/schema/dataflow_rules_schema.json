@@ -98,6 +98,9 @@
                 "Note": {
                     "$ref": "#/$defs/Note"
                 },
+                "EntryPointRules": {
+                    "$ref": "#/$defs/EntryPointRule"
+                },
                 "TaintSourceRules": {
                     "$ref": "#/$defs/TaintSourceRule"
                 },
@@ -113,6 +116,40 @@
             },
             "additionalProperties": false
         },
+        "EntryPointRule": {
+            "$anchor": "EntryPointRule",
+            "type": "array",
+            "title": "The EntryPointRule schema",
+            "description": "入口点规则列表",
+            "items": {
+                "type": "object",
+                "minProperties": 3,
+                "maxProperties": 3,
+                "title": "The first anyOf schema",
+                "description": "污染源规则",
+                "required": [
+                    "Rule",
+                    "Functions",
+                    "EntryPoint"
+                ],
+                "properties": {
+                    "Rule": {
+                        "$ref": "#/$defs/RuleBaseInfo"
+                    },
+                    "Functions": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "$ref": "#/$defs/FunctionIdentifier"
+                        }
+                    },
+                    "Source": {
+                        "$ref": "#/$defs/EntryPoint"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },        
         "TaintSourceRule": {
             "$anchor": "TaintSourceRule",
             "type": "array",
@@ -728,6 +765,31 @@
                 "+NUMBER"
             ]
         },
+        "EntryPoint": {
+            "$anchor": "EntryPoint",
+            "type": "object",
+            "title": "The EntryPoint schema",
+            "description": "入口点信息",
+            "required": [
+                "InArgs",
+                "TaintFlags"
+            ],
+            "properties": {
+                "Conditional": {
+                    "$ref": "#/$defs/Conditional"
+                },
+                "InArgs": {
+                    "$ref": "#/$defs/Arguments"
+                },
+                "TaintFlags": {
+                    "$ref": "#/$defs/TaintFlags"
+                },
+                "ReportMsgId": {
+                    "$ref": "#/$defs/ReportMsgId"
+                }
+            },
+            "additionalProperties": false
+        },        
         "Source": {
             "$anchor": "Source",
             "type": "object",
