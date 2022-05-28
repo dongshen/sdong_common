@@ -1,16 +1,22 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
+    "description": "用于静态分析的通用数据流规则定义",
+    "title": "The common dataflow rules schema for static analysis 1.0",
     "type": "object",
-    "title": "The taint rules schema for static analysis 1.0",
-    "description": "The root schema comprises the entire JSON document for taint rules in static analysis.",
     "properties": {
         "RulePackage": {
+            "description": "规则集信息",
+            "title": "Rule package",
             "$ref": "#/$defs/RulePackage"
         },
         "Rules": {
+            "description": "规则表",
+            "title": "Rules",
             "$ref": "#/$defs/Rules"
         },
         "RuleMessages": {
+            "description": "规则消息表",
+            "title": "Rule messages",
             "$ref": "#/$defs/RuleMessages"
         }
     },
@@ -39,9 +45,9 @@
     "$defs": {
         "RulePackage": {
             "$anchor": "RulePackage",
+            "description": "规则集基本信息定义",
+            "title": "Rule package definition",
             "type": "object",
-            "title": "The RulePack schema",
-            "description": "规则包基本信息",
             "required": [
                 "Name",
                 "Description",
@@ -51,36 +57,40 @@
             ],
             "properties": {
                 "Name": {
+                    "description": "规则集的名称",
+                    "title": "Rule package name",
                     "type": "string",
                     "minLength": 1,
-                    "title": "The Name schema",
-                    "description": "规则包的名称",
                     "examples": [
-                        "Python Dataflow Rules"
+                        "Dataflow Rules Package"
                     ]
                 },
                 "Description": {
+                    "description": "规则集的描述",
+                    "title": "Rule package description",
                     "type": "string",
                     "minLength": 1,
-                    "title": "The Description schema",
-                    "description": "规则包的描述",
                     "examples": [
-                        "Python Dataflow Rule Package"
+                        "Dataflow Rule Package description"
                     ]
                 },
                 "Version": {
+                    "description": "规则集的版本",
+                    "title": "Rule package version",
                     "type": "string",
                     "minLength": 1,
-                    "title": "The Version schema",
-                    "description": "规则包的版本",
                     "examples": [
-                        "2021.11.09"
+                        "ver 2021.11.09"
                     ]
                 },
                 "Language": {
+                    "description": "规则集适用开发语言",
+                    "title": "Rule package develop language",
                     "$ref": "#/$defs/Language"
                 },
                 "Locale": {
+                    "description": "规则信息显示语言",
+                    "title": "Message locale",
                     "$ref": "#/$defs/Locale"
                 }
             },
@@ -88,29 +98,41 @@
         },
         "Rules": {
             "$anchor": "Rules",
+            "description": "规则表定义",
+            "title": "Rules definition",
             "type": "object",
-            "title": "The Rules schema",
-            "description": "规则列表",
             "required": [
                 "Note"
             ],
             "properties": {
                 "Note": {
+                    "description": "规则表描述",
+                    "title": "Rules note",
                     "$ref": "#/$defs/Note"
                 },
                 "EntryPointRules": {
+                    "description": "入口点规则列表",
+                    "title": "Entry point rules",
                     "$ref": "#/$defs/EntryPointRule"
                 },
                 "TaintSourceRules": {
+                    "description": "污染源规则列表",
+                    "title": "Taint source rules",
                     "$ref": "#/$defs/TaintSourceRule"
                 },
                 "TaintPassthroughRules": {
+                    "description": "污点传递规则列表",
+                    "title": "Taint passthrough rules",
                     "$ref": "#/$defs/TaintPassthroughRule"
                 },
                 "TaintSinkRules": {
+                    "description": "污染爆发点规则列表",
+                    "title": "Taint sink rules",
                     "$ref": "#/$defs/TaintSinkRule"
                 },
                 "TaintCleanseRules": {
+                    "description": "污点清理规则列表",
+                    "title": "Taint cleanse rules",
                     "$ref": "#/$defs/TaintCleanseRule"
                 }
             },
@@ -118,15 +140,15 @@
         },
         "EntryPointRule": {
             "$anchor": "EntryPointRule",
+            "description": "入口点规则列表定义",
+            "title": "Entry point rule definition",
             "type": "array",
-            "title": "The EntryPointRule schema",
-            "description": "入口点规则列表",
             "items": {
+                "description": "入口点规则列表成员定义",
+                "title": "Entry point rule item definition",
                 "type": "object",
                 "minProperties": 3,
                 "maxProperties": 3,
-                "title": "The first anyOf schema",
-                "description": "污染源规则",
                 "required": [
                     "Rule",
                     "Functions",
@@ -134,33 +156,39 @@
                 ],
                 "properties": {
                     "Rule": {
+                        "description": "入口点规则基本信息",
+                        "title": "Entry point rule base info",
                         "$ref": "#/$defs/RuleBaseInfo"
                     },
                     "Functions": {
+                        "description": "入口点规则函数列表",
+                        "title": "Entry point rule functions",
                         "type": "array",
                         "minItems": 1,
                         "items": {
                             "$ref": "#/$defs/FunctionIdentifier"
                         }
                     },
-                    "Source": {
+                    "EntryPoint": {
+                        "description": "入口点信息",
+                        "title": "Entry point info",
                         "$ref": "#/$defs/EntryPoint"
                     }
                 },
                 "additionalProperties": false
             }
-        },        
+        },
         "TaintSourceRule": {
             "$anchor": "TaintSourceRule",
+            "description": "污染源规则列表定义",
+            "title": "Taint source rule definition",
             "type": "array",
-            "title": "The TaintSourceRule schema",
-            "description": "污染源规则列表",
             "items": {
+                "title": "Taint source rule item definition",
+                "description": "污染源规则列表成员定义",
                 "type": "object",
                 "minProperties": 3,
                 "maxProperties": 3,
-                "title": "The first anyOf schema",
-                "description": "污染源规则",
                 "required": [
                     "Rule",
                     "Functions",
@@ -168,9 +196,13 @@
                 ],
                 "properties": {
                     "Rule": {
+                        "description": "污染源规则基本信息",
+                        "title": "Taint source rule base info",
                         "$ref": "#/$defs/RuleBaseInfo"
                     },
                     "Functions": {
+                        "description": "污染源规则函数列表",
+                        "title": "Taint source rule functions",
                         "type": "array",
                         "minItems": 1,
                         "items": {
@@ -178,6 +210,8 @@
                         }
                     },
                     "Source": {
+                        "description": "污染源信息",
+                        "title": "Taint source info",
                         "$ref": "#/$defs/Source"
                     }
                 },
@@ -186,15 +220,15 @@
         },
         "TaintPassthroughRule": {
             "$anchor": "TaintPassthroughRule",
+            "description": "污点传递规则列表定义",
+            "title": "Taint passthrough rule definition",
             "type": "array",
-            "title": "The TaintPassthroughRule schema",
-            "description": "污点传递规则列表",
             "items": {
+                "description": "污点传递规则列表成员定义",
+                "title": "Taint passthrough rule item definition",
                 "type": "object",
                 "minProperties": 3,
                 "maxProperties": 3,
-                "title": "The first anyOf schema",
-                "description": "污点传递规则",
                 "required": [
                     "Rule",
                     "Functions",
@@ -202,9 +236,13 @@
                 ],
                 "properties": {
                     "Rule": {
+                        "description": "污染传递规则基本信息",
+                        "title": "Taint passthrough rule base info",
                         "$ref": "#/$defs/RuleBaseInfo"
                     },
                     "Functions": {
+                        "description": "污染传递规则函数列表",
+                        "title": "Taint passthrough rule functions",
                         "type": "array",
                         "minItems": 1,
                         "items": {
@@ -212,6 +250,8 @@
                         }
                     },
                     "Passthrough": {
+                        "description": "污染传递信息",
+                        "title": "Taint passthrough info",
                         "$ref": "#/$defs/Passthrough"
                     }
                 },
@@ -220,9 +260,9 @@
         },
         "TaintSinkRule": {
             "$anchor": "TaintSinkRule",
+            "description": "污染爆发点规则列表定义",
+            "title": "Taint sink rule definition",
             "type": "array",
-            "title": "The TaintSinkRule schema",
-            "description": "污染爆发点规则",
             "examples": [
                 {
                     "Rule": {
@@ -250,11 +290,11 @@
                 }
             ],
             "items": {
+                "description": "污染爆发点规则列表成员定义",
+                "title": "Taint sink rule item definition",
                 "type": "object",
                 "minProperties": 4,
                 "maxProperties": 4,
-                "title": "The schema",
-                "description": "污染爆发点规则",
                 "required": [
                     "Rule",
                     "Vulnerability",
@@ -263,12 +303,18 @@
                 ],
                 "properties": {
                     "Rule": {
+                        "description": "污染爆发点规则基本信息",
+                        "title": "Taint sink rule base info",
                         "$ref": "#/$defs/RuleCheckerInfo"
                     },
                     "Vulnerability": {
+                        "description": "缺陷信息",
+                        "title": "Vulnerability info",
                         "$ref": "#/$defs/Vulnerability"
                     },
                     "Functions": {
+                        "description": "污染爆发点规则函数列表",
+                        "title": "Taint sink rule functions",
                         "type": "array",
                         "minItems": 1,
                         "items": {
@@ -276,6 +322,8 @@
                         }
                     },
                     "Sinks": {
+                        "description": "污染爆发信息",
+                        "title": "Sink info",
                         "type": "array",
                         "items": {
                             "$ref": "#/$defs/Sink"
@@ -287,15 +335,15 @@
         },
         "TaintCleanseRule": {
             "$anchor": "TaintCleanseRule",
+            "description": "污点清理规则列表定义",
+            "title": "Taint cleanse rule definition",
             "type": "array",
-            "title": "The TaintCleanseRule schema",
-            "description": "污点清理规则列表",
             "items": {
+                "description": "污点清理规则列表成员定义",
+                "title": "Taint cleanse rule item definition",
                 "type": "object",
                 "minProperties": 3,
                 "maxProperties": 3,
-                "title": "The first anyOf schema",
-                "description": "污染清理规则",
                 "required": [
                     "Rule",
                     "Functions",
@@ -303,9 +351,13 @@
                 ],
                 "properties": {
                     "Rule": {
+                        "description": "污染清理规则基本信息",
+                        "title": "Taint cleanse rule base info",
                         "$ref": "#/$defs/RuleBaseInfo"
                     },
                     "Functions": {
+                        "description": "污染清理规则函数列表",
+                        "title": "Taint cleanse rule functions",
                         "type": "array",
                         "minItems": 1,
                         "items": {
@@ -313,6 +365,8 @@
                         }
                     },
                     "Cleanse": {
+                        "description": "污染清理信息",
+                        "title": "Cleanse info",
                         "$ref": "#/$defs/Cleanse"
                     }
                 },
@@ -321,9 +375,9 @@
         },
         "RuleBaseInfo": {
             "$anchor": "RuleBaseInfo",
-            "type": "object",
-            "title": "The RuleBaseInfo schema",
             "description": "规则基本信息",
+            "title": "Rule base info",
+            "type": "object",
             "required": [
                 "RuleId"
             ],
@@ -344,7 +398,7 @@
         "RuleCheckerInfo": {
             "$anchor": "RuleCheckerInfo",
             "type": "object",
-            "title": "The RuleCheckerInfo schema",
+            "title": "The RuleCheckerInfo",
             "description": "检查规则基本信息",
             "required": [
                 "RuleId",
@@ -358,7 +412,7 @@
                 "RuleName": {
                     "type": "string",
                     "minLength": 1,
-                    "title": "The RuleName schema",
+                    "title": "The RuleName",
                     "description": "规则名",
                     "examples": [
                         "Code_Injection"
@@ -376,7 +430,7 @@
         "Vulnerability": {
             "$anchor": "Vulnerability",
             "type": "object",
-            "title": "The Vulnerability schema",
+            "title": "The Vulnerability",
             "description": "缺陷信息",
             "examples": [
                 {
@@ -398,7 +452,7 @@
                 "Category": {
                     "type": "string",
                     "minLength": 1,
-                    "title": "The Category schema",
+                    "title": "The Category",
                     "description": "缺陷分类",
                     "examples": [
                         "Injection"
@@ -407,7 +461,7 @@
                 "Subcategory": {
                     "type": "string",
                     "minLength": 1,
-                    "title": "The Subcategory schema",
+                    "title": "The Subcategory",
                     "description": "缺陷子类",
                     "examples": [
                         "Code Injection"
@@ -415,7 +469,7 @@
                 },
                 "IssueType": {
                     "type": "string",
-                    "title": "The IssueType schema",
+                    "title": "The IssueType",
                     "description": "缺陷场景",
                     "examples": [
                         "Untrusted Input"
@@ -433,13 +487,13 @@
         "RuleMessages": {
             "$anchor": "RuleMessages",
             "type": "array",
-            "title": "The RuleMessages schema",
+            "title": "The RuleMessages",
             "description": "规则的扩展参考信息列表",
             "items": {
                 "type": "object",
                 "minProperties": 2,
                 "maxProperties": 2,
-                "title": "The first anyOf schema",
+                "title": "The first anyOf",
                 "description": "规则的扩展参考信息",
                 "examples": [
                     {
@@ -454,7 +508,7 @@
                 "properties": {
                     "Id": {
                         "type": "string",
-                        "title": "The Id schema",
+                        "title": "The Id",
                         "description": "规则的扩展参考信息ID",
                         "examples": [
                             "Code.Injection.exec|eval"
@@ -462,7 +516,7 @@
                     },
                     "Msg": {
                         "type": "string",
-                        "title": "The Msg schema",
+                        "title": "The Msg",
                         "description": "规则的扩展参考信息内容",
                         "examples": [
                             "Untrusted data pass to eval 1st parameter will cause Code Injection."
@@ -483,8 +537,8 @@
                 "GO",
                 "JAVASCRIPT"
             ],
-            "title": "Code language",
-            "description": "开发语言"
+            "title": "Rule package develop language",
+            "description": "规则集适用开发语言"
         },
         "Locale": {
             "$anchor": "Locale",
@@ -500,12 +554,12 @@
             "type": "object",
             "minProperties": 1,
             "maxProperties": 1,
-            "title": "The ValueType schema",
+            "title": "The ValueType",
             "description": "值的类型",
             "properties": {
                 "Value": {
                     "type": "string",
-                    "title": "The Value schema",
+                    "title": "The Value",
                     "description": "参数以值的方式提供",
                     "examples": [
                         "Python Dataflow Rules"
@@ -514,7 +568,7 @@
                 "Pattern": {
                     "type": "string",
                     "format": "regex",
-                    "title": "The Pattern schema",
+                    "title": "The Pattern",
                     "description": "参数以正则表示式的方式提供",
                     "examples": [
                         "Python Dataflow Rule Package"
@@ -560,12 +614,12 @@
         "RefInfo": {
             "$anchor": "RefInfo",
             "type": "array",
-            "title": "The RefInfo schema",
+            "title": "The RefInfo",
             "description": "规则的参考信息列表",
             "items": [
                 {
                     "type": "object",
-                    "title": "The schema",
+                    "title": "The",
                     "description": "规则的参考信息",
                     "required": [
                         "Key",
@@ -574,7 +628,7 @@
                     "properties": {
                         "Key": {
                             "type": "string",
-                            "title": "The RefKey schema",
+                            "title": "The RefKey",
                             "description": "规则的扩展参考信息名称",
                             "minLength": 1,
                             "examples": [
@@ -583,7 +637,7 @@
                         },
                         "Value": {
                             "type": "string",
-                            "title": "The RefValue schema",
+                            "title": "The RefValue",
                             "description": "规则的扩展参考信息内容",
                             "examples": [
                                 "Python Core"
@@ -598,13 +652,13 @@
             "$anchor": "Parameters",
             "type": "object",
             "minProperties": 1,
-            "title": "The Parameters schema",
+            "title": "The Parameters",
             "description": "参数列表",
             "properties": {
                 "ParamTypes": {
                     "type": "array",
-                    "title": "The ParamTypes schema",
                     "minItems": 1,
+                    "title": "The ParamTypes",
                     "description": "参数的类型",
                     "items": [
                         {
@@ -623,7 +677,7 @@
                 },
                 "varArg": {
                     "type": "boolean",
-                    "title": "The varArg schema",
+                    "title": "The varArg",
                     "description": "标识函数是否有可变参数",
                     "default": false,
                     "examples": [
@@ -635,53 +689,63 @@
         },
         "Modifier": {
             "$anchor": "Modifier",
+            "title": "function Modifier",
+            "description": "函数的修饰符",
             "enum": [
                 "public",
                 "private",
                 "protected",
                 "static",
                 "final"
-            ],
-            "title": "function Modifier",
-            "description": "定义函数的修饰符"
+            ]
         },
         "FunctionIdentifier": {
             "$anchor": "FunctionIdentifier",
-            "type": "object",
-            "title": "The FunctionIdentifier schema",
+            "title": "The FunctionIdentifier",
             "description": "函数定义",
+            "type": "object",
             "minProperties": 1,
             "properties": {
                 "Namespace": {
+                    "title": "The Namespace",
+                    "description": "命名空间",
                     "$ref": "#/$defs/ValueType"
                 },
                 "Class": {
+                    "title": "The Class",
+                    "description": "类名",
                     "$ref": "#/$defs/ValueType"
                 },
                 "Function": {
+                    "title": "The Function",
+                    "description": "函数名",
                     "$ref": "#/$defs/ValueType"
                 },
                 "Parameters": {
+                    "title": "The Parameters",
+                    "description": "函数参数",
                     "$ref": "#/$defs/Parameters"
                 },
                 "ReturnType": {
                     "type": "string",
-                    "title": "The ReturnType schema",
-                    "description": "定义函数返回的类型"
+                    "title": "The ReturnType",
+                    "description": "函数返回的类型"
                 },
                 "ApplyTo": {
-                    "type": "boolean",
-                    "title": "The ApplyTo schema",
+                    "title": "The ApplyTo",
                     "description": "函数的适配扩展到接口的所有实现,函数的适配扩展到所有的实现,函数的适配扩展到所有重写的函数",
+                    "type": "boolean",
                     "default": true
                 },
                 "Modifier": {
+                    "title": "The Modifier",
+                    "description": "函数修饰符",
                     "$ref": "#/$defs/Modifier"
                 },
                 "Exclude": {
-                    "type": "array",
                     "title": "function exclude",
-                    "description": "定义不包含的函数",
+                    "description": "不包含的函数",
+                    "type": "array",
                     "items": {
                         "$ref": "#/$defs/FunctionIdentifier"
                     }
@@ -693,7 +757,7 @@
             "$anchor": "Arguments",
             "type": "string",
             "pattern": "([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*(,([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*)*",
-            "title": "The Arguments schema",
+            "title": "The Arguments",
             "description": "允许使用多个函数参数(逗号分隔)列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
             "minLength": 1,
             "examples": [
@@ -704,7 +768,7 @@
             "$anchor": "Argument",
             "type": "string",
             "pattern": "[0-9]+|this|return",
-            "title": "The Argument schema",
+            "title": "The Argument",
             "description": "函数的一个参数。值允许this,return;或使用数字n,能代表参数的位置坐标,位置坐标从0开始。",
             "minLength": 1,
             "examples": [
@@ -714,7 +778,7 @@
         "ArgumentCompare": {
             "$anchor": "ArgumentCompare",
             "type": "object",
-            "title": "The ArgumentCompare schema",
+            "title": "The ArgumentCompare",
             "description": "参数比较:ArgumentCompare",
             "required": [
                 "Argument",
@@ -738,7 +802,7 @@
         "ReportMsgId": {
             "$anchor": "ReportMsgId",
             "type": "string",
-            "title": "The ReportMsgId schema",
+            "title": "The ReportMsgId",
             "description": "规则的扩展参考信息ID",
             "minLength": 1,
             "examples": [
@@ -748,7 +812,7 @@
         "TaintFlags": {
             "$anchor": "TaintFlags",
             "type": "string",
-            "title": "The TaintFlags schema",
+            "title": "The TaintFlags",
             "description": "定义在这里引入的污染源类型, 可以是多个标识, 用逗号分隔",
             "minLength": 1,
             "examples": [
@@ -758,7 +822,7 @@
         "TaintFlag": {
             "$anchor": "TaintFlag",
             "type": "string",
-            "title": "The TaintFlag schema",
+            "title": "The TaintFlag",
             "description": "定义在这里引入的污染源类型",
             "minLength": 1,
             "examples": [
@@ -767,9 +831,9 @@
         },
         "EntryPoint": {
             "$anchor": "EntryPoint",
+            "description": "入口点信息定义",
+            "title": "Entry Point definition",
             "type": "object",
-            "title": "The EntryPoint schema",
-            "description": "入口点信息",
             "required": [
                 "InArgs",
                 "TaintFlags"
@@ -789,11 +853,11 @@
                 }
             },
             "additionalProperties": false
-        },        
+        },
         "Source": {
             "$anchor": "Source",
             "type": "object",
-            "title": "The Source schema",
+            "title": "The Source",
             "description": "污染源信息",
             "required": [
                 "OutArgs",
@@ -818,7 +882,7 @@
         "Passthrough": {
             "$anchor": "Passthrough",
             "type": "object",
-            "title": "The Passthrough schema",
+            "title": "The Passthrough",
             "description": "污染传播信息",
             "required": [
                 "InArgs",
@@ -843,7 +907,7 @@
         "Cleanse": {
             "$anchor": "Cleanse",
             "type": "object",
-            "title": "The Cleanse schema",
+            "title": "The Cleanse",
             "description": "污染清理信息",
             "required": [
                 "OutArgs"
@@ -857,9 +921,9 @@
         },
         "Sink": {
             "$anchor": "Sink",
+            "description": "污染爆发信息定义",
+            "title": "Taint sink definition",
             "type": "object",
-            "title": "The Sink schema",
-            "description": "污染爆发信息",
             "examples": [
                 {
                     "InArgs": "1",
@@ -893,7 +957,7 @@
         "Conditional": {
             "$anchor": "Conditional",
             "type": "object",
-            "title": "The Conditional schema",
+            "title": "The Conditional",
             "description": "条件表达式",
             "minProperties": 1,
             "examples": [
@@ -948,7 +1012,7 @@
         "And": {
             "$anchor": "And",
             "type": "array",
-            "title": "The And schema",
+            "title": "The And",
             "description": "And条件连接符,可嵌套其他条件",
             "minItems": 2,
             "items": {
@@ -962,9 +1026,9 @@
         "Or": {
             "$anchor": "Or",
             "type": "array",
-            "title": "The Or schema",
+            "title": "The Or",
             "description": "Or条件连接符,可嵌套其他条件",
-            "minItems": 2,            
+            "minItems": 2,
             "items": {
                 "minProperties": 1,
                 "allOf": [
@@ -977,7 +1041,7 @@
         "Not": {
             "$anchor": "Not",
             "type": "object",
-            "title": "The Not schema",
+            "title": "The Not",
             "description": "Not条件连接符,可嵌套其他条件",
             "minProperties": 1,
             "maxProperties": 1,
@@ -990,7 +1054,7 @@
         "IsConstant": {
             "$anchor": "IsConstant",
             "type": "object",
-            "title": "The IsConstant schema",
+            "title": "The IsConstant",
             "description": "是否为常量判断,可嵌套其他条件",
             "required": [
                 "Argument"
@@ -1005,7 +1069,7 @@
         "IsType": {
             "$anchor": "IsType",
             "type": "object",
-            "title": "The IsType schema",
+            "title": "The IsType",
             "description": "类型判断(值、正则匹配),可嵌套其他条件",
             "required": [
                 "Class",
@@ -1027,7 +1091,7 @@
         "ConstantMatches": {
             "$anchor": "ConstantMatches",
             "type": "object",
-            "title": "The ConstantMatches schema",
+            "title": "The ConstantMatches",
             "description": "参数常量匹配(正则表达式)判断,可嵌套其他条件",
             "required": [
                 "Argument",
