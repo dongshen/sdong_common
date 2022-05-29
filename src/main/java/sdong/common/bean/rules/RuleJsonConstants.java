@@ -17,11 +17,13 @@ public class RuleJsonConstants {
     /**
      * Rule info
      */
+    public static final String RULES_ENTRY_POINT = "EntryPointRules";
     public static final String RULES_TAINT_SOURCE = "TaintSourceRules";
     public static final String RULES_TAINT_PASSTHROUGH = "TaintPassthroughRules";
     public static final String RULES_TAINT_SINK = "TaintSinkRules";
     public static final String RULES_TAINT_CLEANSE = "TaintCleanseRules";
 
+    public static final String RULE_ENTRY_POINT = "EntryPointRule";
     public static final String RULE_TAINT_SOURCE = "TaintSourceRule";
     public static final String RULE_TAINT_PASSTHROUGH = "TaintPassthroughRule";
     public static final String RULE_TAINT_SINK = "TaintSinkRule";
@@ -94,7 +96,7 @@ public class RuleJsonConstants {
     public static final String IN_ARGS = "InArgs";
     public static final String ARGUMENT = "Argument";
     public static final String ARGS_VALUE = "Value";
-    public static final String ARGS_MODE = "Mode";
+    public static final String ARGS_MATCH_MODE = "MatchMode";
 
     /**
      * taint flag
@@ -146,5 +148,4 @@ public class RuleJsonConstants {
      * validator
      */
     public static final String VALIDAT_ERRORS = "causingExceptions";
-
 }

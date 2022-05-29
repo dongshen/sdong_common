@@ -269,12 +269,12 @@ public class JsonUtil {
     }
 
     /**
-     * get taint rule schema
+     * get data flow rule schema
      * 
-     * @return schema
+     * @return schema data flow rule schema
      * @throws SdongException module exception
      */
-    public static Schema getTaintRulesSchema() throws SdongException {
+    public static Schema getDataFlowRulesSchema() throws SdongException {
         if (TAINT_SCHEMA != null) {
             return TAINT_SCHEMA;
         }
@@ -290,7 +290,7 @@ public class JsonUtil {
 
     public static Optional<JsonValidatErrors> validatTaintRule(String ruleFile) throws SdongException {
         try (InputStream inputStream = new FileInputStream(ruleFile)) {
-            Schema schema = getTaintRulesSchema();
+            Schema schema = getDataFlowRulesSchema();
             JSONObject jsonSubject = new JSONObject(new JSONTokener(inputStream));
             schema.validate(jsonSubject);
             return Optional.empty();

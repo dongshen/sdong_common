@@ -8,7 +8,7 @@ public class CondConstantEq extends CondConstant {
     @SerializedName(value = RuleJsonConstants.ARGS_VALUE)
     private String value;
 
-    @SerializedName(value = RuleJsonConstants.ARGS_MODE)
+    @SerializedName(value = RuleJsonConstants.ARGS_MATCH_MODE)
     private String mode = "value";
 
     public String getValue() {

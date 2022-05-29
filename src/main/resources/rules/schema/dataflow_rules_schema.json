@@ -152,8 +152,7 @@
             "title": "The Cleanse",
             "description": "污染清理信息",
             "required": [
-                "OutArgs",
-                "TaintFlags"
+                "OutArgs"
             ],
             "properties": {
                 "Conditional": {
@@ -286,8 +285,7 @@
             "description": "入口点信息定义",
             "type": "object",
             "required": [
-                "InArgs",
-                "TaintFlags"
+                "InArgs"
             ],
             "properties": {
                 "Conditional": {
@@ -1177,7 +1175,6 @@
                 "Category",
                 "Subcategory",
                 "IssueType",
-                "CWE",
                 "Severity"
             ],
             "properties": {

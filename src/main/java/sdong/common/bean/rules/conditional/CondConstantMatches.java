@@ -8,7 +8,7 @@ public class CondConstantMatches extends CondConstant {
     @SerializedName(value = RuleJsonConstants.VALUE_TYPE_PATTERN)
     private String pattern;
 
-    @SerializedName(value = RuleJsonConstants.ARGS_MODE)
+    @SerializedName(value = RuleJsonConstants.ARGS_MATCH_MODE)
     private String mode;
 
     public String getPattern() {

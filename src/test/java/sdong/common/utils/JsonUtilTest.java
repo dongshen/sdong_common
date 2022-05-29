@@ -53,8 +53,8 @@ public class JsonUtilTest {
     @Test
     public void testGetTaintRuleSchema() {
         try {
-            Schema schema = JsonUtil.getTaintRulesSchema();
-            assertEquals("The taint rules schema for static analysis 1.0", schema.getTitle());
+            Schema schema = JsonUtil.getDataFlowRulesSchema();
+            assertEquals("The common dataflow rules schema for static analysis 1.0", schema.getTitle());
         } catch (SdongException e) {
             LOG.error("Get exception:{}", e.getMessage());
             fail("should not have exception!");
