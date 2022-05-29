@@ -305,7 +305,7 @@
                     "Rule": {
                         "description": "污染爆发点规则基本信息",
                         "title": "Taint sink rule base info",
-                        "$ref": "#/$defs/RuleCheckerInfo"
+                        "$ref": "#/$defs/CheckerInfo"
                     },
                     "Vulnerability": {
                         "description": "缺陷信息",
@@ -375,53 +375,63 @@
         },
         "RuleBaseInfo": {
             "$anchor": "RuleBaseInfo",
-            "description": "规则基本信息",
-            "title": "Rule base info",
+            "description": "规则基本信息定义",
+            "title": "Rule base info definition",
             "type": "object",
             "required": [
                 "RuleId"
             ],
             "properties": {
                 "RuleId": {
-                    "$ref": "#/$defs/RuleId",
-                    "description": "每一个规则需要有一个全局的唯一标识,可用UUID生成"
+                    "description": "规则id, 每个规则需要有一个全局的唯一标识,可用UUID生成",
+                    "title": "Rule id, should be uniquite",
+                    "$ref": "#/$defs/RuleId"
                 },
                 "Note": {
+                    "description": "规则基本信息描述",
+                    "title": "Rule base info description",
                     "$ref": "#/$defs/Note"
                 },
                 "RefInfos": {
+                    "description": "规则参考信息",
+                    "title": "Rule reference info",
                     "$ref": "#/$defs/RefInfo"
                 }
             },
             "additionalProperties": false
         },
-        "RuleCheckerInfo": {
-            "$anchor": "RuleCheckerInfo",
+        "CheckerInfo": {
+            "$anchor": "CheckerInfo",
+            "description": "检查规则信息定义",
+            "title": "Rule checker info definition",
             "type": "object",
-            "title": "The RuleCheckerInfo",
-            "description": "检查规则基本信息",
             "required": [
                 "RuleId",
                 "RuleName"
             ],
             "properties": {
                 "RuleId": {
-                    "$ref": "#/$defs/RuleId",
-                    "description": "每一个规则需要有一个全局的唯一标识,可用UUID生成"
+                    "description": "检查规则id, 每一个检查规则需要有一个全局的唯一标识,可用UUID生成",
+                    "title": "Checker id, should be uniquite",
+                    "$ref": "#/$defs/RuleId"
                 },
                 "RuleName": {
+                    "description": "检查规则名",
+                    "title": "Checker name",
                     "type": "string",
                     "minLength": 1,
-                    "title": "The RuleName",
-                    "description": "规则名",
                     "examples": [
                         "Code_Injection"
                     ]
                 },
                 "Note": {
+                    "description": "检查规则描述",
+                    "title": "Checker description",
                     "$ref": "#/$defs/Note"
                 },
                 "RefInfos": {
+                    "description": "检查规则参考信息",
+                    "title": "Checker reference info",
                     "$ref": "#/$defs/RefInfo"
                 }
             },
@@ -429,9 +439,9 @@
         },
         "Vulnerability": {
             "$anchor": "Vulnerability",
+            "description": "缺陷信息定义",
+            "title": "Vulnerability info definition",
             "type": "object",
-            "title": "The Vulnerability",
-            "description": "缺陷信息",
             "examples": [
                 {
                     "Category": "Injection",
@@ -450,35 +460,39 @@
             ],
             "properties": {
                 "Category": {
+                    "description": "缺陷分类",
+                    "title": "Vulnerability Category",
                     "type": "string",
                     "minLength": 1,
-                    "title": "The Category",
-                    "description": "缺陷分类",
                     "examples": [
                         "Injection"
                     ]
                 },
                 "Subcategory": {
+                    "description": "缺陷子类",
+                    "title": "Vulnerability Subcategory",
                     "type": "string",
                     "minLength": 1,
-                    "title": "The Subcategory",
-                    "description": "缺陷子类",
                     "examples": [
                         "Code Injection"
                     ]
                 },
                 "IssueType": {
-                    "type": "string",
-                    "title": "The IssueType",
                     "description": "缺陷场景",
+                    "title": "Vulnerability issue type",
+                    "type": "string",
                     "examples": [
                         "Untrusted Input"
                     ]
                 },
                 "CWE": {
+                    "description": "CWE",
+                    "title": "CWE",
                     "$ref": "#/$defs/CWE"
                 },
                 "Severity": {
+                    "description": "缺陷危害等级",
+                    "title": "Vulnerability severity",
                     "$ref": "#/$defs/Severity"
                 }
             },
@@ -486,15 +500,15 @@
         },
         "RuleMessages": {
             "$anchor": "RuleMessages",
+            "description": "规则的信息列表定义",
+            "title": "Rule messages definition",
             "type": "array",
-            "title": "The RuleMessages",
-            "description": "规则的扩展参考信息列表",
             "items": {
+                "description": "规则的信息列表成员定义",
+                "title": "Rule messages item definition",
                 "type": "object",
                 "minProperties": 2,
                 "maxProperties": 2,
-                "title": "The first anyOf",
-                "description": "规则的扩展参考信息",
                 "examples": [
                     {
                         "Id": "Code.Injection.exec|eval",
@@ -507,17 +521,17 @@
                 ],
                 "properties": {
                     "Id": {
+                        "description": "规则信息ID",
+                        "title": "Rule messages Id",
                         "type": "string",
-                        "title": "The Id",
-                        "description": "规则的扩展参考信息ID",
                         "examples": [
                             "Code.Injection.exec|eval"
                         ]
                     },
                     "Msg": {
+                        "description": "规则信息",
+                        "title": "Rule messages",
                         "type": "string",
-                        "title": "The Msg",
-                        "description": "规则的扩展参考信息内容",
                         "examples": [
                             "Untrusted data pass to eval 1st parameter will cause Code Injection."
                         ]
@@ -528,6 +542,8 @@
         },
         "Language": {
             "$anchor": "Language",
+            "description": "规则集适用开发语言定义",
+            "title": "Rule package develop language definition",
             "enum": [
                 "C",
                 "CPP",
@@ -536,40 +552,38 @@
                 "PYTHON",
                 "GO",
                 "JAVASCRIPT"
-            ],
-            "title": "Rule package develop language",
-            "description": "规则集适用开发语言"
+            ]
         },
         "Locale": {
             "$anchor": "Locale",
+            "description": "规则信息显示语言定义",
+            "title": "Message locale definition",
             "enum": [
                 "EN",
                 "CN"
-            ],
-            "title": "Message locale",
-            "description": "规则显示语言"
+            ]
         },
         "ValueType": {
             "$anchor": "ValueType",
+            "description": "值的类型定义",
+            "title": "Value type definition",
             "type": "object",
             "minProperties": 1,
             "maxProperties": 1,
-            "title": "The ValueType",
-            "description": "值的类型",
             "properties": {
                 "Value": {
+                    "description": "值的匹配",
+                    "title": "Value matching",
                     "type": "string",
-                    "title": "The Value",
-                    "description": "参数以值的方式提供",
                     "examples": [
                         "Python Dataflow Rules"
                     ]
                 },
                 "Pattern": {
+                    "description": "正则表示式匹配",
+                    "title": "Pattern matching",
                     "type": "string",
                     "format": "regex",
-                    "title": "The Pattern",
-                    "description": "参数以正则表示式的方式提供",
                     "examples": [
                         "Python Dataflow Rule Package"
                     ]
@@ -579,66 +593,66 @@
         },
         "Severity": {
             "$anchor": "Severity",
+            "description": "缺陷的危害等级定义",
+            "title": "Vulnerability severity definition",
             "enum": [
                 "Fatal",
                 "Critical",
                 "Medium",
                 "Normal",
                 "Suggest"
-            ],
-            "title": "weakness Severity",
-            "description": "缺陷的危害等级"
+            ]
         },
         "CWE": {
             "$anchor": "CWE",
+            "description": "CWE定义",
+            "title": "CWE definition",
             "type": "string",
-            "pattern": ".{0}|^[1-9][0-9]{0,3}(,[1-9][0-9]{0,3})*$",
-            "title": "CWE",
-            "description": "CWE"
+            "pattern": ".{0}|^[1-9][0-9]{0,3}(,[1-9][0-9]{0,3})*$"
         },
         "Note": {
             "$anchor": "Note",
-            "type": "string",
-            "title": "Note",
-            "description": "描述或注释"
+            "description": "描述或注释定义",
+            "title": "Note definition",
+            "type": "string"
         },
         "RuleId": {
             "$anchor": "RuleId",
+            "description": "规则编号定义",
+            "title": "Rule Id definition",
             "type": "string",
-            "title": "Rule Id",
-            "description": "规则编号",
             "examples": [
                 "74420652-95a6-4c52-a51e-7f4358f09350"
             ]
         },
         "RefInfo": {
             "$anchor": "RefInfo",
+            "description": "参考信息列表定义",
+            "title": "Reference info definition",
             "type": "array",
-            "title": "The RefInfo",
-            "description": "规则的参考信息列表",
             "items": [
                 {
+                    "description": "参考信息列表成员定义",
+                    "title": "Reference info item definition",
                     "type": "object",
-                    "title": "The",
-                    "description": "规则的参考信息",
                     "required": [
                         "Key",
                         "Value"
                     ],
                     "properties": {
                         "Key": {
+                            "description": "参考信息关键值",
+                            "title": "Reference key",
                             "type": "string",
-                            "title": "The RefKey",
-                            "description": "规则的扩展参考信息名称",
                             "minLength": 1,
                             "examples": [
                                 "packge"
                             ]
                         },
                         "Value": {
+                            "description": "参考信息值",
+                            "title": "Reference value",
                             "type": "string",
-                            "title": "The RefValue",
-                            "description": "规则的扩展参考信息内容",
                             "examples": [
                                 "Python Core"
                             ]
@@ -650,25 +664,27 @@
         },
         "Parameters": {
             "$anchor": "Parameters",
+            "description": "函数参数定义",
+            "title": "Function parameters definition",
             "type": "object",
             "minProperties": 1,
-            "title": "The Parameters",
-            "description": "参数列表",
             "properties": {
                 "ParamTypes": {
+                    "description": "函数参数成员定义",
+                    "title": "Function parameters item definition",
                     "type": "array",
                     "minItems": 1,
-                    "title": "The ParamTypes",
-                    "description": "参数的类型",
                     "items": [
                         {
                             "properties": {
                                 "ParamInd": {
-                                    "type": "integer",
+                                    "description": "参数的位置",
                                     "title": "The index of paramter position",
-                                    "description": "参数的位置"
+                                    "type": "integer"
                                 },
                                 "ParamType": {
+                                    "description": "参数的类型",
+                                    "title": "Paramter type",
                                     "$ref": "#/$defs/ValueType"
                                 }
                             }
@@ -676,9 +692,9 @@
                     ]
                 },
                 "varArg": {
+                    "description": "函数是否有可变参数",
+                    "title": "Function has variable parameter",
                     "type": "boolean",
-                    "title": "The varArg",
-                    "description": "标识函数是否有可变参数",
                     "default": false,
                     "examples": [
                         false
@@ -689,8 +705,8 @@
         },
         "Modifier": {
             "$anchor": "Modifier",
-            "title": "function Modifier",
-            "description": "函数的修饰符",
+            "description": "函数的修饰符定义",
+            "title": "Function modifier definition",
             "enum": [
                 "public",
                 "private",
@@ -701,19 +717,19 @@
         },
         "FunctionIdentifier": {
             "$anchor": "FunctionIdentifier",
-            "title": "The FunctionIdentifier",
             "description": "函数定义",
+            "title": "Function indentifier definition",
             "type": "object",
             "minProperties": 1,
             "properties": {
                 "Namespace": {
-                    "title": "The Namespace",
                     "description": "命名空间",
+                    "title": "The Namespace",
                     "$ref": "#/$defs/ValueType"
                 },
                 "Class": {
-                    "title": "The Class",
                     "description": "类名",
+                    "title": "The Class",
                     "$ref": "#/$defs/ValueType"
                 },
                 "Function": {
@@ -722,29 +738,29 @@
                     "$ref": "#/$defs/ValueType"
                 },
                 "Parameters": {
-                    "title": "The Parameters",
                     "description": "函数参数",
+                    "title": "The Parameters",
                     "$ref": "#/$defs/Parameters"
                 },
                 "ReturnType": {
-                    "type": "string",
+                    "description": "函数返回的类型",
                     "title": "The ReturnType",
-                    "description": "函数返回的类型"
+                    "type": "string"
                 },
                 "ApplyTo": {
-                    "title": "The ApplyTo",
-                    "description": "函数的适配扩展到接口的所有实现,函数的适配扩展到所有的实现,函数的适配扩展到所有重写的函数",
+                    "description": "函数的适配扩展到接口、实现, 以及所有重写的函数",
+                    "title": "The adaptation of the function is extended to the interface, implementation, and all overridden functions",
                     "type": "boolean",
                     "default": true
                 },
                 "Modifier": {
-                    "title": "The Modifier",
                     "description": "函数修饰符",
+                    "title": "Function modifier",
                     "$ref": "#/$defs/Modifier"
                 },
                 "Exclude": {
-                    "title": "function exclude",
-                    "description": "不包含的函数",
+                    "description": "不包含的函数列表",
+                    "title": "Exclude function list",
                     "type": "array",
                     "items": {
                         "$ref": "#/$defs/FunctionIdentifier"
@@ -755,10 +771,10 @@
         },
         "Arguments": {
             "$anchor": "Arguments",
+            "description": "函数参数值的多个定义。使用逗号分隔列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
+            "title": "Arguments definition",
             "type": "string",
             "pattern": "([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*(,([0-9]+|[0-9]+\\.\\.\\.|[0-9]+-[0-9]+|this|return|globals)(\\.[\\$a-zA-Z0-9_\\-]+)*)*",
-            "title": "The Arguments",
-            "description": "允许使用多个函数参数(逗号分隔)列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
             "minLength": 1,
             "examples": [
                 "0"
