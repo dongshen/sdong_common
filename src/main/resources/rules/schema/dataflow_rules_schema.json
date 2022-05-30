@@ -161,6 +161,8 @@
                     "$ref": "#/$defs/Conditional"
                 },
                 "OutArgs": {
+                    "title": "Taint out clean arguments",
+                    "description": "污染传出清理多函数参数值匹配。使用逗号分隔列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",                
                     "$ref": "#/$defs/Arguments"
                 },
                 "TaintFlags": {
@@ -592,12 +594,12 @@
                 },
                 "InArgs": {
                     "title": "Taint in arguments",
-                    "description": "污染源传出多函数参数值匹配。使用逗号分隔列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
+                    "description": "污染传入多函数参数值匹配。使用逗号分隔列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
                     "$ref": "#/$defs/Arguments"
                 },
                 "OutArgs": {
                     "title": "Taint out arguments",
-                    "description": "污染源传出多函数参数值匹配。使用逗号分隔列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
+                    "description": "污染传出多函数参数值匹配。使用逗号分隔列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
                     "$ref": "#/$defs/Arguments"
                 },
                 "TaintFlags": {
@@ -870,7 +872,7 @@
                 },
                 "InArgs": {
                     "title": "Taint in arguments",
-                    "description": "污染源传出多函数参数值匹配。使用逗号分隔列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
+                    "description": "污染爆发多函数参数值匹配。使用逗号分隔列表。接受以下形式的表达式:x- 单个参数,其中 x 是一个数字、this、return或globals; 当 x 是一个数字时,它指示函数的第 x 个参数,从 0 开始; x.member - 给定参数的单个成员字段; n...- 参数 n 之后的所有参数,包括参数 n; n1-n2 - n1 和 n2 之间的所有参数",
                     "$ref": "#/$defs/Arguments"
                 },
                 "ReportMsgId": {
