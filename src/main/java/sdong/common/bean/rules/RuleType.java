@@ -10,6 +10,7 @@ import sdong.common.utils.CommonUtil;
  */
 public enum RuleType {
     BASE("Base"),
+    ENTRY_POINT("EntryPointRule"),
     TAINT_SOURCE("TaintSourceRule"),
     TAINT_PASSTHROUGH("TaintPassthroughRule"),
     TAINT_SINK("TaintSinkRule"),
