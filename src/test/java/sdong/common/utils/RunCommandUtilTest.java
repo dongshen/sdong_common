@@ -15,9 +15,21 @@ import sdong.common.exception.SdongException;
 public class RunCommandUtilTest {
 	private static final Logger LOG = LogManager.getLogger(RunCommandUtilTest.class);
 
+    @Test
+    public void testRunCommand(){
+        String cmd = "dir";
+        try {
+			String result = RunCommandUtil.runCommand(cmd);
+			LOG.info("result=" + result);
+		} catch (SdongException e) {
+			LOG.error("Get exception:{}",e.getMessage());
+			fail("should not have exception!");
+		}
+    }
+
 	@Test
 	public void testRunCommand_cov_manage_emit_listjson() {
-		String[] cmd = { "cmd", "/C", "cov-manage-emit1 --dir D:/git/sdong/AST/input/coverityEmit list-json" };
+		String cmd = "cov-manage-emit1 --dir D:/git/sdong/AST/input/coverityEmit list-json" ;
 
 		try {
 			String result = RunCommandUtil.runCommand(cmd);
@@ -30,8 +42,7 @@ public class RunCommandUtilTest {
 
 	@Test
 	public void testRunCommand_cov_manage_emit_print_definitions() {
-		String[] cmd = { "cmd", "/C",
-				"cov-manage-emit --dir D:/git/sdong/AST/input/coverityEmit --tu 10 find . --print-definitions" };
+		String cmd =  "cov-manage-emit --dir D:/git/sdong/AST/input/coverityEmit --tu 10 find . --print-definitions" ;
 
 		try {
 			String result = RunCommandUtil.runCommand(cmd);
@@ -44,8 +55,7 @@ public class RunCommandUtilTest {
 
 	@Test
 	public void testRunCommand_cov_manage_emit_print_debug() {
-		String[] cmd = { "cmd", "/C",
-				"cov-manage-emit --dir D:/git/sdong/AST/input/coverityEmit --tu 10,32,33,34,35,36,37,38,39,40 find . --print-debug" };
+		String cmd =  "cov-manage-emit --dir D:/git/sdong/AST/input/coverityEmit --tu 10,32,33,34,35,36,37,38,39,40 find . --print-debug" ;
 
 		try {
 			String result = RunCommandUtil.runCommand(cmd);
@@ -58,8 +68,7 @@ public class RunCommandUtilTest {
 
 	@Test
 	public void testRunCommand_cov_manage_emit_print_source() {
-		String[] cmd = { "cmd", "/C",
-				"cov-manage-emit --dir D:/git/sdong/AST/input/coverityEmit --tu 10  print-source" };
+		String cmd =  "cov-manage-emit --dir D:/git/sdong/AST/input/coverityEmit --tu 10  print-source" ;
 
 		try {
 			String result = RunCommandUtil.runCommand(cmd);

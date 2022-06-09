@@ -21,6 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
 
 public class CommonUtil {
@@ -242,4 +243,20 @@ public class CommonUtil {
 		}
 		return true;
 	}
+
+
+    /**
+     * check environment is Linux or windows
+     * 
+     * @return result
+     */
+    public static boolean isLinux(){
+        Properties prop = System.getProperties();
+        String os = prop.getProperty("os.name");
+        if (os != null && os.toLowerCase().indexOf("linux") >= 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

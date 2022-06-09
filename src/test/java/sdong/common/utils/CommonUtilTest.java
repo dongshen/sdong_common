@@ -2,9 +2,9 @@ package sdong.common.utils;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 
 public class CommonUtilTest {
     private static final Logger LOG = LogManager.getLogger(CommonUtilTest.class);
@@ -42,5 +42,10 @@ public class CommonUtilTest {
 
         inStr = null;
         assertEquals(false, CommonUtil.checkNumber(inStr));
+    }
+
+    @Test
+    public void testIsLinux(){
+        assertEquals(false,CommonUtil.isLinux());
     }
 }
