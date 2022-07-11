@@ -195,17 +195,16 @@ public class CommonUtil {
 	}
 
 	/**
-	 * base on shannon entropy return bits of entropy represented in string.
+	 * Base on shannon entropy return bits of entropy represented in string.
 	 * 
 	 * @param inStr input string
 	 * @return bits of entropy represented in string
 	 */
 	public static double shannonEntropy(String inStr) {
 		double result = 0.0;
-		char[] chars = inStr.toCharArray();
 		Map<String, Integer> dict = new HashMap<String, Integer>();
 		String str;
-		for (char ch : chars) {
+		for (char ch : inStr.toCharArray()) {
 			str = Integer.toHexString((int) ch);
 			if (dict.containsKey(str)) {
 				dict.put(str, dict.get(str) + 1);

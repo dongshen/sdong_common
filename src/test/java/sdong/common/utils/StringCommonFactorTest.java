@@ -2,18 +2,14 @@ package sdong.common.utils;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.List;
-
-import org.junit.Test;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import sdong.common.utils.StringCommonFactor.ChildString;
 import sdong.common.utils.StringCommonFactor.DiffSequence;
 
-public class StringCommonFactorTest {
-	private static final Logger LOG = LogManager.getLogger(StringCommonFactorTest.class);
+import org.junit.Test;
 
+import java.util.List;
+
+public class StringCommonFactorTest {
 	@Test
 	public void testGetStringMaxCommmon_case1() {
 		String str1 = "String a, b, c;";

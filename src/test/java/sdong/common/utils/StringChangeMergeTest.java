@@ -2,16 +2,12 @@ package sdong.common.utils;
 
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 public class StringChangeMergeTest {
-	private static final Logger LOG = LogManager.getLogger(StringChangeMergeTest.class);
-
 	@Test
 	public void testGenerateMergeString_basic() {
 		String original = "String a, b, c;";
