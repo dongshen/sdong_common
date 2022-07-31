@@ -79,6 +79,20 @@ End Sub
 ```
 * F5运行宏.
 
+```
+Function GetAdrs(Rng)
+
+Application.Volatile True
+
+With Rng.Hyperlinks(1)
+
+GetAdrs = IIf(.Address = "", .SubAddress, .Address)
+
+End With
+
+End Function
+```
+
 ## 3.2. 填充合并单元格
 1. 取消合并居中
 2. 空值定位
