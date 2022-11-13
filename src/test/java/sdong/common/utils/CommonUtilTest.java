@@ -15,6 +15,25 @@ public class CommonUtilTest {
     }
 
     @Test
+    public void testGenerateType1UUID() {
+        for (int i = 0; i < 10; i++) {
+            LOG.info("Seq uuid: {}", CommonUtil.generateUuidSeq());
+        }
+    }
+
+    @Test
+    public void testGetUlid() {
+        for (int i = 0; i < 10; i++) {
+            LOG.info("Seq uuid: {}", CommonUtil.getUlid());
+        }
+    }
+
+    @Test
+    public void testGenerateUuidSeq() {
+        LOG.info("Seq uuid: {}", CommonUtil.generateUuidSeq());
+    }
+
+    @Test
     public void testShannonEntropy() {
         String inStr = "abcdefghijklmnopqrstuvwxyz";
         LOG.info("entropy:{}", CommonUtil.shannonEntropy(inStr));
@@ -45,7 +64,7 @@ public class CommonUtilTest {
     }
 
     @Test
-    public void testIsLinux(){
-        assertEquals(false,CommonUtil.isLinux());
+    public void testIsLinux() {
+        assertEquals(false, CommonUtil.isLinux());
     }
 }

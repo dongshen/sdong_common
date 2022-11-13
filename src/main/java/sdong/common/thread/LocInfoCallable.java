@@ -1,5 +1,9 @@
 package sdong.common.thread;
 
+import sdong.common.bean.loc.FileInfo;
+import sdong.common.exception.SdongException;
+import sdong.common.utils.LocUtil;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,12 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import sdong.common.bean.loc.FileInfo;
-import sdong.common.exception.SdongException;
-import sdong.common.utils.LocUtil;
-
 public class LocInfoCallable implements Callable<List<FileInfo>> {
-    private static final Logger LOG = LogManager.getLogger(LocInfoCallable.class);
+        private static final Logger LOG = LogManager.getLogger(LocInfoCallable.class);    
 
     List<String> fileList;
 

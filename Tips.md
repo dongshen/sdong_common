@@ -15,6 +15,8 @@ Tips
 - [8. GOOGLE 人机验证(RECAPTCHA)无法显示解决方案](#8-google-人机验证recaptcha无法显示解决方案)
 - [9. Git](#9-git)
 - [Reg](#reg)
+- [Google translate](#google-translate)
+- [Adoc](#adoc)
 
 # 1. Tesseract-OCR
 主要用于图片的文字提取.
@@ -169,3 +171,9 @@ git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch -r in
 git push origin --all --force
 
 # Reg
+
+# Google translate
+
+
+# Adoc
+* [Markdown 替代品 Asciidoc 介绍](https://www.jianshu.com/p/9c97abeaca42)
