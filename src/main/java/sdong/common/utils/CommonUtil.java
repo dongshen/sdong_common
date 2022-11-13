@@ -1,6 +1,5 @@
 package sdong.common.utils;
 
-import com.github.f4b6a3.ulid.Ulid;
 import com.github.f4b6a3.ulid.UlidCreator;
 import com.google.common.base.Enums;
 import com.google.common.base.Optional;
