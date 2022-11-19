@@ -259,7 +259,7 @@ public class JsonUtil {
      */
     public static void writeJsonObjectToFile(String jsonFile, Object object, Type classType) throws SdongException {
         String jsonString = objectToJsonString(object, classType);
-        FileUtil.makeFileFolder(jsonFile);
+        FileUtil.createFileWithFolder(jsonFile);
         try (FileWriter fileWriter = new FileWriter(jsonFile)) {
             fileWriter.write(jsonString);
             fileWriter.close();

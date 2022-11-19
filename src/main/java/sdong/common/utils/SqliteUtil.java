@@ -28,7 +28,7 @@ public class SqliteUtil {
      */
     public static void createNewDatabase(String dbFileName) throws SdongException {
         String url = JDBC_LINK + dbFileName;
-        File file = FileUtil.makeFileFolder(dbFileName);
+        File file = FileUtil.createFileWithFolder(dbFileName);
         if (file.exists()) {
             file.delete();
         }

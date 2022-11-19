@@ -7,6 +7,7 @@ import com.google.common.base.Optional;
 import sdong.common.CommonConstants;
 import sdong.common.exception.SdongException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -289,5 +290,9 @@ public class CommonUtil {
         } else {
             return false;
         }
+    }
+
+    public static String getSequence(int strLength, int seq){
+        return StringUtils.leftPad(String.valueOf(seq),strLength,"0");
     }
 }
