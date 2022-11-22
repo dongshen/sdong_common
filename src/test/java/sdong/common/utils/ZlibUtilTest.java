@@ -4,6 +4,12 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import sdong.common.exception.SdongException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,12 +18,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.junit.Test;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import sdong.common.exception.SdongException;
 
 public class ZlibUtilTest {
 	private static final Logger LOG = LogManager.getLogger(ZlibUtilTest.class);
@@ -48,7 +48,6 @@ public class ZlibUtilTest {
 			LOG.error(e.getMessage());
 			fail("should not get exception!");
 		}
-
 	}
 
 	@Test
