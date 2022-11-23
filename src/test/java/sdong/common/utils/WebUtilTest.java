@@ -18,10 +18,11 @@ public class WebUtilTest {
     @Test
     public void testSaveWebPage() {
         try {
-            String web = "https://vulncat.fortify.com/zh-cn/weakness?codelang=Java%2FJSP&po=";
+            //String web = "https://vulncat.fortify.com/zh-cn/weakness?codelang=Java%2FJSP&po=";
+            String web = "https://vulncat.fortify.com/zh-cn/weakness?po=";
             String outputFile = "output/util/webutil/fortify";
-            //FileUtil.deleteFolder(outputFile);
-            for (int i = 1; i <= 70; i++) {
+            FileUtil.deleteFolder(outputFile);
+            for (int i = 1; i <= 147; i++) {
                 WebUtil.saveWebPage(web + i, outputFile + File.separator + "fortify" + i + ".html");
             }
             assertEquals(true, FileUtil.fileExist(outputFile));
