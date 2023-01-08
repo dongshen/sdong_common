@@ -105,45 +105,8 @@ public class StringUtil {
 		}
 
 		String result = line.trim();
-		// remove start line break;
-		boolean change = false;
-		do {
-			change = false;
-			if (result.indexOf(CommonConstants.LINE_BREAK_CRLF) == 0) {
-				result = result.substring(CommonConstants.LINE_BREAK_CRLF.length());
-				change = true;
-			} else if (result.indexOf(CommonConstants.LINE_BREAK_LF) == 0) {
-				result = result.substring(CommonConstants.LINE_BREAK_LF.length());
-				change = true;
-			} else if (result.indexOf(CommonConstants.TAB) == 0) {
-				result = result.substring(CommonConstants.TAB.length());
-				change = true;
-			}
-			result = result.trim();
-		} while (change);
-
-		if (result.isEmpty()) {
-			return result;
-		}
-
-		// remove end line break;
-		do {
-			change = false;
-			if (result.lastIndexOf(CommonConstants.LINE_BREAK_CRLF) == result.length()
-					- CommonConstants.LINE_BREAK_CRLF.length()) {
-				result = result.substring(0, result.length() - CommonConstants.LINE_BREAK_CRLF.length());
-				change = true;
-			} else if (result.lastIndexOf(CommonConstants.LINE_BREAK_LF) == result.length()
-					- CommonConstants.LINE_BREAK_LF.length()) {
-				result = result.substring(0, result.length() - CommonConstants.LINE_BREAK_LF.length());
-				change = true;
-			} else if (result.lastIndexOf(CommonConstants.TAB) == result.length() - CommonConstants.TAB.length()) {
-				result = result.substring(0, result.length() - CommonConstants.TAB.length());
-				change = true;
-			}
-			result = result.trim();
-		} while (change);
-		return result;
+        result = result.replace("^[\\s]+|[\\s]+$","");
+        return result;
 	}
 
 	/**
