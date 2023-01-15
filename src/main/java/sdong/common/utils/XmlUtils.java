@@ -62,13 +62,15 @@ public class XmlUtils {
     }
 
     /*
-     * decode for xml (<,>,&,",')
+     * decode for xml: <,>,&, ,",',),(;
      */
     public static String decode(String str) {
         String cov = "";
         if (str != null) {
-            cov = str.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+            cov = str.replaceAll("&amp;", "&").replaceAll("&nbsp;", " ");
+            cov = cov.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
             cov = cov.replaceAll("&quot", "\"").replaceAll("&apos", "\'");
+            cov = cov.replaceAll("&langle;", "(").replaceAll("&rangle;", ")");
         }
         return cov;
     }
@@ -113,7 +115,7 @@ public class XmlUtils {
             xw.flush();
             xw.close();
         } catch (IOException e) {
-            System.out.println("Format XML doc get exception，please check it!");
+            System.out.println("Format XML doc get exception, please check it!");
             e.printStackTrace();
         }
         return sw.toString();

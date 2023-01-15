@@ -10,10 +10,11 @@ import org.junit.Test;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import sdong.common.CommonConstants;
 import sdong.common.exception.SdongException;
 
 public class StringUtilTest {
-	private static final Logger log = LogManager.getLogger(StringUtilTest.class);
+	private static final Logger LOG = LogManager.getLogger(StringUtilTest.class);
 
 	@Test
 	public void testCheckIndentNum() {
@@ -53,7 +54,7 @@ public class StringUtilTest {
 			List<String> result = StringUtil.splitStringToListByLineBreak(str);
 			assertEquals(list.size(), result.size());
 		} catch (SdongException e) {
-			log.error(e.getMessage());
+			LOG.error(e.getMessage());
 			fail("should not get exception!");
 		}
 	}
@@ -76,8 +77,29 @@ public class StringUtilTest {
 
 	@Test
 	public void testRemoveStarAndEndBlankLine() {
-		String lines = "\r\n   \r\nline 1\r\n\r\nline 2\r\nline 3\r\n\r\nline 4\r\nline 5\r\n   \r\n";
+		String lines = "\r\n   \r\n\r\n  line 1\r\n\r\n  line 2\r\nline 3\r\n\r\n\r\nline 4\r\n\r\nline 5\r\n   \r\n";
+        LOG.info("org:{}",lines);
 		String cur = StringUtil.removeStarAndEndBlankLine(lines);
-		assertEquals("line 1\r\n\r\nline 2\r\nline 3\r\n\r\nline 4\r\nline 5", cur.trim());
+        LOG.info("cur:{}",cur);
+		assertEquals("  line 1\r\n\r\n  line 2\r\nline 3\r\n\r\nline 4\r\n\r\nline 5\r\n",cur);
 	}
+
+    @Test
+    public void testRemoveHtmlMark(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("<p>").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("<b>Scenario</b><br/>").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("1. A user is tricked into visiting the malicious URL: <code>http://website.com/login?redirect=http://evil.vvebsite.com/fake/login</code><br/>").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("2. The user is redirected to a fake login page that looks like a site they trust. (<code>http://evil.vvebsite.com/fake/login</code>)<br/>").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("3. The user enters his credentials.<br/>").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("4. The evil site steals the user's credentials and redirects him to the original website.<br/>").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("<br/>").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("This attack is plausible because most users don't double check the URL after the redirection. Also, redirection to").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("an authentication page is very common.").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("</p>").append(CommonConstants.LINE_BREAK_CRLF);
+    
+        String org = sb.toString();
+        LOG.info("Org:{}",org);
+        LOG.info("cur:{}",StringUtil.removeHtmlMark(org));
+    }
 }

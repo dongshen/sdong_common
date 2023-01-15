@@ -14,108 +14,319 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringUtil {
-	private static final Logger log = LogManager.getLogger(StringUtil.class);
+    private static final Logger log = LogManager.getLogger(StringUtil.class);
 
-	public static final List<String> splitStringToListByLineBreak(String str) throws SdongException {
-		List<String> list = new ArrayList<String>();
-		try (BufferedReader reader = new BufferedReader(new StringReader(str));) {
+    public static final String MARK_MD_CODE_BLOCK = "```";
+    public static final String MARK_HTML_LINEBREAK = "<br/>";
 
-			for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-				list.add(line);
-			}
-		} catch (IOException e) {
-			log.error(e.getMessage());
-			throw new SdongException(e.getMessage());
-		}
-		return list;
-	}
+    public static final String MARK_HTML_UL_START = "<ul>";
+    public static final String MARK_HTML_UL_END = "</ul>";
+    public static final String MARK_HTML_LI_START = "<li>";
+    public static final String MARK_HTML_LI_END = "</li>";
 
-	public static final String joinStringListToStringByLineBreak(List<String> list) {
-		return joinStringListToString(list, CommonConstants.LINE_BREAK_CRLF);
-	}
+    public static final List<String> splitStringToListByLineBreak(String str) throws SdongException {
+        List<String> list = new ArrayList<String>();
+        try (BufferedReader reader = new BufferedReader(new StringReader(str));) {
 
-	public static final String joinStringListToString(List<String> list, String split) {
-		StringBuffer bf = new StringBuffer();
-		for (String line : list) {
-			bf.append(line).append(split);
-		}
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                list.add(line);
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            throw new SdongException(e.getMessage());
+        }
+        return list;
+    }
 
-		return bf.toString();
-	}
+    public static final String joinStringListToStringByLineBreak(List<String> list) {
+        return joinStringListToString(list, CommonConstants.LINE_BREAK_CRLF);
+    }
 
-	public static final int checkIndentNum(String line, String checkChar) {
-		int indented = 0;
-		while (line.startsWith(checkChar)) {
-			indented = indented + 1;
-			line = line.substring(1);
-		}
+    public static final String joinStringListToString(List<String> list, String split) {
+        StringBuffer bf = new StringBuffer();
+        for (String line : list) {
+            bf.append(line).append(split);
+        }
 
-		return indented;
-	}
+        return bf.toString();
+    }
 
-	/**
-	 * Get next line in string
-	 *
-	 * @param contents input contents
-	 * @param start    start position
-	 * @return result
-	 */
-	public static String getNextLineInString(String contents, int start) {
-		String result = "";
-		int curLineBreak = contents.indexOf("\n", start);
-		if (curLineBreak < 0) {
-			return result;
-		}
-		int nextLineBreak = contents.indexOf("\n", curLineBreak + 1);
-		if (nextLineBreak < 0) {
-			return result;
-		}
-		return contents.substring(curLineBreak + 1, nextLineBreak);
-	}
+    public static final int checkIndentNum(String line, String checkChar) {
+        int indented = 0;
+        while (line.startsWith(checkChar)) {
+            indented = indented + 1;
+            line = line.substring(1);
+        }
 
-	/**
-	 * Get current line in string
-	 *
-	 * @param contents input contents
-	 * @param start    start position
-	 * @return result
-	 */
-	public static String getCurrentLineInString(String contents, int start) {
-		String result = "";
-		int curLineBreak = contents.indexOf("\n", start);
-		if (curLineBreak < 0) {
-			return result;
-		}
-		int pretLineBreak = contents.lastIndexOf("\n", start);
-		if (pretLineBreak < 0) {
-			return result;
-		}
-		return contents.substring(pretLineBreak + 1, curLineBreak);
-	}
+        return indented;
+    }
 
-	/**
-	 * remove the line break in begining and end of string.
-	 *
-	 * @param line input string
-	 * @return result
-	 */
-	public static String removeStarAndEndBlankLine(String line) {
-		if (line == null || line.isEmpty()) {
-			return "";
-		}
+    /**
+     * Get next line in string
+     *
+     * @param contents input contents
+     * @param start    start position
+     * @return result
+     */
+    public static String getNextLineInString(String contents, int start) {
+        String result = "";
+        int curLineBreak = contents.indexOf("\n", start);
+        if (curLineBreak < 0) {
+            return result;
+        }
+        int nextLineBreak = contents.indexOf("\n", curLineBreak + 1);
+        if (nextLineBreak < 0) {
+            return result;
+        }
+        return contents.substring(curLineBreak + 1, nextLineBreak);
+    }
 
-		String result = line.trim();
-        result = result.replace("^[\\s]+|[\\s]+$","");
+    /**
+     * Get current line in string
+     *
+     * @param contents input contents
+     * @param start    start position
+     * @return result
+     */
+    public static String getCurrentLineInString(String contents, int start) {
+        String result = "";
+        int curLineBreak = contents.indexOf("\n", start);
+        if (curLineBreak < 0) {
+            return result;
+        }
+        int pretLineBreak = contents.lastIndexOf("\n", start);
+        if (pretLineBreak < 0) {
+            return result;
+        }
+        return contents.substring(pretLineBreak + 1, curLineBreak);
+    }
+
+    /**
+     * remove the line break in begining and end of string.
+     *
+     * @param value input string
+     * @return result
+     */
+    public static String removeStarAndEndBlankLine(String value) {
+        if (value == null || value.isEmpty()) {
+            return "";
+        }
+
+        String[] lines = value.split(CommonConstants.LINE_BREAK_CRLF);
+        boolean isStart = true;
+        boolean isEmpty = false;
+        boolean isEmptyPre = false;
+
+        StringBuilder sb = new StringBuilder();
+        String lineValue;
+        for (String line : lines) {
+            lineValue = line.trim();
+            isEmpty = lineValue.isEmpty() ? true : false;
+
+            if (isStart && !isEmpty) {
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                isStart = false;
+                continue;
+            }
+
+            if (isStart && isEmpty) {
+                continue;
+            }
+
+            if (isEmpty) {
+                if (!isEmptyPre) {
+                    isEmptyPre = true;
+                }
+                continue;
+            }
+
+            if (isEmptyPre) {
+                sb.append(CommonConstants.LINE_BREAK_CRLF);
+                isEmptyPre = false;
+            }
+            sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+        }
+
+        return sb.toString();
+    }
+
+    public static String removeStarAndEndBlankLine2(String value) {
+        if (value == null || value.isEmpty()) {
+            return "";
+        }
+
+        // String result = value.replaceAll("(^[\\s]+|[\\s]+$)", "");
+        String result = value.replaceAll("(?m)(^[\\s]{2,}$)", "");
+        // result = result.replaceAll("(\r\n)", CommonConstants.LINE_BREAK_CRLF);
+
         return result;
-	}
+    }
 
-	/**
-	 * secape string for java
-	 * 
-	 * @param inputStr input string
-	 * @return output string
-	 */
-	public static String escapeJava(String inputStr){
-		return StringEscapeUtils.escapeJava(inputStr);
-	}
+    /**
+     * secape string for java
+     * 
+     * @param inputStr input string
+     * @return output string
+     */
+    public static String escapeJava(String inputStr) {
+        return StringEscapeUtils.escapeJava(inputStr);
+    }
+
+    public static String removeHtmlMark(String value) {
+        if (value == null || value.isEmpty()) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String pStart = "<p>";
+        String pEnd = "</p>";
+        String lineEnd = ".";
+        String mark = "";
+        int pLines = -1;
+        boolean isCodeBlock = false;
+        boolean isLi = false;
+        String strBlank = "";
+
+        String[] lines = value.split(CommonConstants.LINE_BREAK_CRLF);
+        for (String line : lines) {
+            if (line.startsWith(pStart) && line.endsWith(pEnd)) {
+                sb.append(line.replace(pStart, "").replace(pEnd, "").trim()).append(CommonConstants.LINE_BREAK_CRLF);
+                pLines = -1;
+                continue;
+            }
+            if (line.startsWith(pStart) && line.endsWith(lineEnd)) {
+                sb.append(line.replace(pStart, "").trim()).append(CommonConstants.LINE_BREAK_CRLF);
+                pLines = 1;
+                mark = pStart;
+                continue;
+            }
+            if (line.startsWith(pStart)) {
+                line = line.replace(pStart, "").trim();
+                if (!line.isEmpty()) {
+                    sb.append(line);
+                    pLines = 1;
+                } else {
+                    pLines = 0;
+                }
+
+                mark = pStart;
+                continue;
+            }
+
+            if (line.endsWith(pEnd)) {
+                line = line.replace(pEnd, "").trim();
+                if (mark.equals(pStart) && pLines > 0) {
+                    strBlank = " ";
+                } else {
+                    strBlank = "";
+                }
+                sb.append(strBlank).append(line).append(CommonConstants.LINE_BREAK_CRLF);
+
+                mark = "";
+                pLines = -1;
+                continue;
+            }
+
+            // code block
+            if (line.startsWith(MARK_MD_CODE_BLOCK)) {
+                isCodeBlock = !isCodeBlock;
+                if (!isCodeBlock) {
+                    sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                } else {
+                    sb.append(CommonConstants.LINE_BREAK_CRLF).append(CommonConstants.LINE_BREAK_CRLF).append(line)
+                            .append(CommonConstants.LINE_BREAK_CRLF);
+                }
+                continue;
+
+            }
+            if (isCodeBlock) {
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                continue;
+            }
+
+            // UI
+            if (line.contains(MARK_HTML_UL_START) || line.contains(MARK_HTML_UL_END)) {
+                sb.append(CommonConstants.LINE_BREAK_CRLF);
+                continue;
+            }
+
+            // LI
+            if (line.contains(MARK_HTML_LI_START) && line.contains(MARK_HTML_LI_END)) {
+                line = line.trim().replace(MARK_HTML_LI_START, "  * ").replace(MARK_HTML_LI_END, "");
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                continue;
+            }
+
+            if (line.contains(MARK_HTML_LI_START)) {
+                line = line.trim().replace(MARK_HTML_LI_START, "  * ");
+                isLi = true;
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                continue;
+            }
+
+            if (isLi || line.contains(MARK_HTML_LI_END)) {
+                if (line.contains(MARK_HTML_LI_END)) {
+                    isLi = false;
+                }
+                line = line.trim().replace(MARK_HTML_LI_END, "");
+                sb.append(" ").append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                continue;
+            }
+
+            if (mark.equals(pStart)) {
+                if (pLines == 0) {
+                    strBlank = "";
+                } else {
+                    strBlank = " ";
+                }
+                sb.append(strBlank).append(line.trim());
+                pLines = pLines + 1;
+                continue;
+            }
+            sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+        }
+
+        return sb.toString().replace(MARK_HTML_LINEBREAK, CommonConstants.LINE_BREAK_CRLF);
+    }
+
+    public static String removeHtmlUl(String value) {
+        if (value == null || value.isEmpty()) {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String mark = "";
+
+        String[] lines = value.split(CommonConstants.LINE_BREAK_CRLF);
+        for (String line : lines) {
+            if (line.contains(MARK_HTML_UL_START)) {
+                mark = MARK_HTML_UL_START;
+                line = line.replace(MARK_HTML_UL_START, CommonConstants.LINE_BREAK_CRLF).trim();
+                if (!line.isEmpty()) {
+                    sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                }
+                continue;
+            } else if (line.contains(MARK_HTML_UL_END)) {
+                mark = "";
+                line = line.replace(MARK_HTML_UL_END, "").trim();
+                if (!line.isEmpty()) {
+                    sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                }
+                continue;
+            }
+
+            if (MARK_HTML_UL_START.equals(mark)) {
+                line = line.trim();
+                if (line.startsWith(MARK_HTML_LI_START)) {
+                    line = line.replace(MARK_HTML_LI_START, "  * ").replace(MARK_HTML_LI_END, "");
+                }
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                continue;
+            }
+
+            sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+        }
+
+        return sb.toString();
+    }
 }
