@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,11 +18,24 @@ import java.util.regex.Pattern;
 public class MdUtil {
     private static final Logger LOG = LogManager.getLogger(MdUtil.class);
 
-    private static final Pattern TITLE_PATTER = Pattern.compile("^#{1,5}");
-    private static final Pattern TITLE_SEQ_PATTER = Pattern.compile("[0-9.]{1,}");
+    private static final Pattern TITLE_PATTER = Pattern.compile("^#{1,5}\\s{1,}");
+    private static final Pattern TITLE_SEQ_PATTER = Pattern.compile("^([0-9]\\.)+\\s");
 
+    public static final String MARK_MD_CODE_BLOCK = "```";
+
+    private static final Pattern LINK_EXCLUDE_PATTERN = Pattern.compile("[`~!@#$%^&*()_\\+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）+|{}【】‘；：”“’。，、？]");
+
+    public static final String MARK_MD_TOC = "[TOC]";
+
+    /**
+     * add updated section number for MD file
+     * 
+     * @param mdFile input md file
+     * @throws SdongException module exception
+     */
     public static void addUpdateSectionNumber(String mdFile) throws SdongException {
         StringBuffer sb = new StringBuffer();
+        List<String> tocList = new ArrayList<String>();
         try (Scanner sc = new Scanner(new File(mdFile))) {
             String line;
             int[] seqs = new int[] { 0, 0, 0, 0, 0 };
@@ -29,18 +44,30 @@ public class MdUtil {
             String seqStr;
             String[] values;
             String value;
+            String lineVal;
+            boolean isBlock = false;
             while (sc.hasNextLine()) {
                 line = sc.nextLine();
-                matcher = TITLE_PATTER.matcher(line);
-                if (matcher.find()) {
-                    values = line.split(" ");
-                    title = values[0];
-                    setSeq(seqs, title.length() - 1);
-                    value = extractValue(line, title, values);
-                    seqStr = getSeq(seqs, title.length());
-                    sb.append(title).append(" ").append(seqStr).append(" ").append(value)
-                            .append(CommonConstants.LINE_BREAK_CRLF);
-                    continue;
+                lineVal = line.trim();
+                if (!lineVal.isEmpty()) {
+                    if (lineVal.startsWith(MARK_MD_CODE_BLOCK)) {
+                        isBlock = !isBlock;
+                    }
+                    if (!isBlock) {
+                        matcher = TITLE_PATTER.matcher(lineVal);
+                        if (matcher.find()) {
+                            LOG.info("{}", line);
+                            values = line.split(" ");
+                            title = values[0];
+                            setSeq(seqs, title.length() - 1);
+                            value = extractValue(line, title, values);
+                            seqStr = getSeq(seqs, title.length());
+                            sb.append(title).append(" ").append(seqStr).append(" ").append(value)
+                                    .append(CommonConstants.LINE_BREAK_CRLF);
+                            tocList.add(title + " " + seqStr + " " + value);
+                            continue;
+                        }
+                    }
                 }
                 sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
             }
@@ -51,7 +78,8 @@ public class MdUtil {
         }
 
         try (FileWriter writer = new FileWriter(mdFile)) {
-            writer.write(sb.toString());
+            String content = sb.toString();
+            writer.write(content.replace(MARK_MD_TOC, generateToc(tocList)));
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -91,5 +119,29 @@ public class MdUtil {
             sb.append(seqs[ind]).append(".");
         }
         return sb.toString();
+    }
+
+    private static String generateToc(List<String> tocList) {
+        StringBuilder sb = new StringBuilder();
+        int level = 0;
+        String[] titles;
+        String value;
+        for (String line : tocList) {
+            titles = line.split(" ");
+            level = (titles[0].length() - 1) * 2;
+            sb.append(StringUtil.getNumbersOfString(" ", level)).append("- [");
+            value = line.substring(titles[0].length() + 1);
+            sb.append(value).append("](#");
+            sb.append(generateMdLink(value)).append(")").append(CommonConstants.LINE_BREAK_CRLF);
+        }
+
+        return sb.toString();
+    }
+
+    private static String generateMdLink(String value) {
+        String result = value.replace(" ", "-");
+        result = result.toLowerCase();
+        Matcher m = LINK_EXCLUDE_PATTERN.matcher(result);
+        return m.replaceAll("");        
     }
 }

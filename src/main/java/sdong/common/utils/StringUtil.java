@@ -16,7 +16,6 @@ import java.util.List;
 public class StringUtil {
     private static final Logger log = LogManager.getLogger(StringUtil.class);
 
-    public static final String MARK_MD_CODE_BLOCK = "```";
     public static final String MARK_HTML_LINEBREAK = "<br/>";
 
     public static final String MARK_HTML_UL_START = "<ul>";
@@ -228,7 +227,7 @@ public class StringUtil {
             }
 
             // code block
-            if (line.startsWith(MARK_MD_CODE_BLOCK)) {
+            if (line.startsWith(MdUtil.MARK_MD_CODE_BLOCK)) {
                 isCodeBlock = !isCodeBlock;
                 if (!isCodeBlock) {
                     sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
@@ -325,6 +324,22 @@ public class StringUtil {
             }
 
             sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+        }
+
+        return sb.toString();
+    }
+
+    /**
+     * generate required number of string;
+     * 
+     * @param str required string
+     * @param num required number
+     * @return result
+     */
+    public static String getNumbersOfString(String str, int num) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < num; i++) {
+            sb.append(str);
         }
 
         return sb.toString();
