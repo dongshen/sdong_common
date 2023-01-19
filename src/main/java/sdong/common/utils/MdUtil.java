@@ -19,11 +19,14 @@ public class MdUtil {
     private static final Logger LOG = LogManager.getLogger(MdUtil.class);
 
     private static final Pattern TITLE_PATTER = Pattern.compile("^#{1,5}\\s{1,}");
-    private static final Pattern TITLE_SEQ_PATTER = Pattern.compile("^([0-9]\\.)+\\s");
+    private static final Pattern TITLE_SEQ_PATTER = Pattern.compile("^([0-9]\\.)+");
 
     public static final String MARK_MD_CODE_BLOCK = "```";
 
-    private static final Pattern LINK_EXCLUDE_PATTERN = Pattern.compile("[`~!@#$%^&*()_\\+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）+|{}【】‘；：”“’。，、？]");
+    public static final String MARK_MD_REFERENCE = ">";
+
+    private static final Pattern LINK_EXCLUDE_PATTERN = Pattern
+            .compile("[\"`~!@#$%^&*()_\\+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）+|{}【】‘；：”“’。，、？]");
 
     public static final String MARK_MD_TOC = "[TOC]";
 
@@ -94,7 +97,7 @@ public class MdUtil {
         String value;
         if (values.length > 1) {
             seqStr = values[1];
-            matcher = TITLE_SEQ_PATTER.matcher(line);
+            matcher = TITLE_SEQ_PATTER.matcher(seqStr);
             if (matcher.find()) {
                 value = line.substring(line.indexOf(seqStr) + seqStr.length() + 1).trim();
             } else {
@@ -142,6 +145,27 @@ public class MdUtil {
         String result = value.replace(" ", "-");
         result = result.toLowerCase();
         Matcher m = LINK_EXCLUDE_PATTERN.matcher(result);
-        return m.replaceAll("");        
+        return m.replaceAll("");
+    }
+
+    /**
+     * remove html mark and blank line for description
+     * 
+     * @param value      description value
+     * @param removeStrs require remove or replaced mark
+     * @return result
+     */
+    public static String extractDescription(String value, String[][] removeStrs) {
+        value = XmlUtils.decode(value);
+        if (removeStrs != null) {
+            for (String[] str : removeStrs) {
+                value = value.replace(str[0], str[1]);
+            }
+        }
+
+        value = StringUtil.removeHtmlMark(value);
+
+        value = StringUtil.removeStarAndEndBlankLine(value);
+        return value;
     }
 }

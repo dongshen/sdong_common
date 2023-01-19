@@ -16,10 +16,14 @@ import java.util.List;
 public class StringUtil {
     private static final Logger log = LogManager.getLogger(StringUtil.class);
 
+    public static final String PATTERN_LINEBREAK = "\\r?\\n|\\r";
+    
     public static final String MARK_HTML_LINEBREAK = "<br/>";
 
     public static final String MARK_HTML_UL_START = "<ul>";
     public static final String MARK_HTML_UL_END = "</ul>";
+    public static final String MARK_HTML_OL_START = "<ol>";
+    public static final String MARK_HTML_OL_END = "</ol>";
     public static final String MARK_HTML_LI_START = "<li>";
     public static final String MARK_HTML_LI_END = "</li>";
 
@@ -111,7 +115,7 @@ public class StringUtil {
             return "";
         }
 
-        String[] lines = value.split(CommonConstants.LINE_BREAK_CRLF);
+        String[] lines = value.split(StringUtil.PATTERN_LINEBREAK);
         boolean isStart = true;
         boolean isEmpty = false;
         boolean isEmptyPre = false;
@@ -186,21 +190,23 @@ public class StringUtil {
         boolean isLi = false;
         String strBlank = "";
 
-        String[] lines = value.split(CommonConstants.LINE_BREAK_CRLF);
+        String[] lines = value.split(StringUtil.PATTERN_LINEBREAK);
+        String lineValue;
         for (String line : lines) {
-            if (line.startsWith(pStart) && line.endsWith(pEnd)) {
-                sb.append(line.replace(pStart, "").replace(pEnd, "").trim()).append(CommonConstants.LINE_BREAK_CRLF);
+            lineValue = line.trim();
+            if (lineValue.startsWith(pStart) && lineValue.endsWith(pEnd)) {
+                sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF).replace(pEnd, "")).append(CommonConstants.LINE_BREAK_CRLF);
                 pLines = -1;
                 continue;
             }
-            if (line.startsWith(pStart) && line.endsWith(lineEnd)) {
-                sb.append(line.replace(pStart, "").trim()).append(CommonConstants.LINE_BREAK_CRLF);
+            if (lineValue.startsWith(pStart) && lineValue.endsWith(lineEnd)) {
+                sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF)).append(CommonConstants.LINE_BREAK_CRLF);
                 pLines = 1;
                 mark = pStart;
                 continue;
             }
-            if (line.startsWith(pStart)) {
-                line = line.replace(pStart, "").trim();
+            if (lineValue.startsWith(pStart)) {
+                line = lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF);
                 if (!line.isEmpty()) {
                     sb.append(line);
                     pLines = 1;
@@ -212,8 +218,8 @@ public class StringUtil {
                 continue;
             }
 
-            if (line.endsWith(pEnd)) {
-                line = line.replace(pEnd, "").trim();
+            if (lineValue.endsWith(pEnd)) {
+                line = lineValue.replace(pEnd, "");
                 if (mark.equals(pStart) && pLines > 0) {
                     strBlank = " ";
                 } else {
@@ -227,7 +233,7 @@ public class StringUtil {
             }
 
             // code block
-            if (line.startsWith(MdUtil.MARK_MD_CODE_BLOCK)) {
+            if (lineValue.startsWith(MdUtil.MARK_MD_CODE_BLOCK)) {
                 isCodeBlock = !isCodeBlock;
                 if (!isCodeBlock) {
                     sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
@@ -244,7 +250,8 @@ public class StringUtil {
             }
 
             // UI
-            if (line.contains(MARK_HTML_UL_START) || line.contains(MARK_HTML_UL_END)) {
+            if ((line.contains(MARK_HTML_UL_START) || line.contains(MARK_HTML_UL_END))
+                    || (line.contains(MARK_HTML_OL_START) || line.contains(MARK_HTML_OL_END))) {
                 sb.append(CommonConstants.LINE_BREAK_CRLF);
                 continue;
             }
@@ -278,7 +285,7 @@ public class StringUtil {
                 } else {
                     strBlank = " ";
                 }
-                sb.append(strBlank).append(line.trim());
+                sb.append(strBlank).append(lineValue);
                 pLines = pLines + 1;
                 continue;
             }
@@ -296,18 +303,19 @@ public class StringUtil {
         StringBuilder sb = new StringBuilder();
         String mark = "";
 
-        String[] lines = value.split(CommonConstants.LINE_BREAK_CRLF);
+        String[] lines = value.split(StringUtil.PATTERN_LINEBREAK);
         for (String line : lines) {
-            if (line.contains(MARK_HTML_UL_START)) {
+            if (line.contains(MARK_HTML_UL_START) || line.contains(MARK_HTML_OL_START)) {
                 mark = MARK_HTML_UL_START;
-                line = line.replace(MARK_HTML_UL_START, CommonConstants.LINE_BREAK_CRLF).trim();
+                line = line.replace(MARK_HTML_UL_START, CommonConstants.LINE_BREAK_CRLF)
+                        .replace(MARK_HTML_OL_START, CommonConstants.LINE_BREAK_CRLF).trim();
                 if (!line.isEmpty()) {
                     sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
                 }
                 continue;
-            } else if (line.contains(MARK_HTML_UL_END)) {
+            } else if (line.contains(MARK_HTML_UL_END) || line.contains(MARK_HTML_OL_END)) {
                 mark = "";
-                line = line.replace(MARK_HTML_UL_END, "").trim();
+                line = line.replace(MARK_HTML_UL_END, "").replace(MARK_HTML_OL_END, "").trim();
                 if (!line.isEmpty()) {
                     sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
                 }
