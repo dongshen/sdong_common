@@ -17,8 +17,9 @@ public class StringUtil {
     private static final Logger log = LogManager.getLogger(StringUtil.class);
 
     public static final String PATTERN_LINEBREAK = "\\r?\\n|\\r";
-    
+
     public static final String MARK_HTML_LINEBREAK = "<br/>";
+    public static final String MARK_HTML_LINEBREAK2 = "<br>";
 
     public static final String MARK_HTML_UL_START = "<ul>";
     public static final String MARK_HTML_UL_END = "</ul>";
@@ -184,6 +185,7 @@ public class StringUtil {
         String pStart = "<p>";
         String pEnd = "</p>";
         String lineEnd = ".";
+        String linkEnd = ">";
         String mark = "";
         int pLines = -1;
         boolean isCodeBlock = false;
@@ -195,12 +197,14 @@ public class StringUtil {
         for (String line : lines) {
             lineValue = line.trim();
             if (lineValue.startsWith(pStart) && lineValue.endsWith(pEnd)) {
-                sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF).replace(pEnd, "")).append(CommonConstants.LINE_BREAK_CRLF);
+                sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF).replace(pEnd, ""))
+                        .append(CommonConstants.LINE_BREAK_CRLF);
                 pLines = -1;
                 continue;
             }
-            if (lineValue.startsWith(pStart) && lineValue.endsWith(lineEnd)) {
-                sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF)).append(CommonConstants.LINE_BREAK_CRLF);
+            if (lineValue.startsWith(pStart) && (lineValue.endsWith(lineEnd) || lineValue.endsWith(linkEnd))) {
+                sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF))
+                        .append(CommonConstants.LINE_BREAK_CRLF);
                 pLines = 1;
                 mark = pStart;
                 continue;
@@ -292,7 +296,8 @@ public class StringUtil {
             sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
         }
 
-        return sb.toString().replace(MARK_HTML_LINEBREAK, CommonConstants.LINE_BREAK_CRLF);
+        return sb.toString().replace(MARK_HTML_LINEBREAK, CommonConstants.LINE_BREAK_CRLF).replace(MARK_HTML_LINEBREAK2,
+                CommonConstants.LINE_BREAK_CRLF);
     }
 
     public static String removeHtmlUl(String value) {

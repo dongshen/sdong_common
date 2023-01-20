@@ -17,7 +17,7 @@ public class ClassUtil {
     public static <T> void setRuleValue(T object, String mothodName, String setValue)
             throws SdongException {
         try {
-            Method method = object.getClass().getMethod("set" + mothodName, String.class);
+            Method method = object.getClass().getMethod(mothodName, String.class);
             method.invoke(object, setValue);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {
