@@ -42,39 +42,10 @@ public class MdUtil {
         StringBuffer sb = new StringBuffer();
         List<String> tocList = new ArrayList<String>();
         try (Scanner sc = new Scanner(new File(mdFile))) {
-            String line;
             int[] seqs = new int[] { 0, 0, 0, 0, 0 };
-            Matcher matcher;
-            String title;
-            String seqStr;
-            String[] values;
-            String value;
-            String lineVal;
             boolean isBlock = false;
             while (sc.hasNextLine()) {
-                line = sc.nextLine();
-                lineVal = line.trim();
-                if (!lineVal.isEmpty()) {
-                    if (lineVal.startsWith(MARK_MD_CODE_BLOCK)) {
-                        isBlock = !isBlock;
-                    }
-                    if (!isBlock) {
-                        matcher = TITLE_PATTER.matcher(lineVal);
-                        if (matcher.find()) {
-                            LOG.info("{}", line);
-                            values = line.split(" ");
-                            title = values[0];
-                            setSeq(seqs, title.length() - 1);
-                            value = extractValue(line, title, values);
-                            seqStr = getSeq(seqs, title.length());
-                            sb.append(title).append(" ").append(seqStr).append(" ").append(value)
-                                    .append(CommonConstants.LINE_BREAK_CRLF);
-                            tocList.add(title + " " + seqStr + " " + value);
-                            continue;
-                        }
-                    }
-                }
-                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                isBlock = processLine(sb, tocList, sc, seqs, isBlock);
             }
             sc.close();
         } catch (IOException e) {
@@ -91,6 +62,40 @@ public class MdUtil {
             LOG.error(e.getMessage(), e);
             throw new SdongException(e.getMessage(), e);
         }
+    }
+
+    private static boolean processLine(StringBuffer sb, List<String> tocList, Scanner sc, int[] seqs, boolean isBlock) {
+        String line;
+        Matcher matcher;
+        String title;
+        String seqStr;
+        String[] values;
+        String value;
+        String lineVal;
+        line = sc.nextLine();
+        lineVal = line.trim();
+        if (!lineVal.isEmpty()) {
+            if (lineVal.startsWith(MARK_MD_CODE_BLOCK)) {
+                isBlock = !isBlock;
+            }
+            if (!isBlock) {
+                matcher = TITLE_PATTER.matcher(lineVal);
+                if (matcher.find()) {
+                    LOG.info("{}", line);
+                    values = line.split(" ");
+                    title = values[0];
+                    setSeq(seqs, title.length() - 1);
+                    value = extractValue(line, title, values);
+                    seqStr = getSeq(seqs, title.length());
+                    sb.append(title).append(" ").append(seqStr).append(" ").append(value)
+                            .append(CommonConstants.LINE_BREAK_CRLF);
+                    tocList.add(title + " " + seqStr + " " + value);
+                    return isBlock;
+                }
+            }
+        }
+        sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+        return isBlock;
     }
 
     private static String extractValue(String line, String title, String[] values) {
@@ -111,25 +116,10 @@ public class MdUtil {
         return value;
     }
 
-    public static void setSeq(int[] seqs, int length) {
-        seqs[length] = seqs[length] + 1;
-        for (int ind = length + 1; ind < seqs.length; ind = ind + 1) {
-            seqs[ind] = 0;
-        }
-    }
-
-    public static String getSeq(int[] seqs, int length) {
-        StringBuilder sb = new StringBuilder();
-        for (int ind = 0; ind < length; ind = ind + 1) {
-            sb.append(seqs[ind]).append(".");
-        }
-        return sb.toString();
-    }
-
     /**
      * get md level current level seq number string
      * 
-     * @param seqs md seqs arrays
+     * @param seqs   md seqs arrays
      * @param length current level
      * @return result
      */
@@ -138,8 +128,19 @@ public class MdUtil {
         return getSeq(seqs, length);
     }
 
-    public static String getMdLevel(int mdLevel){
-        return StringUtil.getNumbersOfString(MARK_MD_LEVEL, mdLevel);
+    private static void setSeq(int[] seqs, int length) {
+        seqs[length] = seqs[length] + 1;
+        for (int ind = length + 1; ind < seqs.length; ind = ind + 1) {
+            seqs[ind] = 0;
+        }
+    }
+
+    private static String getSeq(int[] seqs, int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int ind = 0; ind < length; ind = ind + 1) {
+            sb.append(seqs[ind]).append(".");
+        }
+        return sb.toString();
     }
 
     private static String generateToc(List<String> tocList) {
@@ -159,6 +160,22 @@ public class MdUtil {
         return sb.toString();
     }
 
+    /**
+     * base on level to generate number of md level #
+     * 
+     * @param mdLevel md level
+     * @return result
+     */
+    public static String getMdLevel(int mdLevel) {
+        return StringUtil.getNumbersOfString(MARK_MD_LEVEL, mdLevel);
+    }
+
+    /**
+     * generate md link
+     * 
+     * @param value input md string
+     * @return md link
+     */
     public static String generateMdLink(String value) {
         String result = value.replace(" ", "-");
         result = result.toLowerCase();
