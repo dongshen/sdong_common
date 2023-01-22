@@ -187,7 +187,6 @@ public class StringUtil {
         String lineEnd = ".";
         String linkEnd = ">";
         String mark = "";
-        int pLines = -1;
         boolean isCodeBlock = false;
         boolean isLi = false;
         String strBlank = "";
@@ -199,13 +198,13 @@ public class StringUtil {
             if (lineValue.startsWith(pStart) && lineValue.endsWith(pEnd)) {
                 sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF).replace(pEnd, ""))
                         .append(CommonConstants.LINE_BREAK_CRLF);
-                pLines = -1;
+                strBlank = "";
                 continue;
             }
             if (lineValue.startsWith(pStart) && (lineValue.endsWith(lineEnd) || lineValue.endsWith(linkEnd))) {
                 sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF))
                         .append(CommonConstants.LINE_BREAK_CRLF);
-                pLines = 1;
+                strBlank = "";
                 mark = pStart;
                 continue;
             }
@@ -213,9 +212,9 @@ public class StringUtil {
                 line = lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF);
                 if (!line.isEmpty()) {
                     sb.append(line);
-                    pLines = 1;
+                    strBlank = " ";
                 } else {
-                    pLines = 0;
+                    strBlank = "";
                 }
 
                 mark = pStart;
@@ -224,15 +223,10 @@ public class StringUtil {
 
             if (lineValue.endsWith(pEnd)) {
                 line = lineValue.replace(pEnd, "");
-                if (mark.equals(pStart) && pLines > 0) {
-                    strBlank = " ";
-                } else {
-                    strBlank = "";
-                }
                 sb.append(strBlank).append(line).append(CommonConstants.LINE_BREAK_CRLF);
 
                 mark = "";
-                pLines = -1;
+                strBlank = "";
                 continue;
             }
 
@@ -245,11 +239,13 @@ public class StringUtil {
                     sb.append(CommonConstants.LINE_BREAK_CRLF).append(CommonConstants.LINE_BREAK_CRLF).append(line)
                             .append(CommonConstants.LINE_BREAK_CRLF);
                 }
+                strBlank = "";
                 continue;
 
             }
             if (isCodeBlock) {
                 sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                strBlank = "";
                 continue;
             }
 
@@ -284,13 +280,13 @@ public class StringUtil {
             }
 
             if (mark.equals(pStart)) {
-                if (pLines == 0) {
+                if (lineValue.isEmpty()) {
                     strBlank = "";
+                    sb.append(CommonConstants.LINE_BREAK_CRLF);
                 } else {
+                    sb.append(strBlank).append(lineValue);
                     strBlank = " ";
                 }
-                sb.append(strBlank).append(lineValue);
-                pLines = pLines + 1;
                 continue;
             }
             sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
