@@ -19,7 +19,7 @@ public class MdUtil {
     private static final Logger LOG = LogManager.getLogger(MdUtil.class);
 
     private static final Pattern TITLE_PATTER = Pattern.compile("^#{1,5}\\s{1,}");
-    private static final Pattern TITLE_SEQ_PATTER = Pattern.compile("^([0-9]\\.)+");
+    private static final Pattern TITLE_SEQ_PATTER = Pattern.compile("^([0-9]+\\.)+");
 
     public static final String MARK_MD_CODE_BLOCK = "```";
 
@@ -29,6 +29,8 @@ public class MdUtil {
             .compile("[\"`~!@#$%^&*()_\\+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）+|{}【】‘；：”“’。，、？]");
 
     public static final String MARK_MD_TOC = "[TOC]";
+
+    public static final String MARK_MD_LEVEL = "#";
 
     /**
      * add updated section number for MD file
@@ -109,19 +111,35 @@ public class MdUtil {
         return value;
     }
 
-    private static void setSeq(int[] seqs, int length) {
+    public static void setSeq(int[] seqs, int length) {
         seqs[length] = seqs[length] + 1;
         for (int ind = length + 1; ind < seqs.length; ind = ind + 1) {
             seqs[ind] = 0;
         }
     }
 
-    private static String getSeq(int[] seqs, int length) {
+    public static String getSeq(int[] seqs, int length) {
         StringBuilder sb = new StringBuilder();
         for (int ind = 0; ind < length; ind = ind + 1) {
             sb.append(seqs[ind]).append(".");
         }
         return sb.toString();
+    }
+
+    /**
+     * get md level current level seq number string
+     * 
+     * @param seqs md seqs arrays
+     * @param length current level
+     * @return result
+     */
+    public static String getSeqStr(int[] seqs, int length) {
+        setSeq(seqs, length - 1);
+        return getSeq(seqs, length);
+    }
+
+    public static String getMdLevel(int mdLevel){
+        return StringUtil.getNumbersOfString(MARK_MD_LEVEL, mdLevel);
     }
 
     private static String generateToc(List<String> tocList) {
@@ -141,7 +159,7 @@ public class MdUtil {
         return sb.toString();
     }
 
-    private static String generateMdLink(String value) {
+    public static String generateMdLink(String value) {
         String result = value.replace(" ", "-");
         result = result.toLowerCase();
         Matcher m = LINK_EXCLUDE_PATTERN.matcher(result);
