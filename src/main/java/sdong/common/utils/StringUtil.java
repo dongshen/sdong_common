@@ -176,6 +176,12 @@ public class StringUtil {
         return StringEscapeUtils.escapeJava(inputStr);
     }
 
+    /**
+     * remove html mark <p>,<ul>,<li>,<ol>
+     * 
+     * @param value input string
+     * @return result
+     */
     public static String removeHtmlMark(String value) {
         if (value == null || value.isEmpty()) {
             return "";
@@ -196,22 +202,22 @@ public class StringUtil {
         for (String line : lines) {
             lineValue = line.trim();
             if (lineValue.startsWith(pStart) && lineValue.endsWith(pEnd)) {
-                sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF).replace(pEnd, ""))
-                        .append(CommonConstants.LINE_BREAK_CRLF);
+                line = lineValue.replace(pStart, "").replace(pEnd, "").trim();
+                sb.append(CommonConstants.LINE_BREAK_CRLF).append(line).append(CommonConstants.LINE_BREAK_CRLF);
                 strBlank = "";
                 continue;
             }
             if (lineValue.startsWith(pStart) && (lineValue.endsWith(lineEnd) || lineValue.endsWith(linkEnd))) {
-                sb.append(lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF))
+                sb.append(CommonConstants.LINE_BREAK_CRLF).append(lineValue.replace(pStart, "").trim())
                         .append(CommonConstants.LINE_BREAK_CRLF);
                 strBlank = "";
                 mark = pStart;
                 continue;
             }
             if (lineValue.startsWith(pStart)) {
-                line = lineValue.replace(pStart, CommonConstants.LINE_BREAK_CRLF);
+                line = lineValue.replace(pStart, "").trim();
                 if (!line.isEmpty()) {
-                    sb.append(line);
+                    sb.append(CommonConstants.LINE_BREAK_CRLF).append(line);
                     strBlank = " ";
                 } else {
                     strBlank = "";
@@ -266,7 +272,7 @@ public class StringUtil {
             if (line.contains(MARK_HTML_LI_START)) {
                 line = line.trim().replace(MARK_HTML_LI_START, "  * ");
                 isLi = true;
-                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                sb.append(line);
                 continue;
             }
 
