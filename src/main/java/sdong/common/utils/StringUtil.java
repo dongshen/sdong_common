@@ -27,6 +27,16 @@ public class StringUtil {
     public static final String MARK_HTML_OL_END = "</ol>";
     public static final String MARK_HTML_LI_START = "<li>";
     public static final String MARK_HTML_LI_END = "</li>";
+    public static final String MARK_HTML_P_START = "<p>";
+    public static final String MARK_HTML_P_END = "</p>";
+
+    public static final String MARK_LINE_END = ".";
+    public static final String MARK_LINK_END = ">";
+
+    private static final int MARK_IND_P = 0;
+    private static final int MARK_IND_CODE_BLCOK = 1;
+    private static final int MARK_IND_LI = 2;
+    private static final int MARK_IND_ADD_BLANK = 3;
 
     public static final List<String> splitStringToListByLineBreak(String str) throws SdongException {
         List<String> list = new ArrayList<String>();
@@ -177,7 +187,11 @@ public class StringUtil {
     }
 
     /**
-     * remove html mark <p>,<ul>,<li>,<ol>
+     * remove html mark:
+     * <p>
+     * <ul>
+     * <li>
+     * <ol>
      * 
      * @param value input string
      * @return result
@@ -188,118 +202,148 @@ public class StringUtil {
         }
 
         StringBuilder sb = new StringBuilder();
-        String pStart = "<p>";
-        String pEnd = "</p>";
-        String lineEnd = ".";
-        String linkEnd = ">";
-        String mark = "";
-        boolean isCodeBlock = false;
-        boolean isLi = false;
-        String strBlank = "";
+        // 0 - <p> , 1 - <pre> , 2 - li, 3 - add blank;
+        boolean[] mark = new boolean[] { false, false, false, false };
 
         String[] lines = value.split(StringUtil.PATTERN_LINEBREAK);
-        String lineValue;
         for (String line : lines) {
-            lineValue = line.trim();
-            if (lineValue.startsWith(pStart) && lineValue.endsWith(pEnd)) {
-                line = lineValue.replace(pStart, "").replace(pEnd, "").trim();
-                sb.append(CommonConstants.LINE_BREAK_CRLF).append(line).append(CommonConstants.LINE_BREAK_CRLF);
-                strBlank = "";
-                continue;
-            }
-            if (lineValue.startsWith(pStart) && (lineValue.endsWith(lineEnd) || lineValue.endsWith(linkEnd))) {
-                sb.append(CommonConstants.LINE_BREAK_CRLF).append(lineValue.replace(pStart, "").trim())
-                        .append(CommonConstants.LINE_BREAK_CRLF);
-                strBlank = "";
-                mark = pStart;
-                continue;
-            }
-            if (lineValue.startsWith(pStart)) {
-                line = lineValue.replace(pStart, "").trim();
-                if (!line.isEmpty()) {
-                    sb.append(CommonConstants.LINE_BREAK_CRLF).append(line);
-                    strBlank = " ";
-                } else {
-                    strBlank = "";
-                }
-
-                mark = pStart;
-                continue;
-            }
-
-            if (lineValue.endsWith(pEnd)) {
-                line = lineValue.replace(pEnd, "");
-                sb.append(strBlank).append(line).append(CommonConstants.LINE_BREAK_CRLF);
-
-                mark = "";
-                strBlank = "";
-                continue;
-            }
-
-            // code block
-            if (lineValue.startsWith(MdUtil.MARK_MD_CODE_BLOCK)) {
-                isCodeBlock = !isCodeBlock;
-                if (!isCodeBlock) {
-                    sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
-                } else {
-                    sb.append(CommonConstants.LINE_BREAK_CRLF).append(CommonConstants.LINE_BREAK_CRLF).append(line)
-                            .append(CommonConstants.LINE_BREAK_CRLF);
-                }
-                strBlank = "";
-                continue;
-
-            }
-            if (isCodeBlock) {
-                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
-                strBlank = "";
-                continue;
-            }
-
-            // UI
-            if ((line.contains(MARK_HTML_UL_START) || line.contains(MARK_HTML_UL_END))
-                    || (line.contains(MARK_HTML_OL_START) || line.contains(MARK_HTML_OL_END))) {
-                sb.append(CommonConstants.LINE_BREAK_CRLF);
-                continue;
-            }
-
-            // LI
-            if (line.contains(MARK_HTML_LI_START) && line.contains(MARK_HTML_LI_END)) {
-                line = line.trim().replace(MARK_HTML_LI_START, "  * ").replace(MARK_HTML_LI_END, "");
-                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
-                continue;
-            }
-
-            if (line.contains(MARK_HTML_LI_START)) {
-                line = line.trim().replace(MARK_HTML_LI_START, "  * ");
-                isLi = true;
-                sb.append(line);
-                continue;
-            }
-
-            if (isLi || line.contains(MARK_HTML_LI_END)) {
-                if (line.contains(MARK_HTML_LI_END)) {
-                    isLi = false;
-                }
-                line = line.trim().replace(MARK_HTML_LI_END, "");
-                sb.append(" ").append(line).append(CommonConstants.LINE_BREAK_CRLF);
-                continue;
-            }
-
-            if (mark.equals(pStart)) {
-                if (lineValue.isEmpty()) {
-                    strBlank = "";
-                    sb.append(CommonConstants.LINE_BREAK_CRLF);
-                } else {
-                    sb.append(strBlank).append(lineValue);
-                    strBlank = " ";
-                }
-                continue;
-            }
-            sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            processLine(line, sb, mark);
         }
 
         return sb.toString().replace(MARK_HTML_LINEBREAK, CommonConstants.LINE_BREAK_CRLF).replace(MARK_HTML_LINEBREAK2,
                 CommonConstants.LINE_BREAK_CRLF);
+    }
+
+    private static void processLine(String line, StringBuilder sb, boolean[] mark) {
+        String lineValue = line.trim();
+        if (extract_p(line, sb, mark)) {
+            return;
+        }
+
+        // code block
+        if (extract_pre(line, sb, mark)) {
+            return;
+        }
+
+        // UI
+        if (extract_ul_li(line, sb, mark)) {
+            return;
+        }
+
+        if (mark[MARK_IND_P]) {
+            if (lineValue.isEmpty()) {
+                mark[MARK_IND_ADD_BLANK] = false;
+                sb.append(CommonConstants.LINE_BREAK_CRLF);
+            } else {
+                if (mark[MARK_IND_ADD_BLANK]) {
+                    sb.append(" ");
+                }
+                sb.append(lineValue);
+                mark[MARK_IND_ADD_BLANK] = true;
+            }
+            return;
+        }
+        sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+        return;
+    }
+
+    private static boolean extract_p(String line, StringBuilder sb, boolean[] mark) {
+        String lineValue = line.trim();
+        if (lineValue.startsWith(MARK_HTML_P_START) && lineValue.endsWith(MARK_HTML_P_END)) {
+            line = lineValue.replace(MARK_HTML_P_START, "").replace(MARK_HTML_P_END, "").trim();
+            sb.append(CommonConstants.LINE_BREAK_CRLF).append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            mark[MARK_IND_ADD_BLANK] = false;
+            return true;
+        }
+        if (lineValue.startsWith(MARK_HTML_P_START)
+                && (lineValue.endsWith(MARK_LINE_END) || lineValue.endsWith(MARK_LINK_END))) {
+            sb.append(CommonConstants.LINE_BREAK_CRLF).append(lineValue.replace(MARK_HTML_P_START, "").trim())
+                    .append(CommonConstants.LINE_BREAK_CRLF);
+            mark[MARK_IND_ADD_BLANK] = false;
+            mark[MARK_IND_P] = true;
+            return true;
+        }
+        if (lineValue.startsWith(MARK_HTML_P_START)) {
+            line = lineValue.replace(MARK_HTML_P_START, "").trim();
+            if (!line.isEmpty()) {
+                sb.append(CommonConstants.LINE_BREAK_CRLF).append(line);
+                mark[MARK_IND_ADD_BLANK] = true;
+            } else {
+                mark[MARK_IND_ADD_BLANK] = false;
+            }
+
+            mark[MARK_IND_P] = true;
+            return true;
+        }
+
+        if (lineValue.endsWith(MARK_HTML_P_END)) {
+            line = lineValue.replace(MARK_HTML_P_END, "");
+            if (mark[MARK_IND_ADD_BLANK]) {
+                sb.append(" ");
+            }
+            sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+
+            mark[MARK_IND_P] = false;
+            mark[MARK_IND_ADD_BLANK] = false;
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean extract_pre(String line, StringBuilder sb, boolean[] mark) {
+        String lineValue = line.trim();
+        if (lineValue.startsWith(MdUtil.MARK_MD_CODE_BLOCK)) {
+            mark[MARK_IND_CODE_BLCOK] = !mark[MARK_IND_CODE_BLCOK];
+            if (!mark[MARK_IND_CODE_BLCOK]) {
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            } else {
+                sb.append(CommonConstants.LINE_BREAK_CRLF).append(CommonConstants.LINE_BREAK_CRLF).append(line)
+                        .append(CommonConstants.LINE_BREAK_CRLF);
+            }
+            mark[MARK_IND_ADD_BLANK] = false;
+            return true;
+        }
+
+        if (mark[MARK_IND_CODE_BLCOK]) {
+            sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            mark[MARK_IND_ADD_BLANK] = false;
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean extract_ul_li(String line, StringBuilder sb, boolean[] mark) {
+        // UI
+        if ((line.contains(MARK_HTML_UL_START) || line.contains(MARK_HTML_UL_END))
+                || (line.contains(MARK_HTML_OL_START) || line.contains(MARK_HTML_OL_END))) {
+            sb.append(CommonConstants.LINE_BREAK_CRLF);
+            return true;
+        }
+
+        // LI
+        if (line.contains(MARK_HTML_LI_START) && line.contains(MARK_HTML_LI_END)) {
+            line = line.trim().replace(MARK_HTML_LI_START, "  * ").replace(MARK_HTML_LI_END, "");
+            sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            return true;
+        }
+
+        if (line.contains(MARK_HTML_LI_START)) {
+            line = line.trim().replace(MARK_HTML_LI_START, "  * ");
+            mark[MARK_IND_LI] = true;
+            sb.append(line);
+            return true;
+        }
+
+        if (mark[MARK_IND_LI] || line.contains(MARK_HTML_LI_END)) {
+            if (line.contains(MARK_HTML_LI_END)) {
+                mark[MARK_IND_LI] = false;
+            }
+            line = line.trim().replace(MARK_HTML_LI_END, "");
+            sb.append(" ").append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            return true;
+        }
+        return false;
     }
 
     public static String removeHtmlUl(String value) {
