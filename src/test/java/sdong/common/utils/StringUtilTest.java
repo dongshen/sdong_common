@@ -113,4 +113,16 @@ public class StringUtilTest {
         LOG.info("Org:{}", org);
         LOG.info("cur:{}", StringUtil.removeHtmlMark(org));
     }
+
+    @Test
+    public void testRelaceLast() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(
+                "\\012\\012Sample program that can crash:\\012\\012#include <stdio.h>\\012int main()\\012{\\012    char c[5];\\012    scanf(\"%s\", c);\\012    return 0;\\012}\\012\\012Typing in 5 or more characters may make the program crash.");
+        String org = sb.toString();
+        LOG.info("Org:{}", org);
+        LOG.info("cur:{}", StringUtil.replaceLast(org, "\\\\012",
+        //""));
+                CommonConstants.LINE_BREAK_CRLF + MdUtil.MARK_MD_CODE_BLOCK + CommonConstants.LINE_BREAK_CRLF));
+    }
 }

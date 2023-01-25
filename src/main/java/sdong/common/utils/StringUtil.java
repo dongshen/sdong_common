@@ -204,14 +204,15 @@ public class StringUtil {
         StringBuilder sb = new StringBuilder();
         // 0 - <p> , 1 - <pre> , 2 - li, 3 - add blank;
         boolean[] mark = new boolean[] { false, false, false, false };
+        value = value.replace(MARK_HTML_LINEBREAK, CommonConstants.LINE_BREAK_CRLF).replace(MARK_HTML_LINEBREAK2,
+                CommonConstants.LINE_BREAK_CRLF);
 
         String[] lines = value.split(StringUtil.PATTERN_LINEBREAK);
         for (String line : lines) {
             processLine(line, sb, mark);
         }
 
-        return sb.toString().replace(MARK_HTML_LINEBREAK, CommonConstants.LINE_BREAK_CRLF).replace(MARK_HTML_LINEBREAK2,
-                CommonConstants.LINE_BREAK_CRLF);
+        return sb.toString();
     }
 
     private static void processLine(String line, StringBuilder sb, boolean[] mark) {
@@ -402,5 +403,17 @@ public class StringUtil {
         }
 
         return sb.toString();
+    }
+
+    /**
+     * replace last
+     * 
+     * @param text            input string
+     * @param strToReplace    to replace
+     * @param replaceWithThis replace with
+     * @return result
+     */
+    public static String replaceLast(String text, String strToReplace, String replaceWithThis) {
+        return text.replaceFirst(strToReplace + "(?!.*?" + strToReplace + ")", replaceWithThis);
     }
 }
