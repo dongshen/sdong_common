@@ -341,7 +341,10 @@ public class StringUtil {
                 mark[MARK_IND_LI] = false;
             }
             line = line.trim().replace(MARK_HTML_LI_END, "");
-            sb.append(" ").append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            sb.append(" ").append(line);
+            if (!mark[MARK_IND_LI]) {
+                sb.append(CommonConstants.LINE_BREAK_CRLF);
+            }
             return true;
         }
         return false;
