@@ -206,6 +206,14 @@ public class StringUtil {
         boolean[] mark = new boolean[] { false, false, false, false };
         value = value.replace(MARK_HTML_LINEBREAK, CommonConstants.LINE_BREAK_CRLF).replace(MARK_HTML_LINEBREAK2,
                 CommonConstants.LINE_BREAK_CRLF);
+        value = value.replace(MARK_HTML_P_START,
+                CommonConstants.LINE_BREAK_CRLF + MARK_HTML_P_START + CommonConstants.LINE_BREAK_CRLF);
+        value = value.replace(MARK_HTML_P_END,
+                CommonConstants.LINE_BREAK_CRLF + MARK_HTML_P_END + CommonConstants.LINE_BREAK_CRLF);
+        value = value.replace(MARK_HTML_LI_START,
+                CommonConstants.LINE_BREAK_CRLF + MARK_HTML_LI_START + CommonConstants.LINE_BREAK_CRLF);
+        value = value.replace(MARK_HTML_LI_END,
+                CommonConstants.LINE_BREAK_CRLF + MARK_HTML_LI_END + CommonConstants.LINE_BREAK_CRLF);
 
         String[] lines = value.split(StringUtil.PATTERN_LINEBREAK);
         for (String line : lines) {
@@ -252,14 +260,25 @@ public class StringUtil {
         String lineValue = line.trim();
         if (lineValue.startsWith(MARK_HTML_P_START) && lineValue.endsWith(MARK_HTML_P_END)) {
             line = lineValue.replace(MARK_HTML_P_START, "").replace(MARK_HTML_P_END, "").trim();
-            sb.append(CommonConstants.LINE_BREAK_CRLF).append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            if (mark[MARK_IND_LI]) {
+                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            } else {
+                sb.append(CommonConstants.LINE_BREAK_CRLF).append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            }
             mark[MARK_IND_ADD_BLANK] = false;
             return true;
         }
         if (lineValue.startsWith(MARK_HTML_P_START)
-                && (lineValue.endsWith(MARK_LINE_END) || lineValue.endsWith(MARK_LINK_END))) {
-            sb.append(CommonConstants.LINE_BREAK_CRLF).append(lineValue.replace(MARK_HTML_P_START, "").trim())
-                    .append(CommonConstants.LINE_BREAK_CRLF);
+                && (lineValue.endsWith(MARK_LINE_END)
+                        || lineValue.replace(MARK_HTML_P_START, "").endsWith(MARK_LINK_END))) {
+            lineValue = lineValue.replace(MARK_HTML_P_START, "").trim();
+            if (mark[MARK_IND_LI] && !lineValue.isEmpty()) {
+                sb.append(" ").append(lineValue);
+            } else if (!lineValue.isEmpty()) {
+                sb.append(CommonConstants.LINE_BREAK_CRLF).append(lineValue).append(CommonConstants.LINE_BREAK_CRLF);
+            }else{
+                sb.append(CommonConstants.LINE_BREAK_CRLF);
+            }
             mark[MARK_IND_ADD_BLANK] = false;
             mark[MARK_IND_P] = true;
             return true;
@@ -267,7 +286,11 @@ public class StringUtil {
         if (lineValue.startsWith(MARK_HTML_P_START)) {
             line = lineValue.replace(MARK_HTML_P_START, "").trim();
             if (!line.isEmpty()) {
-                sb.append(CommonConstants.LINE_BREAK_CRLF).append(line);
+                if (mark[MARK_IND_LI]) {
+                    sb.append(line);
+                } else {
+                    sb.append(CommonConstants.LINE_BREAK_CRLF).append(line);
+                }
                 mark[MARK_IND_ADD_BLANK] = true;
             } else {
                 mark[MARK_IND_ADD_BLANK] = false;
@@ -341,7 +364,10 @@ public class StringUtil {
                 mark[MARK_IND_LI] = false;
             }
             line = line.trim().replace(MARK_HTML_LI_END, "");
-            sb.append(" ").append(line);
+
+            if (!line.isEmpty()) {
+                sb.append(" ").append(line);
+            }
             if (!mark[MARK_IND_LI]) {
                 sb.append(CommonConstants.LINE_BREAK_CRLF);
             }

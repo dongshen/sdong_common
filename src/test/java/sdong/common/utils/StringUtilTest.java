@@ -122,7 +122,25 @@ public class StringUtilTest {
         String org = sb.toString();
         LOG.info("Org:{}", org);
         LOG.info("cur:{}", StringUtil.replaceLast(org, "\\\\012",
-        //""));
+                // ""));
                 CommonConstants.LINE_BREAK_CRLF + MdUtil.MARK_MD_CODE_BLOCK + CommonConstants.LINE_BREAK_CRLF));
+    }
+
+    @Test
+    public void test() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<li class=\"li\">").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append(
+                "<p class=\"p\">赋值（例如 <code class=\"ph codeph\">=</code>、<code class=\"ph codeph\">+=</code>、<code class=\"ph codeph\">-=</code> 或 <code class=\"ph codeph\">&lt;&lt;=</code>；）。</p> </li>")
+                .append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("<li class=\"li\">").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append(
+                "<p class=\"p\">递增和递减（例如 <code class=\"ph codeph\">++</code> 或 <code class=\"ph codeph\">--</code>）。</p> </li>");
+        String org = sb.toString();
+        org = org.replace("<li class=\"li\">", "<li>");
+        org = org.replace("<p class=\"p\">", "<p>");
+        org = org.replace("<code class=\"ph codeph\">", "<code>");
+        LOG.info("Org:{}", org);
+        LOG.info("cur:{}", StringUtil.removeHtmlMark(org));
     }
 }
