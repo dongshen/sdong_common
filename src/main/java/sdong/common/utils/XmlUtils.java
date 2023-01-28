@@ -128,7 +128,7 @@ public class XmlUtils {
      * @param tag
      * @return
      */
-    public static String getXMLSingleNodeText(Element ele, String tag) {
+    public static String getXmlSingleNodeText(Element ele, String tag) {
         String ret = null;
         Node node = ele.selectSingleNode(tag);
         if (node != null) {
@@ -146,9 +146,9 @@ public class XmlUtils {
      * @param tag
      * @return
      */
-    public static String getXMLSingleNodeTextNoEnter(Element ele, String tag) {
+    public static String getXmlSingleNodeTextNoEnter(Element ele, String tag) {
         String ret = null;
-        ret = getXMLSingleNodeText(ele, tag);
+        ret = getXmlSingleNodeText(ele, tag);
 
         return mergeLines(ret);
     }
@@ -177,7 +177,7 @@ public class XmlUtils {
      * @param tag
      * @return
      */
-    public static String getXMLAllNodesText(Element ele, String tag, String split) {
+    public static String getXmlAllNodesText(Element ele, String tag, String split) {
         String ret = "";
         String text = "";
         List<Node> list = ele.selectNodes(tag);
@@ -204,7 +204,7 @@ public class XmlUtils {
      * @param tag tag
      * @return result
      */
-    public static String getXMLAllRelatedNodesText(Element ele, String tag, String subTag, String split) {
+    public static String getXmlAllRelatedNodesText(Element ele, String tag, String subTag, String split) {
         String ret = "";
         String text = "";
         Node node = ele.selectSingleNode(tag);
@@ -230,16 +230,16 @@ public class XmlUtils {
         return ret;
     }
 
-    public static String getXMLElementAttribute(Element ele, String tag, String attr) {
+    public static String getXmlElementAttribute(Element ele, String tag, String attr) {
         Element e_tag = (Element) ele.selectSingleNode(tag);
 
         if (e_tag == null) {
             return null;
         }
-        return getXMLAttributeValue(e_tag, attr);
+        return getXmlAttributeValue(e_tag, attr);
     }
 
-    public static String getXMLAttributeValue(Element ele, String attr) {
+    public static String getXmlAttributeValue(Element ele, String attr) {
         return ele.attributeValue(attr);
     }
 
