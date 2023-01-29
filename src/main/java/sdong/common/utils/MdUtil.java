@@ -191,6 +191,10 @@ public class MdUtil {
      * @return result
      */
     public static String extractDescription(String value, String[][] removeStrs) {
+        return extractDescription(value, removeStrs, true);
+    }
+
+    public static String extractDescription(String value, String[][] removeStrs, Boolean isIncludeP) {
         value = XmlUtils.decode(value);
         if (removeStrs != null) {
             for (String[] str : removeStrs) {
@@ -198,7 +202,7 @@ public class MdUtil {
             }
         }
 
-        value = StringUtil.removeHtmlMark(value);
+        value = StringUtil.removeHtmlMark(value, isIncludeP);
 
         value = StringUtil.removeStarAndEndBlankLine(value);
         return value;
