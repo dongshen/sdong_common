@@ -39,7 +39,7 @@ public class StringUtil {
     private static final int MARK_IND_LI = 2;
     private static final int MARK_IND_ADD_BLANK = 3;
 
-    private static final String[] LINE_END_MARK = new String[] { ".", "<table>", "</table>", "</th>", "</tr>" };
+    private static final String[] LINE_END_MARK = new String[] { "<table>", "</table>", "</th>", "</tr>" };
 
     public static final List<String> splitStringToListByLineBreak(String str) throws SdongException {
         List<String> list = new ArrayList<String>();
