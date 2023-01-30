@@ -39,6 +39,8 @@ public class StringUtil {
     private static final int MARK_IND_LI = 2;
     private static final int MARK_IND_ADD_BLANK = 3;
 
+    private static final String[] LINE_END_MARK = new String[] { ".", "<table>", "</table>", "</th>", "</tr>" };
+
     public static final List<String> splitStringToListByLineBreak(String str) throws SdongException {
         List<String> list = new ArrayList<String>();
         try (BufferedReader reader = new BufferedReader(new StringReader(str));) {
@@ -266,12 +268,12 @@ public class StringUtil {
             if (mark[MARK_IND_ADD_BLANK]) {
                 sb.append(" ");
             }
-            if (lineValue.endsWith(MARK_LINE_END)||lineValue.endsWith(MARK_LINK_END)) {
+            if (checkLineEnd(lineValue)) {
                 sb.append(lineValue).append(CommonConstants.LINE_BREAK_CRLF);
                 mark[MARK_IND_ADD_BLANK] = false;
                 return;
             }
-            
+
             sb.append(lineValue);
             mark[MARK_IND_ADD_BLANK] = true;
 
@@ -294,9 +296,7 @@ public class StringUtil {
             mark[MARK_IND_ADD_BLANK] = false;
             return true;
         }
-        if (lineValue.startsWith(MARK_HTML_P_START)
-                && (lineValue.endsWith(MARK_LINE_END)
-                        || lineValue.replace(MARK_HTML_P_START, "").endsWith(MARK_LINK_END))) {
+        if (lineValue.startsWith(MARK_HTML_P_START) && checkLineEnd(lineValue)) {
             lineValue = lineValue.replace(MARK_HTML_P_START, "").trim();
             lineValue = replaceScript(lineValue);
             if (mark[MARK_IND_LI] && !lineValue.isEmpty()) {
@@ -488,5 +488,17 @@ public class StringUtil {
      */
     public static String replaceLast(String text, String strToReplace, String replaceWithThis) {
         return text.replaceFirst(strToReplace + "(?!.*?" + strToReplace + ")", replaceWithThis);
+    }
+
+    private static boolean checkLineEnd(String line) {
+        if (line == null || line.isEmpty()) {
+            return false;
+        }
+        for (String mark : LINE_END_MARK) {
+            if (line.endsWith(mark)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
