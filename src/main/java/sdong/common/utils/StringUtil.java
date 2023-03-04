@@ -280,7 +280,6 @@ public class StringUtil {
             return;
         }
         sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
-        return;
     }
 
     private static boolean extract_p(String line, StringBuilder sb, boolean[] mark) {

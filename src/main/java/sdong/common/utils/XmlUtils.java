@@ -165,7 +165,7 @@ public class XmlUtils {
                 ret_value = ret_value + " " + line.trim();
             }
         } else {
-            ret_value = linesText.replaceAll("\t", "").replaceAll("\n", " ");
+            ret_value = linesText.replace("\t", "").replace("\n", " ");
         }
         return ret_value.trim();
     }
@@ -246,7 +246,7 @@ public class XmlUtils {
     public static List<Namespace> getDeclareNameSpaces(Document doc) {
         List<Namespace> declareNamespaces = doc.getRootElement().declaredNamespaces();
         for (Namespace ns : declareNamespaces) {
-            LOG.debug("namespace prefix:" + ns.getPrefix() + ", namespace URI:" + ns.getURI());
+            LOG.debug("namespace prefix:{}, namespace URI:{}", ns.getPrefix(), ns.getURI());
         }
         return declareNamespaces;
     }
