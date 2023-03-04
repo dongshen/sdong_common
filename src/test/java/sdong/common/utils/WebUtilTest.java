@@ -27,7 +27,7 @@ public class WebUtilTest {
             }
             assertEquals(true, FileUtil.fileExist(outputFile));
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }

@@ -73,7 +73,7 @@ public class LocUtilTest {
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("cdbeae51a04ffffdbbde623b9f66913f", fileInfo.getMd5());
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -93,7 +93,7 @@ public class LocUtilTest {
                 assertEquals(result[id][CASE_RESULT_ARRAY_IND_COMMENT_IN_LINE], fileInfo.getCommentInLineCounts());
             }
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -135,7 +135,7 @@ public class LocUtilTest {
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("a699c02176bab00a5a9f0c193c019f0a", fileInfo.getMd5());
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -160,7 +160,7 @@ public class LocUtilTest {
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("54a0b23afe764a9203e13fec72c7ad04", fileInfo.getMd5());
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -184,7 +184,7 @@ public class LocUtilTest {
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("e44019a4e0e7fb50d0bd6acd26592312", fileInfo.getMd5());
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -208,7 +208,7 @@ public class LocUtilTest {
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("7fd9d6551bed2f83b2b741655a432be1", fileInfo.getMd5());
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -234,7 +234,7 @@ public class LocUtilTest {
             assertEquals(rowLineCounts, fileInfo.getRowLineCounts());
             assertEquals("2fb102498981b7f9326113e565248762", fileInfo.getMd5());
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -252,7 +252,7 @@ public class LocUtilTest {
                     "case 39 ", "case 40 ", "case 43 ", "case 44 ", "case 47 ", "case 48 ", "case 49 ");
             verifyGetLineType(lines, fileTypeComment, matchingCase, LineType.COMMENT_LINE);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -272,7 +272,7 @@ public class LocUtilTest {
             verifyGetLineType(lines, fileTypeComment, matchingCase, LineType.COMMENT_START_LINE);
 
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -291,7 +291,7 @@ public class LocUtilTest {
                     "case 34 ", "case 35", "case 35", "case 45");
             verifyGetLineType(lines, fileTypeComment, matchingCase, LineType.CODE_COMMENT_START_LINE);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -325,7 +325,7 @@ public class LocUtilTest {
                     "case 44 ", "case 45 ", "case 47 ", "case 48 ");
             verifyGetMulCommentsLineType(lines, fileTypeComment, matchingCase, LineType.COMMENT_END_LINE);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -345,7 +345,7 @@ public class LocUtilTest {
             verifyGetMulCommentsLineType(lines, fileTypeComment, matchingCase, LineType.COMMENT_END_CODE_LINE);
 
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -363,7 +363,7 @@ public class LocUtilTest {
             verifyGetMulCommentsLineType(lines, fileTypeComment, matchingCase, LineType.COMMENT_END_START_LINE);
 
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }
@@ -381,7 +381,7 @@ public class LocUtilTest {
                     "case 29 ", "case 34 ", "case 35 ");
             verifyGetMulCommentsLineType(lines, fileTypeComment, matchingCase, LineType.COMMENT_END_CODE_START_LINE);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }

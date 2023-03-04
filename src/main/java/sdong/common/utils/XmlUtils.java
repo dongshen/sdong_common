@@ -338,7 +338,7 @@ public class XmlUtils {
                 try {
                     writer.close();
                 } catch (IOException e) {
-                    LOG.error(e.getMessage());
+                    LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
                 }
             }
         }

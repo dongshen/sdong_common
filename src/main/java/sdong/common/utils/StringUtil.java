@@ -49,7 +49,7 @@ public class StringUtil {
                 list.add(line);
             }
         } catch (IOException e) {
-            log.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             throw new SdongException(e.getMessage());
         }
         return list;

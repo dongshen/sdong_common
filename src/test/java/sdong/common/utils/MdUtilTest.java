@@ -22,7 +22,7 @@ public class MdUtilTest {
             FileUtil.copyFile(mdFile, outFile);
             MdUtil.addUpdateSectionNumber(outFile);            
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail(CommonConstants.SHOULD_NOT_GET_EXCEPTION);
         }    
     }

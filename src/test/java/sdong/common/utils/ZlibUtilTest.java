@@ -45,7 +45,7 @@ public class ZlibUtilTest {
 			assertArrayEquals(data, uncompress);
 
 		} catch (SdongException e) {
-			LOG.error(e.getMessage());
+			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
 			fail("should not get exception!");
 		}
 	}
@@ -75,7 +75,7 @@ public class ZlibUtilTest {
 			assertArrayEquals(data, uncompress);
 
 		} catch (SdongException e) {
-			LOG.error(e.getMessage());
+			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
 			fail("should not get exception!");
 		}
 
@@ -117,7 +117,7 @@ public class ZlibUtilTest {
 			}
 
 		} catch (SdongException | FileNotFoundException e) {
-			LOG.error(e.getMessage());
+			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
 			fail("should not get exception!");
 		}
 	}
@@ -129,7 +129,7 @@ public class ZlibUtilTest {
 			ConcurrentHashMap<String, byte[]> ziplist = ZlibUtil.unzipStream(new FileInputStream(input));
 			assertEquals(2, ziplist.size());
 		} catch (FileNotFoundException | SdongException e) {
-			LOG.error(e.getMessage());
+			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
 			fail("should not get exception!");
 		}
 	}
@@ -145,7 +145,7 @@ public class ZlibUtilTest {
 			ZlibUtil.unzip(input, outputfolder, null);
 			assertEquals(2, FileUtil.getFilesInFolder(outputfolder).size());
 		} catch (SdongException e) {
-			LOG.error(e.getMessage());
+			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
 			fail("should not get exception!");
 		}
 	}
@@ -162,7 +162,7 @@ public class ZlibUtilTest {
 			ZlibUtil.unzip(input, outputfolder, list);
 			assertEquals(1, FileUtil.getFilesInFolder(outputfolder).size());
 		} catch (SdongException e) {
-			LOG.error(e.getMessage());
+			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
 			fail("should not get exception!");
 		}
 	}

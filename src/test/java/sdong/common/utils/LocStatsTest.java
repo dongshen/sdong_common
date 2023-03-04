@@ -128,7 +128,7 @@ public class LocStatsTest {
             assertEquals(3, sumProperties.getLineCounts());
             assertEquals(20, sumProperties.getRowLineCounts());
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }

@@ -20,7 +20,7 @@ public class RuleSetTest {
 
             VerifyRuleResult.verifyRuleSet(ruleSet);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("Should not get exception!");
         }
     }

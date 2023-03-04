@@ -44,7 +44,7 @@ public class LocUtil {
             setFileTypeCommentMap(parseFileTypeComment(reader));
             LOG.info("Get comment setting: {}", fileTypeCommentMap.size());
         } catch (IOException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
         }
     }
 

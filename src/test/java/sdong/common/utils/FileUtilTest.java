@@ -56,7 +56,7 @@ public class FileUtilTest {
 			List<String> file = FileUtil.getFilesInFolder("input/loc/example/loc_cases.c");
 			assertEquals(1, file.size());
 		} catch (SdongException e) {
-			log.error(e.getMessage());
+			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
 			fail("should not get exception!");
 		}
 	}
@@ -112,7 +112,7 @@ public class FileUtilTest {
 				log.info("duration = {}", avg / i);
 			}
 		} catch (SdongException e) {
-			log.error(e.getMessage());
+			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
 			fail("should not get exception!");
 		}
 	}

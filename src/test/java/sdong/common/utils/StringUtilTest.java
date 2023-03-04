@@ -54,7 +54,7 @@ public class StringUtilTest {
             List<String> result = StringUtil.splitStringToListByLineBreak(str);
             assertEquals(list.size(), result.size());
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("should not get exception!");
         }
     }

@@ -28,7 +28,7 @@ public class ConditionalTest {
 
             verify(conditional, jsonFile);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("Should not get exception!");
         }
     }
@@ -47,7 +47,7 @@ public class ConditionalTest {
 
             verify(conditional, jsonFile);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("Should not get exception!");
         }
     }
@@ -73,7 +73,7 @@ public class ConditionalTest {
 
             verify(conditional, jsonFile);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("Should not get exception!");
         }
     }
@@ -113,7 +113,7 @@ public class ConditionalTest {
             }
             verify(conditional, jsonFile);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("Should not get exception!");
         }
     }
@@ -159,7 +159,7 @@ public class ConditionalTest {
             }
             verify(conditional, jsonFile);
         } catch (SdongException e) {
-            LOG.error(e.getMessage());
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
             fail("Should not get exception!");
         }
     }
