@@ -213,7 +213,7 @@ public class CommonUtil {
         try {
             inputStream = CommonUtil.class.getClassLoader().getResourceAsStream(resource);
         } catch (SecurityException e) {
-            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+            LOG.error(e.getMessage());
             inputStream = null;
         }
         if (inputStream == null) {
@@ -221,7 +221,7 @@ public class CommonUtil {
                 URL url = CommonUtil.class.getClassLoader().getResource(resource);
                 inputStream = new FileInputStream(new File(url.getFile()));
             } catch (SecurityException | FileNotFoundException e) {
-                LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+                LOG.error(e.getMessage());
                 throw new SdongException(e);
             }
         }

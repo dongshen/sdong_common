@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StringUtil {
-    private static final Logger log = LogManager.getLogger(StringUtil.class);
+    private static final Logger LOG = LogManager.getLogger(StringUtil.class);
 
     public static final String PATTERN_LINEBREAK = "\\r?\\n|\\r";
 
@@ -49,7 +49,7 @@ public class StringUtil {
                 list.add(line);
             }
         } catch (IOException e) {
-            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+            LOG.error(e.getMessage());
             throw new SdongException(e.getMessage());
         }
         return list;

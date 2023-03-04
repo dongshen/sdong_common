@@ -56,7 +56,7 @@ public class EncodingUtil {
         try (BufferedInputStream fileStream = new BufferedInputStream(new FileInputStream(fileName))) {
             charset = detectEncoding(ByteStreams.toByteArray(fileStream));
         } catch (IOException e) {
-            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+            LOG.error(e.getMessage());
             throw new SdongException(e);
         }
 

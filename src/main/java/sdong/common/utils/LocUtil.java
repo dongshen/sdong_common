@@ -44,7 +44,7 @@ public class LocUtil {
             setFileTypeCommentMap(parseFileTypeComment(reader));
             LOG.info("Get comment setting: {}", fileTypeCommentMap.size());
         } catch (IOException e) {
-            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 
@@ -263,7 +263,7 @@ public class LocUtil {
             return LineType.COMMENT_END_LINE;
         }
 
-        // remove first end comment from line and check again;
+        // remove first end comment from line and check again
         lineTrim = lineTrim.substring(endPos + multiLineCommentStart.getEndComment().length());
 
         LineType lineType = getLineType(lineTrim, fileTypeComment, multiLineCommentStart);

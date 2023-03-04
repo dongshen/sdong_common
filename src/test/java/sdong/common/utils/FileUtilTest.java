@@ -15,7 +15,7 @@ import org.apache.logging.log4j.Logger;
 import sdong.common.exception.SdongException;
 
 public class FileUtilTest {
-	private static final Logger log = LogManager.getLogger(FileUtilTest.class);
+	private static final Logger LOG = LogManager.getLogger(FileUtilTest.class);
 
 	@Test
 	public void testReadFileToStringList() {
@@ -106,10 +106,10 @@ public class FileUtilTest {
 			for (int i = 1; i <= 10; i++) {
 				Instant first = Instant.now();
 				result = FileUtil.readFileToByteArray(filename);
-				log.info("size:" + result.length);
+				LOG.info("size:" + result.length);
 				Instant second = Instant.now();
 				avg = avg + Duration.between(first, second).toMillis();
-				log.info("duration = {}", avg / i);
+				LOG.info("duration = {}", avg / i);
 			}
 		} catch (SdongException e) {
 			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());

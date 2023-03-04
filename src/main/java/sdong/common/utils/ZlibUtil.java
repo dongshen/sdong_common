@@ -49,7 +49,7 @@ public class ZlibUtil {
 
 			output = byteArrayOutputStream.toByteArray();
 		} catch (Exception e) {
-			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 		return output;
@@ -104,7 +104,7 @@ public class ZlibUtil {
 		try (InputStream inputStream = new ByteArrayInputStream(data);) {
 			output = decompress(inputStream);
 		} catch (Exception e) {
-			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 
@@ -143,7 +143,7 @@ public class ZlibUtil {
 			gzipOutputStream.finish();
 			output = outputStream.toByteArray();
 		} catch (IOException e) {
-			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 
@@ -168,7 +168,7 @@ public class ZlibUtil {
 
 			ungzipBytes = outputStream.toByteArray();
 		} catch (IOException e) {
-			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 
@@ -198,7 +198,7 @@ public class ZlibUtil {
 			compressedBytes = outputStream.toByteArray();
 
 		} catch (IOException e) {
-			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 		return compressedBytes;
@@ -226,7 +226,7 @@ public class ZlibUtil {
 			}
 
 		} catch (IOException e) {
-			LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 		return ziplist;
@@ -290,7 +290,5 @@ public class ZlibUtil {
 		} catch (IOException e) {
 			throw new SdongException(e);
 		}
-		return;
 	}
-
 }
