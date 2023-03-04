@@ -262,7 +262,6 @@ public class JsonUtil {
         FileUtil.createFileWithFolder(jsonFile);
         try (FileWriter fileWriter = new FileWriter(jsonFile)) {
             fileWriter.write(jsonString);
-            fileWriter.close();
         } catch (IOException e) {
             throw new SdongException(e.getMessage(), e);
         }
@@ -297,8 +296,8 @@ public class JsonUtil {
         } catch (ValidationException ex) {
             StringBuffer result = new StringBuffer("Validation against Json schema failed: \n");
             ex.getAllMessages().stream().peek(e -> result.append("\n")).forEach(result::append);
-            LOG.error("Get validate erorrs:{}",ex.getAllMessages().size());
-            LOG.error("Validate erorrs:{}",result.toString());
+            LOG.error("Get validate erorrs:{}", ex.getAllMessages().size());
+            LOG.error("Validate erorrs:{}", result);
             return Optional.of(JsonUtil.jsonStringToObject(ex.toJSON().toString(), JsonValidatErrors.class));
         } catch (JSONException | IOException e) {
             throw new SdongException("Varify taint rule " + ruleFile + "fail on:" + e.getMessage(), e);

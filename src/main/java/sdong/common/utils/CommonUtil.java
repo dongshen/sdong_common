@@ -239,7 +239,7 @@ public class CommonUtil {
         Map<String, Integer> dict = new HashMap<String, Integer>();
         String str;
         for (char ch : inStr.toCharArray()) {
-            str = Integer.toHexString((int) ch);
+            str = Integer.toHexString(ch);
             if (dict.containsKey(str)) {
                 dict.put(str, dict.get(str) + 1);
             } else {
