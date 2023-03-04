@@ -52,25 +52,25 @@ public class XmlUtils {
     /*
      * Escape for xml (<,>,&)
      */
-    public static String StringEscape(String str) {
+    public static String stringEscape(String str) {
         String cov = "";
         if (str != null) {
-            cov = str.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-            cov = cov.replaceAll("\"", "&quot").replaceAll("\'", "&apos");
+            cov = str.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
+            cov = cov.replace("\"", "&quot").replace("\'", "&apos");
         }
         return cov;
     }
 
     /*
-     * decode for xml: <,>,&, ,",',),(;
+     * decode for xml: <,>,&, ,",',),(
      */
     public static String decode(String str) {
         String cov = "";
         if (str != null) {
-            cov = str.replaceAll("&amp;", "&").replaceAll("&nbsp;", " ");
-            cov = cov.replaceAll("&lt;", "<").replaceAll("&gt;", ">");
-            cov = cov.replaceAll("&quot", "\"").replaceAll("&apos", "\'");
-            cov = cov.replaceAll("&langle;", "(").replaceAll("&rangle;", ")");
+            cov = str.replace("&amp;", "&").replace("&nbsp;", " ");
+            cov = cov.replace("&lt;", "<").replace("&gt;", ">");
+            cov = cov.replace("&quot", "\"").replace("&apos", "\'");
+            cov = cov.replace("&langle;", "(").replace("&rangle;", ")");
         }
         return cov;
     }

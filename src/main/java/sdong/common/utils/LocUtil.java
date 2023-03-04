@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -34,7 +35,7 @@ public class LocUtil {
 
     private static final int NOT_FIND_MARK = -1;
 
-    private static ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap;
+    private static ConcurrentMap<FileType, FileTypeComment> fileTypeCommentMap;
 
     // initial file type comment setting
     static {
@@ -55,7 +56,7 @@ public class LocUtil {
      * @return file type comment map
      * @throws IOException file operation fail
      */
-    public static ConcurrentHashMap<FileType, FileTypeComment> parseFileTypeComment(Reader inputReader)
+    public static ConcurrentMap<FileType, FileTypeComment> parseFileTypeComment(Reader inputReader)
             throws IOException {
         ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap = new ConcurrentHashMap<FileType, FileTypeComment>();
         try (Reader reader = new BufferedReader(inputReader)) {
@@ -292,11 +293,11 @@ public class LocUtil {
         return lineType;
     }
 
-    public static ConcurrentHashMap<FileType, FileTypeComment> getFileTypeCommentMap() {
+    public static ConcurrentMap<FileType, FileTypeComment> getFileTypeCommentMap() {
         return fileTypeCommentMap;
     }
 
-    public static void setFileTypeCommentMap(ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap) {
+    public static void setFileTypeCommentMap(ConcurrentMap<FileType, FileTypeComment> fileTypeCommentMap) {
         LocUtil.fileTypeCommentMap = fileTypeCommentMap;
     }
 

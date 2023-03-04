@@ -19,7 +19,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class LocUtilTest {
     private static final Logger LOG = LogManager.getLogger(LocUtilTest.class);
@@ -411,8 +411,7 @@ public class LocUtilTest {
 
     @Test
     public void testParseFileTypeComment() {
-
-        ConcurrentHashMap<FileType, FileTypeComment> fileTypeCommentMap = LocUtil.getFileTypeCommentMap();
+        ConcurrentMap<FileType, FileTypeComment> fileTypeCommentMap = LocUtil.getFileTypeCommentMap();
         LOG.info("Comment map size:{}", fileTypeCommentMap.size());
         assertEquals(FILE_TYPE_NUM, fileTypeCommentMap.size());
 
