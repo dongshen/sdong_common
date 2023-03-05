@@ -221,9 +221,7 @@ public class JsonUtil {
      */
     public static <T> T jsonStringToObject(String jsonStr, Class<T> classType) throws SdongException {
         try {
-            T obj = new Gson().fromJson(jsonStr, classType);
-
-            return obj;
+            return new Gson().fromJson(jsonStr, classType);
         } catch (JsonSyntaxException e) {
             throw new SdongException(e.getMessage(), e);
         }
@@ -241,8 +239,7 @@ public class JsonUtil {
     public static <T> T jsonFileToObject(String jsonFile, Class<T> classType) throws SdongException {
         try (Reader reader = new BufferedReader(new FileReader(jsonFile))) {
             Gson gson = new GsonBuilder().create();
-            T object = gson.fromJson(reader, classType);
-            return object;
+            return gson.fromJson(reader, classType);
         } catch (IOException e) {
             throw new SdongException(e.getMessage(), e);
         }

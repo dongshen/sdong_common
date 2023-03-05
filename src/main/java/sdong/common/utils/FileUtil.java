@@ -19,6 +19,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.MessageFormat;
@@ -196,7 +197,7 @@ public class FileUtil {
         if (parentFile == null) {
             return "";
         } else {
-            return parentFile.replaceAll("\\\\", LINUX_FILE_PATH_SEPERATOR);
+            return parentFile.replace("\\\\", LINUX_FILE_PATH_SEPERATOR);
         }
     }
 
@@ -293,17 +294,14 @@ public class FileUtil {
      * @throws SdongException create fail
      */
     public static File createFileWithFolder(String fileName) throws SdongException {
-        // guava Files.createParentDirs(new File(fileName));
+        // guava Files.createParentDirs(new File(fileName))
         File file = new File(fileName);
         File parent = file.getParentFile();
-        if (!parent.exists()) {
-            if (!parent.mkdirs()) {
-                if (!parent.exists()) {
-                    throw new SdongException("Create folder fail!");
-                }
-            }
+        if (!parent.exists() && !parent.mkdirs()) {
+            throw new SdongException("Create folder fail!");
         }
         return file;
+
     }
 
     /**
@@ -377,10 +375,10 @@ public class FileUtil {
         try {
             createFileWithFolder(outputFile);
             if (isAppend) {
-                java.nio.file.Files.write(Paths.get(outputFile), lines, Charset.forName(DEFAULT_FILE_ENCODING),
+                java.nio.file.Files.write(Paths.get(outputFile), lines, StandardCharsets.UTF_8,
                         StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             } else {
-                java.nio.file.Files.write(Paths.get(outputFile), lines, Charset.forName(DEFAULT_FILE_ENCODING));
+                java.nio.file.Files.write(Paths.get(outputFile), lines, StandardCharsets.UTF_8);
             }
         } catch (IOException e) {
             throw new SdongException(e.getMessage(), e);

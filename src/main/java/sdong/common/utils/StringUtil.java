@@ -60,7 +60,7 @@ public class StringUtil {
     }
 
     public static final String joinStringListToString(List<String> list, String split) {
-        StringBuffer bf = new StringBuffer();
+        StringBuilder bf = new StringBuilder();
         for (String line : list) {
             bf.append(line).append(split);
         }
@@ -234,7 +234,7 @@ public class StringUtil {
     private static void processLine(String line, StringBuilder sb, boolean[] mark, boolean isIncludeP) {
         String lineValue = line.trim();
         if (isIncludeP) {
-            if (extract_p(line, sb, mark)) {
+            if (extractHtmlTagP(line, sb, mark)) {
                 return;
             }
         } else {
@@ -242,12 +242,12 @@ public class StringUtil {
         }
 
         // code block
-        if (extract_pre(line, sb, mark)) {
+        if (extractPre(line, sb, mark)) {
             return;
         }
 
         // UI
-        if (extract_ul_li(line, sb, mark)) {
+        if (extractUlAndLi(line, sb, mark)) {
             return;
         }
 
@@ -282,7 +282,7 @@ public class StringUtil {
         sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
     }
 
-    private static boolean extract_p(String line, StringBuilder sb, boolean[] mark) {
+    private static boolean extractHtmlTagP(String line, StringBuilder sb, boolean[] mark) {
         String lineValue = line.trim();
         if (lineValue.startsWith(MARK_HTML_P_START) && lineValue.endsWith(MARK_HTML_P_END)) {
             line = lineValue.replace(MARK_HTML_P_START, "").replace(MARK_HTML_P_END, "").trim();
@@ -347,7 +347,7 @@ public class StringUtil {
         return value.replace("<script>", "\\<script>").replace("</script>", "\\</script>");
     }
 
-    private static boolean extract_pre(String line, StringBuilder sb, boolean[] mark) {
+    private static boolean extractPre(String line, StringBuilder sb, boolean[] mark) {
         String lineValue = line.trim();
         if (lineValue.startsWith(MdUtil.MARK_MD_CODE_BLOCK)) {
             mark[MARK_IND_CODE_BLCOK] = !mark[MARK_IND_CODE_BLCOK];
@@ -369,7 +369,7 @@ public class StringUtil {
         return false;
     }
 
-    private static boolean extract_ul_li(String line, StringBuilder sb, boolean[] mark) {
+    private static boolean extractUlAndLi(String line, StringBuilder sb, boolean[] mark) {
         // UI
         if ((line.contains(MARK_HTML_UL_START) || line.contains(MARK_HTML_UL_END))
                 || (line.contains(MARK_HTML_OL_START) || line.contains(MARK_HTML_OL_END))) {

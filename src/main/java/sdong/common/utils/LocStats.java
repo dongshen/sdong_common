@@ -127,7 +127,7 @@ public class LocStats {
             boolean isPrintList) {
         if (isPrintList) {
             for (FileInfo info : fileInfoList) {
-                LOG.info(info.toString());
+                LOG.info(info);
             }
         }
         TreeMap<FileType, FileInfoSum> sumMap = new TreeMap<FileType, FileInfoSum>();

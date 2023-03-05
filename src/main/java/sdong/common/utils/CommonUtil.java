@@ -47,7 +47,7 @@ public class CommonUtil {
      * @return
      */
     public static String generateUuidSeq() {
-        //UUID uuid = Generators.timeBasedGenerator().generate();
+        // UUID uuid = Generators.timeBasedGenerator().generate();
         UUID uuid = generateType1UUID();
         String id = uuid.toString();
         LOG.debug("original id={}", id);
@@ -83,8 +83,8 @@ public class CommonUtil {
         return time_low + time_mid + version + time_hi;
     }
 
-    public static String getUlid(){
-        //Ulid ulid = Ulid.fast();
+    public static String getUlid() {
+        // Ulid ulid = Ulid.fast();
         return UlidCreator.getUlid().toString();
     }
 
@@ -285,14 +285,10 @@ public class CommonUtil {
     public static boolean isLinux() {
         Properties prop = System.getProperties();
         String os = prop.getProperty("os.name");
-        if (os != null && os.toLowerCase().indexOf("linux") >= 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return os != null && os.toLowerCase().indexOf("linux") >= 0;
     }
 
-    public static String getSequence(int strLength, int seq){
-        return StringUtils.leftPad(String.valueOf(seq),strLength,"0");
+    public static String getSequence(int strLength, int seq) {
+        return StringUtils.leftPad(String.valueOf(seq), strLength, "0");
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public class LocInfoCallable implements Callable<List<FileInfo>> {
-        private static final Logger LOG = LogManager.getLogger(LocInfoCallable.class);    
+    private static final Logger LOG = LogManager.getLogger(LocInfoCallable.class);
 
     List<String> fileList;
 
@@ -22,15 +22,15 @@ public class LocInfoCallable implements Callable<List<FileInfo>> {
     }
 
     @Override
-    public List<FileInfo> call() throws Exception{
+    public List<FileInfo> call() throws Exception {
         List<FileInfo> fileInfoList = new ArrayList<FileInfo>();
-        try{           
-            for(String fileName: fileList){
+        try {
+            for (String fileName : fileList) {
                 fileInfoList.add(LocUtil.getFileLocInfo(new File(fileName)));
             }
-        }catch(SdongException e){
-            LOG.error(e.getMessage(),e );
-            throw new Exception(e.getMessage());
+        } catch (SdongException e) {
+            LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
+            throw new Exception(e.getMessage(), e);
         }
         return fileInfoList;
     }

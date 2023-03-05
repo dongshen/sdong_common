@@ -1,5 +1,12 @@
 package sdong.common.utils;
 
+import com.google.common.io.ByteStreams;
+
+import sdong.common.exception.SdongException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -12,6 +19,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -19,13 +27,6 @@ import java.util.zip.InflaterInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
-import com.google.common.io.ByteStreams;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import sdong.common.exception.SdongException;
 
 public class ZlibUtil {
 	private static final Logger LOG = LogManager.getLogger(ZlibUtil.class);
@@ -198,7 +199,6 @@ public class ZlibUtil {
 			compressedBytes = outputStream.toByteArray();
 
 		} catch (IOException e) {
-			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 		return compressedBytes;
@@ -211,9 +211,8 @@ public class ZlibUtil {
 	 * @return
 	 * @throws SdongException
 	 */
-	public static final ConcurrentHashMap<String, byte[]> unzip(byte[] data) throws SdongException {
-
-		ConcurrentHashMap<String, byte[]> ziplist = new ConcurrentHashMap<String, byte[]>();
+	public static final ConcurrentMap<String, byte[]> unzip(byte[] data) throws SdongException {
+		ConcurrentMap<String, byte[]> ziplist = new ConcurrentHashMap<String, byte[]>();
 
 		try (ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(data));) {
 			ZipEntry entry;
@@ -226,7 +225,6 @@ public class ZlibUtil {
 			}
 
 		} catch (IOException e) {
-			LOG.error(e.getMessage());
 			throw new SdongException(e);
 		}
 		return ziplist;
@@ -239,8 +237,8 @@ public class ZlibUtil {
 	 * @return unzip map
 	 * @throws SdongException module exception
 	 */
-	public static final ConcurrentHashMap<String, byte[]> unzipStream(InputStream inputStream) throws SdongException {
-		ConcurrentHashMap<String, byte[]> ziplist = new ConcurrentHashMap<String, byte[]>();
+	public static final ConcurrentMap<String, byte[]> unzipStream(InputStream inputStream) throws SdongException {
+		ConcurrentMap<String, byte[]> ziplist = new ConcurrentHashMap<String, byte[]>();
 
 		try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 				ZipInputStream zipInputStream = new ZipInputStream(inputStream);) {

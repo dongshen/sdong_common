@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class ZlibUtilTest {
     private static final Logger LOG = LogManager.getLogger(ZlibUtilTest.class);
@@ -108,7 +108,7 @@ public class ZlibUtilTest {
 
             // verify uncompress
             // byte[] unbcompress = ZlibUtil.unzip(zlib);
-            ConcurrentHashMap<String, byte[]> ziplist = ZlibUtil.unzipStream(new FileInputStream(outputFile));
+            ConcurrentMap<String, byte[]> ziplist = ZlibUtil.unzipStream(new FileInputStream(outputFile));
             assertEquals(1, ziplist.size());
             for (Map.Entry<String, byte[]> entry : ziplist.entrySet()) {
                 LOG.info("un compress zlib file size=" + entry.getValue().length);
@@ -129,7 +129,7 @@ public class ZlibUtilTest {
     public void testUnzipStream() {
         String input = "input/zlib/zlib.zip";
         try {
-            ConcurrentHashMap<String, byte[]> ziplist = ZlibUtil.unzipStream(new FileInputStream(input));
+            ConcurrentMap<String, byte[]> ziplist = ZlibUtil.unzipStream(new FileInputStream(input));
             assertEquals(2, ziplist.size());
         } catch (SdongException e) {
             LOG.error("{}:{}", e.getErrorPosition(), e.getMessage());
