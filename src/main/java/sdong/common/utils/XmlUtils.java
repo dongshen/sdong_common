@@ -24,8 +24,7 @@ public class XmlUtils {
      * convert string to unicode with &#xXXXX
      */
     public static String string2Unicode(String str) {
-
-        StringBuffer unicode = new StringBuffer();
+        StringBuilder unicode = new StringBuilder();
         if (str != null) {
             int charlength = 0;
 
@@ -34,9 +33,7 @@ public class XmlUtils {
                 charlength = str.substring(i, i + 1).getBytes().length;
                 char c = str.charAt(i);
 
-                // LOG.debug("c=" + c + ",length=" + charlength);
-
-                if (charlength > 1) {
+               if (charlength > 1) {
                     // 取出每一个字符
 
                     // 转换为unicode
@@ -79,13 +76,11 @@ public class XmlUtils {
      * unicode convert string
      */
     public static String unicode2String(String unicode) {
-
-        StringBuffer string = new StringBuffer();
+        StringBuilder string = new StringBuilder();
 
         String[] hex = unicode.split(";");
 
         for (int i = 1; i < hex.length; i++) {
-
             // 转换出每一个代码点
             int data = Integer.parseInt(hex[i], 16);
 
@@ -115,8 +110,7 @@ public class XmlUtils {
             xw.flush();
             xw.close();
         } catch (IOException e) {
-            System.out.println("Format XML doc get exception, please check it!");
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
         return sw.toString();
     }
@@ -157,17 +151,17 @@ public class XmlUtils {
         if (linesText == null) {
             return null;
         }
-        String ret_value = "";
+        StringBuilder retValue = new StringBuilder();
         String[] lines = linesText.split("\n");
 
         if (lines != null) {
             for (String line : lines) {
-                ret_value = ret_value + " " + line.trim();
+                retValue.append(" ").append(line.trim());
             }
         } else {
-            ret_value = linesText.replace("\t", "").replace("\n", " ");
+            retValue.append(linesText.replace("\t", "").replace("\n", " "));
         }
-        return ret_value.trim();
+        return retValue.toString().trim();
     }
 
     /**
@@ -184,9 +178,9 @@ public class XmlUtils {
         if (list == null) {
             return null;
         }
-        for (Object o : list) {
-            Element e_l = (Element) o;
-            text = mergeLines(e_l.getText());
+        for (Node o : list) {
+            Element element = (Element) o;
+            text = mergeLines(element.getText());
             if (ret.equals("")) {
                 ret = text;
             } else {
@@ -217,9 +211,9 @@ public class XmlUtils {
         if (list.isEmpty()) {
             return StringUtil.removeStarAndEndBlankLine(node.getText());
         }
-        for (Object o : list) {
-            Element e_l = (Element) o;
-            text = StringUtil.removeStarAndEndBlankLine(e_l.getText());
+        for (Node o : list) {
+            Element element = (Element) o;
+            text = StringUtil.removeStarAndEndBlankLine(element.getText());
             if (ret.equals("")) {
                 ret = text;
             } else {
@@ -231,12 +225,12 @@ public class XmlUtils {
     }
 
     public static String getXmlElementAttribute(Element ele, String tag, String attr) {
-        Element e_tag = (Element) ele.selectSingleNode(tag);
+        Element eTag = (Element) ele.selectSingleNode(tag);
 
-        if (e_tag == null) {
+        if (eTag == null) {
             return null;
         }
-        return getXmlAttributeValue(e_tag, attr);
+        return getXmlAttributeValue(eTag, attr);
     }
 
     public static String getXmlAttributeValue(Element ele, String attr) {
@@ -297,7 +291,6 @@ public class XmlUtils {
         }
 
         element.addAttribute(attTag, attribute);
-        return;
     }
 
     /**
@@ -332,7 +325,7 @@ public class XmlUtils {
             writer = new XMLWriter(new FileWriter(file), OutputFormat.createPrettyPrint());
             writer.write(document);
         } catch (IOException e) {
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         } finally {
             if (writer != null) {
                 try {

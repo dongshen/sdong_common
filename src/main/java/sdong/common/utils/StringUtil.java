@@ -50,7 +50,7 @@ public class StringUtil {
             }
         } catch (IOException e) {
             LOG.error(e.getMessage());
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
         return list;
     }

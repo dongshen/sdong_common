@@ -109,7 +109,7 @@ public class LocUtil {
             }
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
         return fileInfo;
     }
@@ -159,7 +159,7 @@ public class LocUtil {
             }
             bufReader.close();
         } catch (IOException e) {
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
     }
 

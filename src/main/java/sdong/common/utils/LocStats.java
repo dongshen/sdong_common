@@ -27,13 +27,13 @@ import java.util.concurrent.FutureTask;
  */
 public class LocStats {
 
-    private final static int ARG_FLODER = 0;
-    private final static String PARM_HELP = "-h";
-    private final static String PARM_LANGUAGE = "lang=";
-    private final static String PARM_PRINT_LIST = "-list";
-    private final static String PARM_PRINT_THREAD = "-j";
-    private final static int DEFAULT_THREAD_NUM = 5;
-    private final static String PARM_SPLIT = ",";
+    private static final int ARG_FLODER = 0;
+    private static final String PARM_HELP = "-h";
+    private static final String PARM_LANGUAGE = "lang=";
+    private static final String PARM_PRINT_LIST = "-list";
+    private static final String PARM_PRINT_THREAD = "-j";
+    private static final int DEFAULT_THREAD_NUM = 5;
+    private static final String PARM_SPLIT = ",";
 
     private static final Logger LOG = LogManager.getLogger(LocStats.class);
 
@@ -117,7 +117,7 @@ public class LocStats {
             }
         } catch (InterruptedException | ExecutionException e) {
             LOG.error(e.getMessage(), e);
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
 
         return fileInfoList;

@@ -38,7 +38,7 @@ public class SqliteUtil {
                 throw new SdongException("Create database fail!");
             }
         } catch (SQLException e) {
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
         LOG.info("Create database:{} done.", FileUtil.getFileName(dbFileName));
     }
@@ -101,7 +101,7 @@ public class SqliteUtil {
         try (Connection conn = getConnection(dbFileName); Statement stmt = conn.createStatement();) {
             stmt.execute(sqlStmt);
         } catch (SQLException e) {
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
     }
 
@@ -156,7 +156,7 @@ public class SqliteUtil {
             rs.next();
             records = rs.getLong(1);
         } catch (SQLException e) {
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
         return records;
     }
@@ -205,7 +205,7 @@ public class SqliteUtil {
             }
         } catch (SQLException e) {
             LOG.debug(e.getMessage());
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
 
         return tables;
@@ -259,7 +259,7 @@ public class SqliteUtil {
             }
             //conn.commit();
         } catch (SQLException e) {
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
 
         LOG.info("import records:{}", records);

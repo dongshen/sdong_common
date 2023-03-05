@@ -50,7 +50,7 @@ public class FileUtil {
             contentList = Files.readLines(new File(fileName), Charset.forName(fileEncoding));
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
         return contentList;
     }
@@ -70,8 +70,7 @@ public class FileUtil {
 
     public static String getCurrentFilePath() throws IOException {
         File dirs = new File(".");
-        String dirPath = dirs.getCanonicalPath();
-        return dirPath;
+        return dirs.getCanonicalPath();
     }
 
     public static String getFileExtension(String fileName) {
@@ -84,7 +83,7 @@ public class FileUtil {
             return reader.getLineNumber();
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
     }
 
@@ -111,7 +110,7 @@ public class FileUtil {
             }
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
         return fileList;
 
@@ -179,7 +178,7 @@ public class FileUtil {
                 }
             }
         } catch (IOException e) {
-            throw new SdongException(e.getMessage());
+            throw new SdongException(e.getMessage(), e);
         }
         return fileList;
     }
