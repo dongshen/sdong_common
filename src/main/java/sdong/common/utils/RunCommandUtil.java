@@ -86,18 +86,15 @@ public class RunCommandUtil {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8));) {
 
             String line = null;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
 
             while ((line = br.readLine()) != null) {
                 sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
             }
             result = sb.toString();
-            br.close();
         } catch (Exception e) {
-            logger.error(e.getMessage());
             throw new SdongException(e);
         }
         return result;
     }
-
 }
