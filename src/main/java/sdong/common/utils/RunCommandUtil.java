@@ -54,11 +54,10 @@ public class RunCommandUtil {
                 throw new SdongException(errorStr);
             }
         } catch (IOException e) {
-            logger.error(e.getMessage());
             throw new SdongException(e);
         } catch (InterruptedException e) {
             logger.error(e.getMessage());
-            throw new SdongException(e);
+            Thread.currentThread().interrupt();
         } finally {
             try {
                 if (inputStream != null) {
