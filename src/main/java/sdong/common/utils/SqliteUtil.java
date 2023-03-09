@@ -28,10 +28,8 @@ public class SqliteUtil {
      */
     public static void createNewDatabase(String dbFileName) throws SdongException {
         String url = JDBC_LINK + dbFileName;
-        File file = FileUtil.createFileWithFolder(dbFileName);
-        if (file.exists()) {
-            file.delete();
-        }
+        FileUtil.createFileWithFolder(dbFileName);
+        FileUtil.deleteFile(dbFileName);
 
         try (Connection conn = DriverManager.getConnection(url);) {
             if (conn == null) {
