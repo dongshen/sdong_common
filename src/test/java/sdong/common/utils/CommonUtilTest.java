@@ -10,31 +10,31 @@ public class CommonUtilTest {
     private static final Logger LOG = LogManager.getLogger(CommonUtilTest.class);
 
     @Test
-    public void testGetUuid() {
+    void testGetUuid() {
         LOG.info("uuid: {}", CommonUtil.getUuid());
     }
 
     @Test
-    public void testGenerateType1UUID() {
+    void testGenerateType1UUID() {
         for (int i = 0; i < 10; i++) {
             LOG.info("Seq uuid: {}", CommonUtil.generateUuidSeq());
         }
     }
 
     @Test
-    public void testGetUlid() {
+    void testGetUlid() {
         for (int i = 0; i < 10; i++) {
             LOG.info("Seq uuid: {}", CommonUtil.getUlid());
         }
     }
 
     @Test
-    public void testGenerateUuidSeq() {
+    void testGenerateUuidSeq() {
         LOG.info("Seq uuid: {}", CommonUtil.generateUuidSeq());
     }
 
     @Test
-    public void testShannonEntropy() {
+    void testShannonEntropy() {
         String inStr = "abcdefghijklmnopqrstuvwxyz";
         LOG.info("entropy:{}", CommonUtil.shannonEntropy(inStr));
 
@@ -46,7 +46,7 @@ public class CommonUtilTest {
     }
 
     @Test
-    public void testCheckNumber() {
+    void testCheckNumber() {
         String inStr = "0123456789";
         assertEquals(true, CommonUtil.checkNumber(inStr));
 
@@ -64,7 +64,7 @@ public class CommonUtilTest {
     }
 
     @Test
-    public void testIsLinux() {
+    void testIsLinux() {
         assertEquals(false, CommonUtil.isLinux());
     }
 }

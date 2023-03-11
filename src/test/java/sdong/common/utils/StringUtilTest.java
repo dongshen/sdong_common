@@ -17,7 +17,7 @@ public class StringUtilTest {
     private static final Logger LOG = LogManager.getLogger(StringUtilTest.class);
 
     @Test
-    public void testCheckIndentNum() {
+    void testCheckIndentNum() {
         String line = "tree = TF_func:";
         String checkChar = " ";
         int intended = StringUtil.checkIndentNum(line, checkChar);
@@ -37,7 +37,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testSplitStringToListByLineBreak() {
+    void testSplitStringToListByLineBreak() {
         List<String> list = new ArrayList<String>();
         list.add("");
         list.add("");
@@ -60,7 +60,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testGetCurrentLineInString() {
+    void testGetCurrentLineInString() {
         String lines = "line 1\r\nline 2\r\nline 3\r\nline 4\r\nline 5\r\n";
         int start = lines.indexOf("3");
         String cur = StringUtil.getCurrentLineInString(lines, start);
@@ -68,7 +68,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testGetNextLineInString() {
+    void testGetNextLineInString() {
         String lines = "line 1\r\nline 2\r\nline 3\r\nline 4\r\nline 5\r\n";
         int start = lines.indexOf("3");
         String cur = StringUtil.getNextLineInString(lines, start);
@@ -76,7 +76,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testRemoveStarAndEndBlankLine() {
+    void testRemoveStarAndEndBlankLine() {
         String lines = "\r\n   \r\n\r\n  line 1\r\r\n  line 2\r\nline 3\r\n\n\r\nline 4\r\n\r\nline 5\r\n   \r\n";
         LOG.info("org:{}", lines);
         String cur = StringUtil.removeStarAndEndBlankLine(lines);
@@ -89,7 +89,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testRemoveHtmlMark() {
+    void testRemoveHtmlMark() {
         StringBuilder sb = new StringBuilder();
         sb.append("<p>").append(CommonConstants.LINE_BREAK_CRLF);
         sb.append("<b>Scenario</b><br/>").append(CommonConstants.LINE_BREAK_CRLF);
@@ -115,7 +115,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void testRelaceLast() {
+    void testRelaceLast() {
         StringBuilder sb = new StringBuilder();
         sb.append(
                 "\\012\\012Sample program that can crash:\\012\\012#include <stdio.h>\\012int main()\\012{\\012    char c[5];\\012    scanf(\"%s\", c);\\012    return 0;\\012}\\012\\012Typing in 5 or more characters may make the program crash.");
@@ -127,7 +127,7 @@ public class StringUtilTest {
     }
 
     @Test
-    public void test() {
+    void test() {
         StringBuilder sb = new StringBuilder();
         sb.append("<li class=\"li\">").append(CommonConstants.LINE_BREAK_CRLF);
         sb.append(

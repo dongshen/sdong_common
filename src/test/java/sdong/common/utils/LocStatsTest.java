@@ -25,7 +25,7 @@ public class LocStatsTest {
     private final String teseCaseFiles = "input/loc/example";
 
     @Test
-    public void testGetExtList() {
+    void testGetExtList() {
         String langList = "C";
         Set<String> extList = LocStats.getExtList(langList);
         assertEquals(FileType.getFileTypeExt(FileType.C), extList);
@@ -43,31 +43,31 @@ public class LocStatsTest {
     }
 
     @Test
-    public void testMain() {
+    void testMain() {
         String[] args = { teseCaseFiles };
         LocStats.main(args);
     }
 
     @Test
-    public void testMainLanguage() {
+    void testMainLanguage() {
         String[] args = { teseCaseFiles, "lang=c" };
         LocStats.main(args);
     }
 
     @Test
-    public void testMainList() {
+    void testMainList() {
         String[] args = { teseCaseFiles, "-list" };
         LocStats.main(args);
     }
 
     @Test
-    public void testMainJ() {
+    void testMainJ() {
         String[] args = { teseCaseFiles, "-j9" };
         LocStats.main(args);
     }
 
     @Test
-    public void testMainVerify() {
+    void testMainVerify() {
         List<String> fileList;
         try {
             fileList = FileUtil.getFilesInFolderList(Arrays.asList(teseCaseFiles.split(",")));

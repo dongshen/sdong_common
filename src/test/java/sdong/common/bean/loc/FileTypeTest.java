@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class FileTypeTest {
     @Test
-    public void testGetFileType(){
+    void testGetFileType(){
         assertEquals(FileType.Python,FileType.getFileTypeByExt("py"));
         assertEquals(FileType.C,FileType.getFileTypeByExt("c"));
         assertEquals(FileType.C,FileType.getFileTypeByExt("h"));

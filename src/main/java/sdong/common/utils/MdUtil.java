@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 public class MdUtil {
     private static final Logger LOG = LogManager.getLogger(MdUtil.class);
 
-    private static final Pattern TITLE_PATTER = Pattern.compile("^#{1,5}\\s{1,}");
+    private static final Pattern TITLE_PATTER = Pattern.compile("^#{1,5}\\s+");
     private static final Pattern TITLE_SEQ_PATTER = Pattern.compile("^([0-9]+\\.)+");
 
     public static final String MARK_MD_CODE_BLOCK = "```";
@@ -26,7 +26,7 @@ public class MdUtil {
     public static final String MARK_MD_REFERENCE = ">";
 
     private static final Pattern LINK_EXCLUDE_PATTERN = Pattern
-            .compile("[\"`~!@#$%^&*()_\\+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）+|{}【】‘；：”“’。，、？]");
+            .compile("[\"`~!@#$%^&*()_\\+=|{}':;',\\[\\].<>/?~！@#￥%……*（）+|{}【】‘；：”“’。，、？]");
 
     public static final String MARK_MD_TOC = "[TOC]";
 
@@ -39,7 +39,7 @@ public class MdUtil {
      * @throws SdongException module exception
      */
     public static void addUpdateSectionNumber(String mdFile) throws SdongException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         List<String> tocList = new ArrayList<String>();
         try (Scanner sc = new Scanner(new File(mdFile))) {
             int[] seqs = new int[] { 0, 0, 0, 0, 0 };
@@ -47,7 +47,6 @@ public class MdUtil {
             while (sc.hasNextLine()) {
                 isBlock = processLine(sb, tocList, sc, seqs, isBlock);
             }
-            sc.close();
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new SdongException(e.getMessage(), e);
@@ -57,14 +56,13 @@ public class MdUtil {
             String content = sb.toString();
             writer.write(content.replace(MARK_MD_TOC, generateToc(tocList)));
             writer.flush();
-            writer.close();
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new SdongException(e.getMessage(), e);
         }
     }
 
-    private static boolean processLine(StringBuffer sb, List<String> tocList, Scanner sc, int[] seqs, boolean isBlock) {
+    private static boolean processLine(StringBuilder sb, List<String> tocList, Scanner sc, int[] seqs, boolean isBlock) {
         String line;
         Matcher matcher;
         String title;

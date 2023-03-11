@@ -13,7 +13,7 @@ public class MdUtilTest {
     private static final Logger LOG = LogManager.getLogger(MdUtilTest.class);
 
     @Test
-    public void testAddUpdateSectionNumber(){
+    void testAddUpdateSectionNumber(){
         try {
             String mdFile ="input/utils/md/title.md";
             String outFile = "output/utils/md/title.md";

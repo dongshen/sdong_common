@@ -16,7 +16,7 @@ public class WebUtilTest {
     private static final Logger LOG = LogManager.getLogger(WebUtilTest.class);
 
     @Test
-    public void testSaveWebPage() {
+    void testSaveWebPage() {
         try {
             //String web = "https://vulncat.fortify.com/zh-cn/weakness?codelang=Java%2FJSP&po=";
             String web = "https://vulncat.fortify.com/zh-cn/weakness?po=";

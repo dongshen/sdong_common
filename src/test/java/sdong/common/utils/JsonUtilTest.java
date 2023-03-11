@@ -19,7 +19,7 @@ public class JsonUtilTest {
     private static final Logger LOG = LogManager.getLogger(JsonUtilTest.class);
 
     @Test
-    public void testJsonStringToObject() {
+    void testJsonStringToObject() {
         String condFile = "input/rules/conditional/conditional_complex_not.json";
         try {
             String condStr = FileUtil.readFileToString(condFile);
@@ -34,7 +34,7 @@ public class JsonUtilTest {
     }
 
     @Test
-    public void testObjectToJsonString() {
+    void testObjectToJsonString() {
         String condFile = "input/rules/conditional/conditional_complex_not.json";
         try {
             String condStr = FileUtil.readFileToString(condFile);
@@ -51,7 +51,7 @@ public class JsonUtilTest {
     }
 
     @Test
-    public void testGetTaintRuleSchema() {
+    void testGetTaintRuleSchema() {
         try {
             Schema schema = JsonUtil.getDataFlowRulesSchema();
             assertEquals("The common dataflow rules schema for static analysis 1.0", schema.getTitle());
@@ -62,7 +62,7 @@ public class JsonUtilTest {
     }
 
     @Test
-    public void testValidatTaintRule(){
+    void testValidatTaintRule(){
         try {
             String rule = "input/rules/dataflow_rules_c.json";
             Optional<JsonValidatErrors> validat = JsonUtil.validatTaintRule(rule); 

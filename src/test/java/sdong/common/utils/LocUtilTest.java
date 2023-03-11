@@ -52,7 +52,7 @@ public class LocUtilTest {
             { 0, 1, 0 }, { 0, 3, 0 }, /* case 46 */{ 0, 0, 0 }, { 0, 3, 0 }, { 0, 2, 0 }, { 0, 1, 1 } };
 
     @Test
-    public void testGetFileLocInfo_case() {
+    void testGetFileLocInfo_case() {
         int blankLineCounts = result.length;
         int commentLineCount = 0;
         int commentInLineCounts = 0;
@@ -79,7 +79,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testGetFileLocInfoCaseByCase() {
+    void testGetFileLocInfoCaseByCase() {
         try {
             List<String> caseList = getTestCase();
             FileInfo fileInfo;
@@ -117,7 +117,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testGetFileLocInfo_C() {
+    void testGetFileLocInfo_C() {
         String fileName = "input/loc/example/loc_example.c";
         int commentLineCount = 62;
         int blankLineCounts = 57;
@@ -141,7 +141,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testGetFileLocInfo_Java() {
+    void testGetFileLocInfo_Java() {
         String fileName = "input/loc/example/loc_example.java";
         int commentLineCount = 9;
         int blankLineCounts = 5;
@@ -166,7 +166,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testGetFileLocInfo_Python() {
+    void testGetFileLocInfo_Python() {
         String fileName = "input/loc/example/loc_example.py";
         int commentLineCount = 7;
         int blankLineCounts = 2;
@@ -190,7 +190,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testGetFileLocInfo_Xml() {
+    void testGetFileLocInfo_Xml() {
         String fileName = "input/loc/example/loc_example.xml";
         int commentLineCount = 2;
         int blankLineCounts = 0;
@@ -214,7 +214,7 @@ public class LocUtilTest {
     }
     
     @Test
-    public void testGetFileLocInfo_Properties() {
+    void testGetFileLocInfo_Properties() {
         // fileType=Properties, blankLineCounts=3, commentCounts=14, commentInLineCounts=0, fileSize=866, lineCounts=3,rowLineCounts=20
         String fileName = "input/loc/example/loc_example.properties";
 
@@ -240,7 +240,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMENT_LINE() {
+    void testCaseFor_COMMENT_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -258,7 +258,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMENT_START_LINE() {
+    void testCaseFor_COMMENT_START_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -278,7 +278,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_CODE_COMMENT_START_LINE() {
+    void testCaseFor_CODE_COMMENT_START_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -311,7 +311,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMENT_END_LINE() {
+    void testCaseFor_COMMENT_END_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -331,7 +331,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMENT_END_CODE_LINE() {
+    void testCaseFor_COMMENT_END_CODE_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -351,7 +351,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMENT_END_START_LINE() {
+    void testCaseFor_COMMENT_END_START_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -369,7 +369,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testCaseFor_COMMENT_END_CODE_START_LINE() {
+    void testCaseFor_COMMENT_END_CODE_START_LINE() {
         List<String> lines;
         try {
             lines = FileUtil.readFileToStringList(caseFileName);
@@ -401,7 +401,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testGetFileLocInfoQuestionMark() {
+    void testGetFileLocInfoQuestionMark() {
         String input = "char *p = \"/* case 37 */ // case 37\";";
         String result = input.replaceAll(C_REG_STRING_VALUE, "\"\"");
 
@@ -410,7 +410,7 @@ public class LocUtilTest {
     }
 
     @Test
-    public void testParseFileTypeComment() {
+    void testParseFileTypeComment() {
         ConcurrentMap<FileType, FileTypeComment> fileTypeCommentMap = LocUtil.getFileTypeCommentMap();
         LOG.info("Comment map size:{}", fileTypeCommentMap.size());
         assertEquals(FILE_TYPE_NUM, fileTypeCommentMap.size());

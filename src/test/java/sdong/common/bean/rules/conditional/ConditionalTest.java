@@ -18,7 +18,7 @@ import java.util.List;
 public class ConditionalTest {
     private static final Logger LOG = LogManager.getLogger(ConditionalTest.class);
     @Test
-    public void testParseRuleConditioanalJson_Not() {
+    void testParseRuleConditioanalJson_Not() {
         String jsonFile = "input/rules/conditional/conditional_not.json";
         try {
             Conditional conditional = JsonUtil.jsonFileToObject(jsonFile, Conditional.class);
@@ -34,7 +34,7 @@ public class ConditionalTest {
     }
 
     @Test
-    public void testParseRuleConditioanalJson_And() {
+    void testParseRuleConditioanalJson_And() {
         String jsonFile = "input/rules/conditional/conditional_and.json";
         try {
             Conditional conditional = JsonUtil.jsonFileToObject(jsonFile, Conditional.class);
@@ -53,7 +53,7 @@ public class ConditionalTest {
     }
 
     @Test
-    public void testParseRuleConditioanalJson_AndNot() {
+    void testParseRuleConditioanalJson_AndNot() {
         String jsonFile = "input/rules/conditional/conditional_andnot.json";
         try {
             Conditional conditional = JsonUtil.jsonFileToObject(jsonFile, Conditional.class);
@@ -79,7 +79,7 @@ public class ConditionalTest {
     }
 
     @Test
-    public void testParseRuleConditioanalJson_complex_not() {
+    void testParseRuleConditioanalJson_complex_not() {
         String jsonFile = "input/rules/conditional/conditional_complex_not.json";
         try {
             Conditional conditional = JsonUtil.jsonFileToObject(jsonFile, Conditional.class);
@@ -119,7 +119,7 @@ public class ConditionalTest {
     }
 
     @Test
-    public void testParseRuleConditioanalJson_ConstantMatches() {
+    void testParseRuleConditioanalJson_ConstantMatches() {
         String jsonFile = "input/rules/conditional/conditional_ConstantMatches.json";
         try {
             Conditional conditional = JsonUtil.jsonFileToObject(jsonFile, Conditional.class);

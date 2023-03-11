@@ -13,7 +13,7 @@ public class RuleSetTest {
     private static final Logger LOG = LogManager.getLogger(RuleSetTest.class);
 
     @Test
-    public void testParseRuleJson() {
+    void testParseRuleJson() {
         String jsonFile = "input/rules/dataflow_rules_c.json";
         try {
             RuleSet ruleSet = JsonUtil.jsonFileToObject(jsonFile, RuleSet.class);

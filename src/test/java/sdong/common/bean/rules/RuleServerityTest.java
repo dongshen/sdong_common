@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class RuleServerityTest { 
     @Test
-    public void testGetSeverityByName(){
+    void testGetSeverityByName(){
         assertEquals(RuleSeverity.FATAL, RuleSeverity.getSeverityByName("Fatal"));   
         assertEquals(RuleSeverity.FATAL, RuleSeverity.getSeverityByName("fatal"));   
         assertEquals(RuleSeverity.NORMAL, RuleSeverity.getSeverityByLevel(4));   

@@ -23,7 +23,7 @@ public class ZlibUtilTest {
     private static final Logger LOG = LogManager.getLogger(ZlibUtilTest.class);
 
     @Test
-    public void testCompressByteArray() {
+    void testCompressByteArray() {
         String inputFile = "input/zlib/sdong.log";
         int originalSize = 23252;
         int zipSize = 3142;
@@ -51,7 +51,7 @@ public class ZlibUtilTest {
     }
 
     @Test
-    public void testGzip() {
+    void testGzip() {
         String inputFile = "input/zlib/sdong.log";
         String outputFile = "output/zlib/sdong.gz";
         int originalSize = 23252;
@@ -82,7 +82,7 @@ public class ZlibUtilTest {
     }
 
     @Test
-    public void testZip() {
+    void testZip() {
         String inputFile = "input/zlib/sdong.log";
         String outputFile = "output/zlib/sdong.zip";
         int zipSize = 3264;
@@ -126,7 +126,7 @@ public class ZlibUtilTest {
     }
 
     @Test
-    public void testUnzipStream() {
+    void testUnzipStream() {
         String input = "input/zlib/zlib.zip";
         try {
             ConcurrentMap<String, byte[]> ziplist = ZlibUtil.unzipStream(new FileInputStream(input));
@@ -141,7 +141,7 @@ public class ZlibUtilTest {
     }
 
     @Test
-    public void testUnZip_all() {
+    void testUnZip_all() {
         String input = "input/zlib/zlib.zip";
         String outputfolder = "output/zlib/unzip";
         try {
@@ -157,7 +157,7 @@ public class ZlibUtilTest {
     }
 
     @Test
-    public void testUnZip_selectFile() {
+    void testUnZip_selectFile() {
         String input = "input/zlib/zlib.zip";
         String outputfolder = "output/zlib/unzip_selected";
         Set<String> list = new HashSet<String>(Arrays.asList("zip/sdong.log"));

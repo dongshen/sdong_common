@@ -16,7 +16,7 @@ public class RunCommandUtilTest {
 	private static final Logger LOG = LogManager.getLogger(RunCommandUtilTest.class);
 
     @Test
-    public void testRunCommand(){
+    void testRunCommand(){
         String cmd = "dir";
         try {
 			String result = RunCommandUtil.runCommand(cmd);
