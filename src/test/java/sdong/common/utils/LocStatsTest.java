@@ -1,7 +1,6 @@
 package sdong.common.utils;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import sdong.common.bean.loc.FileInfo;
 import sdong.common.bean.loc.FileInfoSum;
@@ -10,7 +9,7 @@ import sdong.common.exception.SdongException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;

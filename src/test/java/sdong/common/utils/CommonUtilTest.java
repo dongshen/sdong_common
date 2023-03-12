@@ -1,10 +1,10 @@
 package sdong.common.utils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class CommonUtilTest {
     private static final Logger LOG = LogManager.getLogger(CommonUtilTest.class);

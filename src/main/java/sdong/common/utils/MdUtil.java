@@ -19,7 +19,7 @@ public class MdUtil {
     private static final Logger LOG = LogManager.getLogger(MdUtil.class);
 
     private static final Pattern TITLE_PATTER = Pattern.compile("^#{1,5}\\s+");
-    private static final Pattern TITLE_SEQ_PATTER = Pattern.compile("^([0-9]+\\.)+");
+    private static final Pattern TITLE_SEQ_PATTER = Pattern.compile("^([\\d]+\\.)+");
 
     public static final String MARK_MD_CODE_BLOCK = "```";
 

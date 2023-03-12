@@ -1,7 +1,6 @@
 package sdong.common.utils;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import sdong.common.bean.rules.conditional.Conditional;
 import sdong.common.bean.rules.conditional.ConditionalNode;
@@ -11,7 +10,7 @@ import sdong.common.exception.SdongException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.everit.json.schema.Schema;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 

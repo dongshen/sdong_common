@@ -1,11 +1,11 @@
 package sdong.common.utils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import sdong.common.utils.StringCommonFactor.ChildString;
 import sdong.common.utils.StringCommonFactor.DiffSequence;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

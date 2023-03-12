@@ -1,13 +1,13 @@
 package sdong.common.bean.rules;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import sdong.common.exception.SdongException;
 import sdong.common.utils.JsonUtil;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class RuleSetTest {
     private static final Logger LOG = LogManager.getLogger(RuleSetTest.class);
