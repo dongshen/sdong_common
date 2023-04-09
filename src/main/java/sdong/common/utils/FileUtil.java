@@ -51,7 +51,7 @@ public class FileUtil {
             contentList = Files.readLines(new File(fileName), Charset.forName(fileEncoding));
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
         return contentList;
     }
@@ -84,7 +84,7 @@ public class FileUtil {
             return reader.getLineNumber();
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
     }
 
@@ -111,7 +111,7 @@ public class FileUtil {
             }
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
         return fileList;
 
@@ -179,7 +179,7 @@ public class FileUtil {
                 }
             }
         } catch (IOException e) {
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
         return fileList;
     }
@@ -381,7 +381,7 @@ public class FileUtil {
                 java.nio.file.Files.write(Paths.get(outputFile), lines, StandardCharsets.UTF_8);
             }
         } catch (IOException e) {
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
     }
 

@@ -117,7 +117,7 @@ public class LocStats {
             }
         } catch (InterruptedException | ExecutionException e) {
             LOG.error(e.getMessage(), e);
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
 
         return fileInfoList;

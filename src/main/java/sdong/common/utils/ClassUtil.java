@@ -21,7 +21,7 @@ public class ClassUtil {
             method.invoke(object, setValue);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
     }
 
@@ -41,7 +41,7 @@ public class ClassUtil {
             return (String) method.invoke(object);
         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
                 | SecurityException e) {
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
     }
 }

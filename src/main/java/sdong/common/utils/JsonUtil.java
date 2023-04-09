@@ -223,7 +223,7 @@ public class JsonUtil {
         try {
             return new Gson().fromJson(jsonStr, classType);
         } catch (JsonSyntaxException e) {
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
     }
 
@@ -241,7 +241,7 @@ public class JsonUtil {
             Gson gson = new GsonBuilder().create();
             return gson.fromJson(reader, classType);
         } catch (IOException e) {
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
     }
 
@@ -260,7 +260,7 @@ public class JsonUtil {
         try (FileWriter fileWriter = new FileWriter(jsonFile)) {
             fileWriter.write(jsonString);
         } catch (IOException e) {
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
     }
 

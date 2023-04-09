@@ -49,7 +49,7 @@ public class MdUtil {
             }
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
 
         try (FileWriter writer = new FileWriter(mdFile)) {
@@ -58,7 +58,7 @@ public class MdUtil {
             writer.flush();
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
     }
 

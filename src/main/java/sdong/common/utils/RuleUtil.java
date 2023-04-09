@@ -43,7 +43,7 @@ public class RuleUtil {
             Gson gson = new GsonBuilder().create();
             conditional = gson.fromJson(reader, Conditional.class);
         } catch (IOException e) {
-            throw new SdongException(e.getMessage(), e);
+            throw new SdongException(e);
         }
 
         return conditional;
