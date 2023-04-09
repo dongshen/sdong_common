@@ -138,7 +138,7 @@ public class StringUtil {
         String lineValue;
         for (String line : lines) {
             lineValue = line.trim();
-            isEmpty = lineValue.isEmpty() ? true : false;
+            isEmpty = lineValue.isEmpty();
 
             if (isStart && !isEmpty) {
                 sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);

@@ -1,21 +1,23 @@
 package sdong.common.utils;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.List;
+import sdong.common.exception.SdongException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Namespace;
 import org.dom4j.Node;
 import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.xml.sax.SAXException;
 
-import sdong.common.exception.SdongException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.List;
 
 public class XmlUtils {
     private static final Logger LOG = LogManager.getLogger(XmlUtils.class);
@@ -33,7 +35,7 @@ public class XmlUtils {
                 charlength = str.substring(i, i + 1).getBytes().length;
                 char c = str.charAt(i);
 
-               if (charlength > 1) {
+                if (charlength > 1) {
                     // 取出每一个字符
 
                     // 转换为unicode
@@ -172,23 +174,24 @@ public class XmlUtils {
      * @return
      */
     public static String getXmlAllNodesText(Element ele, String tag, String split) {
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
         String text = "";
         List<Node> list = ele.selectNodes(tag);
         if (list == null) {
             return null;
         }
+        String sp = "";
         for (Node o : list) {
             Element element = (Element) o;
             text = mergeLines(element.getText());
-            if (ret.equals("")) {
-                ret = text;
-            } else {
-                ret = ret + split + text;
+            if (text == null) {
+                text = "";
             }
+            ret.append(sp).append(text);
+            sp = split;
         }
 
-        return ret;
+        return ret.toString();
     }
 
     /**
@@ -199,7 +202,7 @@ public class XmlUtils {
      * @return result
      */
     public static String getXmlAllRelatedNodesText(Element ele, String tag, String subTag, String split) {
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
         String text = "";
         Node node = ele.selectSingleNode(tag);
         if (node == null) {
@@ -211,17 +214,16 @@ public class XmlUtils {
         if (list.isEmpty()) {
             return StringUtil.removeStarAndEndBlankLine(node.getText());
         }
+        String sp = "";
         for (Node o : list) {
             Element element = (Element) o;
             text = StringUtil.removeStarAndEndBlankLine(element.getText());
-            if (ret.equals("")) {
-                ret = text;
-            } else {
-                ret = ret + split + text;
-            }
+
+            ret.append(sp).append(text);
+            sp = split;
         }
 
-        return ret;
+        return ret.toString();
     }
 
     public static String getXmlElementAttribute(Element ele, String tag, String attr) {
@@ -318,22 +320,29 @@ public class XmlUtils {
      * @throws SdongException module exception
      */
     public static void writeDocToFile(Document document, String output) throws SdongException {
-        XMLWriter writer = null;
-        try {
-            File file = FileUtil.createFileWithFolder(output);
+        File file = FileUtil.createFileWithFolder(output);
 
-            writer = new XMLWriter(new FileWriter(file), OutputFormat.createPrettyPrint());
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            XMLWriter writer = new XMLWriter(fileWriter, OutputFormat.createPrettyPrint());
             writer.write(document);
         } catch (IOException e) {
-            throw new SdongException(e.getMessage(), e);
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                } catch (IOException e) {
-                    LOG.error(e.getMessage());
-                }
-            }
+            throw new SdongException(e);
         }
+    }
+
+    /**
+     * get SAXReader
+     * 
+     * @return SAXReader
+     * @throws SdongException module exception
+     */
+    public static SAXReader createSaxReader() throws SdongException {
+        SAXReader xmlReader = new SAXReader();
+        try {
+            xmlReader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+        } catch (SAXException e) {
+            throw new SdongException(e);
+        }
+        return xmlReader;
     }
 }
