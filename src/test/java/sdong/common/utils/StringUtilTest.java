@@ -1,4 +1,5 @@
 package sdong.common.utils;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -87,6 +88,19 @@ public class StringUtilTest {
         }
     }
 
+    @Test
+    void testRemoveStarAndEndBlankLine2() {
+        String lines = "  line 1\r\n";
+        LOG.info("org:{}", lines);
+        String cur = StringUtil.removeStarAndEndBlankLine(lines);
+        LOG.info("cur:{}", cur);
+        assertEquals("  line 1", cur);
+        String[] ls = lines.split(StringUtil.PATTERN_LINEBREAK);
+        for (String str : ls) {
+            LOG.info("{}", str);
+        }
+    }
+    
     @Test
     void testRemoveHtmlMark() {
         StringBuilder sb = new StringBuilder();

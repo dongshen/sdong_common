@@ -141,7 +141,7 @@ public class StringUtil {
             isEmpty = lineValue.isEmpty();
 
             if (isStart && !isEmpty) {
-                sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+                sb.append(line);
                 isStart = false;
                 continue;
             }
@@ -161,7 +161,7 @@ public class StringUtil {
                 sb.append(CommonConstants.LINE_BREAK_CRLF);
                 isEmptyPre = false;
             }
-            sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+            sb.append(CommonConstants.LINE_BREAK_CRLF).append(line);
         }
 
         return sb.toString();
