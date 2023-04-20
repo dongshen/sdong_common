@@ -209,7 +209,7 @@ public class StringUtil {
         }
 
         StringBuilder sb = new StringBuilder();
-        // 0 - <p> , 1 - <pre> , 2 - li, 3 - add blank;
+        // 0 - <p> , 1 - <pre> , 2 - li, 3 - add blank
         boolean[] mark = new boolean[] { false, false, false, false };
         value = value.replace(MARK_HTML_LINEBREAK, CommonConstants.LINE_BREAK_CRLF + CommonConstants.LINE_BREAK_CRLF);
         value = value.replace(MARK_HTML_LINEBREAK2, CommonConstants.LINE_BREAK_CRLF + CommonConstants.LINE_BREAK_CRLF);

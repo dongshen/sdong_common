@@ -170,12 +170,9 @@ public class FileUtil {
         List<String> fileList = new ArrayList<String>();
         try {
             for (File file : Files.fileTraverser().depthFirstPreOrder(new File(folder))) {
-                if (file.isFile()) {
-                    if (exts == null || exts.isEmpty()) {
-                        fileList.add(file.getCanonicalPath());
-                    } else if (exts.contains(FileUtil.getFileExtension(file.getName()))) {
-                        fileList.add(file.getCanonicalPath());
-                    }
+                if (file.isFile() && (exts == null || exts.isEmpty()
+                        || exts.contains(FileUtil.getFileExtension(file.getName())))) {
+                    fileList.add(file.getCanonicalPath());
                 }
             }
         } catch (IOException e) {
