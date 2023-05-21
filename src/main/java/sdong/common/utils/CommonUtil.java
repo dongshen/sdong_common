@@ -47,7 +47,7 @@ public class CommonUtil {
      * @return
      */
     public static String generateUuidSeq() {
-        // UUID uuid = Generators.timeBasedGenerator().generate();
+        // UUID uuid = Generators.timeBasedGenerator().generate()
         UUID uuid = generateType1UUID();
         String id = uuid.toString();
         LOG.debug("original id={}", id);
@@ -145,7 +145,7 @@ public class CommonUtil {
     }
 
     public static String generateMD5(byte[] bytes) throws SdongException {
-        String md5code = "";
+        StringBuilder md5code = new StringBuilder();
         try {
             // 生成一个MD5加密计算摘要
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -154,17 +154,18 @@ public class CommonUtil {
             // 获得加密后的数据
             byte[] secretBytes = md.digest();
             // 将加密后的数据转换为16进制数字
-            md5code = new BigInteger(1, secretBytes).toString(16);// 16进制数字
+            // 16进制数字
+            md5code.append(new BigInteger(1, secretBytes).toString(16));
             // 如果生成数字未满32位，需要前面补0
             for (int i = 0; i < 32 - md5code.length(); i++) {
-                md5code = "0" + md5code;
+                md5code.append("0").append(md5code);
             }
         } catch (NoSuchAlgorithmException e) {
             LOG.error(e.getMessage(), e);
             throw new SdongException(e);
         }
 
-        return md5code;
+        return md5code.toString();
     }
 
     public static String generateFileMd5(String fileName) throws SdongException {
