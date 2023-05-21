@@ -82,7 +82,7 @@ public class SqliteUtil {
      */
     public static Connection getConnection(String dbFileName) throws SQLException, SdongException {
         if (!new File(dbFileName).exists()) {
-            throw new SdongException("Database not exist!");
+            throw new SdongException("Database not exist:" + new File(dbFileName).getAbsolutePath());
         }
 
         return DriverManager.getConnection(JDBC_LINK + dbFileName);
@@ -255,7 +255,7 @@ public class SqliteUtil {
                     records = records + pstmt.executeUpdate();
                 }
             }
-            //conn.commit();
+            // conn.commit();
         } catch (SQLException e) {
             throw new SdongException(e);
         }
