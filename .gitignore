@@ -2,7 +2,5 @@
 /logs/
 /.settings/
 /.project
-.classpath
 .factorypath
-.flattened-pom.xml
 /output/
