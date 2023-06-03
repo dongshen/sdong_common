@@ -31,4 +31,9 @@ public class CommonConstants {
 	 * ENCODEING_DEFAULT utf-8
 	 */
 	public static final String ENCODEING_DEFAULT = "utf-8";
+
+    /**
+     * MD for PDF page break
+     */
+    public static final String MD_PDF_PAGE_BREAK ="<div STYLE=\"page-break-after: always;\"></div>";
 }

@@ -383,6 +383,28 @@ public class FileUtil {
     }
 
     /**
+     * write string with line break to file
+     * 
+     * @param outputFile output file
+     * @param lines      string with line break
+     * @throws SdongException module exception
+     */
+    public static void writeString(String outputFile, String lines, boolean isAppend) throws SdongException {
+        try {
+            createFileWithFolder(outputFile);
+            if (isAppend) {
+                java.nio.file.Files.writeString(Paths.get(outputFile), lines, StandardCharsets.UTF_8,
+                        StandardOpenOption.APPEND);
+
+            } else {
+                java.nio.file.Files.writeString(Paths.get(outputFile), lines, StandardCharsets.UTF_8);
+            }
+        } catch (IOException e) {
+            throw new SdongException(e);
+        }
+    }
+
+    /**
      * convert string to file name. remove or replace file name not support
      * characters
      * 

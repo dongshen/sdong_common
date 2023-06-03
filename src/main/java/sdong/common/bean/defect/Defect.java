@@ -1,5 +1,7 @@
 package sdong.common.bean.defect;
 
+import sdong.common.utils.CommonUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +21,10 @@ public class Defect {
     String mergekey = "";
 
     List<DefectEvent> eventList;
+
+    public Defect(){
+        this.defectId = CommonUtil.getUlid();
+    }
 
     public String getDefectId() {
         return defectId;
