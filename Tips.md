@@ -1,30 +1,17 @@
-Tips
+<h1>Tips</h1>
 
-- [1. Tesseract-OCR](#1-tesseract-ocr)
-  - [1.1. 安装(目前安装版本:v5.0.0-alpha.20201127)](#11-安装目前安装版本v500-alpha20201127)
-  - [1.2. 训练](#12-训练)
-- [2. Web Scraper](#2-web-scraper)
-- [3. Excel tips](#3-excel-tips)
-  - [3.1. Get cell web link](#31-get-cell-web-link)
-  - [3.2. 填充合并单元格](#32-填充合并单元格)
-  - [3.3. 6.3 得到特殊字符的最后一个值](#33-63-得到特殊字符的最后一个值)
-- [4. markdown Reference](#4-markdown-reference)
-- [5. 希腊字母在数学或物理中代表的意思](#5-希腊字母在数学或物理中代表的意思)
-- [6. Vscode extension](#6-vscode-extension)
-- [7. edge tips](#7-edge-tips)
-- [8. GOOGLE 人机验证(RECAPTCHA)无法显示解决方案](#8-google-人机验证recaptcha无法显示解决方案)
-- [9. Git](#9-git)
-- [Reg](#reg)
-- [Google translate](#google-translate)
-- [Adoc](#adoc)
+[TOC]
 
 # 1. Tesseract-OCR
+
 主要用于图片的文字提取.
 
 ## 1.1. 安装(目前安装版本:v5.0.0-alpha.20201127)
+
 1. 下载安装Tesseract-OCR 安装，链接地址https://digi.bib.uni-mannheim.de/tesseract/
 2. 中文的安装: Tesseract-OCR的安装目录要包含识别中文的字符集chi_sim.traineddata，可以在GitHub下载https://github.com/tesseract-ocr/tessdata
 3. 查看版本: tesseract -v
+
 ```
 D:\temp>tesseract -v
 tesseract v5.0.0-alpha.20201127
@@ -37,7 +24,9 @@ tesseract v5.0.0-alpha.20201127
  Found libarchive 3.3.2 zlib/1.2.11 liblzma/5.2.3 bz2lib/1.0.6 liblz4/1.7.5
  Found libcurl/7.59.0 OpenSSL/1.0.2o (WinSSL) zlib/1.2.11 WinIDN libssh2/1.7.0 nghttp2/1.31.0
 ```
-4. 检查安装语言: tesseract --list-langs 
+
+4. 检查安装语言: tesseract --list-langs
+
 ```
 D:\temp>tesseract --list-langs
 List of available languages (6):
@@ -49,28 +38,36 @@ eng
 osd
 ```
 
-5. 转换: 
- 
- * tesseract test.png result -l chi_sim
+5. 转换:
+
+ - tesseract test.png result -l chi_sim
+
 ```
 D:\temp>tesseract test.JPG result -l chi_sim
 Tesseract Open Source OCR Engine v5.0.0-alpha.20201127 with Leptonica
 ```
- * tesseract test.png result -l eng   
+
+ - tesseract test.png result -l eng
 
 ## 1.2. 训练
+
 1. 下载安装jTessBoxEditor，https://sourceforge.net/projects/vietocr/files/jTessBoxEditor/
 
 Ref
-* [](https://blog.csdn.net/limingblogs/article/details/104062955)
+
+- [](https://blog.csdn.net/limingblogs/article/details/104062955)
 
 # 2. Web Scraper
-* [Web Scraper](https://www.webscraper.io/) 
+
+- [Web Scraper](https://www.webscraper.io/)
 
 
 # 3. Excel tips
+
 ## 3.1. Get cell web link
-* 按Alt+F11进入宏操作界面，选择插入-->模块，输入以下代码;
+
+- 按Alt+F11进入宏操作界面，选择插入-->模块，输入以下代码
+
 ```
 Sub getLink()
 For Each cell In Range("A1:A10")
@@ -79,7 +76,8 @@ Next
 
 End Sub
 ```
-* F5运行宏.
+
+- F5运行宏.
 
 ```
 Function GetAdrs(Rng)
@@ -96,24 +94,32 @@ End Function
 ```
 
 ## 3.2. 填充合并单元格
-1. 取消合并居中
-2. 空值定位
-  * 选中目标列，在Excel的开始菜单栏下，找到“查找和选择”联级菜单，点击“定位条件(s)”子菜单;
-  * 定位条件选择“空值“这一项，点击确定。
-3. 批量填充空值
-  * 敲击键盘上的等于号，输入公式后同时按下：ctrl+enter.
 
-## 3.3. 6.3 得到特殊字符的最后一个值
-例如得到目录里的文件： 
+1. 取消合并居中
+
+2. 空值定位
+
+- 选中目标列，在Excel的开始菜单栏下，找到“查找和选择”联级菜单，点击“定位条件(s)”子菜单;
+- 定位条件选择“空值“这一项，点击确定。
+
+3. 批量填充空值
+
+- 敲击键盘上的等于号，输入公式后同时按下：ctrl+enter.
+
+## 3.3. 得到特殊字符的最后一个值
+
+例如得到目录里的文件：
 `
 =RIGHT(E2,LEN(E2)-SEARCH("$",SUBSTITUTE(E2,"/","$",LEN(E2)-LEN(SUBSTITUTE(E2,"/","")))))
 `
 
 # 4. markdown Reference
-* [markdown中公式编辑教程](https://www.jianshu.com/p/25f0139637b7)
-* [katex](https://katex.org/docs/supported.html)
+
+- [markdown中公式编辑教程](https://www.jianshu.com/p/25f0139637b7)
+- [katex](https://katex.org/docs/supported.html)
 
 # 5. 希腊字母在数学或物理中代表的意思
+
 | 序号 | 大写 | 小写 | 英文注音 | 国际音标注音 | 中文读音  | 意义                                               |
 | ---- | ---- | ---- | -------- | ------------ | --------- | -------------------------------------------------- |
 | 1    | Α    | α    | alpha    | a:lf         | 阿尔法bai | 角度；系数                                         |
@@ -142,15 +148,36 @@ End Function
 | 24   | Ω    | ω    | omega    | o`miga       | 欧米伽    | 欧姆（大写）；角速（小写）；角                     |
 
 # 6. Vscode extension
-* http://asciiflow.com
-* https://www.kite.com/welcome/?id=702879
+
+- [asciidoctor](https://marketplace.visualstudio.com/items?itemName=asciidoctor.asciidoctor-vscode)
+  - http://asciiflow.com
+
+- [checkstyle](https://marketplace.visualstudio.com/items?itemName=shengchen.vscode-checkstyle)
+- markdown
+  - [markdown-all-in-one](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one)
+  - [markdown-pdf](https://marketplace.visualstudio.com/items?itemName=yzane.markdown-pdf)
+  - [markdown-preview-enhanced](https://marketplace.visualstudio.com/items?itemName=shd101wyy.markdown-preview-enhanced)
+  - [preview-pdf](https://marketplace.visualstudio.com/items?itemName=analytic-signal.preview-pdf)
+
+- [vscode-drawio](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
+
+- [wordcount](https://marketplace.visualstudio.com/items?itemName=holmescn.vscode-wordcount-cjk)
 
 
-# 7. edge tips
-* edge://flags/#enable-parallel-downloading
+- [sonarlint](https://marketplace.visualstudio.com/items?itemName=SonarSource.sonarlint-vscode)
+  
+# 7. tools
 
-# 8. GOOGLE 人机验证(RECAPTCHA)无法显示解决方案
-* Header editor
+## 7.1. [PDFPatcher](https://github.com/wmjordan/PDFPatcher/releases)
+
+
+# 8. edge tips
+
+- edge://flags/#enable-parallel-downloading
+
+# 9. GOOGLE 人机验证(RECAPTCHA)无法显示解决方案
+
+- Header editor
 
 https://blog.csdn.net/qq_42729058/article/details/116915982
 
@@ -165,15 +192,17 @@ https://blog.csdn.net/qq_42729058/article/details/116915982
 (GitHub，推荐) https://azurezeng.github.io/static/HE-GoogleRedirect.json
 (本站服务器) https://www.azurezeng.com/static/HE-GoogleRedirect.json
 
-# 9. Git
-* 永久删除不用的大文件
+# 10. Git
+
+- 永久删除不用的大文件
 git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch -r input/Juliet_Test_Suite_v1.3_for_Java' --prune-empty --tag-name-filter cat -- --all
 git push origin --all --force
 
-# Reg
+# 11. Reg
 
-# Google translate
+# 12. Google translate
 
 
-# Adoc
-* [Markdown 替代品 Asciidoc 介绍](https://www.jianshu.com/p/9c97abeaca42)
+# 13. Adoc
+
+- [Markdown 替代品 Asciidoc 介绍](https://www.jianshu.com/p/9c97abeaca42)
