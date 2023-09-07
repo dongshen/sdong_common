@@ -230,13 +230,17 @@ public class XmlUtils {
         Element eTag = (Element) ele.selectSingleNode(tag);
 
         if (eTag == null) {
-            return null;
+            return "";
         }
         return getXmlAttributeValue(eTag, attr);
     }
 
     public static String getXmlAttributeValue(Element ele, String attr) {
-        return ele.attributeValue(attr);
+        String value = ele.attributeValue(attr);
+        if (value == null) {
+            return "";
+        }
+        return value;
     }
 
     public static List<Namespace> getDeclareNameSpaces(Document doc) {
