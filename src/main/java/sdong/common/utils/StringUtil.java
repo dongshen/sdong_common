@@ -499,4 +499,15 @@ public class StringUtil {
         }
         return false;
     }
+
+    /**
+     * replace string line break with specified string
+     * 
+     * @param value input string 
+     * @param replace replace string
+     * @return result
+     */
+    public static String replaceLineBreak(String value, String replace){
+        return value.replaceAll(PATTERN_LINEBREAK, replace);
+    }
 }
