@@ -49,7 +49,6 @@ public class StringUtil {
                 list.add(line);
             }
         } catch (IOException e) {
-            LOG.error(e.getMessage());
             throw new SdongException(e);
         }
         return list;
