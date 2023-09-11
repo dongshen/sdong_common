@@ -97,6 +97,7 @@ public class SqliteUtil {
      */
     public static void exeSql(String dbFileName, String sqlStmt) throws SdongException {
         try (Connection conn = getConnection(dbFileName); Statement stmt = conn.createStatement();) {
+            LOG.info("Sqlstmt:{}", sqlStmt);
             stmt.execute(sqlStmt);
         } catch (SQLException e) {
             throw new SdongException(e);
