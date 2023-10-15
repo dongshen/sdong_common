@@ -100,7 +100,7 @@ public class StringUtilTest {
             LOG.info("{}", str);
         }
     }
-    
+
     @Test
     void testRemoveHtmlMark() {
         StringBuilder sb = new StringBuilder();
@@ -140,7 +140,7 @@ public class StringUtilTest {
     }
 
     @Test
-    void test() {
+    void testRemoveHtmlMark2() {
         StringBuilder sb = new StringBuilder();
         sb.append("<li class=\"li\">").append(CommonConstants.LINE_BREAK_CRLF);
         sb.append(
@@ -155,5 +155,40 @@ public class StringUtilTest {
         org = org.replace("<code class=\"ph codeph\">", "<code>");
         LOG.info("Org:{}", org);
         LOG.info("cur:{}", StringUtil.removeHtmlMark(org));
+    }
+
+    @Test
+    void testRemoveHtmlMark3() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("case 1").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("case 1 conitnue.").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("case 2.").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("case 3").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("case 3 end。").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("case 4:").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("- case4 1").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("> case4 2").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("case 5").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("- case5 1").append(CommonConstants.LINE_BREAK_CRLF);
+        sb.append("> case5 2").append(CommonConstants.LINE_BREAK_CRLF);
+        String org = sb.toString();
+
+        StringBuilder ep = new StringBuilder();
+        ep.append("case 1 case 1 conitnue.").append(CommonConstants.LINE_BREAK_CRLF);
+        ep.append("case 2.").append(CommonConstants.LINE_BREAK_CRLF);
+        ep.append("case 3 case 3 end。").append(CommonConstants.LINE_BREAK_CRLF);
+        ep.append("case 4:").append(CommonConstants.LINE_BREAK_CRLF);
+        ep.append("- case4 1").append(CommonConstants.LINE_BREAK_CRLF);
+        ep.append("> case4 2").append(CommonConstants.LINE_BREAK_CRLF);
+        ep.append("case 5").append(CommonConstants.LINE_BREAK_CRLF);
+        ep.append("- case5 1").append(CommonConstants.LINE_BREAK_CRLF);
+        ep.append("> case5 2").append(CommonConstants.LINE_BREAK_CRLF);
+
+        LOG.info("Org:");
+        LOG.info("{}", org);
+        LOG.info("result:");
+        String result = StringUtil.removeHtmlMark(org, false);
+        LOG.info("{}", result);
+        assertEquals(true, ep.toString().equals(result));
     }
 }

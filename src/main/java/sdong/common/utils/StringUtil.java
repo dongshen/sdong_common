@@ -11,7 +11,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public class StringUtil {
     private static final Logger LOG = LogManager.getLogger(StringUtil.class);
@@ -34,12 +37,23 @@ public class StringUtil {
     public static final String MARK_LINE_END = ".";
     public static final String MARK_LINK_END = ">";
 
+    // 0 - <p> , 1 - <pre> , 2 - li, 3 - add blank, 4 - has line end mark
     private static final int MARK_IND_P = 0;
     private static final int MARK_IND_CODE_BLCOK = 1;
     private static final int MARK_IND_LI = 2;
     private static final int MARK_IND_ADD_BLANK = 3;
+    private static final int MARK_IND_LINE_END = 4;
 
-    private static final String[] LINE_END_MARK = new String[] { "<table>", "</table>", "</th>", "</tr>" };
+    private static final String[] LINE_END_MARK = new String[] { "<table>", "</table>", "</th>", "</tr>", ".", "。", ":",
+            "：" };
+
+    private static final Map<Pattern, String> REMOVE_REG = new HashMap<>();
+    static {
+        REMOVE_REG.put(Pattern.compile("<p\\s.*?\">"), "<p>");
+        REMOVE_REG.put(Pattern.compile("<code\\s.*?\">"), "<code>");
+        REMOVE_REG.put(Pattern.compile("<ul\\s.*?\">"), "<ul>");
+        REMOVE_REG.put(Pattern.compile("<li\\s.*?\">"), "<li>");
+    }
 
     public static final List<String> splitStringToListByLineBreak(String str) throws SdongException {
         List<String> list = new ArrayList<String>();
@@ -208,8 +222,9 @@ public class StringUtil {
         }
 
         StringBuilder sb = new StringBuilder();
-        // 0 - <p> , 1 - <pre> , 2 - li, 3 - add blank
-        boolean[] mark = new boolean[] { false, false, false, false };
+        // 0 - <p> , 1 - <pre> , 2 - li, 3 - add blank, 4 - has line end mark
+        boolean[] mark = new boolean[] { false, false, false, false, false };
+
         value = value.replace(MARK_HTML_LINEBREAK, CommonConstants.LINE_BREAK_CRLF + CommonConstants.LINE_BREAK_CRLF);
         value = value.replace(MARK_HTML_LINEBREAK2, CommonConstants.LINE_BREAK_CRLF + CommonConstants.LINE_BREAK_CRLF);
         value = value.replace(MARK_HTML_LINEBREAK3, CommonConstants.LINE_BREAK_CRLF + CommonConstants.LINE_BREAK_CRLF);
@@ -258,10 +273,18 @@ public class StringUtil {
             }
 
             lineValue = replaceScript(lineValue);
-            if (lineValue.startsWith(">")) {
+            if (lineValue.startsWith("> ")) {
+                if (!checkEndWithLineBreak(sb)) {
+                    sb.append(CommonConstants.LINE_BREAK_CRLF);
+                }
                 sb.append(lineValue).append(CommonConstants.LINE_BREAK_CRLF);
                 mark[MARK_IND_ADD_BLANK] = false;
                 return;
+            }
+
+            if (lineValue.startsWith("- ") && !checkEndWithLineBreak(sb)) {
+                sb.append(CommonConstants.LINE_BREAK_CRLF);
+                mark[MARK_IND_ADD_BLANK] = false;
             }
 
             if (mark[MARK_IND_ADD_BLANK]) {
@@ -279,6 +302,12 @@ public class StringUtil {
             return;
         }
         sb.append(line).append(CommonConstants.LINE_BREAK_CRLF);
+    }
+
+    private static boolean checkEndWithLineBreak(StringBuilder sb) {
+        char[] endStr = new char[1];
+        sb.getChars(sb.length() - 2, sb.length() - 1, endStr, 0);
+        return (endStr[0] == '\r');
     }
 
     private static boolean extractHtmlTagP(String line, StringBuilder sb, boolean[] mark) {
@@ -503,11 +532,11 @@ public class StringUtil {
     /**
      * replace string line break with specified string
      * 
-     * @param value input string 
+     * @param value   input string
      * @param replace replace string
      * @return result
      */
-    public static String replaceLineBreak(String value, String replace){
+    public static String replaceLineBreak(String value, String replace) {
         return value.replaceAll(PATTERN_LINEBREAK, replace);
     }
 }
