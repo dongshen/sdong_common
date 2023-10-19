@@ -106,12 +106,18 @@ End Function
 
 - 敲击键盘上的等于号，输入公式后同时按下：ctrl+enter.
 
-## 3.3. 得到特殊字符的最后一个值
+## 3.3. 得到特殊字符的最后一个值(文件名)
 
 例如得到目录里的文件：
 `
 =RIGHT(E2,LEN(E2)-SEARCH("$",SUBSTITUTE(E2,"/","$",LEN(E2)-LEN(SUBSTITUTE(E2,"/","")))))
 `
+
+## 3.3. 得到特殊字符的最后一个值的左值(目录名)
+
+例如得到目录里的目录：
+`
+=LEFT(J2, LEN(J2) - LEN(RIGHT(J2,LEN(J2)-SEARCH("$",SUBSTITUTE(J2,"/","$",LEN(J2)-LEN(SUBSTITUTE(J2,"/","")))))))
 
 # 4. markdown Reference
 
